@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VitroTests", "VitroTests\VitroTests.vcxproj", "{AC809EB6-9838-E003-0140-B95FED167BF4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{53E47842-3FC8-3998-A828-34EB942B241A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "glad", "Vitro\lib\glad\glad.vcxproj", "{DD62977C-C999-980D-7286-7E105E9C140F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "imgui", "Vitro\lib\imgui\imgui.vcxproj", "{0098A80F-6CAC-D0C0-352E-7420A101CDF1}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Vitro", "Vitro\Vitro.vcxproj", "{D9CB4E0E-45E0-76BF-0E62-1A1F7A3573F0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AC809EB6-9838-E003-0140-B95FED167BF4}.Debug|x64.ActiveCfg = Debug|x64
+		{AC809EB6-9838-E003-0140-B95FED167BF4}.Debug|x64.Build.0 = Debug|x64
+		{AC809EB6-9838-E003-0140-B95FED167BF4}.Release|x64.ActiveCfg = Release|x64
+		{AC809EB6-9838-E003-0140-B95FED167BF4}.Release|x64.Build.0 = Release|x64
+		{DD62977C-C999-980D-7286-7E105E9C140F}.Debug|x64.ActiveCfg = Debug|x64
+		{DD62977C-C999-980D-7286-7E105E9C140F}.Debug|x64.Build.0 = Debug|x64
+		{DD62977C-C999-980D-7286-7E105E9C140F}.Release|x64.ActiveCfg = Release|x64
+		{DD62977C-C999-980D-7286-7E105E9C140F}.Release|x64.Build.0 = Release|x64
+		{0098A80F-6CAC-D0C0-352E-7420A101CDF1}.Debug|x64.ActiveCfg = Debug|x64
+		{0098A80F-6CAC-D0C0-352E-7420A101CDF1}.Debug|x64.Build.0 = Debug|x64
+		{0098A80F-6CAC-D0C0-352E-7420A101CDF1}.Release|x64.ActiveCfg = Release|x64
+		{0098A80F-6CAC-D0C0-352E-7420A101CDF1}.Release|x64.Build.0 = Release|x64
+		{D9CB4E0E-45E0-76BF-0E62-1A1F7A3573F0}.Debug|x64.ActiveCfg = Debug|x64
+		{D9CB4E0E-45E0-76BF-0E62-1A1F7A3573F0}.Debug|x64.Build.0 = Debug|x64
+		{D9CB4E0E-45E0-76BF-0E62-1A1F7A3573F0}.Release|x64.ActiveCfg = Release|x64
+		{D9CB4E0E-45E0-76BF-0E62-1A1F7A3573F0}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DD62977C-C999-980D-7286-7E105E9C140F} = {53E47842-3FC8-3998-A828-34EB942B241A}
+		{0098A80F-6CAC-D0C0-352E-7420A101CDF1} = {53E47842-3FC8-3998-A828-34EB942B241A}
+	EndGlobalSection
+EndGlobal
