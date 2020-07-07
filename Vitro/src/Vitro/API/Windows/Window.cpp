@@ -4,16 +4,18 @@
 #include "Vitro/Engine.h"
 #include "Vitro/API/Windows/API.h"
 
-#include <glad.h>
+#include <glad/glad.h>
+#include <imgui/imgui.h>
+#include <imgui/imgui_impl_win32.h>
 
 namespace Vitro::Windows
 {
-	Window::Window(int width, int height, const std::string& title)
+	Window::Window(int width, int height, int x, int y, const std::string& title)
 	{
 		wchar_t* wstr = API::WidenChars(title.c_str());
 		WindowHandle = CreateWindowExW(0, API::WindowClassName, wstr, WS_OVERLAPPEDWINDOW,
-									   CW_USEDEFAULT, CW_USEDEFAULT, width, height,
-									   nullptr, nullptr, API::InstanceHandle, nullptr);
+									   x, y, width, height, nullptr, nullptr,
+									   API::InstanceHandle, nullptr);
 		free(wstr);
 		NativeID = (uint64_t)WindowHandle; // TODO: convert this to static_cast?
 
@@ -25,6 +27,8 @@ namespace Vitro::Windows
 		wglMakeCurrent(DeviceContext, OpenGLContext);
 		glViewport(0, 0, width, height);
 	#endif
+
+		ImGui_ImplWin32_Init(WindowHandle);
 	}
 
 	Window::~Window()
@@ -76,6 +80,30 @@ namespace Vitro::Windows
 		SetWindowPos(WindowHandle, nullptr, 0, 0, GetWidth(), height, SWP_NOMOVE | SWP_NOZORDER);
 	}
 
+	int Window::GetX() const
+	{
+		RECT rect;
+		GetWindowRect(WindowHandle, &rect);
+		return rect.left;
+	}
+
+	void Window::SetX(int x)
+	{
+		SetWindowPos(WindowHandle, nullptr, x, GetY(), 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+	}
+
+	int Window::GetY() const
+	{
+		RECT rect;
+		GetWindowRect(WindowHandle, &rect);
+		return rect.top;
+	}
+
+	void Window::SetY(int y)
+	{
+		SetWindowPos(WindowHandle, nullptr, GetX(), y, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+	}
+
 	void Window::Show()
 	{
 		ShowWindow(WindowHandle, SW_RESTORE);
@@ -86,9 +114,9 @@ namespace Vitro::Windows
 		CloseWindow(WindowHandle);
 	}
 
-	void Window::PlatformUpdate()
+	void Window::PrepareUpdate()
 	{
-	#if $MULTIWINDOW && $OPENGL
+	#if $OPENGL && $MULTIWINDOW
 		wglMakeCurrent(DeviceContext, OpenGLContext);
 	#endif
 
@@ -98,6 +126,10 @@ namespace Vitro::Windows
 			TranslateMessage(&msg);
 			DispatchMessageW(&msg);
 		}
+	}
+
+	void Window::FinalizeUpdate()
+	{
 		UpdateWindow(WindowHandle);
 		SwapBuffers(DeviceContext);
 	}

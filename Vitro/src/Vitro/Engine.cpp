@@ -5,6 +5,8 @@
 #include "Vitro/API/Windows/API.h"
 #include "Vitro/Diagnostics/Log.h"
 
+#include <imgui/imgui.h>
+
 namespace Vitro
 {
 	bool Engine::IsRunning;
@@ -13,6 +15,9 @@ namespace Vitro
 	{
 		IsRunning = true;
 		Log::Initialize("", "");
+
+		IMGUI_CHECKVERSION();
+		ImGui::CreateContext();
 
 	#if $WINDOWS
 		Windows::API::Initialize();

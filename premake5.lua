@@ -32,8 +32,7 @@ project "Vitro"
 	includedirs
 	{
 		"%{prj.name}/src",
-		"%{prj.name}/lib/glad",
-		"%{prj.name}/lib/imgui"
+		"%{prj.name}/lib"
 	}
 	
 	libdirs

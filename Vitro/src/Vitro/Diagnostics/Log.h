@@ -63,7 +63,6 @@ namespace Vitro
 #define LogWarn(...) $Log::Enqueue({false, ::Vitro::LogLevel::Warn, $Log::Concat(__VA_ARGS__)})
 #define LogError(...) $Log::Enqueue({false, ::Vitro::LogLevel::Error, $Log::Concat(__VA_ARGS__)})
 #define LogFatal(...) $Log::Enqueue({false, ::Vitro::LogLevel::Fatal, $Log::Concat(__VA_ARGS__)})
-#undef $Log
 
 #define LogEngineTrace(...) Log::Enqueue({true, LogLevel::Trace, Log::Concat(__VA_ARGS__)})
 #define LogEngineDebug(...) Log::Enqueue({true, LogLevel::Debug, Log::Concat(__VA_ARGS__)})

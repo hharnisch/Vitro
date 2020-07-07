@@ -6,12 +6,12 @@
 
 namespace Vitro
 {
-	Window* Window::New(int width, int height, const std::string& title)
+	Window* Window::New(int width, int height, int x, int y, const std::string& title)
 	{
 		Window* window;
 
 	#if $WINDOWS
-		window = new Windows::Window(width, height, title);
+		window = new Windows::Window(width, height, x, y, title);
 	#else
 	#error No valid build platform defined.
 	#endif
@@ -56,10 +56,13 @@ namespace Vitro
 
 	void Window::Update()
 	{
+		PrepareUpdate();
+
 		for(Layer* layer : LayerStack)
 			if(layer->Active)
 				layer->OnUpdate();
-		PlatformUpdate();
+
+		FinalizeUpdate();
 	}
 
 	void Window::OnEvent(Event& e)

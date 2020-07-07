@@ -9,7 +9,7 @@ namespace Vitro::Windows
 	class Window : public Vitro::Window
 	{
 	public:
-		Window(int width, int height, const std::string& title);
+		Window(int width, int height, int x, int y, const std::string& title);
 		~Window() override;
 
 		std::string GetTitle() const override;
@@ -21,9 +21,17 @@ namespace Vitro::Windows
 		int GetHeight() const override;
 		void SetHeight(int height) override;
 
+		int GetX() const override;
+		void SetX(int x) override;
+
+		int GetY() const override;
+		void SetY(int y) override;
+
 		void Show() override;
 		void Minimize() override;
-		void PlatformUpdate() override;
+
+		void PrepareUpdate() override;
+		void FinalizeUpdate() override;
 
 	private:
 		HWND WindowHandle;

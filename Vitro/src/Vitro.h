@@ -20,3 +20,4 @@
 #include "Vitro/Graphics/Layer.h"
 #include "Vitro/Graphics/Overlay.h"
 #include "Vitro/Graphics/Window.h"
+#include "Vitro/Graphics/UI/UIOverlay.h"

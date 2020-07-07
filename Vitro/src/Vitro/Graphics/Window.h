@@ -12,7 +12,7 @@ namespace Vitro
 	public:
 		virtual ~Window() = default;
 
-		static Window* New(int width, int height, const std::string& title);
+		static Window* New(int width, int height, int x, int y, const std::string& title);
 
 		virtual std::string GetTitle() const = 0;
 		virtual void SetTitle(const std::string& title) = 0;
@@ -23,9 +23,17 @@ namespace Vitro
 		virtual int GetHeight() const = 0;
 		virtual void SetHeight(int height) = 0;
 
+		virtual int GetX() const = 0;
+		virtual void SetX(int x) = 0;
+
+		virtual int GetY() const = 0;
+		virtual void SetY(int y) = 0;
+
 		virtual void Show() = 0;
 		virtual void Minimize() = 0;
-		virtual void PlatformUpdate() = 0;
+
+		virtual void PrepareUpdate() = 0;
+		virtual void FinalizeUpdate() = 0;
 
 		void Attach(Layer* layer);
 		void Attach(Overlay* overlay);

@@ -13,11 +13,9 @@ namespace Sandbox
 {
 	Sandbox::Sandbox(int argc, char** argv) : Engine(argc, argv)
 	{
-		auto window = Vitro::Window::New(1000, 800, "1");
+		auto window = Vitro::Window::New(1000, 800, 600, 300, "1");
 		window->Show();
-
-		auto window2 = Vitro::Window::New(1000, 800, "2");
-		window2->Show();
+		window->Attach(new Vitro::UIOverlay());
 	}
 
 	Sandbox::~Sandbox()

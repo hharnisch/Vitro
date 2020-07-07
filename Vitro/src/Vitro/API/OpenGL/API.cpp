@@ -7,7 +7,7 @@
 #include "Vitro/API/Windows/API.h"
 #endif
 
-#include <glad.h>
+#include <glad/glad.h>
 
 namespace Vitro::OpenGL
 {
