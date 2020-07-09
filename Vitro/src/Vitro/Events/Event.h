@@ -15,7 +15,7 @@ namespace Vitro
 
 		virtual explicit operator std::string() const;
 
-		bool HasSourceFlag(EventSource flag);
+		bool HasSourceFlag(EventSource flag) const;
 		bool IsHandled() const;
 
 		template<class E, typename H> void Dispatch(const H& handler)

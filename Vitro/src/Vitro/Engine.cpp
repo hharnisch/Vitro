@@ -4,6 +4,7 @@
 #include "Vitro/API/OpenGL/API.h"
 #include "Vitro/API/Windows/API.h"
 #include "Vitro/Diagnostics/Log.h"
+#include "Vitro/Events/Input.h"
 
 #include <imgui/imgui.h>
 
@@ -54,7 +55,6 @@ namespace Vitro
 
 	void Engine::DispatchToWindow(uint64_t nativeID, Event& e)
 	{
-		LogEngineDebug(e);
 		OpenWindowIDs[nativeID]->OnEvent(e);
 	}
 

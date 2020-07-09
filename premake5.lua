@@ -22,7 +22,7 @@ project "Vitro"
 	objdir				(".bin_obj/" .. outputdir .. "/%{prj.name}")
 	pchsource			"%{prj.name}/src/_pch.cpp"
 	pchheader			"_pch.h"
-	defines				"$OPENGL;$MULTIWINDOW"
+	defines				"$OPENGL;$MULTIWINDOW;GLM_FORCE_SSE2;GLM_FORCE_AVX"
 
 	files
 	{

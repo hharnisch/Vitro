@@ -8,7 +8,7 @@ namespace Vitro
 		return GetName();
 	}
 
-	bool Event::HasSourceFlag(EventSource flag)
+	bool Event::HasSourceFlag(EventSource flag) const
 	{
 		return flag & GetSourceFlags();
 	}

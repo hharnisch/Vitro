@@ -11,5 +11,7 @@ namespace Vitro::OpenGL
 		static bool IsInitialized;
 
 		static void InitializeWindows();
+
+		API() = delete;
 	};
 }

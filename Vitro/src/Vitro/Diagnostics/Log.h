@@ -52,6 +52,8 @@ namespace Vitro
 		static void StartQueueProcessing();
 		static void Dequeue();
 		static void SetConsoleColors(uint8_t colorMask);
+
+		Log() = delete;
 	};
 }
 

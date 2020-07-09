@@ -57,7 +57,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>_pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>$OPENGL;$MULTIWINDOW;$WINDOWS;$DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>$OPENGL;$MULTIWINDOW;GLM_FORCE_SSE2;GLM_FORCE_AVX;$WINDOWS;$DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -81,7 +81,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>_pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>$OPENGL;$MULTIWINDOW;$WINDOWS;$RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>$OPENGL;$MULTIWINDOW;GLM_FORCE_SSE2;GLM_FORCE_AVX;$WINDOWS;$RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -114,6 +114,7 @@
     <ClInclude Include="src\Vitro\Events\Event.h" />
     <ClInclude Include="src\Vitro\Events\EventSource.h" />
     <ClInclude Include="src\Vitro\Events\EventType.h" />
+    <ClInclude Include="src\Vitro\Events\Input.h" />
     <ClInclude Include="src\Vitro\Events\Key\KeyCode.h" />
     <ClInclude Include="src\Vitro\Events\Key\KeyDownEvent.h" />
     <ClInclude Include="src\Vitro\Events\Key\KeyEvent.h" />
@@ -137,6 +138,8 @@
     <ClInclude Include="src\Vitro\Graphics\UI\UIOverlay.h" />
     <ClInclude Include="src\Vitro\Graphics\Window.h" />
     <ClInclude Include="src\Vitro\Math\Bit.h" />
+    <ClInclude Include="src\Vitro\Math\Matrix.h" />
+    <ClInclude Include="src\Vitro\Math\Vector.h" />
     <ClInclude Include="src\_pch.h" />
   </ItemGroup>
   <ItemGroup>
@@ -149,6 +152,7 @@
     <ClCompile Include="src\Vitro\Engine.cpp" />
     <ClCompile Include="src\Vitro\Events\Event.cpp" />
     <ClCompile Include="src\Vitro\Events\EventSource.cpp" />
+    <ClCompile Include="src\Vitro\Events\Input.cpp" />
     <ClCompile Include="src\Vitro\Events\Key\KeyCode.cpp" />
     <ClCompile Include="src\Vitro\Events\Key\KeyDownEvent.cpp" />
     <ClCompile Include="src\Vitro\Events\Key\KeyEvent.cpp" />
