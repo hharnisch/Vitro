@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Vitro/Events/Event.h"
+#include "Vitro/Events/Window/WindowCloseEvent.h"
 #include "Vitro/Graphics/Window.h"
 
 namespace Vitro
@@ -9,13 +10,12 @@ namespace Vitro
 	{
 	public:
 		Engine(int argc, char** argv);
-		virtual ~Engine();
+		virtual ~Engine() = default;
 
 		static bool Running();
 		static void DispatchToWindow(uint64_t nativeID, Event& e);
-
-		static void OnWindowOpen(uint64_t nativeID, Window* window);
-		static void OnWindowClose(WindowCloseEvent& e);
+		static void OnWindowOpen(Window* window);
+		static bool OnWindowClose(WindowCloseEvent& e);
 
 		void Start();
 
@@ -23,10 +23,12 @@ namespace Vitro
 		static bool IsRunning;
 
 	#if $MULTIWINDOW
-		static std::vector<Window*> WindowList;
-		static std::unordered_map<uint64_t, Window*> WindowIDMap;
+		static std::vector<Window*> OpenWindows;
+		static std::vector<Window*>::iterator FirstWindow;
+		static std::vector<Window*>::iterator NextWindow;
+		static std::unordered_map<uint64_t, Window*> OpenWindowIDs;
 	#else
 		static Window* MainWindow;
 	#endif
 	};
-}
+	}

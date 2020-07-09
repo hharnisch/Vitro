@@ -7,6 +7,13 @@ namespace Vitro
 	{
 	}
 
+	MouseMoveEvent::operator std::string() const
+	{
+		std::stringstream s;
+		s << GetName() << ": " << X << ", " << Y;
+		return s.str();
+	}
+
 	int MouseMoveEvent::GetX() const
 	{
 		return X;
@@ -15,12 +22,5 @@ namespace Vitro
 	int MouseMoveEvent::GetY() const
 	{
 		return Y;
-	}
-
-	MouseMoveEvent::operator std::string() const
-	{
-		std::stringstream s;
-		s << GetName() << ": " << X << ", " << Y;
-		return s.str();
 	}
 }

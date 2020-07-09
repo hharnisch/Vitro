@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "Vitro/Events/Event.h"
 #include "Vitro/Events/Mouse/MouseCode.h"
@@ -11,9 +11,9 @@ namespace Vitro
 	public:
 		$EventSource(EventSource::Input | EventSource::MouseButton);
 
-		MouseCode GetButton() const;
-
 		explicit operator std::string() const override;
+
+		MouseCode GetButton() const;
 
 	protected:
 		MouseCode Button;

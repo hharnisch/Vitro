@@ -18,7 +18,7 @@ namespace Vitro::Windows
 		static void Initialize();
 
 		// Exists only for the Windows API to deliver messages.
-		static LRESULT CALLBACK NotifyEngine(HWND window, UINT message, WPARAM wp, LPARAM lp);
+		static LRESULT CALLBACK NotifyEngine(HWND wnd, UINT msg, WPARAM wp, LPARAM lp);
 
 		static void SetConsoleColors(uint8_t colorMask);
 

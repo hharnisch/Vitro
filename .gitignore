@@ -3,5 +3,6 @@
 .vs/
 
 *.filters
+*.ini
 *.log
 *.user

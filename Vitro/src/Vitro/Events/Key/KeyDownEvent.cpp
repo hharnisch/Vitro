@@ -1,4 +1,4 @@
-﻿#include "_pch.h"
+#include "_pch.h"
 #include "KeyDownEvent.h"
 
 namespace Vitro
@@ -7,15 +7,15 @@ namespace Vitro
 	{
 	}
 
-	int KeyDownEvent::GetRepeats() const
-	{
-		return Repeats;
-	}
-
 	KeyDownEvent::operator std::string() const
 	{
 		std::stringstream s;
 		s << GetName() << ": " << Key << " (Repeats: " << Repeats << ')';
 		return s.str();
+	}
+
+	int KeyDownEvent::GetRepeats() const
+	{
+		return Repeats;
 	}
 }

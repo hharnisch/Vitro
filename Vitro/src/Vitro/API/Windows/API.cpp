@@ -21,6 +21,10 @@
 #include "Vitro/Events/Window/WindowUnfocusEvent.h"
 
 #include <Windowsx.h>
+#include <imgui/imgui_impl_win32.h>
+
+// Forward declaration for IMGUI
+IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND wnd, UINT msg, WPARAM wp, LPARAM lp);
 
 namespace Vitro::Windows
 {
@@ -59,18 +63,19 @@ namespace Vitro::Windows
 		IsInitialized = true;
 	}
 
-	LRESULT API::NotifyEngine(HWND window, UINT message, WPARAM wp, LPARAM lp)
+	LRESULT API::NotifyEngine(HWND wnd, UINT msg, WPARAM wp, LPARAM lp)
 	{
+		ImGui_ImplWin32_WndProcHandler(wnd, msg, wp, lp);
 		static KeyCode lastKeyCode;
 		static int repeats = 0;
-		uint64_t wID = (uint64_t)window; // TODO: convert this to static_cast?
+		uint64_t wID = (uint64_t)wnd; // convert this to static_cast?
 		Event* e;
-		switch(message)
+		switch(msg)
 		{
 			case WM_DESTROY: e = &WindowCloseEvent(wID); break;
-			case WM_SIZE: e = &WindowSizeEvent(wID, LOWORD(lp), HIWORD(lp)); break;
 			case WM_SETFOCUS: e = &WindowFocusEvent(wID); break;
 			case WM_KILLFOCUS: e = &WindowUnfocusEvent(wID); break;
+			case WM_SIZE: e = &WindowSizeEvent(wID, LOWORD(lp), HIWORD(lp)); break;
 			case WM_MOVE: e = &WindowMoveEvent(wID, GET_X_LPARAM(lp), GET_Y_LPARAM(lp)); break;
 			case WM_MOUSEMOVE: e = &MouseMoveEvent(GET_X_LPARAM(lp), GET_Y_LPARAM(lp)); break;
 			case WM_LBUTTONDOWN: e = &MouseDownEvent(MouseCode::Primary); break;
@@ -118,7 +123,7 @@ namespace Vitro::Windows
 				TextTypeEvent event(lastKeyCode, std::string(character));
 				free(character);
 				Engine::DispatchToWindow(wID, event);
-				if(message == WM_UNICHAR)
+				if(msg == WM_UNICHAR)
 					return wp == UNICODE_NOCHAR;
 				return 0;
 			}
@@ -138,7 +143,7 @@ namespace Vitro::Windows
 				Engine::DispatchToWindow(wID, e); return TRUE;
 			}
 			default:
-				return DefWindowProcW(window, message, wp, lp);
+				return DefWindowProcW(wnd, msg, wp, lp);
 		}
 		Engine::DispatchToWindow(wID, *e);
 		return 0;

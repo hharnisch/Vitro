@@ -3,13 +3,18 @@
 
 namespace Vitro
 {
+	Event::operator std::string() const
+	{
+		return GetName();
+	}
+
 	bool Event::HasSourceFlag(EventSource flag)
 	{
 		return flag & GetSourceFlags();
 	}
 
-	Event::operator std::string() const
+	bool Event::IsHandled() const
 	{
-		return GetName();
+		return Handled;
 	}
 }

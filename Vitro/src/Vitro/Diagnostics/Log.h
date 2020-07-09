@@ -5,7 +5,6 @@
 
 #include <list>
 #include <mutex>
-#include <type_traits>
 
 namespace Vitro
 {
@@ -26,13 +25,13 @@ namespace Vitro
 		static void Enqueue(const Entry& entry);
 
 		template<typename M>
-		std::enable_if_t<std::is_arithmetic<M>::value, std::string> static Concat(const M& msg)
+		std::enable_if_t<std::is_arithmetic_v<M>, std::string> static Concat(const M& msg)
 		{
 			return std::to_string(msg);
 		}
 
 		template<typename M>
-		std::enable_if_t<!std::is_arithmetic<M>::value, std::string> static Concat(const M& msg)
+		std::enable_if_t<!std::is_arithmetic_v<M>, std::string> static Concat(const M& msg)
 		{
 			return static_cast<std::string>(msg);
 		}

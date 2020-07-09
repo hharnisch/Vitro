@@ -13,11 +13,19 @@ namespace Vitro
 
 	Engine::Engine(int argc, char** argv)
 	{
+	#if $MULTIWINDOW
+		OpenWindows.insert(OpenWindows.begin(), nullptr);
+	#else
+		MainWindow = nullptr;
+	#endif
+
 		IsRunning = true;
 		Log::Initialize("", "");
 
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
+		ImGuiIO& io = ImGui::GetIO();
+		io.IniFilename = nullptr;
 
 	#if $WINDOWS
 		Windows::API::Initialize();
@@ -39,67 +47,70 @@ namespace Vitro
 
 #if $MULTIWINDOW
 
-	std::vector<Window*> Engine::WindowList;
-	std::unordered_map<uint64_t, Window*> Engine::WindowIDMap;
-
-	Engine::~Engine()
-	{
-		for(Window* window : WindowList)
-			delete window;
-	}
+	std::vector<Window*> Engine::OpenWindows;
+	std::vector<Window*>::iterator Engine::FirstWindow;
+	std::vector<Window*>::iterator Engine::NextWindow;
+	std::unordered_map<uint64_t, Window*> Engine::OpenWindowIDs;
 
 	void Engine::DispatchToWindow(uint64_t nativeID, Event& e)
 	{
-		WindowIDMap[nativeID]->OnEvent(e);
+		LogEngineDebug(e);
+		OpenWindowIDs[nativeID]->OnEvent(e);
 	}
 
-	void Engine::OnWindowOpen(uint64_t nativeID, Window* window)
+	void Engine::OnWindowOpen(Window* window)
 	{
-		WindowList.emplace_back(window);
-		WindowIDMap.emplace(nativeID, window);
-		IsRunning = WindowList.size();
+		OpenWindows.emplace_back(window);
+		FirstWindow = OpenWindows.begin() + 1;
+		OpenWindowIDs.emplace(window->GetNativeID(), window);
 	}
 
-	void Engine::OnWindowClose(WindowCloseEvent& e)
+	bool Engine::OnWindowClose(WindowCloseEvent& e)
 	{
-		Window* window = WindowIDMap[e.GetNativeID()];
-		WindowIDMap.erase(e.GetNativeID());
-		auto i = std::find(WindowList.begin(), WindowList.end(), window);
-		WindowList.erase(i);
-		IsRunning = WindowList.size();
+		Window* window = OpenWindowIDs[e.GetNativeID()];
+		OpenWindowIDs.erase(e.GetNativeID());
+
+		auto i = std::find(OpenWindows.begin(), OpenWindows.end(), window);
+		OpenWindows.erase(i);
+		NextWindow = OpenWindows.begin();
+
+		IsRunning = OpenWindows.size() > 1;
+		return true;
 	}
 
 	void Engine::Start()
 	{
 		while(IsRunning)
-			for(Window* window : WindowList)
-				window->Update();
+		{
+			NextWindow = FirstWindow;
+			while(NextWindow != OpenWindows.end())
+			{
+				(*NextWindow)->Update();
+				NextWindow++;
+			}
+		}
 	}
 
 #else
 
 	Window* Engine::MainWindow;
 
-	Engine::~Engine()
-	{
-		delete MainWindow;
-	}
-
 	void Engine::DispatchToWindow(uint64_t nativeID, Event& e)
 	{
 		MainWindow->OnEvent(e);
 	}
 
-	void Engine::OnWindowOpen(uint64_t nativeID, Window* window)
+	void Engine::OnWindowOpen(Window* window)
 	{
 		if(MainWindow)
 			throw std::runtime_error("Other windows can only be created in multi-window builds.");
 		MainWindow = window;
 	}
 
-	void Engine::OnWindowClose(WindowCloseEvent& e)
+	bool Engine::OnWindowClose(WindowCloseEvent& e)
 	{
 		IsRunning = false;
+		return true;
 	}
 
 	void Engine::Start()

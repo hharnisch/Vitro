@@ -7,14 +7,13 @@ namespace Vitro
 	class Layer
 	{
 	public:
-		bool Active = true;
+		bool Enabled = true;
 
 		Layer() = default;
 		virtual ~Layer() = default;
 
 		virtual void OnAttach() = 0;
 		virtual void OnDetach() = 0;
-
 		virtual void OnUpdate() = 0;
 		virtual void OnEvent(Event& e) = 0;
 	};

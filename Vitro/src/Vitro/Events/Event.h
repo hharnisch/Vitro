@@ -9,26 +9,28 @@ namespace Vitro
 	class Event
 	{
 	public:
-		bool Handled = false;
-
 		virtual EventType GetType() const = 0;
 		virtual const std::string GetName() const = 0;
-
 		virtual EventSource GetSourceFlags() const = 0;
-		bool HasSourceFlag(EventSource flag);
 
 		virtual explicit operator std::string() const;
 
-		template<typename E, typename H> void Dispatch(const H& handler)
+		bool HasSourceFlag(EventSource flag);
+		bool IsHandled() const;
+
+		template<class E, typename H> void Dispatch(const H& handler)
 		{
 			if(E::StaticType() == GetType())
 				Handled = handler(static_cast<E&>(*this));
 		}
+
+	private:
+		bool Handled = false;
 	};
 }
 
 // Must be used to pass non-static member functions as event handlers.
-#define Handler(h) std::bind(&h, this, std::placeholders::_1)
+#define Method(m) std::bind(&m, this, std::placeholders::_1)
 
 // Shorthand for implementing virtual methods related to the event type.
 #define $EventType(t) static EventType StaticType()				 { return EventType::t; }	\

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "Vitro/Events/Key/KeyEvent.h"
 
@@ -13,9 +13,9 @@ namespace Vitro
 		// Engine-internal constructor. Do NOT use in client application!
 		TextTypeEvent(KeyCode key, std::string character);
 
-		std::string GetCharacter() const;
-
 		explicit operator std::string() const override;
+
+		std::string GetCharacter() const;
 
 	private:
 		std::string Character;

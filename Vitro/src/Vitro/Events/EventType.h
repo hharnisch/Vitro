@@ -13,10 +13,11 @@ namespace Vitro
 		MouseDown,
 		MouseUp,
 		DoubleClick,
+		WindowOpen,
 		WindowClose,
-		WindowSize,
 		WindowFocus,
 		WindowUnfocus,
+		WindowSize,
 		WindowMove
 	};
 }

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "Vitro/Events/Event.h"
 
@@ -10,9 +10,9 @@ namespace Vitro
 	public:
 		$EventSource(EventSource::App);
 
-		uint64_t GetNativeID() const;
-
 		explicit operator std::string() const override;
+
+		uint64_t GetNativeID() const;
 
 	protected:
 		uint64_t NativeID;

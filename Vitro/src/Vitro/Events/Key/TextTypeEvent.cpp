@@ -1,4 +1,4 @@
-﻿#include "_pch.h"
+#include "_pch.h"
 #include "TextTypeEvent.h"
 
 namespace Vitro
@@ -8,15 +8,15 @@ namespace Vitro
 	{
 	}
 
-	std::string TextTypeEvent::GetCharacter() const
-	{
-		return Character;
-	}
-
 	TextTypeEvent::operator std::string() const
 	{
 		std::stringstream s;
 		s << GetName() << ": " << Character << " (Key: " << Key << ')';
 		return s.str();
+	}
+
+	std::string TextTypeEvent::GetCharacter() const
+	{
+		return Character;
 	}
 }

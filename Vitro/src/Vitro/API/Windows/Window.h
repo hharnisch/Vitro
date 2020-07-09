@@ -12,33 +12,34 @@ namespace Vitro::Windows
 		Window(int width, int height, int x, int y, const std::string& title);
 		~Window() override;
 
+		int GetWidth() const override;
+		void SetWidth(int width) override;
+		int GetHeight() const override;
+		void SetHeight(int height) override;
+		int GetX() const override;
+		void SetX(int x) override;
+		int GetY() const override;
+		void SetY(int y) override;
 		std::string GetTitle() const override;
 		void SetTitle(const std::string& title) override;
 
-		int GetWidth() const override;
-		void SetWidth(int width) override;
-
-		int GetHeight() const override;
-		void SetHeight(int height) override;
-
-		int GetX() const override;
-		void SetX(int x) override;
-
-		int GetY() const override;
-		void SetY(int y) override;
-
-		void Show() override;
+		void Open() override;
+		void Close() override;
+		void Maximize() override;
 		void Minimize() override;
-
-		void PrepareUpdate() override;
-		void FinalizeUpdate() override;
+		void UpdatePlatform() override;
 
 	private:
-		HWND WindowHandle;
+		int Width;
+		int Height;
+		int X;
+		int Y;
+		std::string Title;
 
+		HWND WindowHandle = nullptr;
 	#if $OPENGL
-		HDC DeviceContext;
-		HGLRC OpenGLContext;
+		HDC DeviceContext = nullptr;
+		HGLRC OpenGLContext = nullptr;
 	#endif
 	};
 }

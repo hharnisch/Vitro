@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "Vitro/Events/Event.h"
 
@@ -14,10 +14,10 @@ namespace Vitro
 		// Engine-internal constructor. Do NOT use in client application!
 		MouseMoveEvent(int x, int y);
 
+		explicit operator std::string() const override;
+
 		int GetX() const;
 		int GetY() const;
-
-		explicit operator std::string() const override;
 
 	private:
 		int X;
