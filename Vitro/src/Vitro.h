@@ -2,6 +2,7 @@
 
 #include "Vitro/Engine.h"
 #include "Vitro/Diagnostics/Log.h"
+#include "Vitro/Events/Input.h"
 #include "Vitro/Events/Key/KeyCode.h"
 #include "Vitro/Events/Key/KeyDownEvent.h"
 #include "Vitro/Events/Key/KeyUpEvent.h"

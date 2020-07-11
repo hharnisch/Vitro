@@ -27,7 +27,12 @@ project "Vitro"
 	files
 	{
 		"%{prj.name}/src/**.cpp",
-		"%{prj.name}/src/**.h"
+		"%{prj.name}/src/**.h",
+		"%{prj.name}/lib/glm/**.cpp",
+		"%{prj.name}/lib/glm/**.h",
+		"%{prj.name}/lib/glm/**.hpp",
+		"%{prj.name}/lib/glm/**.inl"
+		
 	}
 
 	includedirs
@@ -84,7 +89,8 @@ project "VitroTests"
 
 	includedirs
 	{
-		"Vitro/src"
+		"Vitro/src",
+		"Vitro/lib"
 	}
 
 	filter "system:windows"

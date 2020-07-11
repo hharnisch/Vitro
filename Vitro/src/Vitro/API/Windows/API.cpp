@@ -43,7 +43,7 @@ namespace Vitro::Windows
 			throw std::runtime_error(error);
 		}
 
-		WNDCLASSW wc {};
+		WNDCLASSW wc{};
 		wc.style = CS_OWNDC | CS_DBLCLKS;
 		wc.lpfnWndProc = NotifyEngine;
 		wc.hInstance = InstanceHandle = GetModuleHandleW(nullptr);
@@ -168,7 +168,7 @@ namespace Vitro::Windows
 	void API::OnMouseMove(LPARAM lp)
 	{
 		auto pos = Input::MousePosition = {GET_X_LPARAM(lp), GET_Y_LPARAM(lp)};
-		Engine::DispatchToWindow(MessageWindowID, MouseMoveEvent(pos.x, pos.y));
+		Engine::DispatchToWindow(MessageWindowID, MouseMoveEvent(pos.X, pos.Y));
 	}
 
 	void API::OnMouseScrollHorizontal(WPARAM wp)

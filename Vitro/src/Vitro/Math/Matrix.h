@@ -5,7 +5,7 @@
 
 namespace Vitro
 {
-	template<typename... Args> std::string Str(Args&&... args)
+	template<typename... Args> std::string MatStr(Args&&... args)
 	{
 		return glm::to_string(std::forward<Args>(args)...);
 	}

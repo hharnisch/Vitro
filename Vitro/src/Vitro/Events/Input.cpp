@@ -24,11 +24,11 @@ namespace Vitro
 
 	int Input::GetMouseX()
 	{
-		return MousePosition.x;
+		return MousePosition.X;
 	}
 
 	int Input::GetMouseY()
 	{
-		return MousePosition.y;
+		return MousePosition.Y;
 	}
 }
