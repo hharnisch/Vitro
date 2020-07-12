@@ -1,12 +1,11 @@
-#include "_pch.h"
+﻿#include "_pch.h"
 #include "MouseScrollEvent.h"
 
 namespace Vitro
 {
 	MouseScrollEvent::MouseScrollEvent(float xOffset, float yOffset)
 		: XOffset(xOffset), YOffset(yOffset)
-	{
-	}
+	{}
 
 	MouseScrollEvent::operator std::string() const
 	{

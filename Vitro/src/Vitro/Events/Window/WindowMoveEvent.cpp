@@ -1,12 +1,11 @@
-#include "_pch.h"
+﻿#include "_pch.h"
 #include "WindowMoveEvent.h"
 
 namespace Vitro
 {
 	WindowMoveEvent::WindowMoveEvent(uint64_t nativeID, int x, int y)
 		: WindowEvent(nativeID), X(x), Y(y)
-	{
-	}
+	{}
 
 	WindowMoveEvent::operator std::string() const
 	{

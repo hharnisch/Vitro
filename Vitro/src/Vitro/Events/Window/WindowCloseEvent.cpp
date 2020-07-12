@@ -4,6 +4,5 @@
 namespace Vitro
 {
 	WindowCloseEvent::WindowCloseEvent(uint64_t nativeID) : WindowEvent(nativeID)
-	{
-	}
+	{}
 }

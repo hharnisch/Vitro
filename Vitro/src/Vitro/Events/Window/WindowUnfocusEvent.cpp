@@ -4,6 +4,5 @@
 namespace Vitro
 {
 	WindowUnfocusEvent::WindowUnfocusEvent(uint64_t nativeID) : WindowEvent(nativeID)
-	{
-	}
+	{}
 }

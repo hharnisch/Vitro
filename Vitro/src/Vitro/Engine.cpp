@@ -5,7 +5,7 @@
 #include "Vitro/API/Windows/API.h"
 #include "Vitro/Diagnostics/Log.h"
 #include "Vitro/Events/Input.h"
-#include "Vitro/Math/Vector2.h"
+#include "Vitro/Math/Matrix.h"
 
 #include <imgui/imgui.h>
 
@@ -83,7 +83,7 @@ namespace Vitro
 	{
 		while(IsRunning)
 		{
-			LogEngineInfo(Distance(Float2{1,0}, Float2{0,1}));
+			LogEngineInfo(LDouble2x2(1, 2, 3, 4));
 			NextWindow = FirstWindow;
 			while(NextWindow != OpenWindows.end())
 			{

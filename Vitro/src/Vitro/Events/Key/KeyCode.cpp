@@ -1,4 +1,4 @@
-#include "_pch.h"
+﻿#include "_pch.h"
 #include "KeyCode.h"
 
 #define $ToString(x) case KeyCode::x: return os << #x

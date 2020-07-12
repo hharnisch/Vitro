@@ -1,4 +1,4 @@
-#include "_pch.h"
+﻿#include "_pch.h"
 #include "KeyEvent.h"
 
 namespace Vitro
@@ -9,6 +9,5 @@ namespace Vitro
 	}
 
 	KeyEvent::KeyEvent(KeyCode key) : Key(key)
-	{
-	}
+	{}
 }

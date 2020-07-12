@@ -1,4 +1,4 @@
-#include "_pch.h"
+﻿#include "_pch.h"
 #include "MouseCode.h"
 
 #define $ToString(x) case MouseCode::x: return os << #x

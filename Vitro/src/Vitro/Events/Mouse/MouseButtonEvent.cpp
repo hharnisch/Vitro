@@ -1,4 +1,4 @@
-#include "_pch.h"
+﻿#include "_pch.h"
 #include "MouseButtonEvent.h"
 
 namespace Vitro
@@ -16,6 +16,5 @@ namespace Vitro
 	}
 
 	MouseButtonEvent::MouseButtonEvent(MouseCode button) : Button(button)
-	{
-	}
+	{}
 }

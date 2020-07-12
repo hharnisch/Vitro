@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Vitro/Engine.h"
 #include "Vitro/Diagnostics/Log.h"

@@ -1,12 +1,11 @@
-#include "_pch.h"
+﻿#include "_pch.h"
 #include "TextTypeEvent.h"
 
 namespace Vitro
 {
 	TextTypeEvent::TextTypeEvent(KeyCode key, std::string character)
 		: KeyEvent(key), Character(character)
-	{
-	}
+	{}
 
 	TextTypeEvent::operator std::string() const
 	{

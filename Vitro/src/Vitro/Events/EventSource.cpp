@@ -1,4 +1,4 @@
-#include "_pch.h"
+﻿#include "_pch.h"
 #include "EventSource.h"
 
 namespace Vitro

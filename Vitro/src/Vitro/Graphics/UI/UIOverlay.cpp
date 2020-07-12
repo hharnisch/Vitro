@@ -1,4 +1,4 @@
-#include "_pch.h"
+﻿#include "_pch.h"
 #include "UIOverlay.h"
 
 #include <glad/glad.h>
@@ -55,6 +55,5 @@ namespace Vitro
 	}
 
 	void UIOverlay::OnEvent(Event& event)
-	{
-	}
+	{}
 }

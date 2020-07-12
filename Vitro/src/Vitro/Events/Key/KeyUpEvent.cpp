@@ -4,8 +4,7 @@
 namespace Vitro
 {
 	KeyUpEvent::KeyUpEvent(KeyCode key) : KeyEvent(key)
-	{
-	}
+	{}
 
 	KeyUpEvent::operator std::string() const
 	{

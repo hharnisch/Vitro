@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "_pch.h"
 #include "Vitro/Diagnostics/LogLevel.h"

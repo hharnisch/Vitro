@@ -1,4 +1,4 @@
-#include "_pch.h"
+﻿#include "_pch.h"
 #include "WindowEvent.h"
 
 namespace Vitro
@@ -16,6 +16,5 @@ namespace Vitro
 	}
 
 	WindowEvent::WindowEvent(uint64_t nativeID) : NativeID(nativeID)
-	{
-	}
+	{}
 }

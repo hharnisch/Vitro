@@ -1,4 +1,4 @@
-#include "_pch.h"
+﻿#include "_pch.h"
 #include "Log.h"
 
 #include "Vitro/Engine.h"

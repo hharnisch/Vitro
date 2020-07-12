@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Vitro/Events/Key/KeyCode.h"
 #include "Vitro/Events/Mouse/MouseCode.h"

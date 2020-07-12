@@ -1,4 +1,4 @@
-#include "_pch.h"
+﻿#include "_pch.h"
 #include "API.h"
 
 #include "Vitro/Diagnostics/Log.h"

@@ -12,12 +12,11 @@ namespace Vitro::Windows
 {
 	Window::Window(int width, int height, int x, int y, const std::string& title)
 		: Width(width), Height(height), X(x), Y(y), Title(title)
-	{
-	}
+	{}
 
 	Window::~Window()
 	{
-		DestroyWindow(WindowHandle);
+		Close();
 	}
 
 	int Window::GetWidth() const

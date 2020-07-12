@@ -22,16 +22,12 @@ project "Vitro"
 	objdir				(".bin_obj/" .. outputdir .. "/%{prj.name}")
 	pchsource			"%{prj.name}/src/_pch.cpp"
 	pchheader			"_pch.h"
-	defines				"$OPENGL;$MULTIWINDOW;GLM_FORCE_SSE2;GLM_FORCE_AVX"
+	defines				"$OPENGL;$MULTIWINDOW"
 
 	files
 	{
 		"%{prj.name}/src/**.cpp",
-		"%{prj.name}/src/**.h",
-		"%{prj.name}/lib/glm/**.cpp",
-		"%{prj.name}/lib/glm/**.h",
-		"%{prj.name}/lib/glm/**.hpp",
-		"%{prj.name}/lib/glm/**.inl"
+		"%{prj.name}/src/**.h"
 		
 	}
 
@@ -89,8 +85,7 @@ project "VitroTests"
 
 	includedirs
 	{
-		"Vitro/src",
-		"Vitro/lib"
+		"Vitro/src"
 	}
 
 	filter "system:windows"

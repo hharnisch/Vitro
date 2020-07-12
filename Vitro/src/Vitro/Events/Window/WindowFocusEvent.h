@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Vitro/Events/Event.h"
 #include "Vitro/Events/Window/WindowEvent.h"

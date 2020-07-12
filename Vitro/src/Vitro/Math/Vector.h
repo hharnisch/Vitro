@@ -36,6 +36,9 @@ namespace Vitro
 	typedef Vector<2, double>			Double2;
 	typedef Vector<3, double>			Double3;
 	typedef Vector<4, double>			Double4;
+	typedef Vector<2, long double>		LDouble2;
+	typedef Vector<3, long double>		LDouble3;
+	typedef Vector<4, long double>		LDouble4;
 
 	template<size_t D, typename N> inline long double Length(const Vector<D, N>& vec)
 	{
@@ -43,8 +46,36 @@ namespace Vitro
 	}
 
 	template<size_t D, typename N>
+	inline auto Normalize(const Vector<D, N>& vec) -> Vector<D, decltype(std::sqrt(vec.X))>
+	{
+		return 1 / std::sqrt(Dot(vec, vec)) * Vector<D, decltype(std::sqrt(vec.X))>(vec);
+	}
+
+	template<size_t D, typename N>
 	inline long double Distance(const Vector<D, N>& v1, const Vector<D, N>& v2)
 	{
 		return Length(v1 - v2);
+	}
+
+	template<size_t D, typename N>
+	inline auto Sqrt(const Vector<D, N>& vec) -> Vector<D, decltype(std::sqrt(vec.X))>
+	{
+		return Apply(vec, static_cast<decltype(std::sqrt(vec.X))(*)(N)>(std::sqrt));
+	}
+
+	template<size_t D, typename N>
+	inline auto InvSqrt(const Vector<D, N>& vec) -> decltype(Sqrt(vec))
+	{
+		return static_cast<decltype(std::sqrt(vec.X))>(1) / Sqrt(vec);
+	}
+
+	template<size_t D> inline Vector<D, float> InvSqrt(const Vector<D, float>& vec)
+	{
+		auto temp = vec;
+		auto half = temp * 0.5f;
+		auto p = reinterpret_cast<Vector<D, uint32_t>*>(&temp);
+		auto i = 0x5F3759DFU - (*p >> 1);
+		temp = *reinterpret_cast<Vector<D, float>*>(&i);
+		return temp * (1.5f - half * temp * temp);
 	}
 }
