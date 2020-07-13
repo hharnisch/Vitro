@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "Vitro/Engine.h"
 #include "Vitro/Diagnostics/Log.h"
@@ -22,3 +22,5 @@
 #include "Vitro/Graphics/Overlay.h"
 #include "Vitro/Graphics/Window.h"
 #include "Vitro/Graphics/UI/UIOverlay.h"
+#include "Vitro/Math/Matrix.h"
+#include "Vitro/Math/Vector.h"

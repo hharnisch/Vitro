@@ -6,27 +6,27 @@ namespace Vitro
 
 	template<typename N> struct Vector<4, N>
 	{
-		union { N X, R, S; };
-		union { N Y, G, T; };
-		union { N Z, B, P; };
-		union { N W, A, Q; };
+		union
+		{
+			struct { N X, Y, Z, W; };
+			struct { N R, G, B, A; };
+			struct { N S, T, P, Q; };
+		};
 
 		inline Vector() = default;
-		inline Vector(N x, N y, N z, N w) : X(x), Y(y), Z(z), W(w) {}
-		inline Vector(N scalar) : X(scalar), Y(scalar), Z(scalar), W(scalar) {}
 
-		template<typename O1, typename O2, typename O3, typename O4>
-		inline Vector(O1 x, O2 y, O3 z, O4 w)
-			: X(static_cast<N>(x)), Y(static_cast<N>(y)), Z(static_cast<N>(z)), W(static_cast<N>(w))
+		template<typename O0, typename O1, typename O2, typename O3>
+		inline Vector(O0 x, O1 y, O2 z, O3 w) : X(static_cast<N>(x)), Y(static_cast<N>(y)),
+			Z(static_cast<N>(z)), W(static_cast<N>(w))
 		{}
 
 		template<typename O>
-		inline Vector(O scalar) : X(static_cast<N>(scalar)), Y(static_cast<N>(scalar)),
-			Z(static_cast<N>(scalar)), W(static_cast<N>(scalar))
+		inline Vector(O scalar) : Vector(static_cast<N>(scalar), static_cast<N>(scalar),
+										 static_cast<N>(scalar), static_cast<N>(scalar))
 		{}
 
 		template<typename O>
-		inline Vector(const Vector<4, O>& other) : X(other.X), Y(other.Y), Z(other.Z), W(other.W) {}
+		inline Vector(const Vector<4, O>& other) : Vector(other.X, other.Y, other.Z, other.W) {}
 
 		inline N& operator[](size_t index)
 		{
@@ -293,9 +293,9 @@ namespace Vitro
 		}
 	};
 
-	template<typename N> inline N Dot(const Vector<4, N>& v1, const Vector<4, N>& v2)
+	template<typename N> inline N Dot(const Vector<4, N>& lv, const Vector<4, N>& rv)
 	{
-		auto temp = v1 * v2; return temp.X + temp.Y + temp.Z + temp.W;
+		auto temp = lv * rv; return temp.X + temp.Y + temp.Z + temp.W;
 	}
 
 	template<typename N> inline Vector<4, N> operator+(N scalar, const Vector<4, N>& vector)

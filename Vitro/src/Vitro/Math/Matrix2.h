@@ -14,17 +14,15 @@ namespace Vitro
 
 	public:
 		inline Matrix() = default;
-		inline Matrix(N scalar) : Columns{Col(scalar), Col(scalar)} {}
-		inline Matrix(N x0, N y0, N x1, N y1) : Columns{Col(x0, y0), Col(x1, y1)} {}
-		inline Matrix(const Col& x, const Col& y) : Columns{x, y} {}
 
-		template<typename O> inline Matrix(O scalar) : Matrix(static_cast<N>(scalar)) {}
+		template<typename O0, typename O1, typename O2, typename O3>
+		inline Matrix(O0 x0, O1 y0, O2 x1, O3 y1) : Columns{Col(x0, y0), Col(x1, y1)} {}
 
-		template<typename O1, typename O2, typename O3, typename O4>
-		inline Matrix(O1 x0, O2 y0, O3 x1, O4 y1)
-			: Matrix(static_cast<N>(x0), static_cast<N>(y0),
-					 static_cast<N>(x1), static_cast<N>(y1))
-		{}
+		template<typename O>
+		inline Matrix(O scalar) : Columns{Col(scalar), Col(scalar)} {}
+
+		template<typename O0, typename O1>
+		inline Matrix(const Vector<2, O0>& v0, const Vector<2, O1>& v1) : Columns{v0, v1} {}
 
 		inline Col& operator[](size_t index)
 		{
@@ -33,6 +31,9 @@ namespace Vitro
 			else
 				throw std::out_of_range("Matrix column index out of range.");
 		}
+
+		template<typename O>
+		inline Matrix(const Matrix<2, 2, O>& other) : Columns{other[0], other[1]} {} //TODO
 
 		inline explicit operator std::string() const
 		{
