@@ -1,5 +1,7 @@
 #pragma once
 
+#define $Scalar typename = typename std::enable_if_t<std::is_arithmetic_v<O>, O>
+
 namespace Vitro
 {
 	template<size_t D, typename N> struct Vector;
@@ -13,16 +15,16 @@ namespace Vitro
 			struct { N S, T; };
 		};
 
-		inline Vector() = default;
-
 		template<typename O0, typename O1>
 		inline Vector(O0 x, O1 y) : X(static_cast<N>(x)), Y(static_cast<N>(y)) {}
 
 		template<typename O>
 		inline Vector(O scalar) : Vector(static_cast<N>(scalar), static_cast<N>(scalar)) {}
 
-		template<typename O>
-		inline Vector(const Vector<2, O>& other) : Vector(other.X, other.Y) {}
+		template<size_t D, typename O>
+		inline Vector(const Vector<D, O>& other) : Vector(other.X, other.Y) {}
+
+		inline constexpr Vector() : Vector(0) {}
 
 		inline N& operator[](size_t index)
 		{
@@ -34,211 +36,212 @@ namespace Vitro
 			}
 		}
 
-		inline Vector<2, N> operator+(const Vector<2, N>& vector) const
+		template<typename O> inline Vector<2, N> operator+(const Vector<2, O>& v) const
 		{
-			return {X + vector.X, Y + vector.Y};
+			return {X + v.X, Y + v.Y};
 		}
 
-		inline Vector<2, N> operator-(const Vector<2, N>& vector) const
+		template<typename O> inline Vector<2, N> operator-(const Vector<2, O>& v) const
 		{
-			return {X - vector.X, Y - vector.Y};
+			return {X - v.X, Y - v.Y};
 		}
 
-		inline Vector<2, N> operator*(const Vector<2, N>& vector) const
+		template<typename O> inline Vector<2, N> operator*(const Vector<2, O>& v) const
 		{
-			return {X * vector.X, Y * vector.Y};
+			return {X * v.X, Y * v.Y};
 		}
 
-		inline Vector<2, N> operator/(const Vector<2, N>& vector) const
+		template<typename O> inline Vector<2, N> operator/(const Vector<2, O>& v) const
 		{
-			return {X / vector.X, Y / vector.Y};
+			return {X / v.X, Y / v.Y};
 		}
 
-		inline Vector<2, N> operator%(const Vector<2, N>& vector) const
+		template<typename O> inline Vector<2, N> operator%(const Vector<2, O>& v) const
 		{
-			return {X % vector.X, Y % vector.Y};
-		}
-		inline Vector<2, N> operator&(const Vector<2, N>& vector) const
-		{
-			return {X & vector.X, Y & vector.Y};
+			return {X % v.X, Y % v.Y};
 		}
 
-		inline Vector<2, N> operator|(const Vector<2, N>& vector) const
+		template<typename O> inline Vector<2, N> operator&(const Vector<2, O>& v) const
 		{
-			return {X | vector.X, Y | vector.Y};
+			return {X & v.X, Y & v.Y};
 		}
 
-		inline Vector<2, N> operator^(const Vector<2, N>& vector) const
+		template<typename O> inline Vector<2, N> operator|(const Vector<2, O>& v) const
 		{
-			return {X ^ vector.X, Y ^ vector.Y};
+			return {X | v.X, Y | v.Y};
 		}
 
-		inline Vector<2, N> operator<<(const Vector<2, N>& vector) const
+		template<typename O> inline Vector<2, N> operator^(const Vector<2, O>& v) const
 		{
-			return {X << vector.X, Y << vector.Y};
+			return {X ^ v.X, Y ^ v.Y};
 		}
 
-		inline Vector<2, N> operator>>(const Vector<2, N>& vector) const
+		template<typename O> inline Vector<2, N> operator<<(const Vector<2, O>& v) const
 		{
-			return {X >> vector.X, Y >> vector.Y};
+			return {X << v.X, Y << v.Y};
 		}
 
-		inline Vector<2, N>& operator+=(const Vector<2, N>& vector)
+		template<typename O> inline Vector<2, N> operator>>(const Vector<2, O>& v) const
 		{
-			X += vector.X; Y += vector.Y; return *this;
+			return {X >> v.X, Y >> v.Y};
 		}
 
-		inline Vector<2, N>& operator-=(const Vector<2, N>& vector)
+		template<typename O> inline Vector<2, N>& operator+=(const Vector<2, O>& v)
 		{
-			X -= vector.X; Y -= vector.Y; return *this;
+			X += v.X; Y += v.Y; return *this;
 		}
 
-		inline Vector<2, N>& operator*=(const Vector<2, N>& vector)
+		template<typename O> inline Vector<2, N>& operator-=(const Vector<2, O>& v)
 		{
-			X *= vector.X; Y *= vector.Y; return *this;
+			X -= v.X; Y -= v.Y; return *this;
 		}
 
-		inline Vector<2, N>& operator/=(const Vector<2, N>& vector)
+		template<typename O> inline Vector<2, N>& operator*=(const Vector<2, O>& v)
 		{
-			X /= vector.X; Y /= vector.Y; return *this;
+			X *= v.X; Y *= v.Y; return *this;
 		}
 
-		inline Vector<2, N>& operator%=(const Vector<2, N>& vector)
+		template<typename O> inline Vector<2, N>& operator/=(const Vector<2, O>& v)
 		{
-			X %= vector.X; Y %= vector.Y; return *this;
+			X /= v.X; Y /= v.Y; return *this;
 		}
 
-		inline Vector<2, N>& operator&=(const Vector<2, N>& vector)
+		template<typename O> inline Vector<2, N>& operator%=(const Vector<2, O>& v)
 		{
-			X &= vector.X; Y &= vector.Y; return *this;
+			X %= v.X; Y %= v.Y; return *this;
 		}
 
-		inline Vector<2, N>& operator|=(const Vector<2, N>& vector)
+		template<typename O> inline Vector<2, N>& operator&=(const Vector<2, O>& v)
 		{
-			X |= vector.X; Y |= vector.Y; return *this;
+			X &= v.X; Y &= v.Y; return *this;
 		}
 
-		inline Vector<2, N>& operator^=(const Vector<2, N>& vector)
+		template<typename O> inline Vector<2, N>& operator|=(const Vector<2, O>& v)
 		{
-			X ^= vector.X; Y ^= vector.Y; return *this;
+			X |= v.X; Y |= v.Y; return *this;
 		}
 
-		inline Vector<2, N>& operator<<=(const Vector<2, N>& vector)
+		template<typename O> inline Vector<2, N>& operator^=(const Vector<2, O>& v)
 		{
-			X <<= vector.X; Y <<= vector.Y; return *this;
+			X ^= v.X; Y ^= v.Y; return *this;
 		}
 
-		inline Vector<2, N>& operator>>=(const Vector<2, N>& vector)
+		template<typename O> inline Vector<2, N>& operator<<=(const Vector<2, O>& v)
 		{
-			X >>= vector.X; Y >>= vector.Y; return *this;
+			X <<= v.X; Y <<= v.Y; return *this;
 		}
 
-		inline bool operator==(const Vector<2, N>& vector) const
+		template<typename O> inline Vector<2, N>& operator>>=(const Vector<2, O>& v)
 		{
-			return X == vector.X && Y == vector.Y;
+			X >>= v.X; Y >>= v.Y; return *this;
 		}
 
-		inline bool operator!=(const Vector<2, N>& vector) const
+		template<typename O> inline bool operator==(const Vector<2, O>& v) const
 		{
-			return X != vector.X || Y != vector.Y;
+			return X == v.X && Y == v.Y;
 		}
 
-		inline Vector<2, N> operator+(N scalar) const
+		template<typename O> inline bool operator!=(const Vector<2, O>& v) const
+		{
+			return X != v.X || Y != v.Y;
+		}
+
+		template<typename O, $Scalar> inline Vector<2, N> operator+(O scalar) const
 		{
 			return {X + scalar, Y + scalar};
 		}
 
-		inline Vector<2, N> operator-(N scalar) const
+		template<typename O, $Scalar> inline Vector<2, N> operator-(O scalar) const
 		{
 			return {X - scalar, Y - scalar};
 		}
 
-		inline Vector<2, N> operator*(N scalar) const
+		template<typename O, $Scalar> inline Vector<2, N> operator*(O scalar) const
 		{
 			return {X * scalar, Y * scalar};
 		}
 
-		inline Vector<2, N> operator/(N scalar) const
+		template<typename O, $Scalar> inline Vector<2, N> operator/(O scalar) const
 		{
 			return {X / scalar, Y / scalar};
 		}
 
-		inline Vector<2, N> operator%(N scalar) const
+		template<typename O, $Scalar> inline Vector<2, N> operator%(O scalar) const
 		{
 			return {X % scalar, Y % scalar};
 		}
 
-		inline Vector<2, N> operator&(N scalar) const
+		template<typename O, $Scalar> inline Vector<2, N> operator&(O scalar) const
 		{
 			return {X & scalar, Y & scalar};
 		}
 
-		inline Vector<2, N> operator|(N scalar) const
+		template<typename O, $Scalar> inline Vector<2, N> operator|(O scalar) const
 		{
 			return {X | scalar, Y | scalar};
 		}
 
-		inline Vector<2, N> operator^(N scalar) const
+		template<typename O, $Scalar> inline Vector<2, N> operator^(O scalar) const
 		{
 			return {X ^ scalar, Y ^ scalar};
 		}
 
-		inline Vector<2, N> operator<<(N scalar) const
+		template<typename O, $Scalar> inline Vector<2, N> operator<<(O scalar) const
 		{
 			return {X << scalar, Y << scalar};
 		}
 
-		inline Vector<2, N> operator>>(N scalar) const
+		template<typename O, $Scalar> inline Vector<2, N> operator>>(O scalar) const
 		{
 			return {X >> scalar, Y >> scalar};
 		}
 
-		inline Vector<2, N>& operator+=(N scalar)
+		template<typename O, $Scalar> inline Vector<2, N>& operator+=(O scalar)
 		{
 			X += scalar; Y += scalar; return *this;
 		}
 
-		inline Vector<2, N>& operator-=(N scalar)
+		template<typename O, $Scalar> inline Vector<2, N>& operator-=(O scalar)
 		{
 			X -= scalar; Y -= scalar; return *this;
 		}
 
-		inline Vector<2, N>& operator*=(N scalar)
+		template<typename O, $Scalar> inline Vector<2, N>& operator*=(O scalar)
 		{
 			X *= scalar; Y *= scalar; return *this;
 		}
 
-		inline Vector<2, N>& operator/=(N scalar)
+		template<typename O, $Scalar> inline Vector<2, N>& operator/=(O scalar)
 		{
 			X /= scalar; Y /= scalar; return *this;
 		}
 
-		inline Vector<2, N>& operator%=(N scalar)
+		template<typename O, $Scalar> inline Vector<2, N>& operator%=(O scalar)
 		{
 			X %= scalar; Y %= scalar; return *this;
 		}
 
-		inline Vector<2, N>& operator&=(N scalar)
+		template<typename O, $Scalar> inline Vector<2, N>& operator&=(O scalar)
 		{
 			X &= scalar; Y &= scalar; return *this;
 		}
 
-		inline Vector<2, N>& operator|=(N scalar)
+		template<typename O, $Scalar> inline Vector<2, N>& operator|=(O scalar)
 		{
 			X |= scalar; Y |= scalar; return *this;
 		}
 
-		inline Vector<2, N>& operator^=(N scalar)
+		template<typename O, $Scalar> inline Vector<2, N>& operator^=(O scalar)
 		{
 			X ^= scalar; Y ^= scalar; return *this;
 		}
 
-		inline Vector<2, N>& operator<<=(N scalar)
+		template<typename O, $Scalar> inline Vector<2, N>& operator<<=(O scalar)
 		{
 			X <<= scalar; Y <<= scalar; return *this;
 		}
 
-		inline Vector<2, N>& operator>>=(N scalar)
+		template<typename O, $Scalar> inline Vector<2, N>& operator>>=(O scalar)
 		{
 			X >>= scalar; Y >>= scalar; return *this;
 		}
@@ -281,68 +284,78 @@ namespace Vitro
 		inline explicit operator std::string() const
 		{
 			std::stringstream s;
-			s << "(" << X << ", " << Y << ")";
+			s << "(" << +X << ", " << +Y << ")";
 			return s.str();
 		}
 	};
 
-	template<typename N> inline N Dot(const Vector<2, N>& lv, const Vector<2, N>& rv)
+	template<typename N, typename O, $Scalar>
+	inline Vector<2, N> operator+(O scalar, const Vector<2, N>& v)
+	{
+		return {scalar + v.X, scalar + v.Y};
+	}
+
+	template<typename N, typename O, $Scalar>
+	inline Vector<2, N> operator-(O scalar, const Vector<2, N>& v)
+	{
+		return {scalar - v.X, scalar - v.Y};
+	}
+
+	template<typename N, typename O, $Scalar>
+	inline Vector<2, N> operator*(O scalar, const Vector<2, N>& v)
+	{
+		return {scalar * v.X, scalar * v.Y};
+	}
+
+	template<typename N, typename O, $Scalar>
+	inline Vector<2, N> operator/(O scalar, const Vector<2, N>& v)
+	{
+		return {scalar / v.X, scalar / v.Y};
+	}
+
+	template<typename N, typename O, $Scalar>
+	inline Vector<2, N> operator%(O scalar, const Vector<2, N>& v)
+	{
+		return {scalar % v.X, scalar % v.Y};
+	}
+
+	template<typename N, typename O, $Scalar>
+	inline Vector<2, N> operator&(O scalar, const Vector<2, N>& v)
+	{
+		return {scalar & v.X, scalar & v.Y};
+	}
+
+	template<typename N, typename O, $Scalar>
+	inline Vector<2, N> operator|(O scalar, const Vector<2, N>& v)
+	{
+		return {scalar | v.X, scalar | v.Y};
+	}
+
+	template<typename N, typename O, $Scalar>
+	inline Vector<2, N> operator^(O scalar, const Vector<2, N>& v)
+	{
+		return {scalar ^ v.X, scalar ^ v.Y};
+	}
+
+	template<typename N, typename O, $Scalar>
+	inline Vector<2, N> operator<<(O scalar, const Vector<2, N>& v)
+	{
+		return {scalar << v.X, scalar << v.Y};
+	}
+
+	template<typename N, typename O, $Scalar>
+	inline Vector<2, N> operator>>(O scalar, const Vector<2, N>& v)
+	{
+		return {scalar >> v.X, scalar >> v.Y};
+	}
+
+	template<typename N, typename O> inline N Dot(const Vector<2, N>& lv, const Vector<2, O>& rv)
 	{
 		auto temp = lv * rv; return temp.X + temp.Y;
 	}
 
-	template<typename N> inline Vector<2, N> operator+(N scalar, const Vector<2, N>& vector)
+	template<typename N, typename O> Vector<2, O> Apply(const Vector<2, N>& v, O(*func)(N))
 	{
-		return {scalar + vector.X, scalar + vector.Y};
-	}
-
-	template<typename N> inline Vector<2, N> operator-(N scalar, const Vector<2, N>& vector)
-	{
-		return {scalar - vector.X, scalar - vector.Y};
-	}
-
-	template<typename N> inline Vector<2, N> operator*(N scalar, const Vector<2, N>& vector)
-	{
-		return {scalar * vector.X, scalar * vector.Y};
-	}
-
-	template<typename N> inline Vector<2, N> operator/(N scalar, const Vector<2, N>& vector)
-	{
-		return {scalar / vector.X, scalar / vector.Y};
-	}
-
-	template<typename N> inline Vector<2, N> operator%(N scalar, const Vector<2, N>& vector)
-	{
-		return {scalar % vector.X, scalar % vector.Y};
-	}
-
-	template<typename N> inline Vector<2, N> operator&(N scalar, const Vector<2, N>& vector)
-	{
-		return {scalar & vector.X, scalar & vector.Y};
-	}
-
-	template<typename N> inline Vector<2, N> operator|(N scalar, const Vector<2, N>& vector)
-	{
-		return {scalar | vector.X, scalar | vector.Y};
-	}
-
-	template<typename N> inline Vector<2, N> operator^(N scalar, const Vector<2, N>& vector)
-	{
-		return {scalar ^ vector.X, scalar ^ vector.Y};
-	}
-
-	template<typename N> inline Vector<2, N> operator<<(N scalar, const Vector<2, N>& vector)
-	{
-		return {scalar << vector.X, scalar << vector.Y};
-	}
-
-	template<typename N> inline Vector<2, N> operator>>(N scalar, const Vector<2, N>& vector)
-	{
-		return {scalar >> vector.X, scalar >> vector.Y};
-	}
-
-	template<typename N, typename O> Vector<2, O> Apply(const Vector<2, N>& vector, O(*func)(N))
-	{
-		return {func(vector.X), func(vector.Y)};
+		return {func(v.X), func(v.Y)};
 	}
 }

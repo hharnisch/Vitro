@@ -1,4 +1,4 @@
-﻿#include "_pch.h"
+#include "_pch.h"
 #include "API.h"
 
 #include "Vitro/Engine.h"
@@ -167,7 +167,7 @@ namespace Vitro::Windows
 
 	void API::OnMouseMove(LPARAM lp)
 	{
-		auto pos = Input::MousePosition = {GET_X_LPARAM(lp), GET_Y_LPARAM(lp)};
+		auto pos = Input::MousePosition = Int2(GET_X_LPARAM(lp), GET_Y_LPARAM(lp));
 		Engine::DispatchToWindow(MessageWindowID, MouseMoveEvent(pos.X, pos.Y));
 	}
 

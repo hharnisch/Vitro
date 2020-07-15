@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "_pch.h"
 #include "Vitro/Graphics/Layer.h"
@@ -37,14 +37,14 @@ namespace Vitro
 		void Detach(Layer& layer);
 		void Detach(Overlay& overlay);
 
-		template<class L, typename... Args>
+		template<typename L, typename... Args>
 		std::enable_if_t<std::is_base_of_v<Layer, L> && !std::is_base_of_v<Overlay, L>, L&>
 			Attach(Args&... args)
 		{
 			return static_cast<L&>(*Attach(new L(args...)));
 		}
 
-		template<class O, typename... Args>
+		template<typename O, typename... Args>
 		std::enable_if_t<std::is_base_of_v<Overlay, O>, O&> Attach(Args&... args)
 		{
 			return static_cast<O&>(*Attach(new O(args...)));

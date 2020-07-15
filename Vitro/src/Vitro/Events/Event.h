@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "_pch.h"
 #include "Vitro/Events/EventSource.h"
@@ -18,7 +18,7 @@ namespace Vitro
 		bool HasSourceFlag(EventSource flag) const;
 		bool IsHandled() const;
 
-		template<class E, typename H> void Dispatch(const H& handler)
+		template<typename E, typename H> void Dispatch(const H& handler)
 		{
 			if(E::StaticType() == GetType())
 				Handled = handler(static_cast<E&>(*this));

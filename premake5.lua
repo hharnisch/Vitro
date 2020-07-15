@@ -1,6 +1,6 @@
 workspace "Vitro"
 	architecture		"x86_64"
-	configurations		{ "Debug", "Release" }
+	configurations		{ "Debug", "DebugOptimized", "Release" }
 	flags				{ "MultiProcessorCompile" }
 	buildoptions		{ "/D_ITERATOR_DEBUG_LEVEL=0" }
 	startproject		"VitroTests"
@@ -57,6 +57,12 @@ project "Vitro"
 		runtime			"Debug"
 		defines			"$DEBUG"
 		symbols			"on"
+		
+	filter "configurations:DebugOptimized"
+		runtime			"Debug"
+		defines			"$DEBUG"
+		symbols			"on"
+		optimize		"on"
 
 	filter "configurations:Release"
 		runtime			"Release"
@@ -95,6 +101,11 @@ project "VitroTests"
 	filter "configurations:Debug"
 		runtime			"Debug"
 		symbols			"on"
+		
+	filter "configurations:DebugOptimized"
+		runtime			"Debug"
+		symbols			"on"
+		optimize		"on"
 
 	filter "configurations:Release"
 		runtime			"Release"
