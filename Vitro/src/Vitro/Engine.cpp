@@ -24,8 +24,18 @@ namespace Vitro
 
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
-		ImGuiIO& io = ImGui::GetIO();
+		auto& io = ImGui::GetIO();
+		io.BackendFlags |= ImGuiBackendFlags_PlatformHasViewports;
+		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 		io.IniFilename = nullptr;
+		if(io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+		{
+			auto& style = ImGui::GetStyle();
+			style.WindowRounding = 0;
+			style.Colors[ImGuiCol_WindowBg].w = 1;
+		}
 
 	#if $WINDOWS
 		Windows::API::Initialize();

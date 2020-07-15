@@ -6,11 +6,12 @@
 //  [X] Platform: Mouse cursor shape and visibility. Disable with 'io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange'.
 //  [X] Platform: Keyboard arrays indexed using VK_* Virtual Key Codes, e.g. ImGui::IsKeyPressed(VK_SPACE).
 //  [X] Platform: Gamepad support. Enabled with 'io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad'.
+//  [X] Platform: Multi-viewport support (multiple windows). Enable with 'io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable'.
 
 #pragma once
 #include "imgui.h"      // IMGUI_IMPL_API
 
-IMGUI_IMPL_API bool     ImGui_ImplWin32_Init(void* hwnd);
+IMGUI_IMPL_API bool     ImGui_ImplWin32_Init(void* hwnd, void* hglrc);
 IMGUI_IMPL_API void     ImGui_ImplWin32_Shutdown();
 IMGUI_IMPL_API void     ImGui_ImplWin32_NewFrame();
 
@@ -35,3 +36,5 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 IMGUI_IMPL_API void     ImGui_ImplWin32_EnableDpiAwareness();
 IMGUI_IMPL_API float    ImGui_ImplWin32_GetDpiScaleForHwnd(void* hwnd);       // HWND hwnd
 IMGUI_IMPL_API float    ImGui_ImplWin32_GetDpiScaleForMonitor(void* monitor); // HMONITOR monitor
+IMGUI_IMPL_API void		ImGui_ImplWin32_RenderWindow(ImGuiViewport* viewport, void*);
+IMGUI_IMPL_API void		ImGui_ImplWin32_SwapBuffers(ImGuiViewport* viewport, void*);

@@ -30,9 +30,9 @@ namespace Vitro
 	typedef Vector<2, unsigned long>	ULong2;
 	typedef Vector<3, unsigned long>	ULong3;
 	typedef Vector<4, unsigned long>	ULong4;
-	typedef Vector<2, float>			Float2, Vector2;
-	typedef Vector<3, float>			Float3, Vector3;
-	typedef Vector<4, float>			Float4, Vector4;
+	typedef Vector<2, float>			Float2, Vec2;
+	typedef Vector<3, float>			Float3, Vec3;
+	typedef Vector<4, float>			Float4, Vec4;
 	typedef Vector<2, double>			Double2;
 	typedef Vector<3, double>			Double3;
 	typedef Vector<4, double>			Double4;

@@ -41,10 +41,10 @@ namespace Vitro
 	#if $WINDOWS
 		ImGui_ImplWin32_NewFrame();
 	#endif
-
-		glClearColor(0.1, 0.6, 0.8, 1.0);
-		glClear(GL_COLOR_BUFFER_BIT);
 		ImGui::NewFrame();
+
+		glClearColor(0.5, 0.5, 0.5, 1.0);
+		glClear(GL_COLOR_BUFFER_BIT);
 		ImGui::ShowDemoWindow();
 		ImGui::Render();
 
@@ -52,6 +52,10 @@ namespace Vitro
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	#endif
 		ImGui::EndFrame();
+	#if $WINDOWS
+		ImGui::UpdatePlatformWindows();
+		ImGui::RenderPlatformWindowsDefault();
+	#endif
 	}
 
 	void UIOverlay::OnEvent(Event& event)

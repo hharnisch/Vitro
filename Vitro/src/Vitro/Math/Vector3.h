@@ -292,7 +292,7 @@ namespace Vitro
 		inline explicit operator std::string() const
 		{
 			std::stringstream s;
-			s << "(" << +X << ", " << +Y << ", " << +Z << ")";
+			s << "(" << +X << "," << +Y << "," << +Z << ")";
 			return s.str();
 		}
 	};

@@ -99,7 +99,7 @@ namespace Vitro::Windows
 	#endif
 
 		Engine::OnWindowOpen(this);
-		ImGui_ImplWin32_Init(WindowHandle);
+		ImGui_ImplWin32_Init(WindowHandle, OpenGLContext);
 		ShowWindow(WindowHandle, SW_RESTORE);
 	}
 
