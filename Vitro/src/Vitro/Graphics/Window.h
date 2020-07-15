@@ -29,6 +29,7 @@ namespace Vitro
 		virtual void Maximize() = 0;
 		virtual void Minimize() = 0;
 		virtual void UpdatePlatform() = 0;
+		virtual void OnPlatformEvent(Event& e) = 0;
 
 		uint64_t GetNativeID() const;
 

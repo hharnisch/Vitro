@@ -10,7 +10,7 @@ namespace Vitro
 	{
 	public:
 		Engine(int argc, char** argv);
-		virtual ~Engine() = default;
+		virtual ~Engine();
 
 		static bool Running();
 		static void DispatchToWindow(uint64_t nativeID, Event& e);

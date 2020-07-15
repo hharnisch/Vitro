@@ -4,8 +4,7 @@
 #include "Vitro/API/OpenGL/API.h"
 #include "Vitro/API/Windows/API.h"
 #include "Vitro/Diagnostics/Log.h"
-
-#include <imgui/imgui.h>
+#include "Vitro/Graphics/UI/UI.h"
 
 namespace Vitro
 {
@@ -22,21 +21,6 @@ namespace Vitro
 		IsRunning = true;
 		Log::Initialize("", "");
 
-		IMGUI_CHECKVERSION();
-		ImGui::CreateContext();
-		auto& io = ImGui::GetIO();
-		io.BackendFlags |= ImGuiBackendFlags_PlatformHasViewports;
-		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
-		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
-		io.IniFilename = nullptr;
-		if(io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-		{
-			auto& style = ImGui::GetStyle();
-			style.WindowRounding = 0;
-			style.Colors[ImGuiCol_WindowBg].w = 1;
-		}
-
 	#if $WINDOWS
 		Windows::API::Initialize();
 	#else
@@ -47,7 +31,14 @@ namespace Vitro
 		OpenGL::API::Initialize();
 	#else
 	#error No valid graphics API defined.
-	#endif
+	#endif#
+
+		UI::Initialize();
+	}
+
+	Engine::~Engine()
+	{
+		UI::Finalize();
 	}
 
 	bool Engine::Running()

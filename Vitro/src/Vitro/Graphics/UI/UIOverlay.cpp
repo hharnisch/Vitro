@@ -15,23 +15,10 @@
 namespace Vitro
 {
 	void UIOverlay::OnAttach()
-	{
-		ImGui::StyleColorsDark();
-	#if $OPENGL
-		ImGui_ImplOpenGL3_Init("#version 460");
-	#endif
-	}
+	{}
 
 	void UIOverlay::OnDetach()
-	{
-	#if $OPENGL
-		ImGui_ImplOpenGL3_Shutdown();
-	#endif
-	#if $WINDOWS
-		ImGui_ImplWin32_Shutdown();
-	#endif
-		ImGui::DestroyContext();
-	}
+	{}
 
 	void UIOverlay::OnUpdate()
 	{

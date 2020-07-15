@@ -48,6 +48,7 @@ namespace Vitro
 			if(e.IsHandled())
 				break;
 		}
+		OnPlatformEvent(e);
 		e.Dispatch<WindowCloseEvent>(Engine::OnWindowClose);
 	}
 

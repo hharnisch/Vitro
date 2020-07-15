@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "Vitro/Graphics/Window.h"
 
@@ -28,6 +28,7 @@ namespace Vitro::Windows
 		void Maximize() override;
 		void Minimize() override;
 		void UpdatePlatform() override;
+		void OnPlatformEvent(Event& e) override;
 
 	private:
 		int Width;

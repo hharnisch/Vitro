@@ -196,6 +196,7 @@
     <ClInclude Include="src\Vitro\Math\Vector3.h" />
     <ClInclude Include="src\Vitro\Math\Vector4.h" />
     <ClInclude Include="src\_pch.h" />
+    <ClInclude Include="src\Vitro\Graphics\UI\UI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Vitro\API\OpenGL\API.cpp" />
@@ -233,6 +234,7 @@
     <ClCompile Include="src\_pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\Vitro\Graphics\UI\UI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="lib\glad\glad.vcxproj">

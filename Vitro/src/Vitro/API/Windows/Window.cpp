@@ -3,10 +3,14 @@
 
 #include "Vitro/Engine.h"
 #include "Vitro/API/Windows/API.h"
+#include "Vitro/Events/Window//WindowFocusEvent.h"
 
 #include <glad/glad.h>
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_win32.h>
+#if $OPENGL
+#include <imgui/imgui_impl_opengl3.h>
+#endif
 
 namespace Vitro::Windows
 {
@@ -132,5 +136,17 @@ namespace Vitro::Windows
 			TranslateMessage(&msg);
 			DispatchMessageW(&msg);
 		}
+	}
+
+	void Window::OnPlatformEvent(Event& e)
+	{
+		e.Dispatch<WindowFocusEvent>([this](WindowFocusEvent& e)
+		{
+		#if $OPENGL
+			ImGui_ImplOpenGL3_Init("#version 460");
+		#endif
+			ImGui_ImplWin32_Init(WindowHandle, OpenGLContext);
+			return true;
+		});
 	}
 }
