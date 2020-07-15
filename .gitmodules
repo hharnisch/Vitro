@@ -1,6 +1,0 @@
-[submodule "Vitro/lib/imgui"]
-	path = Vitro/lib/imgui
-	url = https://github.com/ocornut/imgui
-[submodule "Vitro/lib/glm"]
-	path = Vitro/lib/glm
-	url = https://github.com/g-truc/glm
