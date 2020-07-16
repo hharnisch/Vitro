@@ -12,9 +12,7 @@ namespace Vitro
 
 	Engine::Engine(int argc, char** argv)
 	{
-	#if $MULTIWINDOW
-		OpenWindows.insert(OpenWindows.begin(), nullptr);
-	#else
+	#if !$MULTIWINDOW
 		MainWindow = nullptr;
 	#endif
 
@@ -48,9 +46,8 @@ namespace Vitro
 
 #if $MULTIWINDOW
 
+	bool Engine::ShouldResetToFirstWindow;
 	std::vector<Window*> Engine::OpenWindows;
-	std::vector<Window*>::iterator Engine::FirstWindow;
-	std::vector<Window*>::iterator Engine::NextWindow;
 	std::unordered_map<uint64_t, Window*> Engine::OpenWindowIDs;
 
 	void Engine::DispatchToWindow(uint64_t nativeID, Event& e)
@@ -61,7 +58,6 @@ namespace Vitro
 	void Engine::OnWindowOpen(Window* window)
 	{
 		OpenWindows.emplace_back(window);
-		FirstWindow = OpenWindows.begin() + 1;
 		OpenWindowIDs.emplace(window->GetNativeID(), window);
 	}
 
@@ -72,23 +68,24 @@ namespace Vitro
 
 		auto i = std::find(OpenWindows.begin(), OpenWindows.end(), window);
 		OpenWindows.erase(i);
-		NextWindow = OpenWindows.begin();
+		ShouldResetToFirstWindow = true;
 
-		IsRunning = OpenWindows.size() > 1;
+		IsRunning = OpenWindows.size();
 		return true;
 	}
 
 	void Engine::Start()
 	{
 		while(IsRunning)
-		{
-			NextWindow = FirstWindow;
-			while(NextWindow != OpenWindows.end())
+			for(Window* window : OpenWindows)
 			{
-				(*NextWindow)->Update();
-				NextWindow++;
+				window->Update();
+				if(ShouldResetToFirstWindow)
+				{
+					ShouldResetToFirstWindow = false;
+					break;
+				}
 			}
-		}
 	}
 
 #else

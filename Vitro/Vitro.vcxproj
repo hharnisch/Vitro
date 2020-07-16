@@ -76,14 +76,13 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>_pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>$OPENGL;$MULTIWINDOW;$WINDOWS;$DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>$OPENGL;$WINDOWS;$DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalOptions>/D_ITERATOR_DEBUG_LEVEL=0 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -101,7 +100,7 @@
       <PrecompiledHeaderFile>_pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <PreprocessorDefinitions>$OPENGL;$MULTIWINDOW;$WINDOWS;$DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>$OPENGL;$WINDOWS;$DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Full</Optimization>
@@ -111,7 +110,6 @@
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalOptions>/D_ITERATOR_DEBUG_LEVEL=0 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -130,7 +128,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>_pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>$OPENGL;$MULTIWINDOW;$WINDOWS;$RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>$OPENGL;$WINDOWS;$RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -139,7 +137,6 @@
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalOptions>/D_ITERATOR_DEBUG_LEVEL=0 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -184,6 +181,7 @@
     <ClInclude Include="src\Vitro\Events\Window\WindowUnfocusEvent.h" />
     <ClInclude Include="src\Vitro\Graphics\Layer.h" />
     <ClInclude Include="src\Vitro\Graphics\Overlay.h" />
+    <ClInclude Include="src\Vitro\Graphics\UI\UI.h" />
     <ClInclude Include="src\Vitro\Graphics\UI\UIOverlay.h" />
     <ClInclude Include="src\Vitro\Graphics\Window.h" />
     <ClInclude Include="src\Vitro\Math\Bit.h" />
@@ -196,7 +194,6 @@
     <ClInclude Include="src\Vitro\Math\Vector3.h" />
     <ClInclude Include="src\Vitro\Math\Vector4.h" />
     <ClInclude Include="src\_pch.h" />
-    <ClInclude Include="src\Vitro\Graphics\UI\UI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Vitro\API\OpenGL\API.cpp" />
@@ -227,6 +224,7 @@
     <ClCompile Include="src\Vitro\Events\Window\WindowMoveEvent.cpp" />
     <ClCompile Include="src\Vitro\Events\Window\WindowSizeEvent.cpp" />
     <ClCompile Include="src\Vitro\Events\Window\WindowUnfocusEvent.cpp" />
+    <ClCompile Include="src\Vitro\Graphics\UI\UI.cpp" />
     <ClCompile Include="src\Vitro\Graphics\UI\UIOverlay.cpp" />
     <ClCompile Include="src\Vitro\Graphics\Window.cpp">
       <ObjectFileName>$(IntDir)\Window1.obj</ObjectFileName>
@@ -234,7 +232,6 @@
     <ClCompile Include="src\_pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\Vitro\Graphics\UI\UI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="lib\glad\glad.vcxproj">

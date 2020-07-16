@@ -2,7 +2,6 @@ workspace "Vitro"
 	architecture		"x86_64"
 	configurations		{ "Debug", "DebugOptimized", "Release" }
 	flags				{ "MultiProcessorCompile" }
-	buildoptions		{ "/D_ITERATOR_DEBUG_LEVEL=0" }
 	startproject		"VitroTests"
 
 outputdir = "%{cfg.buildcfg}_%{cfg.architecture}_%{cfg.system}"
@@ -22,13 +21,12 @@ project "Vitro"
 	objdir				(".bin_obj/" .. outputdir .. "/%{prj.name}")
 	pchsource			"%{prj.name}/src/_pch.cpp"
 	pchheader			"_pch.h"
-	defines				"$OPENGL;$MULTIWINDOW"
+	defines				"$OPENGL"
 
 	files
 	{
 		"%{prj.name}/src/**.cpp",
-		"%{prj.name}/src/**.h"
-		
+		"%{prj.name}/src/**.h"		
 	}
 
 	includedirs

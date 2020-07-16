@@ -124,7 +124,7 @@ namespace Vitro::Windows
 
 	void Window::UpdatePlatform()
 	{
-	#if $OPENGL && $MULTIWINDOW
+	#if $OPENGL
 		wglMakeCurrent(DeviceContext, OpenGLContext);
 	#endif
 		UpdateWindow(WindowHandle);
