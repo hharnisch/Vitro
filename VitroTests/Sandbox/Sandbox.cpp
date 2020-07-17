@@ -10,6 +10,7 @@ namespace Sandbox
 	{
 		auto w1 = Vitro::Window::New(1000, 800, 600, 300, "Window 1");
 		w1->Open();
+		w1->Attach<TestLayer>();
 		w1->Attach<UIOverlay>();
 	}
 

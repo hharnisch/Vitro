@@ -41,6 +41,7 @@ namespace Vitro
 
 	void Window::OnEvent(Event& e)
 	{
+		OnPlatformEvent(e);
 		for(auto i = LayerStack.rbegin(); i != LayerStack.rend(); i++)
 		{
 			if((*i)->Enabled)
@@ -48,7 +49,6 @@ namespace Vitro
 			if(e.IsHandled())
 				break;
 		}
-		OnPlatformEvent(e);
 		e.Dispatch<WindowCloseEvent>(Engine::OnWindowClose);
 	}
 

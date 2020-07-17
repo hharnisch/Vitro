@@ -23,7 +23,7 @@ namespace Vitro
 		static bool IsRunning;
 
 	#if $MULTIWINDOW
-		static bool ShouldResetToFirstWindow;
+		static bool WindowIsClosing;
 		static std::vector<Window*> OpenWindows;
 		static std::unordered_map<uint64_t, Window*> OpenWindowIDs;
 	#else

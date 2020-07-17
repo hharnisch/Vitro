@@ -46,7 +46,7 @@ namespace Vitro
 
 #if $MULTIWINDOW
 
-	bool Engine::ShouldResetToFirstWindow;
+	bool Engine::WindowIsClosing;
 	std::vector<Window*> Engine::OpenWindows;
 	std::unordered_map<uint64_t, Window*> Engine::OpenWindowIDs;
 
@@ -68,7 +68,7 @@ namespace Vitro
 
 		auto i = std::find(OpenWindows.begin(), OpenWindows.end(), window);
 		OpenWindows.erase(i);
-		ShouldResetToFirstWindow = true;
+		WindowIsClosing = true;
 
 		IsRunning = OpenWindows.size();
 		return true;
@@ -80,9 +80,9 @@ namespace Vitro
 			for(Window* window : OpenWindows)
 			{
 				window->Update();
-				if(ShouldResetToFirstWindow)
+				if(WindowIsClosing)
 				{
-					ShouldResetToFirstWindow = false;
+					WindowIsClosing = false;
 					break;
 				}
 			}

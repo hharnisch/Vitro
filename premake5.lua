@@ -21,7 +21,7 @@ project "Vitro"
 	objdir				(".bin_obj/" .. outputdir .. "/%{prj.name}")
 	pchsource			"%{prj.name}/src/_pch.cpp"
 	pchheader			"_pch.h"
-	defines				"$OPENGL"
+	defines				{ "$OPENGL", "$MULTIWINDOW" }
 
 	files
 	{

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "_pch.h"
+#include "Vitro/Graphics/GraphicsContext.h"
 #include "Vitro/Graphics/Layer.h"
 #include "Vitro/Graphics/Overlay.h"
 
@@ -52,6 +53,7 @@ namespace Vitro
 		}
 
 	protected:
+		GraphicsContext* Context;
 		uint64_t NativeID = 0;
 
 	private:

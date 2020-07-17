@@ -16,7 +16,9 @@ namespace Vitro::Windows
 {
 	Window::Window(int width, int height, int x, int y, const std::string& title)
 		: Width(width), Height(height), X(x), Y(y), Title(title)
-	{}
+	{
+		Context = GraphicsContext::New(this);
+	}
 
 	Window::~Window()
 	{
@@ -139,14 +141,5 @@ namespace Vitro::Windows
 	}
 
 	void Window::OnPlatformEvent(Event& e)
-	{
-		e.Dispatch<WindowFocusEvent>([this](WindowFocusEvent& e)
-		{
-		#if $OPENGL
-			ImGui_ImplOpenGL3_Init("#version 460");
-		#endif
-			ImGui_ImplWin32_Init(WindowHandle, OpenGLContext);
-			return true;
-		});
-	}
+	{}
 }
