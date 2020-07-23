@@ -29,14 +29,14 @@ namespace Vitro::Windows
 {
 	HINSTANCE API::InstanceHandle;
 	PIXELFORMATDESCRIPTOR API::PixelFormatDescriptor;
-	bool API::IsInitialized;
 	uint64_t API::MessageWindowID;
 	KeyCode API::LastKeyCode;
 	int API::KeyRepeats;
 
 	void API::Initialize()
 	{
-		Assert(!IsInitialized, "Windows API already initialized.");
+		static bool Initialized;
+		Assert(!Initialized, "Windows API already initialized.");
 
 		WNDCLASSW wc{};
 		wc.style = CS_OWNDC | CS_DBLCLKS;
@@ -54,7 +54,7 @@ namespace Vitro::Windows
 		};
 	#endif
 
-		IsInitialized = true;
+		Initialized = true;
 	}
 
 	LRESULT API::NotifyEngine(HWND wnd, UINT msg, WPARAM wp, LPARAM lp)

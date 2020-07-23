@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "Vitro/Events/Key/KeyCode.h"
 #include "Vitro/Events/Mouse/MouseCode.h"
@@ -45,7 +45,6 @@ namespace Vitro::Windows
 		static void OnWindowUnfocus();
 
 	private:
-		static bool IsInitialized;
 		static uint64_t MessageWindowID;
 		static KeyCode LastKeyCode;
 		static int KeyRepeats;

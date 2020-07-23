@@ -1,6 +1,7 @@
-﻿#include "_pch.h"
+#include "_pch.h"
 #include "API.h"
 
+#include "Vitro/Diagnostics/Assert.h"
 #include "Vitro/Diagnostics/Log.h"
 
 #if $WINDOWS
@@ -11,29 +12,18 @@
 
 namespace Vitro::OpenGL
 {
-	bool API::IsInitialized;
-
 	void API::Initialize()
 	{
-		if(IsInitialized)
-		{
-			auto error = "OpenGL already initialized.";
-			LogEngineFatal(error);
-			throw std::runtime_error(error);
-		}
+		static bool Initialized;
+		Assert(!Initialized, "OpenGL already initialized.");
 
 	#if $WINDOWS
 		InitializeWindows();
 	#endif
 
-		if(!gladLoadGL())
-		{
-			auto error = "OpenGL could not be loaded.";
-			LogEngineFatal(error);
-			throw std::runtime_error(error);
-		}
+		Assert(gladLoadGL(), "OpenGL could not be loaded.");
 
-		IsInitialized = true;
+		Initialized = true;
 	}
 
 	void API::InitializeWindows()

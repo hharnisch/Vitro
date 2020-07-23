@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "_pch.h"
 #include "Vitro/Graphics/GraphicsContext.h"
@@ -53,7 +53,7 @@ namespace Vitro
 		}
 
 	protected:
-		GraphicsContext* Context;
+		GraphicsContext* Context = nullptr;
 		uint64_t NativeID = 0;
 
 	private:

@@ -1,4 +1,4 @@
-﻿#include "_pch.h"
+#include "_pch.h"
 #include "Log.h"
 
 #include "Vitro/Engine.h"
@@ -7,11 +7,9 @@
 
 #include <fstream>
 #include <iostream>
-#include <cassert>
 
 namespace Vitro
 {
-	bool Log::Initialized;
 	std::ostream* Log::AppLogTarget;
 	std::ostream* Log::EngineLogTarget;
 	std::list<Log::Entry> Log::Queue;
@@ -19,6 +17,7 @@ namespace Vitro
 
 	void Log::Initialize(const std::string& appLogPath, const std::string& engineLogPath)
 	{
+		static bool Initialized;
 		Assert(!Initialized, "Logging has already been initialized by the engine.");
 
 		if(appLogPath.size())

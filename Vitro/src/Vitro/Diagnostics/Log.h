@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "_pch.h"
 #include "Vitro/Diagnostics/LogLevel.h"
@@ -43,7 +43,6 @@ namespace Vitro
 		}
 
 	private:
-		static bool Initialized;
 		static std::ostream* AppLogTarget;
 		static std::ostream* EngineLogTarget;
 		static std::list<Entry> Queue;

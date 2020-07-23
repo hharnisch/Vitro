@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 namespace Vitro::OpenGL
 {
@@ -8,8 +8,6 @@ namespace Vitro::OpenGL
 		static void Initialize();
 
 	private:
-		static bool IsInitialized;
-
 		static void InitializeWindows();
 
 		API() = delete;
