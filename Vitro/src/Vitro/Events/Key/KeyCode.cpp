@@ -179,6 +179,6 @@ namespace Vitro
 			case KeyCode::Period:		return os << '.';
 			case KeyCode::AngleBracket:	return os << '<';
 		}
-		return os << "Unknown key code " << static_cast<int>(code);
+		return os << "Unknown key code: " << static_cast<int>(code);
 	}
 }

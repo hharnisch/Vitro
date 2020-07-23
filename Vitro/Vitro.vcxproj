@@ -76,7 +76,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>_pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>$OPENGL;$MULTIWINDOW;$WINDOWS;$DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>$OPENGL;$MULTIWINDOW;$WINDOWS;$DEBUG;$ENGINE_LOG_LEVEL=$LOG_LEVEL_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -100,7 +100,7 @@
       <PrecompiledHeaderFile>_pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <PreprocessorDefinitions>$OPENGL;$MULTIWINDOW;$WINDOWS;$DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>$OPENGL;$MULTIWINDOW;$WINDOWS;$DEBUG;$ENGINE_LOG_LEVEL=$LOG_LEVEL_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Full</Optimization>
@@ -128,7 +128,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>_pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>$OPENGL;$MULTIWINDOW;$WINDOWS;$RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>$OPENGL;$MULTIWINDOW;$WINDOWS;$RELEASE;$ENGINE_LOG_LEVEL=$LOG_LEVEL_ERROR;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -155,6 +155,7 @@
     <ClInclude Include="src\Vitro\API\OpenGL\Context.h" />
     <ClInclude Include="src\Vitro\API\Windows\API.h" />
     <ClInclude Include="src\Vitro\API\Windows\Window.h" />
+    <ClInclude Include="src\Vitro\Diagnostics\Assert.h" />
     <ClInclude Include="src\Vitro\Diagnostics\Log.h" />
     <ClInclude Include="src\Vitro\Diagnostics\LogLevel.h" />
     <ClInclude Include="src\Vitro\Engine.h" />
@@ -180,9 +181,9 @@
     <ClInclude Include="src\Vitro\Events\Window\WindowMoveEvent.h" />
     <ClInclude Include="src\Vitro\Events\Window\WindowSizeEvent.h" />
     <ClInclude Include="src\Vitro\Events\Window\WindowUnfocusEvent.h" />
+    <ClInclude Include="src\Vitro\Graphics\GraphicsContext.h" />
     <ClInclude Include="src\Vitro\Graphics\Layer.h" />
     <ClInclude Include="src\Vitro\Graphics\Overlay.h" />
-    <ClInclude Include="src\Vitro\Graphics\GraphicsContext.h" />
     <ClInclude Include="src\Vitro\Graphics\UI\UI.h" />
     <ClInclude Include="src\Vitro\Graphics\UI\UIOverlay.h" />
     <ClInclude Include="src\Vitro\Graphics\Window.h" />
@@ -205,6 +206,7 @@
     </ClCompile>
     <ClCompile Include="src\Vitro\API\Windows\Window.cpp" />
     <ClCompile Include="src\Vitro\Diagnostics\Log.cpp" />
+    <ClCompile Include="src\Vitro\Diagnostics\LogLevel.cpp" />
     <ClCompile Include="src\Vitro\Engine.cpp" />
     <ClCompile Include="src\Vitro\Events\Event.cpp" />
     <ClCompile Include="src\Vitro\Events\EventSource.cpp" />

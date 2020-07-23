@@ -15,6 +15,6 @@ namespace Vitro
 			$ToString(Extra1);
 			$ToString(Extra2);
 		}
-		return os << "Unknown mouse button " << static_cast<int>(button);
+		return os << "Unknown mouse button: " << static_cast<int>(button);
 	}
 }

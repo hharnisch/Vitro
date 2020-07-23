@@ -1,4 +1,4 @@
-#include "_pch.h"
+﻿#include "_pch.h"
 #include "Context.h"
 
 namespace Vitro::OpenGL

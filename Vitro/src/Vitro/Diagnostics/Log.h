@@ -57,17 +57,48 @@ namespace Vitro
 	};
 }
 
-#define $Log ::Vitro::Log
-#define LogTrace(...) $Log::Enqueue({false, ::Vitro::LogLevel::Trace, $Log::Concat(__VA_ARGS__)})
-#define LogDebug(...) $Log::Enqueue({false, ::Vitro::LogLevel::Debug, $Log::Concat(__VA_ARGS__)})
-#define LogInfo(...) $Log::Enqueue({false, ::Vitro::LogLevel::Info, $Log::Concat(__VA_ARGS__)})
-#define LogWarn(...) $Log::Enqueue({false, ::Vitro::LogLevel::Warn, $Log::Concat(__VA_ARGS__)})
-#define LogError(...) $Log::Enqueue({false, ::Vitro::LogLevel::Error, $Log::Concat(__VA_ARGS__)})
-#define LogFatal(...) $Log::Enqueue({false, ::Vitro::LogLevel::Fatal, $Log::Concat(__VA_ARGS__)})
+#if $APP_LOG_LEVEL > $LOG_LEVEL_TRACE
+#define LogTrace(...)
+#else
+#define LogTrace(...) ::Vitro::Log::Enqueue({false, ::Vitro::LogLevel::Trace, ::Vitro::Log::Concat(__VA_ARGS__)})
+#endif
+#if $APP_LOG_LEVEL > $LOG_LEVEL_DEBUG
+#define LogDebug(...)
+#else
+#define LogDebug(...) ::Vitro::Log::Enqueue({false, ::Vitro::LogLevel::Debug, ::Vitro::Log::Concat(__VA_ARGS__)})
+#endif
+#if $APP_LOG_LEVEL > $LOG_LEVEL_INFO
+#define LogInfo(...)
+#else
+#define LogInfo(...) ::Vitro::Log::Enqueue({false, ::Vitro::LogLevel::Info, ::Vitro::Log::Concat(__VA_ARGS__)})
+#endif
+#if $APP_LOG_LEVEL > $LOG_LEVEL_WARN
+#define LogWarn(...)
+#else
+#define LogWarn(...) ::Vitro::Log::Enqueue({false, ::Vitro::LogLevel::Warn, ::Vitro::Log::Concat(__VA_ARGS__)})
+#endif
+#define LogError(...) ::Vitro::Log::Enqueue({false, ::Vitro::LogLevel::Error, ::Vitro::Log::Concat(__VA_ARGS__)})
+#define LogFatal(...) ::Vitro::Log::Enqueue({false, ::Vitro::LogLevel::Fatal, ::Vitro::Log::Concat(__VA_ARGS__)})
 
+#if $ENGINE_LOG_LEVEL > $LOG_LEVEL_TRACE
+#define LogEngineTrace(...)
+#else
 #define LogEngineTrace(...) Log::Enqueue({true, LogLevel::Trace, Log::Concat(__VA_ARGS__)})
+#endif
+#if $ENGINE_LOG_LEVEL > $LOG_LEVEL_DEBUG
+#define LogEngineDebug(...)
+#else
 #define LogEngineDebug(...) Log::Enqueue({true, LogLevel::Debug, Log::Concat(__VA_ARGS__)})
+#endif
+#if $ENGINE_LOG_LEVEL > $LOG_LEVEL_INFO
+#define LogEngineInfo(...)
+#else
 #define LogEngineInfo(...) Log::Enqueue({true, LogLevel::Info, Log::Concat(__VA_ARGS__)})
+#endif
+#if $ENGINE_LOG_LEVEL > $LOG_LEVEL_WARN
+#define LogEngineWarn(...)
+#else
 #define LogEngineWarn(...) Log::Enqueue({true, LogLevel::Warn, Log::Concat(__VA_ARGS__)})
+#endif
 #define LogEngineError(...) Log::Enqueue({true, LogLevel::Error, Log::Concat(__VA_ARGS__)})
 #define LogEngineFatal(...) Log::Enqueue({true, LogLevel::Fatal, Log::Concat(__VA_ARGS__)})

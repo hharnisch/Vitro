@@ -1,4 +1,6 @@
-#pragma once
+﻿#pragma once
+
+#include "Vitro/Diagnostics/Assert.h"
 
 #define $Scalar typename = typename std::enable_if_t<std::is_arithmetic_v<O>, O>
 
@@ -13,6 +15,7 @@ namespace Vitro
 			struct { N X, Y, Z; };
 			struct { N R, G, B; };
 			struct { N S, T, P; };
+			N Val[3];
 		};
 
 		template<typename O0, typename O1, typename O2>
@@ -35,13 +38,8 @@ namespace Vitro
 
 		inline N& operator[](size_t index)
 		{
-			switch(index)
-			{
-				case 0: return X;
-				case 1: return Y;
-				case 2: return Z;
-				default: throw std::out_of_range("Vector index out of range.");
-			}
+			AssertArrayRange(Val, index, "Vector");
+			return Val[index];
 		}
 
 		template<typename O> inline Vector<3, N> operator+(const Vector<3, O>& v) const

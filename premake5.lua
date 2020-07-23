@@ -53,19 +53,19 @@ project "Vitro"
 
 	filter "configurations:Debug"
 		runtime			"Debug"
-		defines			"$DEBUG"
 		symbols			"on"
+		defines			{ "$DEBUG", "$ENGINE_LOG_LEVEL=$LOG_LEVEL_DEBUG" }
 		
 	filter "configurations:DebugOptimized"
 		runtime			"Debug"
-		defines			"$DEBUG"
 		symbols			"on"
 		optimize		"on"
+		defines			{ "$DEBUG", "$ENGINE_LOG_LEVEL=$LOG_LEVEL_DEBUG" }
 
 	filter "configurations:Release"
 		runtime			"Release"
-		defines			"$RELEASE"
 		optimize		"on"
+		defines			{ "$RELEASE", "$ENGINE_LOG_LEVEL=$LOG_LEVEL_ERROR" }
 
 project "VitroTests"
 	location			"VitroTests"

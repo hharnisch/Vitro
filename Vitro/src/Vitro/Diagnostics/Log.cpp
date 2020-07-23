@@ -3,9 +3,11 @@
 
 #include "Vitro/Engine.h"
 #include "Vitro/API/Windows/API.h"
+#include "Vitro/Diagnostics/Assert.h"
 
 #include <fstream>
 #include <iostream>
+#include <cassert>
 
 namespace Vitro
 {
@@ -17,8 +19,7 @@ namespace Vitro
 
 	void Log::Initialize(const std::string& appLogPath, const std::string& engineLogPath)
 	{
-		if(Initialized)
-			throw std::runtime_error("Logging has already been initialized by the engine.");
+		Assert(!Initialized, "Logging has already been initialized by the engine.");
 
 		if(appLogPath.size())
 			AppLogTarget = new std::ofstream(appLogPath);
@@ -81,10 +82,14 @@ namespace Vitro
 		for(int i = sizeof(timestamp) - 4; i < sizeof(timestamp); i++)
 			timestamp[i] = msecsstr[i - sizeof(timestamp) + 5];
 
-		if(entry.FromEngine)
-			*EngineLogTarget << timestamp << "] [ENGINE] " << entry.Message << std::endl;
-		else
-			*AppLogTarget << timestamp << "] [APP] " << entry.Message << std::endl;
+		auto logTarget = entry.FromEngine ? EngineLogTarget : AppLogTarget;
+		auto logOrigin = entry.FromEngine ? "ENGINE" : "APP";
+		std::stringstream logText;
+		logText << timestamp << "] [" << logOrigin;
+		if(logTarget != &std::cout)
+			logText << " " << entry.Level;
+		logText << "] " << entry.Message << std::endl;
+		*logTarget << logText.str();
 	}
 
 	void Log::SetConsoleColors(uint8_t colorMask)

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Vitro/API/Windows/API.h"
 #include "Vitro/Events/Key/KeyCode.h"

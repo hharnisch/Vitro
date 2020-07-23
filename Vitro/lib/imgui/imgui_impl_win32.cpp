@@ -1,4 +1,4 @@
-// dear imgui: Platform Binding for Windows (standard windows API for 32 and 64 bits applications)
+﻿// dear imgui: Platform Binding for Windows (standard windows API for 32 and 64 bits applications)
 // This needs to be used along with a Renderer (e.g. DirectX11, OpenGL3, Vulkan..)
 
 // Implemented features:
@@ -155,7 +155,7 @@ static void ImGui_ImplWin32_UpdateMousePos()
 	// (When multi-viewports are enabled, all imgui positions are same as OS positions)
 	if(io.WantSetMousePos)
 	{
-		POINT pos = {(int)io.MousePos.x, (int)io.MousePos.y};
+		POINT pos ={(int)io.MousePos.x, (int)io.MousePos.y};
 		if((io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) == 0)
 			::ClientToScreen(g_hWnd, &pos);
 		::SetCursorPos(pos.x, pos.y);
@@ -395,7 +395,7 @@ IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARA
 
 static BOOL IsWindowsVersionOrGreater(WORD major, WORD minor, WORD sp)
 {
-	OSVERSIONINFOEXW osvi = {sizeof(osvi), major, minor, 0, 0,{ 0 }, sp};
+	OSVERSIONINFOEXW osvi ={sizeof(osvi), major, minor, 0, 0,{ 0 }, sp};
 	DWORD mask = VER_MAJORVERSION | VER_MINORVERSION | VER_SERVICEPACKMAJOR;
 	ULONGLONG cond = VerSetConditionMask(0, VER_MAJORVERSION, VER_GREATER_EQUAL);
 	cond = VerSetConditionMask(cond, VER_MINORVERSION, VER_GREATER_EQUAL);
@@ -485,7 +485,7 @@ float ImGui_ImplWin32_GetDpiScaleForHwnd(void* hwnd)
 #endif
 static void ImGui_ImplWin32_SetImeInputPos(ImGuiViewport* viewport, ImVec2 pos)
 {
-	COMPOSITIONFORM cf = {CFS_FORCE_POSITION,{ (LONG)(pos.x - viewport->Pos.x), (LONG)(pos.y - viewport->Pos.y) },{ 0, 0, 0, 0 }};
+	COMPOSITIONFORM cf ={CFS_FORCE_POSITION,{ (LONG)(pos.x - viewport->Pos.x), (LONG)(pos.y - viewport->Pos.y) },{ 0, 0, 0, 0 }};
 	if(HWND hwnd = (HWND)viewport->PlatformHandle)
 		if(HIMC himc = ::ImmGetContext(hwnd))
 		{
@@ -545,7 +545,7 @@ static void ImGui_ImplWin32_CreateWindow(ImGuiViewport* viewport)
 			parent_window = (HWND)parent_viewport->PlatformHandle;
 
 	// Create window
-	RECT rect = {(LONG)viewport->Pos.x, (LONG)viewport->Pos.y, (LONG)(viewport->Pos.x + viewport->Size.x), (LONG)(viewport->Pos.y + viewport->Size.y)};
+	RECT rect ={(LONG)viewport->Pos.x, (LONG)viewport->Pos.y, (LONG)(viewport->Pos.x + viewport->Size.x), (LONG)(viewport->Pos.y + viewport->Size.y)};
 	::AdjustWindowRectEx(&rect, data->DwStyle, FALSE, data->DwExStyle);
 	data->Hwnd = ::CreateWindowEx(
 		data->DwExStyle, _T("ImGui Platform"), _T("Untitled"), data->DwStyle,   // Style, class name, window name
@@ -555,7 +555,7 @@ static void ImGui_ImplWin32_CreateWindow(ImGuiViewport* viewport)
 	viewport->PlatformRequestResize = false;
 	viewport->PlatformHandle = viewport->PlatformHandleRaw = data->Hwnd;
 	data->hDC = GetDC(data->Hwnd);
-	PIXELFORMATDESCRIPTOR pfd = {};
+	PIXELFORMATDESCRIPTOR pfd ={};
 	pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);
 	pfd.nVersion = 1;
 	pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
@@ -622,7 +622,7 @@ static void ImGui_ImplWin32_UpdateWindow(ImGuiViewport* viewport)
 		data->DwExStyle = new_ex_style;
 		::SetWindowLong(data->Hwnd, GWL_STYLE, data->DwStyle);
 		::SetWindowLong(data->Hwnd, GWL_EXSTYLE, data->DwExStyle);
-		RECT rect = {(LONG)viewport->Pos.x, (LONG)viewport->Pos.y, (LONG)(viewport->Pos.x + viewport->Size.x), (LONG)(viewport->Pos.y + viewport->Size.y)};
+		RECT rect ={(LONG)viewport->Pos.x, (LONG)viewport->Pos.y, (LONG)(viewport->Pos.x + viewport->Size.x), (LONG)(viewport->Pos.y + viewport->Size.y)};
 		::AdjustWindowRectEx(&rect, data->DwStyle, FALSE, data->DwExStyle); // Client to Screen
 		::SetWindowPos(data->Hwnd, NULL, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED);
 		::ShowWindow(data->Hwnd, SW_SHOWNA); // This is necessary when we alter the style
@@ -634,7 +634,7 @@ static ImVec2 ImGui_ImplWin32_GetWindowPos(ImGuiViewport* viewport)
 {
 	ImGuiViewportDataWin32* data = (ImGuiViewportDataWin32*)viewport->PlatformUserData;
 	IM_ASSERT(data->Hwnd != 0);
-	POINT pos = {0, 0};
+	POINT pos ={0, 0};
 	::ClientToScreen(data->Hwnd, &pos);
 	return ImVec2((float)pos.x, (float)pos.y);
 }
@@ -643,7 +643,7 @@ static void ImGui_ImplWin32_SetWindowPos(ImGuiViewport* viewport, ImVec2 pos)
 {
 	ImGuiViewportDataWin32* data = (ImGuiViewportDataWin32*)viewport->PlatformUserData;
 	IM_ASSERT(data->Hwnd != 0);
-	RECT rect = {(LONG)pos.x, (LONG)pos.y, (LONG)pos.x, (LONG)pos.y};
+	RECT rect ={(LONG)pos.x, (LONG)pos.y, (LONG)pos.x, (LONG)pos.y};
 	::AdjustWindowRectEx(&rect, data->DwStyle, FALSE, data->DwExStyle);
 	::SetWindowPos(data->Hwnd, NULL, rect.left, rect.top, 0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE);
 }
@@ -661,7 +661,7 @@ static void ImGui_ImplWin32_SetWindowSize(ImGuiViewport* viewport, ImVec2 size)
 {
 	ImGuiViewportDataWin32* data = (ImGuiViewportDataWin32*)viewport->PlatformUserData;
 	IM_ASSERT(data->Hwnd != 0);
-	RECT rect = {0, 0, (LONG)size.x, (LONG)size.y};
+	RECT rect ={0, 0, (LONG)size.x, (LONG)size.y};
 	::AdjustWindowRectEx(&rect, data->DwStyle, FALSE, data->DwExStyle); // Client to Screen
 	::SetWindowPos(data->Hwnd, NULL, 0, 0, rect.right - rect.left, rect.bottom - rect.top, SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE);
 }
@@ -793,7 +793,7 @@ static void ImGui_ImplWin32_SwapBuffers(ImGuiViewport* viewport, void*)
 
 static BOOL CALLBACK ImGui_ImplWin32_UpdateMonitors_EnumFunc(HMONITOR monitor, HDC, LPRECT, LPARAM)
 {
-	MONITORINFO info = {0};
+	MONITORINFO info ={0};
 	info.cbSize = sizeof(MONITORINFO);
 	if(!::GetMonitorInfo(monitor, &info))
 		return TRUE;

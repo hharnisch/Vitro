@@ -1,4 +1,4 @@
-#include "_pch.h"
+﻿#include "_pch.h"
 #include "GraphicsContext.h"
 
 #include "Vitro/API/OpenGL/Context.h"

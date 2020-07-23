@@ -1,4 +1,4 @@
-#include "_pch.h"
+﻿#include "_pch.h"
 #include "Window.h"
 
 #include "Vitro/Engine.h"
@@ -49,7 +49,6 @@ namespace Vitro
 			if(e.IsHandled())
 				break;
 		}
-		e.Dispatch<WindowCloseEvent>(Engine::OnWindowClose);
 	}
 
 	void Window::Detach(Layer& layer)

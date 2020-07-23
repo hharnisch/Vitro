@@ -15,7 +15,6 @@ namespace Vitro
 		static bool Running();
 		static void DispatchToWindow(uint64_t nativeID, Event& e);
 		static void OnWindowOpen(Window* window);
-		static bool OnWindowClose(WindowCloseEvent& e);
 
 		void Start();
 
@@ -29,5 +28,7 @@ namespace Vitro
 	#else
 		static Window* MainWindow;
 	#endif
+
+		static bool OnWindowClose(WindowCloseEvent& e);
 	};
 }

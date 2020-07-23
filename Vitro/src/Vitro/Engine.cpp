@@ -52,26 +52,15 @@ namespace Vitro
 
 	void Engine::DispatchToWindow(uint64_t nativeID, Event& e)
 	{
+		LogEngineTrace(e);
 		OpenWindowIDs[nativeID]->OnEvent(e);
+		e.Dispatch<WindowCloseEvent>(Engine::OnWindowClose);
 	}
 
 	void Engine::OnWindowOpen(Window* window)
 	{
 		OpenWindows.emplace_back(window);
 		OpenWindowIDs.emplace(window->GetNativeID(), window);
-	}
-
-	bool Engine::OnWindowClose(WindowCloseEvent& e)
-	{
-		Window* window = OpenWindowIDs[e.GetNativeID()];
-		OpenWindowIDs.erase(e.GetNativeID());
-
-		auto i = std::find(OpenWindows.begin(), OpenWindows.end(), window);
-		OpenWindows.erase(i);
-		WindowIsClosing = true;
-
-		IsRunning = OpenWindows.size();
-		return true;
 	}
 
 	void Engine::Start()
@@ -88,6 +77,19 @@ namespace Vitro
 			}
 	}
 
+	bool Engine::OnWindowClose(WindowCloseEvent& e)
+	{
+		Window* window = OpenWindowIDs[e.GetNativeID()];
+		OpenWindowIDs.erase(e.GetNativeID());
+
+		auto i = std::find(OpenWindows.begin(), OpenWindows.end(), window);
+		OpenWindows.erase(i);
+		WindowIsClosing = true;
+
+		IsRunning = OpenWindows.size();
+		return true;
+	}
+
 #else
 
 	Window* Engine::MainWindow;
@@ -99,21 +101,20 @@ namespace Vitro
 
 	void Engine::OnWindowOpen(Window* window)
 	{
-		if(MainWindow)
-			throw std::runtime_error("Other windows can only be created in multi-window builds.");
+		Assert(!MainWindow, "Other windows can only be created in multi-window builds.");
 		MainWindow = window;
-	}
-
-	bool Engine::OnWindowClose(WindowCloseEvent& e)
-	{
-		IsRunning = false;
-		return true;
 	}
 
 	void Engine::Start()
 	{
 		while(IsRunning)
 			MainWindow->Update();
+	}
+
+	bool Engine::OnWindowClose(WindowCloseEvent& e)
+	{
+		IsRunning = false;
+		return true;
 	}
 
 #endif

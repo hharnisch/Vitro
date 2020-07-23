@@ -1,4 +1,4 @@
-#include "_pch.h"
+﻿#include "_pch.h"
 #include "API.h"
 
 #include "Vitro/Engine.h"
@@ -36,12 +36,7 @@ namespace Vitro::Windows
 
 	void API::Initialize()
 	{
-		if(IsInitialized)
-		{
-			auto error = "Windows API already initialized.";
-			LogEngineFatal(error);
-			throw std::runtime_error(error);
-		}
+		Assert(!IsInitialized, "Windows API already initialized.");
 
 		WNDCLASSW wc{};
 		wc.style = CS_OWNDC | CS_DBLCLKS;

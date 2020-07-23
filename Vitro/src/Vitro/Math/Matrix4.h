@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Vitro/Math/Vector2.h"
 
@@ -59,18 +59,14 @@ namespace Vitro
 
 		inline Col& operator[](size_t index)
 		{
-			if(index < sizeof(Val) / sizeof(*Val))
-				return Val[index];
-			else
-				throw std::out_of_range("Matrix column index out of range.");
+			AssertArrayRange(Val, index, "Matrix column");
+			return Val[index];
 		}
 
 		inline const Col& operator[](size_t index) const
 		{
-			if(index < sizeof(Val) / sizeof(*Val))
-				return Val[index];
-			else
-				throw std::out_of_range("Matrix column index out of range.");
+			AssertArrayRange(Val, index, "Matrix column");
+			return Val[index];
 		}
 
 		template<typename O> inline Matrix<R, 4, N> operator+(const Matrix<R, 4, O>& m) const
