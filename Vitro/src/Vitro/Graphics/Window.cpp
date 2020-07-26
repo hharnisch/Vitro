@@ -1,4 +1,4 @@
-﻿#include "_pch.h"
+#include "_pch.h"
 #include "Window.h"
 
 #include "Vitro/Engine.h"
@@ -24,11 +24,6 @@ namespace Vitro
 	#else
 	#error No valid build platform defined.
 	#endif
-	}
-
-	uint64_t Window::GetNativeID() const
-	{
-		return NativeID;
 	}
 
 	void Window::Update()

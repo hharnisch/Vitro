@@ -1,16 +1,16 @@
-﻿#include "_pch.h"
+#include "_pch.h"
 #include "WindowSizeEvent.h"
 
 namespace Vitro
 {
-	WindowSizeEvent::WindowSizeEvent(uint64_t nativeID, int width, int height)
-		: WindowEvent(nativeID), Width(width), Height(height)
+	WindowSizeEvent::WindowSizeEvent(Window& window, int width, int height)
+		: WindowEvent(window), Width(width), Height(height)
 	{}
 
 	WindowSizeEvent::operator std::string() const
 	{
 		std::stringstream s;
-		s << GetName() << ": " << NativeID << ", " << Width << ", " << Height;
+		s << GetName() << ": " << &WindowRef << ", " << Width << ", " << Height;
 		return s.str();
 	}
 

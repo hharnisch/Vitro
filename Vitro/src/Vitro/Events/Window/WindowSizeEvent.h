@@ -12,7 +12,7 @@ namespace Vitro
 		$EventType(WindowSize);
 
 		// Engine-internal constructor. Do NOT use in client application!
-		WindowSizeEvent(uint64_t nativeID, int width, int height);
+		WindowSizeEvent(Window& window, int width, int height);
 
 		explicit operator std::string() const override;
 

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "Vitro/Graphics/Window.h"
 
@@ -36,11 +36,6 @@ namespace Vitro::Windows
 		int X;
 		int Y;
 		std::string Title;
-
-		HWND WindowHandle = nullptr;
-	#if $OPENGL
-		HDC DeviceContext = nullptr;
-		HGLRC OpenGLContext = nullptr;
-	#endif
+		HWND NativeHandle = nullptr;
 	};
 }

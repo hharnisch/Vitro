@@ -1,4 +1,4 @@
-﻿#include "_pch.h"
+#include "_pch.h"
 #include "API.h"
 
 #include "Vitro/Engine.h"
@@ -19,6 +19,7 @@
 #include "Vitro/Events/Window/WindowSizeEvent.h"
 #include "Vitro/Events/Window/WindowUnfocusEvent.h"
 
+#include <iostream>
 #include <Windowsx.h>
 #include <imgui/imgui_impl_win32.h>
 
@@ -27,9 +28,8 @@ IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND wnd, UINT msg, WPARAM
 
 namespace Vitro::Windows
 {
+	HANDLE API::StdOutHandle;
 	HINSTANCE API::InstanceHandle;
-	PIXELFORMATDESCRIPTOR API::PixelFormatDescriptor;
-	uint64_t API::MessageWindowID;
 	KeyCode API::LastKeyCode;
 	int API::KeyRepeats;
 
@@ -38,21 +38,15 @@ namespace Vitro::Windows
 		static bool Initialized;
 		Assert(!Initialized, "Windows API already initialized.");
 
+		StdOutHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+
 		WNDCLASSW wc{};
-		wc.style = CS_OWNDC | CS_DBLCLKS;
+		wc.style = CS_DBLCLKS;
 		wc.lpfnWndProc = NotifyEngine;
 		wc.hInstance = InstanceHandle = GetModuleHandleW(nullptr);
 		wc.lpszClassName = WindowClassName;
+		wc.cbWndExtra = sizeof(void*);
 		RegisterClassW(&wc);
-
-	#if $OPENGL
-		PixelFormatDescriptor =
-		{
-			sizeof(PIXELFORMATDESCRIPTOR), 1,
-			PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER, PFD_TYPE_RGBA,
-			32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 8, 0, PFD_MAIN_PLANE, 0, 0, 0, 0
-		};
-	#endif
 
 		Initialized = true;
 	}
@@ -60,36 +54,36 @@ namespace Vitro::Windows
 	LRESULT API::NotifyEngine(HWND wnd, UINT msg, WPARAM wp, LPARAM lp)
 	{
 		ImGui_ImplWin32_WndProcHandler(wnd, msg, wp, lp);
-		MessageWindowID = (uint64_t)wnd; // convert this to static_cast?
+		Window& w = *reinterpret_cast<Window*>(GetWindowLongPtr(wnd, 0));
 		switch(msg)
 		{
-			case WM_DESTROY:	   OnWindowClose();						return 0;
-			case WM_MOVE:		   OnWindowMove(lp);					return 0;
-			case WM_SIZE:		   OnWindowSize(lp);					return 0;
-			case WM_SETFOCUS:	   OnWindowFocus();						return 0;
-			case WM_KILLFOCUS:	   OnWindowUnfocus();					return 0;
+			case WM_DESTROY:	   OnWindowClose(w);					return 0;
+			case WM_MOVE:		   OnWindowMove(w, lp);					return 0;
+			case WM_SIZE:		   OnWindowSize(w, lp);					return 0;
+			case WM_SETFOCUS:	   OnWindowFocus(w);					return 0;
+			case WM_KILLFOCUS:	   OnWindowUnfocus(w);					return 0;
 			case WM_KEYDOWN:
-			case WM_SYSKEYDOWN:	   OnKeyDown(wp);						return 0;
+			case WM_SYSKEYDOWN:	   OnKeyDown(w, wp);					return 0;
 			case WM_KEYUP:
-			case WM_SYSKEYUP:	   OnKeyUp(wp);							return 0;
+			case WM_SYSKEYUP:	   OnKeyUp(w, wp);						return 0;
 			case WM_CHAR:
-			case WM_SYSCHAR:	   OnTextType(wp);						return 0;
-			case WM_UNICHAR:	   OnTextType(wp);						return wp == UNICODE_NOCHAR;
-			case WM_MOUSEMOVE:	   OnMouseMove(lp);						return 0;
-			case WM_LBUTTONDOWN:   OnMouseDown(MouseCode::Primary);		return 0;
-			case WM_RBUTTONDOWN:   OnMouseDown(MouseCode::Secondary);	return 0;
-			case WM_MBUTTONDOWN:   OnMouseDown(MouseCode::Wheel);		return 0;
-			case WM_XBUTTONDOWN:   OnMouseDown(GetExtraButton(wp));		return TRUE;
-			case WM_LBUTTONUP:	   OnMouseUp(MouseCode::Primary);		return 0;
-			case WM_RBUTTONUP:	   OnMouseUp(MouseCode::Secondary);		return 0;
-			case WM_MBUTTONUP:	   OnMouseUp(MouseCode::Wheel);			return 0;
-			case WM_XBUTTONUP:	   OnMouseUp(GetExtraButton(wp));		return TRUE;
-			case WM_LBUTTONDBLCLK: OnDoubleClick(MouseCode::Primary);	return 0;
-			case WM_RBUTTONDBLCLK: OnDoubleClick(MouseCode::Secondary);	return 0;
-			case WM_MBUTTONDBLCLK: OnDoubleClick(MouseCode::Wheel);		return 0;
-			case WM_XBUTTONDBLCLK: OnDoubleClick(GetExtraButton(wp));	return TRUE;
-			case WM_MOUSEWHEEL:	   OnMouseScrollVertical(wp);			return 0;
-			case WM_MOUSEHWHEEL:   OnMouseScrollHorizontal(wp);			return 0;
+			case WM_SYSCHAR:	   OnTextType(w, wp);					return 0;
+			case WM_UNICHAR:	   OnTextType(w, wp);					return wp == UNICODE_NOCHAR;
+			case WM_MOUSEMOVE:	   OnMouseMove(w, lp);					return 0;
+			case WM_LBUTTONDOWN:   OnMouseDown(w, MouseCode::Mouse1);	return 0;
+			case WM_RBUTTONDOWN:   OnMouseDown(w, MouseCode::Mouse2);	return 0;
+			case WM_MBUTTONDOWN:   OnMouseDown(w, MouseCode::Wheel);	return 0;
+			case WM_XBUTTONDOWN:   OnMouseDown(w, GetMouseExtra(wp));	return TRUE;
+			case WM_LBUTTONUP:	   OnMouseUp(w, MouseCode::Mouse1);		return 0;
+			case WM_RBUTTONUP:	   OnMouseUp(w, MouseCode::Mouse2);		return 0;
+			case WM_MBUTTONUP:	   OnMouseUp(w, MouseCode::Wheel);		return 0;
+			case WM_XBUTTONUP:	   OnMouseUp(w, GetMouseExtra(wp));		return TRUE;
+			case WM_LBUTTONDBLCLK: OnDoubleClick(w, MouseCode::Mouse1);	return 0;
+			case WM_RBUTTONDBLCLK: OnDoubleClick(w, MouseCode::Mouse2);	return 0;
+			case WM_MBUTTONDBLCLK: OnDoubleClick(w, MouseCode::Wheel);	return 0;
+			case WM_XBUTTONDBLCLK: OnDoubleClick(w, GetMouseExtra(wp));	return TRUE;
+			case WM_MOUSEWHEEL:	   OnMouseScrollVertical(w, wp);		return 0;
+			case WM_MOUSEHWHEEL:   OnMouseScrollHorizontal(w, wp);		return 0;
 			default:			   return DefWindowProcW(wnd, msg, wp, lp);
 		}
 	}
@@ -112,16 +106,15 @@ namespace Vitro::Windows
 
 	void API::SetConsoleColors(uint8_t colorMask)
 	{
-		static HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
-		SetConsoleTextAttribute(console, colorMask);
+		SetConsoleTextAttribute(StdOutHandle, colorMask);
 	}
 
-	MouseCode API::GetExtraButton(WPARAM wp)
+	MouseCode API::GetMouseExtra(WPARAM wp)
 	{
 		return static_cast<MouseCode>(HIWORD(wp) + 3);
 	}
 
-	void API::OnKeyDown(WPARAM wp)
+	void API::OnKeyDown(Window& window, WPARAM wp)
 	{
 		if(LastKeyCode == static_cast<KeyCode>(wp))
 			KeyRepeats++;
@@ -129,86 +122,86 @@ namespace Vitro::Windows
 			KeyRepeats = 0;
 		LastKeyCode = static_cast<KeyCode>(wp);
 		Input::KeyStates[LastKeyCode] = true;
-		Engine::DispatchToWindow(MessageWindowID, KeyDownEvent(LastKeyCode, KeyRepeats));
+		Engine::DispatchToWindow(window, KeyDownEvent(LastKeyCode, KeyRepeats));
 	}
 
-	void API::OnKeyUp(WPARAM wp)
+	void API::OnKeyUp(Window& window, WPARAM wp)
 	{
 		LastKeyCode = KeyCode::None;
 		KeyRepeats = 0;
 		KeyCode key = static_cast<KeyCode>(wp);
 		Input::KeyStates[key] = false;
-		Engine::DispatchToWindow(MessageWindowID, KeyUpEvent(key));
+		Engine::DispatchToWindow(window, KeyUpEvent(key));
 	}
 
-	void API::OnTextType(WPARAM wp)
+	void API::OnTextType(Window& window, WPARAM wp)
 	{
 		char* character = NarrowChars((wchar_t*)&wp);
 		TextTypeEvent e(LastKeyCode, std::string(character));
 		free(character);
-		Engine::DispatchToWindow(MessageWindowID, e);
+		Engine::DispatchToWindow(window, e);
 	}
 
-	void API::OnDoubleClick(MouseCode button)
+	void API::OnDoubleClick(Window& window, MouseCode button)
 	{
-		Engine::DispatchToWindow(MessageWindowID, DoubleClickEvent(button));
+		Engine::DispatchToWindow(window, DoubleClickEvent(button));
 	}
 
-	void API::OnMouseDown(MouseCode button)
+	void API::OnMouseDown(Window& window, MouseCode button)
 	{
 		Input::MouseStates[button] = true;
-		Engine::DispatchToWindow(MessageWindowID, MouseDownEvent(button));
+		Engine::DispatchToWindow(window, MouseDownEvent(button));
 	}
 
-	void API::OnMouseMove(LPARAM lp)
+	void API::OnMouseMove(Window& window, LPARAM lp)
 	{
 		auto pos = Input::MousePosition = Int2(GET_X_LPARAM(lp), GET_Y_LPARAM(lp));
-		Engine::DispatchToWindow(MessageWindowID, MouseMoveEvent(pos.X, pos.Y));
+		Engine::DispatchToWindow(window, MouseMoveEvent(pos.X, pos.Y));
 	}
 
-	void API::OnMouseScrollHorizontal(WPARAM wp)
+	void API::OnMouseScrollHorizontal(Window& window, WPARAM wp)
 	{
 		// X axis is inverted for consistency with Linux and macOS.
 		float xOffset = static_cast<short>(HIWORD(wp)) / -static_cast<float>(WHEEL_DELTA);
-		Engine::DispatchToWindow(MessageWindowID, MouseScrollEvent(xOffset, 0));
+		Engine::DispatchToWindow(window, MouseScrollEvent(xOffset, 0));
 	}
 
-	void API::OnMouseScrollVertical(WPARAM wp)
+	void API::OnMouseScrollVertical(Window& window, WPARAM wp)
 	{
 		float yOffset = static_cast<short>(HIWORD(wp)) / static_cast<float>(WHEEL_DELTA);
-		Engine::DispatchToWindow(MessageWindowID, MouseScrollEvent(0, yOffset));
+		Engine::DispatchToWindow(window, MouseScrollEvent(0, yOffset));
 	}
 
-	void API::OnMouseUp(MouseCode button)
+	void API::OnMouseUp(Window& window, MouseCode button)
 	{
 		Input::MouseStates[button] = false;
-		Engine::DispatchToWindow(MessageWindowID, MouseUpEvent(button));
+		Engine::DispatchToWindow(window, MouseUpEvent(button));
 	}
 
-	void API::OnWindowClose()
+	void API::OnWindowClose(Window& window)
 	{
-		Engine::DispatchToWindow(MessageWindowID, WindowCloseEvent(MessageWindowID));
+		Engine::DispatchToWindow(window, WindowCloseEvent(window));
 	}
 
-	void API::OnWindowFocus()
+	void API::OnWindowFocus(Window& window)
 	{
-		Engine::DispatchToWindow(MessageWindowID, WindowFocusEvent(MessageWindowID));
+		Engine::DispatchToWindow(window, WindowFocusEvent(window));
 	}
 
-	void API::OnWindowMove(LPARAM lp)
+	void API::OnWindowMove(Window& window, LPARAM lp)
 	{
-		WindowMoveEvent e(MessageWindowID, GET_X_LPARAM(lp), GET_Y_LPARAM(lp));
-		Engine::DispatchToWindow(MessageWindowID, e);
+		WindowMoveEvent e(window, GET_X_LPARAM(lp), GET_Y_LPARAM(lp));
+		Engine::DispatchToWindow(window, e);
 	}
 
-	void API::OnWindowSize(LPARAM lp)
+	void API::OnWindowSize(Window& window, LPARAM lp)
 	{
-		WindowSizeEvent e(MessageWindowID, LOWORD(lp), HIWORD(lp));
-		Engine::DispatchToWindow(MessageWindowID, e);
+		WindowSizeEvent e(window, LOWORD(lp), HIWORD(lp));
+		Engine::DispatchToWindow(window, e);
 	}
 
-	void API::OnWindowUnfocus()
+	void API::OnWindowUnfocus(Window& window)
 	{
-		Engine::DispatchToWindow(MessageWindowID, WindowUnfocusEvent(MessageWindowID));
+		Engine::DispatchToWindow(window, WindowUnfocusEvent(window));
 	}
 }

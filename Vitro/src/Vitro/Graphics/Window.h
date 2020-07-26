@@ -1,7 +1,6 @@
 #pragma once
 
 #include "_pch.h"
-#include "Vitro/Graphics/GraphicsContext.h"
 #include "Vitro/Graphics/Layer.h"
 #include "Vitro/Graphics/Overlay.h"
 
@@ -32,8 +31,6 @@ namespace Vitro
 		virtual void UpdatePlatform() = 0;
 		virtual void OnPlatformEvent(Event& e) = 0;
 
-		uint64_t GetNativeID() const;
-
 		void Update();
 		void OnEvent(Event& e);
 		void Detach(Layer& layer);
@@ -51,10 +48,6 @@ namespace Vitro
 		{
 			return static_cast<O&>(*Attach(new O(args...)));
 		}
-
-	protected:
-		GraphicsContext* Context = nullptr;
-		uint64_t NativeID = 0;
 
 	private:
 		std::vector<Layer*> LayerStack;

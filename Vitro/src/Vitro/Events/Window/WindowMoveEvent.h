@@ -12,7 +12,7 @@ namespace Vitro
 		$EventType(WindowMove);
 
 		// Engine-internal constructor. Do NOT use in client application!
-		WindowMoveEvent(uint64_t nativeID, int width, int height);
+		WindowMoveEvent(Window& window, int width, int height);
 
 		explicit operator std::string() const override;
 

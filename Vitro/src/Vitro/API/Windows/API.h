@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Vitro/API/Windows/Window.h"
 #include "Vitro/Events/Key/KeyCode.h"
 #include "Vitro/Events/Mouse/MouseCode.h"
 
@@ -11,10 +12,8 @@ namespace Vitro::Windows
 	{
 	public:
 		static constexpr auto WindowClassName = L"VITRO";
+		static HANDLE StdOutHandle;
 		static HINSTANCE InstanceHandle;
-	#if $OPENGL
-		static PIXELFORMATDESCRIPTOR PixelFormatDescriptor;
-	#endif
 
 		static void Initialize();
 
@@ -28,24 +27,23 @@ namespace Vitro::Windows
 		static char* NarrowChars(const wchar_t* wstr);
 
 		static void SetConsoleColors(uint8_t colorMask);
-		static MouseCode GetExtraButton(WPARAM wp);
-		static void OnKeyDown(WPARAM wp);
-		static void OnKeyUp(WPARAM wp);
-		static void OnTextType(WPARAM wp);
-		static void OnDoubleClick(MouseCode button);
-		static void OnMouseDown(MouseCode button);
-		static void OnMouseMove(LPARAM lp);
-		static void OnMouseScrollHorizontal(WPARAM wp);
-		static void OnMouseScrollVertical(WPARAM wp);
-		static void OnMouseUp(MouseCode button);
-		static void OnWindowClose();
-		static void OnWindowFocus();
-		static void OnWindowMove(LPARAM lp);
-		static void OnWindowSize(LPARAM lp);
-		static void OnWindowUnfocus();
+		static MouseCode GetMouseExtra(WPARAM wp);
+		static void OnKeyDown(Window& window, WPARAM wp);
+		static void OnKeyUp(Window& window, WPARAM wp);
+		static void OnTextType(Window& window, WPARAM wp);
+		static void OnDoubleClick(Window& window, MouseCode button);
+		static void OnMouseDown(Window& window, MouseCode button);
+		static void OnMouseMove(Window& window, LPARAM lp);
+		static void OnMouseScrollHorizontal(Window& window, WPARAM wp);
+		static void OnMouseScrollVertical(Window& window, WPARAM wp);
+		static void OnMouseUp(Window& window, MouseCode button);
+		static void OnWindowClose(Window& window);
+		static void OnWindowFocus(Window& window);
+		static void OnWindowMove(Window& window, LPARAM lp);
+		static void OnWindowSize(Window& window, LPARAM lp);
+		static void OnWindowUnfocus(Window& window);
 
 	private:
-		static uint64_t MessageWindowID;
 		static KeyCode LastKeyCode;
 		static int KeyRepeats;
 

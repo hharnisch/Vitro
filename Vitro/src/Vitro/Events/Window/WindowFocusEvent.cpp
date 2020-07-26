@@ -3,6 +3,6 @@
 
 namespace Vitro
 {
-	WindowFocusEvent::WindowFocusEvent(uint64_t nativeID) : WindowEvent(nativeID)
+	WindowFocusEvent::WindowFocusEvent(Window& window) : WindowEvent(window)
 	{}
 }

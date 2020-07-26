@@ -1,6 +1,7 @@
-﻿#pragma once
+#pragma once
 
 #include "Vitro/Events/Event.h"
+#include "Vitro/Graphics/Window.h"
 
 namespace Vitro
 {
@@ -12,11 +13,11 @@ namespace Vitro
 
 		explicit operator std::string() const override;
 
-		uint64_t GetNativeID() const;
+		Window& GetWindow();
 
 	protected:
-		uint64_t NativeID;
+		Window& WindowRef;
 
-		WindowEvent(uint64_t nativeID);
+		WindowEvent(Window& window);
 	};
 }

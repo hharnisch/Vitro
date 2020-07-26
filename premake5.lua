@@ -1,5 +1,6 @@
 workspace "Vitro"
-	architecture		"x86_64"
+	architecture		"x64"
+	platforms			{ "DirectX", "Vulkan" }
 	configurations		{ "Debug", "DebugOptimized", "Release" }
 	flags				{ "MultiProcessorCompile" }
 	startproject		"VitroTests"
@@ -7,7 +8,6 @@ workspace "Vitro"
 outputdir = "%{cfg.buildcfg}_%{cfg.architecture}_%{cfg.system}"
 
 group "Dependencies"
-	include "Vitro/lib/glad"
 	include "Vitro/lib/imgui"
 group ""
 
@@ -19,9 +19,10 @@ project "Vitro"
 	staticruntime		"on"
 	targetdir			(".bin/" .. outputdir .. "/%{prj.name}")
 	objdir				(".bin_obj/" .. outputdir .. "/%{prj.name}")
+	libdirs				"%{prj.name}/lib"
 	pchsource			"%{prj.name}/src/_pch.cpp"
 	pchheader			"_pch.h"
-	defines				{ "$OPENGL", "$MULTIWINDOW" }
+	links				"imgui"
 
 	files
 	{
@@ -33,18 +34,6 @@ project "Vitro"
 	{
 		"%{prj.name}/src",
 		"%{prj.name}/lib"
-	}
-	
-	libdirs
-	{
-		"%{prj.name}/lib"
-	}
-	
-	links
-	{
-		"opengl32.lib",
-		"glad",
-		"imgui"
 	}
 
 	filter "system:windows"
@@ -66,6 +55,13 @@ project "Vitro"
 		runtime			"Release"
 		optimize		"on"
 		defines			{ "$RELEASE", "$ENGINE_LOG_LEVEL=$LOG_LEVEL_ERROR" }
+
+	filter "platforms:DirectX"
+		defines			"$DIRECTX"
+		links			"d3d11"
+
+	filter "platforms:Vulkan"
+		defines			"$VULKAN"
 
 project "VitroTests"
 	location			"VitroTests"

@@ -12,6 +12,6 @@ namespace Vitro
 		$EventType(WindowUnfocus);
 
 		// Engine-internal constructor. Do NOT use in client application!
-		WindowUnfocusEvent(uint64_t nativeID);
+		WindowUnfocusEvent(Window& window);
 	};
 }

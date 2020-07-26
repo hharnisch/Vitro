@@ -1,4 +1,4 @@
-﻿#include "_pch.h"
+#include "_pch.h"
 #include "MouseCode.h"
 
 #define $ToString(x) case MouseCode::x: return os << #x
@@ -9,8 +9,8 @@ namespace Vitro
 	{
 		switch(button)
 		{
-			$ToString(Primary);
-			$ToString(Secondary);
+			$ToString(Mouse1);
+			$ToString(Mouse2);
 			$ToString(Wheel);
 			$ToString(Extra1);
 			$ToString(Extra2);

@@ -12,6 +12,6 @@ namespace Vitro
 		$EventType(WindowClose);
 
 		// Engine-internal constructor. Do NOT use in client application!
-		WindowCloseEvent(uint64_t nativeID);
+		WindowCloseEvent(Window& window);
 	};
 }

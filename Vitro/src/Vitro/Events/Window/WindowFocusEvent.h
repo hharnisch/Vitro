@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "Vitro/Events/Event.h"
 #include "Vitro/Events/Window/WindowEvent.h"
@@ -12,6 +12,6 @@ namespace Vitro
 		$EventType(WindowFocus);
 
 		// Engine-internal constructor. Do NOT use in client application!
-		WindowFocusEvent(uint64_t nativeID);
+		WindowFocusEvent(Window& window);
 	};
 }

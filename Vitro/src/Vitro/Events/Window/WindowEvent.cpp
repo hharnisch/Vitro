@@ -1,4 +1,4 @@
-﻿#include "_pch.h"
+#include "_pch.h"
 #include "WindowEvent.h"
 
 namespace Vitro
@@ -6,15 +6,15 @@ namespace Vitro
 	WindowEvent::operator std::string() const
 	{
 		std::stringstream s;
-		s << GetName() << ": " << NativeID;
+		s << GetName() << ": " << &WindowRef;
 		return s.str();
 	}
 
-	uint64_t WindowEvent::GetNativeID() const
+	Window& WindowEvent::GetWindow()
 	{
-		return NativeID;
+		return WindowRef;
 	}
 
-	WindowEvent::WindowEvent(uint64_t nativeID) : NativeID(nativeID)
+	WindowEvent::WindowEvent(Window& window) : WindowRef(window)
 	{}
 }

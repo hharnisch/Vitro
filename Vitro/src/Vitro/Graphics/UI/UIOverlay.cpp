@@ -1,15 +1,14 @@
-﻿#include "_pch.h"
+#include "_pch.h"
 #include "UIOverlay.h"
 
-#include <glad/glad.h>
 #include <imgui/imgui.h>
-
-#if $OPENGL
-#include <imgui/imgui_impl_opengl3.h>
-#endif
 
 #if $WINDOWS
 #include <imgui/imgui_impl_win32.h>
+#endif
+
+#if $DIRECTX
+#include <imgui/imgui_impl_dx11.h>
 #endif
 
 namespace Vitro
@@ -22,21 +21,20 @@ namespace Vitro
 
 	void UIOverlay::OnUpdate()
 	{
-	#if $OPENGL
-		ImGui_ImplOpenGL3_NewFrame();
+	#if $DIRECTX
+		ImGui_ImplDX11_NewFrame();
 	#endif
 	#if $WINDOWS
 		ImGui_ImplWin32_NewFrame();
 	#endif
 		ImGui::NewFrame();
 
-		glClearColor(0.5, 0.5, 0.5, 1.0);
-		glClear(GL_COLOR_BUFFER_BIT);
 		ImGui::ShowDemoWindow();
 		ImGui::Render();
 
-	#if $OPENGL
-		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+	#if $DIRECTX
+		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 	#endif
 		ImGui::EndFrame();
 	#if $WINDOWS

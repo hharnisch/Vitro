@@ -1,4 +1,4 @@
-﻿// dear imgui: Platform Binding for Windows (standard windows API for 32 and 64 bits applications)
+// dear imgui: Platform Binding for Windows (standard windows API for 32 and 64 bits applications)
 // This needs to be used along with a Renderer (e.g. DirectX11, OpenGL3, Vulkan..)
 
 // Implemented features:
@@ -11,7 +11,7 @@
 #pragma once
 #include "imgui.h"      // IMGUI_IMPL_API
 
-IMGUI_IMPL_API bool     ImGui_ImplWin32_Init(void* hwnd, void* hglrc);
+IMGUI_IMPL_API bool     ImGui_ImplWin32_Init(void* hwnd);
 IMGUI_IMPL_API void     ImGui_ImplWin32_Shutdown();
 IMGUI_IMPL_API void     ImGui_ImplWin32_NewFrame();
 
@@ -36,5 +36,3 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 IMGUI_IMPL_API void     ImGui_ImplWin32_EnableDpiAwareness();
 IMGUI_IMPL_API float    ImGui_ImplWin32_GetDpiScaleForHwnd(void* hwnd);       // HWND hwnd
 IMGUI_IMPL_API float    ImGui_ImplWin32_GetDpiScaleForMonitor(void* monitor); // HMONITOR monitor
-IMGUI_IMPL_API void		ImGui_ImplWin32_RenderWindow(ImGuiViewport* viewport, void*);
-IMGUI_IMPL_API void		ImGui_ImplWin32_SwapBuffers(ImGuiViewport* viewport, void*);

@@ -1,12 +1,14 @@
-﻿#include "_pch.h"
+#include "_pch.h"
 #include "UI.h"
 
 #include <imgui/imgui.h>
-#if $OPENGL
-#include <imgui/imgui_impl_opengl3.h>
-#endif
+
 #if $WINDOWS
 #include <imgui/imgui_impl_win32.h>
+#endif
+#if $DIRECTX
+#include "Vitro/API/DirectX/API.h"
+#include <imgui/imgui_impl_dx11.h>
 #endif
 
 namespace Vitro
@@ -28,15 +30,15 @@ namespace Vitro
 			style.Colors[ImGuiCol_WindowBg].w = 1;
 		}
 		ImGui::StyleColorsDark();
-	#if $OPENGL
-		ImGui_ImplOpenGL3_Init("#version 460");
+	#if $DIRECTX
+		ImGui_ImplDX11_Init(DirectX::API::Device, DirectX::API::DeviceContext);
 	#endif
 	}
 
 	void UI::Finalize()
 	{
-	#if $OPENGL
-		ImGui_ImplOpenGL3_Shutdown();
+	#if $DIRECTX
+		ImGui_ImplDX11_Shutdown();
 	#endif
 	#if $WINDOWS
 		ImGui_ImplWin32_Shutdown();

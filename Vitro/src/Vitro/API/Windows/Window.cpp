@@ -5,20 +5,14 @@
 #include "Vitro/API/Windows/API.h"
 #include "Vitro/Events/Window//WindowFocusEvent.h"
 
-#include <glad/glad.h>
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_win32.h>
-#if $OPENGL
-#include <imgui/imgui_impl_opengl3.h>
-#endif
 
 namespace Vitro::Windows
 {
 	Window::Window(int width, int height, int x, int y, const std::string& title)
 		: Width(width), Height(height), X(x), Y(y), Title(title)
-	{
-		Context = GraphicsContext::New(this);
-	}
+	{}
 
 	Window::~Window()
 	{
@@ -35,7 +29,7 @@ namespace Vitro::Windows
 		if(width < 1)
 			return;
 		Width = width;
-		SetWindowPos(WindowHandle, nullptr, 0, 0, Width, Height, SWP_NOMOVE | SWP_NOZORDER);
+		SetWindowPos(NativeHandle, nullptr, 0, 0, Width, Height, SWP_NOMOVE | SWP_NOZORDER);
 	}
 
 	int Window::GetHeight() const
@@ -48,7 +42,7 @@ namespace Vitro::Windows
 		if(height < 1)
 			return;
 		Height = height;
-		SetWindowPos(WindowHandle, nullptr, 0, 0, Width, Height, SWP_NOMOVE | SWP_NOZORDER);
+		SetWindowPos(NativeHandle, nullptr, 0, 0, Width, Height, SWP_NOMOVE | SWP_NOZORDER);
 	}
 
 	int Window::GetX() const
@@ -59,7 +53,7 @@ namespace Vitro::Windows
 	void Window::SetX(int x)
 	{
 		X = x;
-		SetWindowPos(WindowHandle, nullptr, X, Y, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+		SetWindowPos(NativeHandle, nullptr, X, Y, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 	}
 
 	int Window::GetY() const
@@ -70,7 +64,7 @@ namespace Vitro::Windows
 	void Window::SetY(int y)
 	{
 		Y = y;
-		SetWindowPos(WindowHandle, nullptr, X, Y, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+		SetWindowPos(NativeHandle, nullptr, X, Y, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 	}
 
 	std::string Window::GetTitle() const
@@ -82,55 +76,42 @@ namespace Vitro::Windows
 	{
 		Title = title;
 		wchar_t* wstr = API::WidenChars(title.c_str());
-		SetWindowTextW(WindowHandle, wstr);
+		SetWindowTextW(NativeHandle, wstr);
 		free(wstr);
 	}
 
 	void Window::Open()
 	{
 		wchar_t* wstr = API::WidenChars(Title.c_str());
-		WindowHandle = CreateWindowExW(0, API::WindowClassName, wstr, WS_OVERLAPPEDWINDOW,
+		NativeHandle = CreateWindowExW(0, API::WindowClassName, wstr, WS_OVERLAPPEDWINDOW,
 									   X, Y, Width, Height, nullptr, nullptr,
 									   API::InstanceHandle, nullptr);
 		free(wstr);
-		NativeID = (uint64_t)WindowHandle; // convert this to static_cast?
-
-	#if $OPENGL
-		DeviceContext = GetDC(WindowHandle);
-		int pixelFormat = ChoosePixelFormat(DeviceContext, &API::PixelFormatDescriptor);
-		SetPixelFormat(DeviceContext, pixelFormat, &API::PixelFormatDescriptor);
-		OpenGLContext = wglCreateContext(DeviceContext);
-		wglMakeCurrent(DeviceContext, OpenGLContext);
-		glViewport(0, 0, Width, Height);
-	#endif
+		SetWindowLongPtr(NativeHandle, 0, reinterpret_cast<LONG_PTR>(this));
 
 		Engine::OnWindowOpen(this);
-		ImGui_ImplWin32_Init(WindowHandle, OpenGLContext);
-		ShowWindow(WindowHandle, SW_RESTORE);
+		ImGui_ImplWin32_Init(NativeHandle);
+		ShowWindow(NativeHandle, SW_RESTORE);
 	}
 
 	void Window::Close()
 	{
-		DestroyWindow(WindowHandle);
+		DestroyWindow(NativeHandle);
 	}
 
 	void Window::Maximize()
 	{
-		ShowWindow(WindowHandle, SW_MAXIMIZE);
+		ShowWindow(NativeHandle, SW_MAXIMIZE);
 	}
 
 	void Window::Minimize()
 	{
-		CloseWindow(WindowHandle);
+		CloseWindow(NativeHandle);
 	}
 
 	void Window::UpdatePlatform()
 	{
-	#if $OPENGL
-		wglMakeCurrent(DeviceContext, OpenGLContext);
-	#endif
-		UpdateWindow(WindowHandle);
-		SwapBuffers(DeviceContext);
+		UpdateWindow(NativeHandle);
 
 		MSG msg;
 		while(PeekMessageW(&msg, nullptr, 0, 0, PM_REMOVE)) // TODO respond to WM_QUIT
