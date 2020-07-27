@@ -2,8 +2,11 @@
 
 namespace Vitro
 {
+	class Window;
+
 	class Context
 	{
-		static Context* New();
+	public:
+		static Context* New(Window* window);
 	};
 }

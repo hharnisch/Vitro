@@ -80,6 +80,11 @@ namespace Vitro::Windows
 		free(wstr);
 	}
 
+	HWND Window::GetNativeHandle()
+	{
+		return NativeHandle;
+	}
+
 	void Window::Open()
 	{
 		wchar_t* wstr = API::WidenChars(Title.c_str());
@@ -88,6 +93,7 @@ namespace Vitro::Windows
 									   API::InstanceHandle, nullptr);
 		free(wstr);
 		SetWindowLongPtr(NativeHandle, 0, reinterpret_cast<LONG_PTR>(this));
+		GraphicsContext = Context::New(this);
 
 		Engine::OnWindowOpen(this);
 		ImGui_ImplWin32_Init(NativeHandle);

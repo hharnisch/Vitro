@@ -6,6 +6,7 @@
 #if $WINDOWS
 #include <imgui/imgui_impl_win32.h>
 #endif
+
 #if $DIRECTX
 #include "Vitro/API/DirectX/API.h"
 #include <imgui/imgui_impl_dx11.h>
@@ -31,7 +32,7 @@ namespace Vitro
 		}
 		ImGui::StyleColorsDark();
 	#if $DIRECTX
-		ImGui_ImplDX11_Init(DirectX::API::Device, DirectX::API::DeviceContext);
+		ImGui_ImplDX11_Init(DirectX::API::Device.Get(), DirectX::API::DeviceContext.Get());
 	#endif
 	}
 

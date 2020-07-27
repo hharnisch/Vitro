@@ -1,6 +1,7 @@
 #pragma once
 
 #include "_pch.h"
+#include "Vitro/Graphics/Context.h"
 #include "Vitro/Graphics/Layer.h"
 #include "Vitro/Graphics/Overlay.h"
 
@@ -48,6 +49,9 @@ namespace Vitro
 		{
 			return static_cast<O&>(*Attach(new O(args...)));
 		}
+
+	protected:
+		Context* GraphicsContext = nullptr;
 
 	private:
 		std::vector<Layer*> LayerStack;

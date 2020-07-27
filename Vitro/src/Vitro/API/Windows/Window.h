@@ -23,6 +23,8 @@ namespace Vitro::Windows
 		std::string GetTitle() const override;
 		void SetTitle(const std::string& title) override;
 
+		HWND GetNativeHandle();
+
 		void Open() override;
 		void Close() override;
 		void Maximize() override;

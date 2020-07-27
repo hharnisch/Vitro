@@ -35,9 +35,6 @@ namespace Vitro
 	Engine::~Engine()
 	{
 		UI::Finalize();
-	#if $DIRECTX
-		DirectX::API::Finalize();
-	#endif
 	}
 
 	bool Engine::Running()

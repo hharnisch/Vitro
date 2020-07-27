@@ -1,6 +1,9 @@
 #pragma once
 
-#include <d3d11.h>
+#include <d3d11_1.h>
+#include <wrl.h>
+
+namespace WRL = Microsoft::WRL;
 
 namespace Vitro::DirectX
 {
@@ -8,10 +11,9 @@ namespace Vitro::DirectX
 	{
 	public:
 		static void Initialize();
-		static void Finalize();
 
-		static ID3D11Device* Device;
-		static ID3D11DeviceContext* DeviceContext;
+		static WRL::ComPtr<ID3D11Device1> Device;
+		static WRL::ComPtr<ID3D11DeviceContext1> DeviceContext;
 
 	private:
 		API() = delete;
