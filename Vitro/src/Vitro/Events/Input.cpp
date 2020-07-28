@@ -1,4 +1,4 @@
-﻿#include "_pch.h"
+#include "_pch.h"
 #include "Input.h"
 
 namespace Vitro
@@ -7,9 +7,9 @@ namespace Vitro
 	std::unordered_map<MouseCode, bool> Input::MouseStates;
 	Int2 Input::MousePosition;
 
-	bool Input::IsKeyDown(KeyCode code)
+	bool Input::IsKeyDown(KeyCode key)
 	{
-		return KeyStates[code];
+		return KeyStates[key];
 	}
 
 	bool Input::IsMouseDown(MouseCode button)

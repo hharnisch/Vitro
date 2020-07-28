@@ -1,13 +1,13 @@
-﻿#include "_pch.h"
+#include "_pch.h"
 #include "KeyCode.h"
 
-#define $ToString(x) case KeyCode::x: return os << #x
+#define $ToString(x) case KeyCode::x: return #x
 
 namespace Vitro
 {
-	std::ostream& operator<<(std::ostream& os, KeyCode code)
+	std::string ToString(KeyCode key)
 	{
-		switch(code)
+		switch(key)
 		{
 			$ToString(Backspace);
 			$ToString(Tab);
@@ -163,22 +163,22 @@ namespace Vitro
 			$ToString(OEM23);
 			$ToString(OEM24);
 			$ToString(OEM25);
-			case KeyCode::Number0:		return os << '0';
-			case KeyCode::Number1:		return os << '1';
-			case KeyCode::Number2:		return os << '2';
-			case KeyCode::Number3:		return os << '3';
-			case KeyCode::Number4:		return os << '4';
-			case KeyCode::Number5:		return os << '5';
-			case KeyCode::Number6:		return os << '6';
-			case KeyCode::Number7:		return os << '7';
-			case KeyCode::Number8:		return os << '8';
-			case KeyCode::Number9:		return os << '9';
-			case KeyCode::Plus:			return os << '+';
-			case KeyCode::Comma:		return os << ',';
-			case KeyCode::Minus:		return os << '-';
-			case KeyCode::Period:		return os << '.';
-			case KeyCode::AngleBracket:	return os << '<';
+			case KeyCode::Number0:		return "0";
+			case KeyCode::Number1:		return "1";
+			case KeyCode::Number2:		return "2";
+			case KeyCode::Number3:		return "3";
+			case KeyCode::Number4:		return "4";
+			case KeyCode::Number5:		return "5";
+			case KeyCode::Number6:		return "6";
+			case KeyCode::Number7:		return "7";
+			case KeyCode::Number8:		return "8";
+			case KeyCode::Number9:		return "9";
+			case KeyCode::Plus:			return "+";
+			case KeyCode::Comma:		return ",";
+			case KeyCode::Minus:		return "-";
+			case KeyCode::Period:		return ".";
+			case KeyCode::AngleBracket:	return "<";
 		}
-		return os << "Unknown key code: " << static_cast<int>(code);
+		return "Unknown key code: " + static_cast<int>(key);
 	}
 }

@@ -1,7 +1,6 @@
-﻿#pragma once
+#pragma once
 
 #include "Vitro/Engine.h"
-#include "Vitro/Diagnostics/Log.h"
 #include "Vitro/Events/Input.h"
 #include "Vitro/Events/Key/KeyCode.h"
 #include "Vitro/Events/Key/KeyDownEvent.h"
@@ -24,3 +23,4 @@
 #include "Vitro/Graphics/UI/UIOverlay.h"
 #include "Vitro/Math/Matrix.h"
 #include "Vitro/Math/Vector.h"
+#include "Vitro/Utility/Log.h"

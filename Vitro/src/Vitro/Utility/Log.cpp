@@ -3,7 +3,7 @@
 
 #include "Vitro/Engine.h"
 #include "Vitro/API/Windows/API.h"
-#include "Vitro/Diagnostics/Assert.h"
+#include "Vitro/Utility/Assert.h"
 
 #include <fstream>
 #include <iostream>
@@ -83,11 +83,18 @@ namespace Vitro
 
 		auto logTarget = entry.FromEngine ? EngineLogTarget : AppLogTarget;
 		auto logOrigin = entry.FromEngine ? "ENGINE" : "APP";
+
 		std::stringstream logText;
 		logText << timestamp << "] [" << logOrigin;
 		if(logTarget != &std::cout)
-			logText << " " << entry.Level;
+		{
+			auto level = ToString(entry.Level);
+			for(char& ch : level)
+				ch = std::toupper(ch);
+			logText << " " << level;
+		}
 		logText << "] " << entry.Message << std::endl;
+
 		*logTarget << logText.str();
 	}
 
@@ -98,5 +105,5 @@ namespace Vitro
 	#else
 	#error No valid build platform defined.
 	#endif
-	}
+}
 }

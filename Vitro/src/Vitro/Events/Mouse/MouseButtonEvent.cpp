@@ -1,4 +1,4 @@
-﻿#include "_pch.h"
+#include "_pch.h"
 #include "MouseButtonEvent.h"
 
 namespace Vitro
@@ -6,7 +6,7 @@ namespace Vitro
 	MouseButtonEvent::operator std::string() const
 	{
 		std::stringstream s;
-		s << GetName() << ": " << Button;
+		s << GetName() << ": " << ToString(Button);
 		return s.str();
 	}
 

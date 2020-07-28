@@ -5,8 +5,6 @@
 #include <dxgi1_2.h>
 #include <wrl.h>
 
-namespace WRL = Microsoft::WRL;
-
 namespace Vitro::DirectX
 {
 	class Context : public Vitro::Context
@@ -15,6 +13,6 @@ namespace Vitro::DirectX
 		Context(Window* window);
 
 	private:
-		WRL::ComPtr<IDXGISwapChain1> SwapChain;
+		Microsoft::WRL::ComPtr<IDXGISwapChain1> SwapChain;
 	};
 }

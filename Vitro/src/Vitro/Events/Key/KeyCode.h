@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 namespace Vitro
 {
@@ -177,5 +177,5 @@ namespace Vitro
 		OEM25			= 245,
 	};
 
-	std::ostream& operator<<(std::ostream& os, KeyCode code);
+	std::string ToString(KeyCode key);
 }

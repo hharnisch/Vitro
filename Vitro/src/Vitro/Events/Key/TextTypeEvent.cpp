@@ -1,4 +1,4 @@
-﻿#include "_pch.h"
+#include "_pch.h"
 #include "TextTypeEvent.h"
 
 namespace Vitro
@@ -10,7 +10,7 @@ namespace Vitro
 	TextTypeEvent::operator std::string() const
 	{
 		std::stringstream s;
-		s << GetName() << ": " << Character << " (Key: " << Key << ')';
+		s << GetName() << ": " << Character << " (Key: " << ToString(Key) << ')';
 		return s.str();
 	}
 

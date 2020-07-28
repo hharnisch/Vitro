@@ -3,8 +3,8 @@
 
 #include "Vitro/API/DirectX/API.h"
 #include "Vitro/API/Windows/API.h"
-#include "Vitro/Diagnostics/Log.h"
 #include "Vitro/Graphics/UI/UI.h"
+#include "Vitro/Utility/Log.h"
 
 namespace Vitro
 {

@@ -1,6 +1,6 @@
-﻿#pragma once
+#pragma once
 
-#include "Vitro/Diagnostics/Assert.h"
+#include "Vitro/Utility/Assert.h"
 
 #define $Scalar typename = typename std::enable_if_t<std::is_arithmetic_v<O>, O>
 

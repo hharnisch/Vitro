@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 namespace Vitro
 {
@@ -12,7 +12,7 @@ namespace Vitro
 		Fatal	= 0x4F	// Renders with white text and a dark red background.
 	};
 
-	std::ostream& operator<<(std::ostream& os, LogLevel level);
+	std::string ToString(LogLevel level);
 }
 
 // These are used to set log level at buildtime

@@ -3,7 +3,6 @@
 
 #include "Vitro/Engine.h"
 #include "Vitro/API/Windows/Window.h"
-#include "Vitro/Diagnostics/Log.h"
 #include "Vitro/Events/Input.h"
 #include "Vitro/Events/Key/KeyDownEvent.h"
 #include "Vitro/Events/Key/KeyUpEvent.h"
@@ -18,8 +17,8 @@
 #include "Vitro/Events/Window/WindowMoveEvent.h"
 #include "Vitro/Events/Window/WindowSizeEvent.h"
 #include "Vitro/Events/Window/WindowUnfocusEvent.h"
+#include "Vitro/Utility/Log.h"
 
-#include <iostream>
 #include <Windowsx.h>
 #include <imgui/imgui_impl_win32.h>
 

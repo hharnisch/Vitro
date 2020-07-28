@@ -287,9 +287,9 @@
     <ClInclude Include="src\Vitro\API\DirectX\Context.h" />
     <ClInclude Include="src\Vitro\API\Windows\API.h" />
     <ClInclude Include="src\Vitro\API\Windows\Window.h" />
-    <ClInclude Include="src\Vitro\Diagnostics\Assert.h" />
-    <ClInclude Include="src\Vitro\Diagnostics\Log.h" />
-    <ClInclude Include="src\Vitro\Diagnostics\LogLevel.h" />
+    <ClInclude Include="src\Vitro\Utility\Assert.h" />
+    <ClInclude Include="src\Vitro\Utility\Log.h" />
+    <ClInclude Include="src\Vitro\Utility\LogLevel.h" />
     <ClInclude Include="src\Vitro\Engine.h" />
     <ClInclude Include="src\Vitro\Events\Event.h" />
     <ClInclude Include="src\Vitro\Events\EventSource.h" />
@@ -337,8 +337,8 @@
       <ObjectFileName>$(IntDir)\API1.obj</ObjectFileName>
     </ClCompile>
     <ClCompile Include="src\Vitro\API\Windows\Window.cpp" />
-    <ClCompile Include="src\Vitro\Diagnostics\Log.cpp" />
-    <ClCompile Include="src\Vitro\Diagnostics\LogLevel.cpp" />
+    <ClCompile Include="src\Vitro\Utility\Log.cpp" />
+    <ClCompile Include="src\Vitro\Utility\LogLevel.cpp" />
     <ClCompile Include="src\Vitro\Engine.cpp" />
     <ClCompile Include="src\Vitro\Events\Event.cpp" />
     <ClCompile Include="src\Vitro\Events\EventSource.cpp" />

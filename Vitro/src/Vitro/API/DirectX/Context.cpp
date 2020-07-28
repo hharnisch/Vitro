@@ -1,24 +1,23 @@
-#include "_pch.h"
+﻿#include "_pch.h"
 #include "Context.h"
 
 #include "Vitro/API/DirectX/API.h"
 #include "Vitro/API/Windows/Window.h"
-#include "Vitro/Diagnostics/Assert.h"
+#include "Vitro/Utility/Assert.h"
 
 #include <dxgi1_2.h>
 #include <wrl.h>
-
-namespace WRL = Microsoft::WRL;
 
 namespace Vitro::DirectX
 {
 	Context::Context(Window* window)
 	{
-		WRL::ComPtr<IDXGIDevice1> dxgiDevice;
+		using namespace Microsoft::WRL;
+		ComPtr<IDXGIDevice1> dxgiDevice;
 		API::Device.As(&dxgiDevice);
-		WRL::ComPtr<IDXGIAdapter> adapter;
+		ComPtr<IDXGIAdapter> adapter;
 		dxgiDevice->GetAdapter(&adapter);
-		WRL::ComPtr<IDXGIFactory2> factory;
+		ComPtr<IDXGIFactory2> factory;
 		adapter->GetParent(__uuidof(IDXGIFactory2), &factory);
 
 		DXGI_SWAP_CHAIN_DESC1 scd{0};

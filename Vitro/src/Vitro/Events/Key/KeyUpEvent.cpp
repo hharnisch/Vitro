@@ -1,4 +1,4 @@
-﻿#include "_pch.h"
+#include "_pch.h"
 #include "KeyUpEvent.h"
 
 namespace Vitro
@@ -9,7 +9,7 @@ namespace Vitro
 	KeyUpEvent::operator std::string() const
 	{
 		std::stringstream s;
-		s << GetName() << ": " << Key;
+		s << GetName() << ": " << ToString(Key);
 		return s.str();
 	}
 }

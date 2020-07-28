@@ -1,11 +1,11 @@
 #include "_pch.h"
 #include "MouseCode.h"
 
-#define $ToString(x) case MouseCode::x: return os << #x
+#define $ToString(x) case MouseCode::x: return #x
 
 namespace Vitro
 {
-	std::ostream& operator<<(std::ostream& os, MouseCode button)
+	std::string ToString(MouseCode button)
 	{
 		switch(button)
 		{
@@ -15,6 +15,6 @@ namespace Vitro
 			$ToString(Extra1);
 			$ToString(Extra2);
 		}
-		return os << "Unknown mouse button: " << static_cast<int>(button);
+		return "Unknown mouse button: " + static_cast<int>(button);
 	}
 }

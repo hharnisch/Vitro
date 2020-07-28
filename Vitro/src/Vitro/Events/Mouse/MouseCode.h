@@ -12,5 +12,5 @@ namespace Vitro
 		Extra2		= 5		// The second additional mouse button.
 	};
 
-	std::ostream& operator<<(std::ostream& os, MouseCode button);
+	std::string ToString(MouseCode button);
 }

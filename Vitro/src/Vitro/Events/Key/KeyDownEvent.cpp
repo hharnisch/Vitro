@@ -1,4 +1,4 @@
-﻿#include "_pch.h"
+#include "_pch.h"
 #include "KeyDownEvent.h"
 
 namespace Vitro
@@ -9,7 +9,7 @@ namespace Vitro
 	KeyDownEvent::operator std::string() const
 	{
 		std::stringstream s;
-		s << GetName() << ": " << Key << " (Repeats: " << Repeats << ')';
+		s << GetName() << ": " << ToString(Key) << " (Repeats: " << Repeats << ')';
 		return s.str();
 	}
 

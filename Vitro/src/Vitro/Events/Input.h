@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "Vitro/API/Windows/API.h"
 #include "Vitro/Events/Key/KeyCode.h"
@@ -12,7 +12,7 @@ namespace Vitro
 		friend class Windows::API;
 
 	public:
-		static bool IsKeyDown(KeyCode code);
+		static bool IsKeyDown(KeyCode key);
 		static bool IsMouseDown(MouseCode button);
 		static Int2 GetMousePosition();
 		static int GetMouseX();

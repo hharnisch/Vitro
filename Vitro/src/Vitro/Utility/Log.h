@@ -1,7 +1,7 @@
 #pragma once
 
 #include "_pch.h"
-#include "Vitro/Diagnostics/LogLevel.h"
+#include "Vitro/Utility/LogLevel.h"
 
 #include <list>
 #include <mutex>
@@ -31,7 +31,14 @@ namespace Vitro
 		}
 
 		template<typename M>
-		std::enable_if_t<!std::is_arithmetic_v<M>, std::string> static Concat(const M& msg)
+		std::enable_if_t<std::is_enum_v<M>, std::string> static Concat(const M& msg)
+		{
+			return ToString(msg);
+		}
+
+		template<typename M>
+		std::enable_if_t<!std::is_arithmetic_v<M> && !std::is_enum_v<M>, std::string>
+			static Concat(const M& msg)
 		{
 			return static_cast<std::string>(msg);
 		}

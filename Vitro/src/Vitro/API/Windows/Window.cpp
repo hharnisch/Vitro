@@ -26,10 +26,8 @@ namespace Vitro::Windows
 
 	void Window::SetWidth(int width)
 	{
-		if(width < 1)
-			return;
-		Width = width;
-		SetWindowPos(NativeHandle, nullptr, 0, 0, Width, Height, SWP_NOMOVE | SWP_NOZORDER);
+		if(SetWindowPos(NativeHandle, nullptr, 0, 0, Width, Height, SWP_NOMOVE | SWP_NOZORDER))
+			Width = width;
 	}
 
 	int Window::GetHeight() const
@@ -39,10 +37,8 @@ namespace Vitro::Windows
 
 	void Window::SetHeight(int height)
 	{
-		if(height < 1)
-			return;
-		Height = height;
-		SetWindowPos(NativeHandle, nullptr, 0, 0, Width, Height, SWP_NOMOVE | SWP_NOZORDER);
+		if(SetWindowPos(NativeHandle, nullptr, 0, 0, Width, Height, SWP_NOMOVE | SWP_NOZORDER))
+			Height = height;
 	}
 
 	int Window::GetX() const
@@ -52,8 +48,8 @@ namespace Vitro::Windows
 
 	void Window::SetX(int x)
 	{
-		X = x;
-		SetWindowPos(NativeHandle, nullptr, X, Y, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+		if(SetWindowPos(NativeHandle, nullptr, X, Y, 0, 0, SWP_NOSIZE | SWP_NOZORDER))
+			X = x;
 	}
 
 	int Window::GetY() const
@@ -63,8 +59,8 @@ namespace Vitro::Windows
 
 	void Window::SetY(int y)
 	{
-		Y = y;
-		SetWindowPos(NativeHandle, nullptr, X, Y, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+		if(SetWindowPos(NativeHandle, nullptr, X, Y, 0, 0, SWP_NOSIZE | SWP_NOZORDER))
+			Y = y;
 	}
 
 	std::string Window::GetTitle() const
@@ -74,9 +70,9 @@ namespace Vitro::Windows
 
 	void Window::SetTitle(const std::string& title)
 	{
-		Title = title;
 		wchar_t* wstr = API::WidenChars(title.c_str());
-		SetWindowTextW(NativeHandle, wstr);
+		if(SetWindowTextW(NativeHandle, wstr))
+			Title = title;
 		free(wstr);
 	}
 
