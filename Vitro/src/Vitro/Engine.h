@@ -19,9 +19,11 @@ namespace Vitro
 		void Start();
 
 	private:
-		static bool IsRunning;
+		static bool ShouldUpdate;
+		static bool IsShuttingDown;
 		static bool WindowIsClosing;
 		static std::vector<Window*> OpenWindows;
+		static std::thread LoggingThread;
 
 		static bool OnWindowClose(WindowCloseEvent& e);
 	};

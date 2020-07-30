@@ -1,4 +1,4 @@
-﻿#include "_pch.h"
+#include "_pch.h"
 #include "Context.h"
 
 #include "Vitro/API/DirectX/API.h"
@@ -34,5 +34,16 @@ namespace Vitro::DirectX
 		auto result = factory->CreateSwapChainForHwnd(API::Device.Get(), hwnd, &scd, &fsd, nullptr,
 													  &SwapChain);
 		Assert(SUCCEEDED(result), "Unable to create swap chain.");
+
+		ComPtr<ID3D11Texture2D> backBuffer;
+		SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), &backBuffer);
+
+		API::Device->CreateRenderTargetView(backBuffer.Get(), nullptr, &RenderTarget);
+	}
+
+	void Context::SwapBuffers()
+	{
+		API::DeviceContext->OMSetRenderTargets(1, RenderTarget.GetAddressOf(), nullptr);
+		SwapChain->Present(1, 0);
 	}
 }

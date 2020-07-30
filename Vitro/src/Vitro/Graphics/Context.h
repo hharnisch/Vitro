@@ -8,5 +8,6 @@ namespace Vitro
 	{
 	public:
 		static Context* New(Window* window);
+		virtual void SwapBuffers() = 0;
 	};
 }

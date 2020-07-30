@@ -135,7 +135,7 @@ namespace Vitro::Windows
 
 	void API::OnTextType(Window& window, WPARAM wp)
 	{
-		char* character = NarrowChars((wchar_t*)&wp);
+		char* character = NarrowChars(reinterpret_cast<wchar_t*>(&wp));
 		TextTypeEvent e(LastKeyCode, std::string(character));
 		free(character);
 		Engine::DispatchToWindow(window, e);

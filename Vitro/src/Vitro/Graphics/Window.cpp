@@ -1,4 +1,4 @@
-#include "_pch.h"
+﻿#include "_pch.h"
 #include "Window.h"
 
 #include "Vitro/Engine.h"
@@ -22,7 +22,7 @@ namespace Vitro
 	#if $WINDOWS
 		return new Windows::Window(width, height, x, y, title);
 	#else
-	#error No valid build platform defined.
+	#error Unsupported system.
 	#endif
 	}
 
@@ -32,6 +32,7 @@ namespace Vitro
 			if(layer->Enabled)
 				layer->OnUpdate();
 		UpdatePlatform();
+		GraphicsContext->SwapBuffers();
 	}
 
 	void Window::OnEvent(Event& e)

@@ -113,10 +113,8 @@ namespace Vitro::Windows
 
 	void Window::UpdatePlatform()
 	{
-		UpdateWindow(NativeHandle);
-
 		MSG msg;
-		while(PeekMessageW(&msg, nullptr, 0, 0, PM_REMOVE)) // TODO respond to WM_QUIT
+		while(PeekMessageW(&msg, nullptr, 0, 0, PM_REMOVE))
 		{
 			TranslateMessage(&msg);
 			DispatchMessageW(&msg);

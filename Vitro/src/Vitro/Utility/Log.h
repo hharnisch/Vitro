@@ -3,9 +3,6 @@
 #include "_pch.h"
 #include "Vitro/Utility/LogLevel.h"
 
-#include <list>
-#include <mutex>
-
 namespace Vitro
 {
 	class Log
@@ -19,7 +16,8 @@ namespace Vitro
 		};
 
 		// Initializes logging functionality.
-		static void Initialize(const std::string& appLogPath, const std::string& engineLogPath);
+		static void Initialize(const std::string& appLogPath, const std::string& engineLogPath,
+							   std::thread& loggingThread);
 
 		// Don't call this! Use the macros below.
 		static void Enqueue(const Entry& entry);

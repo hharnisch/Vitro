@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Vitro/Math/Vector.h"
+
 #define $Scalar typename = typename std::enable_if_t<std::is_arithmetic_v<O>, O>
 
 namespace Vitro

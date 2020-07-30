@@ -43,13 +43,13 @@ project "Vitro"
 	filter "configurations:Debug"
 		runtime			"Debug"
 		symbols			"on"
-		defines			{ "$DEBUG", "$ENGINE_LOG_LEVEL=$LOG_LEVEL_DEBUG" }
+		defines			{ "$DEBUG", "$ENGINE_LOG_LEVEL=$LOG_LEVEL_DEBUG", "$ENABLE_ASSERTIONS" }
 		
 	filter "configurations:DebugOptimized"
 		runtime			"Debug"
 		symbols			"on"
 		optimize		"on"
-		defines			{ "$DEBUG", "$ENGINE_LOG_LEVEL=$LOG_LEVEL_DEBUG" }
+		defines			{ "$DEBUG", "$ENGINE_LOG_LEVEL=$LOG_LEVEL_DEBUG", "$ENABLE_ASSERTIONS" }
 
 	filter "configurations:Release"
 		runtime			"Release"

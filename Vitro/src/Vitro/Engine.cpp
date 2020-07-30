@@ -8,25 +8,26 @@
 
 namespace Vitro
 {
-	bool Engine::IsRunning;
+	bool Engine::ShouldUpdate;
+	bool Engine::IsShuttingDown;
 	bool Engine::WindowIsClosing;
 	std::vector<Window*> Engine::OpenWindows;
+	std::thread Engine::LoggingThread;
 
 	Engine::Engine(int argc, char** argv)
 	{
-		IsRunning = true;
-		Log::Initialize("", "");
+		Log::Initialize("", "", LoggingThread);
 
 	#if $WINDOWS
 		Windows::API::Initialize();
 	#else
-	#error No valid build platform defined.
+	#error Unsupported system.
 	#endif
 
 	#if $DIRECTX
 		DirectX::API::Initialize();
 	#else
-	#error No valid graphics API defined.
+	#error Unsupported graphics API.
 	#endif
 
 		UI::Initialize();
@@ -34,17 +35,20 @@ namespace Vitro
 
 	Engine::~Engine()
 	{
+		IsShuttingDown = true;
 		UI::Finalize();
+
+		LoggingThread.join();
 	}
 
 	bool Engine::Running()
 	{
-		return IsRunning;
+		return !IsShuttingDown;
 	}
 
 	void Engine::DispatchToWindow(Window& window, Event& e)
 	{
-		LogEngineTrace(e);
+		LogEngineDebug(e);
 		window.OnEvent(e);
 		e.Dispatch<WindowCloseEvent>(Engine::OnWindowClose);
 	}
@@ -56,7 +60,8 @@ namespace Vitro
 
 	void Engine::Start()
 	{
-		while(IsRunning)
+		ShouldUpdate = true;
+		while(ShouldUpdate)
 			for(Window* window : OpenWindows)
 			{
 				window->Update();
@@ -74,7 +79,7 @@ namespace Vitro
 		OpenWindows.erase(i);
 		WindowIsClosing = true;
 
-		IsRunning = OpenWindows.size();
+		ShouldUpdate = OpenWindows.size();
 		return true;
 	}
 }

@@ -10,7 +10,7 @@ namespace Vitro
 	#if $DIRECTX
 		return new DirectX::Context(window);
 	#else
-	#error No valid graphics API defined.
+	#error Unsupported graphics API.
 	#endif
 	}
 }

@@ -133,7 +133,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>_pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>$WINDOWS;$DEBUG;$ENGINE_LOG_LEVEL=$LOG_LEVEL_DEBUG;$DIRECTX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>$WINDOWS;$DEBUG;$ENGINE_LOG_LEVEL=$LOG_LEVEL_DEBUG;$ENABLE_ASSERTIONS;$DIRECTX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -156,7 +156,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>_pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>$WINDOWS;$DEBUG;$ENGINE_LOG_LEVEL=$LOG_LEVEL_DEBUG;$VULKAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>$WINDOWS;$DEBUG;$ENGINE_LOG_LEVEL=$LOG_LEVEL_DEBUG;$ENABLE_ASSERTIONS;$VULKAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -179,7 +179,7 @@
       <PrecompiledHeaderFile>_pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <PreprocessorDefinitions>$WINDOWS;$DEBUG;$ENGINE_LOG_LEVEL=$LOG_LEVEL_DEBUG;$DIRECTX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>$WINDOWS;$DEBUG;$ENGINE_LOG_LEVEL=$LOG_LEVEL_DEBUG;$ENABLE_ASSERTIONS;$DIRECTX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Full</Optimization>
@@ -208,7 +208,7 @@
       <PrecompiledHeaderFile>_pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <PreprocessorDefinitions>$WINDOWS;$DEBUG;$ENGINE_LOG_LEVEL=$LOG_LEVEL_DEBUG;$VULKAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>$WINDOWS;$DEBUG;$ENGINE_LOG_LEVEL=$LOG_LEVEL_DEBUG;$ENABLE_ASSERTIONS;$VULKAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Full</Optimization>
@@ -285,11 +285,11 @@
     <ClInclude Include="src\Vitro.h" />
     <ClInclude Include="src\Vitro\API\DirectX\API.h" />
     <ClInclude Include="src\Vitro\API\DirectX\Context.h" />
+    <ClInclude Include="src\Vitro\API\DirectX\FragmentShader.h" />
+    <ClInclude Include="src\Vitro\API\DirectX\VertexBuffer.h" />
+    <ClInclude Include="src\Vitro\API\DirectX\VertexShader.h" />
     <ClInclude Include="src\Vitro\API\Windows\API.h" />
     <ClInclude Include="src\Vitro\API\Windows\Window.h" />
-    <ClInclude Include="src\Vitro\Utility\Assert.h" />
-    <ClInclude Include="src\Vitro\Utility\Log.h" />
-    <ClInclude Include="src\Vitro\Utility\LogLevel.h" />
     <ClInclude Include="src\Vitro\Engine.h" />
     <ClInclude Include="src\Vitro\Events\Event.h" />
     <ClInclude Include="src\Vitro\Events\EventSource.h" />
@@ -314,10 +314,16 @@
     <ClInclude Include="src\Vitro\Events\Window\WindowSizeEvent.h" />
     <ClInclude Include="src\Vitro\Events\Window\WindowUnfocusEvent.h" />
     <ClInclude Include="src\Vitro\Graphics\Context.h" />
+    <ClInclude Include="src\Vitro\Graphics\FragmentShader.h" />
+    <ClInclude Include="src\Vitro\Graphics\IndexBuffer.h" />
     <ClInclude Include="src\Vitro\Graphics\Layer.h" />
     <ClInclude Include="src\Vitro\Graphics\Overlay.h" />
+    <ClInclude Include="src\Vitro\Graphics\Shader.h" />
     <ClInclude Include="src\Vitro\Graphics\UI\UI.h" />
     <ClInclude Include="src\Vitro\Graphics\UI\UIOverlay.h" />
+    <ClInclude Include="src\Vitro\Graphics\VertexArray.h" />
+    <ClInclude Include="src\Vitro\Graphics\VertexBuffer.h" />
+    <ClInclude Include="src\Vitro\Graphics\VertexShader.h" />
     <ClInclude Include="src\Vitro\Graphics\Window.h" />
     <ClInclude Include="src\Vitro\Math\Bit.h" />
     <ClInclude Include="src\Vitro\Math\Matrix.h" />
@@ -328,17 +334,23 @@
     <ClInclude Include="src\Vitro\Math\Vector2.h" />
     <ClInclude Include="src\Vitro\Math\Vector3.h" />
     <ClInclude Include="src\Vitro\Math\Vector4.h" />
+    <ClInclude Include="src\Vitro\Utility\Array.h" />
+    <ClInclude Include="src\Vitro\Utility\Assert.h" />
+    <ClInclude Include="src\Vitro\Utility\FileUtils.h" />
+    <ClInclude Include="src\Vitro\Utility\Log.h" />
+    <ClInclude Include="src\Vitro\Utility\LogLevel.h" />
     <ClInclude Include="src\_pch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Vitro\API\DirectX\API.cpp" />
     <ClCompile Include="src\Vitro\API\DirectX\Context.cpp" />
+    <ClCompile Include="src\Vitro\API\DirectX\FragmentShader.cpp" />
+    <ClCompile Include="src\Vitro\API\DirectX\VertexBuffer.cpp" />
+    <ClCompile Include="src\Vitro\API\DirectX\VertexShader.cpp" />
     <ClCompile Include="src\Vitro\API\Windows\API.cpp">
       <ObjectFileName>$(IntDir)\API1.obj</ObjectFileName>
     </ClCompile>
     <ClCompile Include="src\Vitro\API\Windows\Window.cpp" />
-    <ClCompile Include="src\Vitro\Utility\Log.cpp" />
-    <ClCompile Include="src\Vitro\Utility\LogLevel.cpp" />
     <ClCompile Include="src\Vitro\Engine.cpp" />
     <ClCompile Include="src\Vitro\Events\Event.cpp" />
     <ClCompile Include="src\Vitro\Events\EventSource.cpp" />
@@ -364,11 +376,25 @@
     <ClCompile Include="src\Vitro\Graphics\Context.cpp">
       <ObjectFileName>$(IntDir)\Context1.obj</ObjectFileName>
     </ClCompile>
+    <ClCompile Include="src\Vitro\Graphics\FragmentShader.cpp">
+      <ObjectFileName>$(IntDir)\FragmentShader1.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="src\Vitro\Graphics\IndexBuffer.cpp" />
     <ClCompile Include="src\Vitro\Graphics\UI\UI.cpp" />
     <ClCompile Include="src\Vitro\Graphics\UI\UIOverlay.cpp" />
+    <ClCompile Include="src\Vitro\Graphics\VertexArray.cpp" />
+    <ClCompile Include="src\Vitro\Graphics\VertexBuffer.cpp">
+      <ObjectFileName>$(IntDir)\VertexBuffer1.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="src\Vitro\Graphics\VertexShader.cpp">
+      <ObjectFileName>$(IntDir)\VertexShader1.obj</ObjectFileName>
+    </ClCompile>
     <ClCompile Include="src\Vitro\Graphics\Window.cpp">
       <ObjectFileName>$(IntDir)\Window1.obj</ObjectFileName>
     </ClCompile>
+    <ClCompile Include="src\Vitro\Utility\FileUtils.cpp" />
+    <ClCompile Include="src\Vitro\Utility\Log.cpp" />
+    <ClCompile Include="src\Vitro\Utility\LogLevel.cpp" />
     <ClCompile Include="src\_pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

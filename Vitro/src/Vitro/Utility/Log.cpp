@@ -5,9 +5,6 @@
 #include "Vitro/API/Windows/API.h"
 #include "Vitro/Utility/Assert.h"
 
-#include <fstream>
-#include <iostream>
-
 namespace Vitro
 {
 	std::ostream* Log::AppLogTarget;
@@ -15,7 +12,8 @@ namespace Vitro
 	std::list<Log::Entry> Log::Queue;
 	std::mutex Log::Mutex;
 
-	void Log::Initialize(const std::string& appLogPath, const std::string& engineLogPath)
+	void Log::Initialize(const std::string& appLogPath, const std::string& engineLogPath,
+						 std::thread& loggingThread)
 	{
 		static bool Initialized;
 		Assert(!Initialized, "Logging has already been initialized by the engine.");
@@ -30,7 +28,7 @@ namespace Vitro
 		else
 			EngineLogTarget = &std::cout;
 
-		std::thread(StartQueueProcessing).detach();
+		loggingThread = std::thread(StartQueueProcessing);
 		Initialized = true;
 	}
 
@@ -103,7 +101,7 @@ namespace Vitro
 	#if $WINDOWS
 		Windows::API::SetConsoleColors(colorMask);
 	#else
-	#error No valid build platform defined.
+	#error Unsupported system.
 	#endif
-}
+	}
 }
