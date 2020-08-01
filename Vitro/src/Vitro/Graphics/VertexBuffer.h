@@ -1,15 +1,14 @@
-#pragma once
+﻿#pragma once
+
+#if VTR_API_DIRECTX
+#include "Vitro/API/DirectX/VertexBuffer.h"
+#endif
 
 namespace Vitro
 {
-	class VertexBuffer
-	{
-	public:
-		static VertexBuffer* New(size_t size);
-		static VertexBuffer* New(size_t size, float* vertices);
-
-		virtual void Bind() const = 0;
-		virtual void Unbind() const = 0;
-		virtual void SetData(const void* data, size_t size) = 0;
-	};
+#if VTR_API_DIRECTX
+	template<typename V> using VertexBuffer = DirectX::VertexBuffer<V>;
+#else
+#error Unsupported graphics API.
+#endif
 }

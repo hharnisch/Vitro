@@ -1,13 +1,13 @@
-#include "_pch.h"
+﻿#include "_pch.h"
 #include "UIOverlay.h"
 
 #include <imgui/imgui.h>
 
-#if $WINDOWS
+#if VTR_SYSTEM_WINDOWS
 #include <imgui/imgui_impl_win32.h>
 #endif
 
-#if $DIRECTX
+#if VTR_API_DIRECTX
 #include <imgui/imgui_impl_dx11.h>
 #endif
 
@@ -21,10 +21,10 @@ namespace Vitro
 
 	void UIOverlay::OnUpdate()
 	{
-	#if $DIRECTX
+	#if VTR_API_DIRECTX
 		ImGui_ImplDX11_NewFrame();
 	#endif
-	#if $WINDOWS
+	#if VTR_SYSTEM_WINDOWS
 		ImGui_ImplWin32_NewFrame();
 	#endif
 		ImGui::NewFrame();
@@ -33,11 +33,11 @@ namespace Vitro
 		ImGui::Render();
 
 
-	#if $DIRECTX
+	#if VTR_API_DIRECTX
 		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 	#endif
 		ImGui::EndFrame();
-	#if $WINDOWS
+	#if VTR_SYSTEM_WINDOWS
 		ImGui::UpdatePlatformWindows();
 		ImGui::RenderPlatformWindowsDefault();
 	#endif

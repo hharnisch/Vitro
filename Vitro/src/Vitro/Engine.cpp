@@ -18,13 +18,13 @@ namespace Vitro
 	{
 		Log::Initialize("", "", LoggingThread);
 
-	#if $WINDOWS
+	#if VTR_SYSTEM_WINDOWS
 		Windows::API::Initialize();
 	#else
 	#error Unsupported system.
 	#endif
 
-	#if $DIRECTX
+	#if VTR_API_DIRECTX
 		DirectX::API::Initialize();
 	#else
 	#error Unsupported graphics API.
@@ -48,7 +48,7 @@ namespace Vitro
 
 	void Engine::DispatchToWindow(Window& window, Event& e)
 	{
-		LogEngineDebug(e);
+		LogEngineTrace(e);
 		window.OnEvent(e);
 		e.Dispatch<WindowCloseEvent>(Engine::OnWindowClose);
 	}
@@ -58,19 +58,28 @@ namespace Vitro
 		OpenWindows.emplace_back(window);
 	}
 
-	void Engine::Start()
+	int Engine::Start()
 	{
-		ShouldUpdate = true;
-		while(ShouldUpdate)
-			for(Window* window : OpenWindows)
-			{
-				window->Update();
-				if(WindowIsClosing)
+		try
+		{
+			ShouldUpdate = true;
+			while(ShouldUpdate)
+				for(Window* window : OpenWindows)
 				{
-					WindowIsClosing = false;
-					break;
+					window->Update();
+					if(WindowIsClosing)
+					{
+						WindowIsClosing = false;
+						break;
+					}
 				}
-			}
+			return EXIT_SUCCESS;
+		}
+		catch(const std::exception& e)
+		{
+			LogEngineFatal(e.what());
+			return EXIT_FAILURE;
+		}
 	}
 
 	bool Engine::OnWindowClose(WindowCloseEvent& e)

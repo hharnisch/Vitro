@@ -19,13 +19,17 @@ namespace Vitro
 		};
 
 		template<typename O0, typename O1, typename O2, typename O3>
-		inline Vector(O0 x, O1 y, O2 z, O3 w) : X(static_cast<N>(x)), Y(static_cast<N>(y)),
-			Z(static_cast<N>(z)), W(static_cast<N>(w))
+		inline Vector(O0 x, O1 y, O2 z, O3 w) :
+			X(static_cast<N>(x)),
+			Y(static_cast<N>(y)),
+			Z(static_cast<N>(z)),
+			W(static_cast<N>(w))
 		{}
 
 		template<typename O>
-		inline Vector(O scalar) : Vector(static_cast<N>(scalar), static_cast<N>(scalar),
-										 static_cast<N>(scalar), static_cast<N>(scalar))
+		inline Vector(O scalar) :
+			Vector(static_cast<N>(scalar), static_cast<N>(scalar), static_cast<N>(scalar),
+				   static_cast<N>(scalar))
 		{}
 
 		template<typename O>

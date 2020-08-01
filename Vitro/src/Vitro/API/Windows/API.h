@@ -27,6 +27,11 @@ namespace Vitro::Windows
 		static char* NarrowChars(const wchar_t* wstr);
 
 		static void SetConsoleColors(uint8_t colorMask);
+
+	private:
+		static KeyCode LastKeyCode;
+		static int KeyRepeats;
+
 		static MouseCode GetMouseExtra(WPARAM wp);
 		static void OnKeyDown(Window& window, WPARAM wp);
 		static void OnKeyUp(Window& window, WPARAM wp);
@@ -42,10 +47,6 @@ namespace Vitro::Windows
 		static void OnWindowMove(Window& window, LPARAM lp);
 		static void OnWindowSize(Window& window, LPARAM lp);
 		static void OnWindowUnfocus(Window& window);
-
-	private:
-		static KeyCode LastKeyCode;
-		static int KeyRepeats;
 
 		API() = delete;
 	};

@@ -1,11 +1,11 @@
-﻿#pragma once
+#pragma once
 
 #include "Vitro/Math/Bit.h"
 
 namespace Vitro
 {
 	// Indicates the device type or source associated with an event type.
-	enum class EventSource : uint8_t
+	enum class EventSource : unsigned char
 	{
 		None		= 0,			// Never sent by an event. Only for variable initialization.
 		App			= TurnOnBit(0),

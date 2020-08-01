@@ -17,7 +17,6 @@
 #include "Vitro/Events/Window/WindowMoveEvent.h"
 #include "Vitro/Events/Window/WindowSizeEvent.h"
 #include "Vitro/Events/Window/WindowUnfocusEvent.h"
-#include "Vitro/Utility/Log.h"
 
 #include <Windowsx.h>
 #include <imgui/imgui_impl_win32.h>
@@ -39,7 +38,7 @@ namespace Vitro::Windows
 
 		StdOutHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 
-		WNDCLASSW wc{};
+		WNDCLASSW wc{0};
 		wc.style = CS_DBLCLKS;
 		wc.lpfnWndProc = NotifyEngine;
 		wc.hInstance = InstanceHandle = GetModuleHandleW(nullptr);

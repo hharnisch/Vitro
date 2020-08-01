@@ -1,8 +1,6 @@
 #include "_pch.h"
 #include "FileUtils.h"
 
-#include "Vitro/Utility/Assert.h"
-
 namespace Vitro
 {
 	Array<char> FileUtils::GetBinaryData(const std::string& filePath)
@@ -17,8 +15,23 @@ namespace Vitro
 		rewind(file);
 
 		Array<char> data(size);
-		fread(data.Data, size, 1, file);
+		fread(data.Raw(), size, 1, file);
 		fclose(file);
 		return data;
+	}
+
+	std::string FileUtils::ToUpper(const std::string& str)
+	{
+		std::string newstr(str.size(), 0);
+		for(int i = 0; i < str.size(); i++)
+			newstr[i] = std::toupper(str[i]);
+		return newstr;
+	}
+
+	std::string& FileUtils::ModifyToUpper(std::string& str)
+	{
+		for(char& ch : str)
+			ch = std::toupper(ch);
+		return str;
 	}
 }

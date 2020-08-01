@@ -4,6 +4,7 @@
 #include "Vitro/Engine.h"
 #include "Vitro/API/Windows/API.h"
 #include "Vitro/Utility/Assert.h"
+#include "Vitro/Utility/FileUtils.h"
 
 namespace Vitro
 {
@@ -66,7 +67,7 @@ namespace Vitro
 		SetConsoleColors(static_cast<uint8_t>(entry.Level));
 
 		using namespace std::chrono;
-		auto now = system_clock::now().time_since_epoch();
+		auto now = system_clock::now().time_since_epoch(); // Get the current time.
 		auto secs = duration_cast<seconds>(now).count();
 		tm calendarTime;
 		localtime_s(&calendarTime, &secs);
@@ -74,31 +75,26 @@ namespace Vitro
 		char timestamp[14]; // Timestamp is 14 characters long with the null character.
 		strftime(timestamp, sizeof(timestamp), "[%T.", &calendarTime);
 
-		auto msecs = duration_cast<milliseconds>(now).count() % 1000 + 1000;
-		auto msecsstr = std::to_string(msecs).c_str();
+		auto msecs = duration_cast<milliseconds>(now).count(); // Append milliseconds to timestamp.
+		auto msecsstr = std::to_string(msecs % 1000 + 1000).c_str();
 		for(int i = sizeof(timestamp) - 4; i < sizeof(timestamp); i++)
 			timestamp[i] = msecsstr[i - sizeof(timestamp) + 5];
 
 		auto logTarget = entry.FromEngine ? EngineLogTarget : AppLogTarget;
 		auto logOrigin = entry.FromEngine ? "ENGINE" : "APP";
 
-		std::stringstream logText;
+		std::stringstream logText; // Construct the full log message text.
 		logText << timestamp << "] [" << logOrigin;
-		if(logTarget != &std::cout)
-		{
-			auto level = ToString(entry.Level);
-			for(char& ch : level)
-				ch = std::toupper(ch);
-			logText << " " << level;
-		}
+		if(logTarget != &std::cout) // Append log level if not logging to the console.
+			logText << " " << FileUtils::ModifyToUpper(ToString(entry.Level));
 		logText << "] " << entry.Message << std::endl;
 
-		*logTarget << logText.str();
+		*logTarget << logText.str(); // Write to the log.
 	}
 
 	void Log::SetConsoleColors(uint8_t colorMask)
 	{
-	#if $WINDOWS
+	#if VTR_SYSTEM_WINDOWS
 		Windows::API::SetConsoleColors(colorMask);
 	#else
 	#error Unsupported system.

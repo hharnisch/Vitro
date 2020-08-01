@@ -1,24 +1,35 @@
 #pragma once
 
-#include "Sandbox.h"
+#include <Vitro.h>
 
 namespace Sandbox
 {
-	using namespace Vitro;
-
 	class TestLayer : public Vitro::Layer
 	{
 	public:
-		void OnAttach() override
-		{}
+		TestLayer();
 
-		void OnDetach() override
-		{}
+		void OnAttach() override;
+		void OnDetach() override;
+		void OnUpdate() override;
+		void OnEvent(Vitro::Event& e) override;
 
-		void OnUpdate() override
-		{}
+	private:
+		struct Vertex
+		{
+			Vitro::Vec3 Position;
+			Vitro::Vec4 Color;
+		};
 
-		void OnEvent(Event& e) override
-		{}
+		Vertex Triangle[3]
+		{
+			{{0.f, 0.5f, 0.},		{1.f, 0.f, 0.f, 1.f}},
+			{{0.5f, -0.5f, 0.},		{0.f, 1.f, 0.f, 1.f}},
+			{{-0.5f, -0.5f, 0.},	{0.f, 0.f, 1.f, 1.f}}
+		};
+
+		Vitro::VertexBuffer<Vertex> Vertices;
+		Vitro::VertexShader VShader;
+		Vitro::FragmentShader FShader;
 	};
 }

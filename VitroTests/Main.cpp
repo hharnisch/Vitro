@@ -1,8 +1,9 @@
-﻿#include "Sandbox/Sandbox.h"
+#include "Sandbox/Sandbox.h"
 
-void main(int argc, char** argv)
+int main(int argc, char** argv)
 {
 	auto app = new Sandbox::Sandbox(argc, argv);
-	app->Start();
+	int exitStatus = app->Start();
 	delete app;
+	return exitStatus;
 }

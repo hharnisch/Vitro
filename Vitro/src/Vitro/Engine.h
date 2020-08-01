@@ -16,7 +16,7 @@ namespace Vitro
 		static void DispatchToWindow(Window& window, Event& e);
 		static void OnWindowOpen(Window* window);
 
-		void Start();
+		int Start();
 
 	private:
 		static bool ShouldUpdate;

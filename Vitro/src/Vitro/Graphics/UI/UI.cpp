@@ -3,11 +3,11 @@
 
 #include <imgui/imgui.h>
 
-#if $WINDOWS
+#if VTR_SYSTEM_WINDOWS
 #include <imgui/imgui_impl_win32.h>
 #endif
 
-#if $DIRECTX
+#if VTR_API_DIRECTX
 #include "Vitro/API/DirectX/API.h"
 #include <imgui/imgui_impl_dx11.h>
 #endif
@@ -31,17 +31,17 @@ namespace Vitro
 			style.Colors[ImGuiCol_WindowBg].w = 1;
 		}
 		ImGui::StyleColorsDark();
-	#if $DIRECTX
-		ImGui_ImplDX11_Init(DirectX::API::Device.Get(), DirectX::API::DeviceContext.Get());
+	#if VTR_API_DIRECTX
+		ImGui_ImplDX11_Init(DirectX::API::Device.Get(), DirectX::API::Context.Get());
 	#endif
 	}
 
 	void UI::Finalize()
 	{
-	#if $DIRECTX
+	#if VTR_API_DIRECTX
 		ImGui_ImplDX11_Shutdown();
 	#endif
-	#if $WINDOWS
+	#if VTR_SYSTEM_WINDOWS
 		ImGui_ImplWin32_Shutdown();
 	#endif
 		ImGui::DestroyContext();

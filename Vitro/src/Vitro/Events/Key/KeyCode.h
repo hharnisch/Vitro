@@ -2,8 +2,8 @@
 
 namespace Vitro
 {
-	// Identical to Windows virtual key codes for now.
-	enum class KeyCode : uint8_t
+	// Identical to Windows virtual key codes.
+	enum class KeyCode : unsigned char
 	{
 		None			= 0,	// Sent by some Unicode characters on the Windows virtual keyboard.
 		Backspace		= 8,

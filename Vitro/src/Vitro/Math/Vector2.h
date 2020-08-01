@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "Vitro/Utility/Assert.h"
 
@@ -18,14 +18,18 @@ namespace Vitro
 			N Val[2];
 		};
 
-		template<typename O0, typename O1>
-		inline Vector(O0 x, O1 y) : X(static_cast<N>(x)), Y(static_cast<N>(y)) {}
+		template<typename O0, typename O1> inline Vector(O0 x, O1 y) :
+			X(static_cast<N>(x)),
+			Y(static_cast<N>(y))
+		{}
 
-		template<typename O>
-		inline Vector(O scalar) : Vector(static_cast<N>(scalar), static_cast<N>(scalar)) {}
+		template<typename O> inline Vector(O scalar) :
+			Vector(static_cast<N>(scalar), static_cast<N>(scalar))
+		{}
 
-		template<size_t D, typename O>
-		inline Vector(const Vector<D, O>& other) : Vector(other.X, other.Y) {}
+		template<size_t D, typename O> inline Vector(const Vector<D, O>& other) :
+			Vector(other.X, other.Y)
+		{}
 
 		inline constexpr Vector() : Vector(0) {}
 

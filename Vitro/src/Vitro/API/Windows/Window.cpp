@@ -3,15 +3,19 @@
 
 #include "Vitro/Engine.h"
 #include "Vitro/API/Windows/API.h"
-#include "Vitro/Events/Window//WindowFocusEvent.h"
+#include "Vitro/Graphics/Context3D.h"
 
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_win32.h>
 
 namespace Vitro::Windows
 {
-	Window::Window(int width, int height, int x, int y, const std::string& title)
-		: Width(width), Height(height), X(x), Y(y), Title(title)
+	Window::Window(int width, int height, int x, int y, const std::string& title) :
+		Width(width),
+		Height(height),
+		X(x),
+		Y(y),
+		Title(title)
 	{}
 
 	Window::~Window()
@@ -89,7 +93,8 @@ namespace Vitro::Windows
 									   API::InstanceHandle, nullptr);
 		free(wstr);
 		SetWindowLongPtr(NativeHandle, 0, reinterpret_cast<LONG_PTR>(this));
-		GraphicsContext = Context::New(this);
+		GraphicsContext3D = new Context3D(this);
+		GraphicsContext3D->SetViewport(Width, Height, 0, 0);
 
 		Engine::OnWindowOpen(this);
 		ImGui_ImplWin32_Init(NativeHandle);
@@ -120,7 +125,4 @@ namespace Vitro::Windows
 			DispatchMessageW(&msg);
 		}
 	}
-
-	void Window::OnPlatformEvent(Event& e)
-	{}
 }

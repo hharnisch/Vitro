@@ -1,8 +1,8 @@
-﻿#pragma once
+#pragma once
 
 namespace Vitro
 {
-	enum class EventType : uint8_t
+	enum class EventType : unsigned char
 	{
 		None			= 0,	// Never sent by an event. Only for variable initialization.
 		KeyDown,

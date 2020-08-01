@@ -11,7 +11,7 @@ namespace Vitro::DirectX
 		static void Initialize();
 
 		static Microsoft::WRL::ComPtr<ID3D11Device5> Device;
-		static Microsoft::WRL::ComPtr<ID3D11DeviceContext4> DeviceContext;
+		static Microsoft::WRL::ComPtr<ID3D11DeviceContext4> Context;
 
 	private:
 		API() = delete;

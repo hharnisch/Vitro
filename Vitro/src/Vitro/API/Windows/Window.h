@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Vitro/Graphics/Window.h"
+#include "Vitro/API/Base/Window.h"
 
 #include <Windows.h>
 
 namespace Vitro::Windows
 {
-	class Window : public Vitro::Window
+	class Window : public Base::Window
 	{
 	public:
 		Window(int width, int height, int x, int y, const std::string& title);
@@ -30,7 +30,6 @@ namespace Vitro::Windows
 		void Maximize() override;
 		void Minimize() override;
 		void UpdatePlatform() override;
-		void OnPlatformEvent(Event& e) override;
 
 	private:
 		int Width;

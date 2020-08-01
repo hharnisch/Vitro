@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Vitro/Engine.h"
 #include "Vitro/Events/Input.h"
@@ -17,10 +17,15 @@
 #include "Vitro/Events/Window/WindowMoveEvent.h"
 #include "Vitro/Events/Window/WindowSizeEvent.h"
 #include "Vitro/Events/Window/WindowUnfocusEvent.h"
+#include "Vitro/Graphics/FragmentShader.h"
 #include "Vitro/Graphics/Layer.h"
 #include "Vitro/Graphics/Overlay.h"
+#include "Vitro/Graphics/VertexBuffer.h"
+#include "Vitro/Graphics/VertexField.h"
+#include "Vitro/Graphics/VertexShader.h"
 #include "Vitro/Graphics/Window.h"
 #include "Vitro/Graphics/UI/UIOverlay.h"
 #include "Vitro/Math/Matrix.h"
 #include "Vitro/Math/Vector.h"
+#include "Vitro/Utility/Array.h"
 #include "Vitro/Utility/Log.h"

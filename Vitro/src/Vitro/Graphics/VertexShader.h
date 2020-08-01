@@ -1,12 +1,14 @@
-#pragma once
+﻿#pragma once
 
-#include "Vitro/Graphics/Shader.h"
+#if VTR_API_DIRECTX
+#include "Vitro/API/DirectX/VertexShader.h"
+#endif
 
 namespace Vitro
 {
-	class VertexShader : public Shader
-	{
-	public:
-		static VertexShader* New(const std::string& filePath);
-	};
+#if VTR_API_DIRECTX
+	typedef DirectX::VertexShader VertexShader;
+#else
+#error Unsupported graphics API.
+#endif
 }

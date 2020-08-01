@@ -6,7 +6,7 @@
 namespace Vitro::DirectX
 {
 	Microsoft::WRL::ComPtr<ID3D11Device5> API::Device;
-	Microsoft::WRL::ComPtr<ID3D11DeviceContext4> API::DeviceContext;
+	Microsoft::WRL::ComPtr<ID3D11DeviceContext4> API::Context;
 
 	void API::Initialize()
 	{
@@ -26,14 +26,14 @@ namespace Vitro::DirectX
 
 		using namespace Microsoft::WRL;
 		ComPtr<ID3D11Device> device;
-		ComPtr<ID3D11DeviceContext> deviceContext;
+		ComPtr<ID3D11DeviceContext> context;
 		auto result = D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, 0,
 										featureLevels, ARRAYSIZE(featureLevels), D3D11_SDK_VERSION,
-										&device, nullptr, &deviceContext);
+										&device, nullptr, &context);
 		Assert(SUCCEEDED(result), "DirectX device could not be created.");
 
 		device.As(&API::Device);
-		deviceContext.As(&API::DeviceContext);
+		context.As(&API::Context);
 
 		Initialized = true;
 	}

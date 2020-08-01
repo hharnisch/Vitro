@@ -1,6 +1,6 @@
-#pragma once
+﻿#pragma once
 
-#if $ENABLE_ASSERTIONS
+#if VTR_ENABLE_ASSERTIONS
 
 #define Assert(condition, message)			\
 	if(!(condition))						\

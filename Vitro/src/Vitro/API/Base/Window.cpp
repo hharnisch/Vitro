@@ -1,11 +1,7 @@
-﻿#include "_pch.h"
+#include "_pch.h"
 #include "Window.h"
 
-#include "Vitro/Engine.h"
-#include "Vitro/API/Windows/Window.h"
-#include "Vitro/Events/Window/WindowCloseEvent.h"
-
-namespace Vitro
+namespace Vitro::Base
 {
 	Window::~Window()
 	{
@@ -17,27 +13,20 @@ namespace Vitro
 		LayerStack.clear();
 	}
 
-	Window* Window::New(int width, int height, int x, int y, const std::string& title)
-	{
-	#if $WINDOWS
-		return new Windows::Window(width, height, x, y, title);
-	#else
-	#error Unsupported system.
-	#endif
-	}
-
 	void Window::Update()
 	{
+		GraphicsContext3D->TargetBackBuffer();
+
 		for(Layer* layer : LayerStack)
 			if(layer->Enabled)
 				layer->OnUpdate();
 		UpdatePlatform();
-		GraphicsContext->SwapBuffers();
+
+		GraphicsContext3D->SwapBuffers();
 	}
 
 	void Window::OnEvent(Event& e)
 	{
-		OnPlatformEvent(e);
 		for(auto i = LayerStack.rbegin(); i != LayerStack.rend(); i++)
 		{
 			if((*i)->Enabled)

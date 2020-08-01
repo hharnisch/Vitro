@@ -38,30 +38,30 @@ project "Vitro"
 
 	filter "system:windows"
 		systemversion	"latest"
-		defines			"$WINDOWS"
+		defines			"VTR_SYSTEM_WINDOWS"
 
 	filter "configurations:Debug"
 		runtime			"Debug"
 		symbols			"on"
-		defines			{ "$DEBUG", "$ENGINE_LOG_LEVEL=$LOG_LEVEL_DEBUG", "$ENABLE_ASSERTIONS" }
+		defines			{ "VTR_DEBUG", "VTR_ENGINE_LOG_LEVEL=VTR_LOG_LEVEL_DEBUG", "VTR_ENABLE_ASSERTIONS" }
 		
 	filter "configurations:DebugOptimized"
 		runtime			"Debug"
 		symbols			"on"
 		optimize		"on"
-		defines			{ "$DEBUG", "$ENGINE_LOG_LEVEL=$LOG_LEVEL_DEBUG", "$ENABLE_ASSERTIONS" }
+		defines			{ "VTR_DEBUG", "VTR_ENGINE_LOG_LEVEL=VTR_LOG_LEVEL_DEBUG", "VTR_ENABLE_ASSERTIONS" }
 
 	filter "configurations:Release"
 		runtime			"Release"
 		optimize		"on"
-		defines			{ "$RELEASE", "$ENGINE_LOG_LEVEL=$LOG_LEVEL_ERROR" }
+		defines			{ "VTR_RELEASE", "VTR_ENGINE_LOG_LEVEL=VTR_LOG_LEVEL_ERROR" }
 
 	filter "platforms:DirectX"
-		defines			"$DIRECTX"
+		defines			"VTR_API_DIRECTX"
 		links			"d3d11"
 
 	filter "platforms:Vulkan"
-		defines			"$VULKAN"
+		defines			"VTR_API_VULKAN"
 
 project "VitroTests"
 	location			"VitroTests"
@@ -71,26 +71,35 @@ project "VitroTests"
 	staticruntime		"on"
 	targetdir			(".bin/" .. outputdir .. "/%{prj.name}")
 	objdir				(".bin_obj/" .. outputdir .. "/%{prj.name}")
+	links				"Vitro"
 
 	files
 	{
 		"%{prj.name}/**.cpp",
-		"%{prj.name}/**.h"
-	}
-
-	links
-	{
-		"Vitro"
+		"%{prj.name}/**.h",
+		"%{prj.name}/**.hlsl"
 	}
 
 	includedirs
 	{
 		"Vitro/src"
 	}
+	
+	filter "files:**.hlsl"
+		flags			"ExcludeFromBuild"
+		shadermodel		"5.0"
+		
+	filter "files:**Vertex.hlsl"
+		removeflags		"ExcludeFromBuild"
+		shadertype		"Vertex"
+		
+	filter "files:**Fragment.hlsl"
+		removeflags		"ExcludeFromBuild"
+		shadertype		"Pixel"
 
 	filter "system:windows"
 		systemversion	"latest"
-		defines			"$WINDOWS"
+		defines			"VTR_SYSTEM_WINDOWS"
 
 	filter "configurations:Debug"
 		runtime			"Debug"
@@ -104,3 +113,6 @@ project "VitroTests"
 	filter "configurations:Release"
 		runtime			"Release"
 		optimize		"on"
+
+	filter "platforms:DirectX"
+		defines			"VTR_API_DIRECTX"

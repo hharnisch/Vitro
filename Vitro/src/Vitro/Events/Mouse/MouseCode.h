@@ -2,7 +2,7 @@
 
 namespace Vitro
 {
-	enum class MouseCode : uint8_t
+	enum class MouseCode : unsigned char
 	{
 		None		= 0,	// Never sent by an event. Only for variable initialization.
 		Mouse1		= 1,	// The primary mouse button, usually the left physical button.
