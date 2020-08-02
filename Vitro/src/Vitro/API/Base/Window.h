@@ -10,14 +10,6 @@ namespace Vitro::Base
 	class Window
 	{
 	public:
-		Window() = default;
-		virtual ~Window();
-
-		Window(const Window&) = delete;
-		Window(Window&&) = delete;
-		Window& operator=(const Window&) = delete;
-		Window& operator=(Window&&) = delete;
-
 		virtual int GetWidth() const = 0;
 		virtual void SetWidth(int width) = 0;
 		virtual int GetHeight() const = 0;
@@ -28,7 +20,6 @@ namespace Vitro::Base
 		virtual void SetY(int y) = 0;
 		virtual std::string GetTitle() const = 0;
 		virtual void SetTitle(const std::string& title) = 0;
-
 		virtual void Open() = 0;
 		virtual void Close() = 0;
 		virtual void Maximize() = 0;
@@ -44,17 +35,27 @@ namespace Vitro::Base
 		std::enable_if_t<std::is_base_of_v<Layer, L> && !std::is_base_of_v<Overlay, L>, L&>
 			Attach(Args&... args)
 		{
-			return static_cast<L&>(Attach(*new L(args...)));
+			return static_cast<L&>(Attach(*new L(std::forward<Args>(args)...)));
 		}
 
 		template<typename O, typename... Args>
 		std::enable_if_t<std::is_base_of_v<Overlay, O>, O&> Attach(Args&... args)
 		{
-			return static_cast<O&>(Attach(*new O(args...)));
+			return static_cast<O&>(Attach(*new O(std::forward<Args>(args)...)));
 		}
 
 	protected:
-		Context3D* GraphicsContext3D = nullptr;
+		int Width;
+		int Height;
+		int X;
+		int Y;
+		std::string Title;
+		std::unique_ptr<Context3D> GraphicsContext3D = nullptr;
+
+		Window(int width, int height, int x, int y, const std::string& title);
+		Window(Window&& other) noexcept;
+		virtual ~Window();
+		Window& operator=(Window&& other) noexcept;
 
 	private:
 		std::vector<Layer*> LayerStack;
@@ -62,5 +63,8 @@ namespace Vitro::Base
 
 		Layer& Attach(Layer& layer);
 		Overlay& Attach(Overlay& overlay);
+
+		Window(const Window&) = delete;
+		Window& operator=(const Window&) = delete;
 	};
 }

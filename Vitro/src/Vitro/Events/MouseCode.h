@@ -4,7 +4,7 @@ namespace Vitro
 {
 	enum class MouseCode : unsigned char
 	{
-		None		= 0,	// Never sent by an event. Only for variable initialization.
+		None		= 0,	// Associated with mouse move events.
 		Mouse1		= 1,	// The primary mouse button, usually the left physical button.
 		Mouse2		= 2,	// The secondary mouse button, usually the right physical button.
 		Wheel		= 3,	// The mouse wheel or middle mouse button.

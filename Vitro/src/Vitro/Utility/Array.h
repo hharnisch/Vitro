@@ -129,10 +129,10 @@ namespace Vitro
 		#else
 			return Iterator(Data + DataCount);
 		#endif
-	}
+		}
 
 	private:
 		T* __restrict Data = nullptr;
 		size_t DataCount = 0;
-};
+	};
 }

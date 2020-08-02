@@ -32,7 +32,20 @@ public:
 	}
 
 	void OnEvent(Vitro::Event& e) override
-	{}
+	{
+		using namespace Vitro;
+		e.Dispatch<KeyDownEvent>([this](KeyDownEvent& e)
+		{
+			auto r = []() { return static_cast<float>(std::rand()) / RAND_MAX; };
+
+			Triangle[0].Color ={r(), r(), r(), r()};
+			Triangle[1].Color ={r(), r(), r(), r()};
+			Triangle[2].Color ={r(), r(), r(), r()};
+			Vertices = VertexBuffer<Vertex>(Triangle, 3);
+
+			return true;
+		});
+	}
 
 private:
 	struct Vertex

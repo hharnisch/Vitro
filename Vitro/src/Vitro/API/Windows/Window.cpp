@@ -11,16 +11,23 @@
 namespace Vitro::Windows
 {
 	Window::Window(int width, int height, int x, int y, const std::string& title) :
-		Width(width),
-		Height(height),
-		X(x),
-		Y(y),
-		Title(title)
+		Base::Window(width, height, x, y, title)
+	{}
+
+	Window::Window(Window&& other) noexcept : Base::Window(std::move(other)),
+		NativeHandle(std::exchange(other.NativeHandle, nullptr))
 	{}
 
 	Window::~Window()
 	{
 		Close();
+	}
+
+	Window& Window::operator=(Window&& other) noexcept
+	{
+		Base::Window::operator=(std::move(other));
+		std::swap(NativeHandle, other.NativeHandle);
+		return *this;
 	}
 
 	int Window::GetWidth() const
@@ -92,7 +99,7 @@ namespace Vitro::Windows
 									   nullptr);
 		SetWindowLongPtr(NativeHandle, 0, reinterpret_cast<LONG_PTR>(this));
 
-		GraphicsContext3D = new Context3D(this);
+		GraphicsContext3D = std::make_unique<Context3D>(this);
 		GraphicsContext3D->SetViewport(Width, Height, 0, 0);
 
 		ImGui_ImplWin32_Init(NativeHandle);

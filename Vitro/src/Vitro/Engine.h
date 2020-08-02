@@ -1,8 +1,7 @@
 #pragma once
 
 #include "Vitro/Events/Event.h"
-#include "Vitro/Events/Window/WindowCloseEvent.h"
-#include "Vitro/Events/Window/WindowOpenEvent.h"
+#include "Vitro/Events/WindowEvent.h"
 #include "Vitro/Graphics/Window.h"
 
 namespace Vitro

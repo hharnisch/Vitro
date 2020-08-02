@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Vitro/API/Windows/Window.h"
-#include "Vitro/Events/Key/KeyCode.h"
-#include "Vitro/Events/Mouse/MouseCode.h"
+#include "Vitro/Events/KeyCode.h"
+#include "Vitro/Events/MouseCode.h"
 
 #include <Windows.h>
 
@@ -28,12 +28,12 @@ namespace Vitro::Windows
 		static KeyCode LastKeyCode;
 		static int KeyRepeats;
 
-		static void OnWindowOpen(Window& window);
 		static void OnWindowClose(Window& window);
 		static void OnWindowMove(Window& window, LPARAM lp);
 		static void OnWindowSize(Window& window, LPARAM lp);
 		static void OnWindowFocus(Window& window);
 		static void OnWindowUnfocus(Window& window);
+		static void OnWindowOpen(Window& window);
 		static void OnKeyDown(Window& window, WPARAM wp);
 		static void OnKeyUp(Window& window, WPARAM wp);
 		static void OnTextType(Window& window, WPARAM wp);

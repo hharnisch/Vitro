@@ -9,6 +9,7 @@ namespace Vitro
 	{
 		switch(button)
 		{
+			$ToString(None);
 			$ToString(Mouse1);
 			$ToString(Mouse2);
 			$ToString(Wheel);

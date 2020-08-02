@@ -4,20 +4,9 @@
 #include "Vitro/Engine.h"
 #include "Vitro/API/Windows/Window.h"
 #include "Vitro/Events/Input.h"
-#include "Vitro/Events/Key/KeyDownEvent.h"
-#include "Vitro/Events/Key/KeyUpEvent.h"
-#include "Vitro/Events/Key/TextTypeEvent.h"
-#include "Vitro/Events/Mouse/DoubleClickEvent.h"
-#include "Vitro/Events/Mouse/MouseDownEvent.h"
-#include "Vitro/Events/Mouse/MouseMoveEvent.h"
-#include "Vitro/Events/Mouse/MouseScrollEvent.h"
-#include "Vitro/Events/Mouse/MouseUpEvent.h"
-#include "Vitro/Events/Window/WindowCloseEvent.h"
-#include "Vitro/Events/Window/WindowFocusEvent.h"
-#include "Vitro/Events/Window/WindowMoveEvent.h"
-#include "Vitro/Events/Window/WindowOpenEvent.h"
-#include "Vitro/Events/Window/WindowSizeEvent.h"
-#include "Vitro/Events/Window/WindowUnfocusEvent.h"
+#include "Vitro/Events/KeyEvent.h"
+#include "Vitro/Events/MouseEvent.h"
+#include "Vitro/Events/WindowEvent.h"
 
 #include <Windowsx.h>
 #include <imgui/imgui_impl_win32.h>
@@ -113,11 +102,6 @@ namespace Vitro::Windows
 		}
 	}
 
-	void API::OnWindowOpen(Window& window)
-	{
-		Dispatcher(window, WindowOpenEvent(window));
-	}
-
 	void API::OnWindowClose(Window& window)
 	{
 		Dispatcher(window, WindowCloseEvent(window));
@@ -143,6 +127,11 @@ namespace Vitro::Windows
 	void API::OnWindowUnfocus(Window& window)
 	{
 		Dispatcher(window, WindowUnfocusEvent(window));
+	}
+
+	void API::OnWindowOpen(Window& window)
+	{
+		Dispatcher(window, WindowOpenEvent(window));
 	}
 
 	void API::OnKeyDown(Window& window, WPARAM wp)

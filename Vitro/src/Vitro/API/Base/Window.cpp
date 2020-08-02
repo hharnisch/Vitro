@@ -3,21 +3,11 @@
 
 namespace Vitro::Base
 {
-	Window::~Window()
-	{
-		for(Layer* layer : LayerStack)
-		{
-			layer->OnDetach();
-			delete layer;
-		}
-		LayerStack.clear();
-	}
-
 	void Window::Update()
 	{
 		GraphicsContext3D->TargetBackBuffer();
 
-		for(Layer* layer : LayerStack)
+		for(auto layer : LayerStack)
 			if(layer->Enabled)
 				layer->OnUpdate();
 		UpdatePlatform();
@@ -57,6 +47,39 @@ namespace Vitro::Base
 			LayerStack.erase(i);
 			delete& overlay;
 		}
+	}
+
+	Window::Window(int width, int height, int x, int y, const std::string& title) :
+		Width(width), Height(height), X(x), Y(y), Title(title)
+	{}
+
+	Window::Window(Window&& other) noexcept :
+		Width(other.Width), Height(other.Height), X(other.X), Y(other.Y),
+		Title(std::move(other.Title)), GraphicsContext3D(std::move(other.GraphicsContext3D)),
+		LayerStack(std::move(other.LayerStack)), LastLayerIndex(other.LastLayerIndex)
+	{}
+
+	Window::~Window()
+	{
+		for(auto layer : LayerStack)
+		{
+			layer->OnDetach();
+			delete layer;
+		}
+		LayerStack.clear();
+	}
+
+	Window& Window::operator=(Window&& other) noexcept
+	{
+		Width = other.Width;
+		Height = other.Height;
+		X = other.X;
+		Y = other.Y;
+		std::swap(Title, other.Title);
+		std::swap(GraphicsContext3D, other.GraphicsContext3D);
+		std::swap(LayerStack, other.LayerStack);
+		LastLayerIndex = other.LastLayerIndex;
+		return *this;
 	}
 
 	Layer& Window::Attach(Layer& layer)
