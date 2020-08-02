@@ -10,7 +10,13 @@ namespace Vitro::Base
 	class Window
 	{
 	public:
+		Window() = default;
 		virtual ~Window();
+
+		Window(const Window&) = delete;
+		Window(Window&&) = delete;
+		Window& operator=(const Window&) = delete;
+		Window& operator=(Window&&) = delete;
 
 		virtual int GetWidth() const = 0;
 		virtual void SetWidth(int width) = 0;
@@ -38,13 +44,13 @@ namespace Vitro::Base
 		std::enable_if_t<std::is_base_of_v<Layer, L> && !std::is_base_of_v<Overlay, L>, L&>
 			Attach(Args&... args)
 		{
-			return static_cast<L&>(*Attach(new L(args...)));
+			return static_cast<L&>(Attach(*new L(args...)));
 		}
 
 		template<typename O, typename... Args>
 		std::enable_if_t<std::is_base_of_v<Overlay, O>, O&> Attach(Args&... args)
 		{
-			return static_cast<O&>(*Attach(new O(args...)));
+			return static_cast<O&>(Attach(*new O(args...)));
 		}
 
 	protected:
@@ -54,7 +60,7 @@ namespace Vitro::Base
 		std::vector<Layer*> LayerStack;
 		unsigned int LastLayerIndex = 0;
 
-		Layer* Attach(Layer* layer);
-		Overlay* Attach(Overlay* overlay);
+		Layer& Attach(Layer& layer);
+		Overlay& Attach(Overlay& overlay);
 	};
 }

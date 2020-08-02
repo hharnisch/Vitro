@@ -12,7 +12,7 @@ namespace Vitro::DirectX
 	{
 	public:
 		IndexBuffer(const Array<uint32_t>& indices);
-		IndexBuffer(const uint32_t indices[], size_t count);
+		IndexBuffer(const uint32_t indices[], uint32_t count);
 
 		void Bind() const override;
 

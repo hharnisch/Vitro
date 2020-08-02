@@ -54,8 +54,9 @@ namespace Vitro
 		static std::mutex Mutex;
 
 		static void StartQueueProcessing();
-		static void Dequeue();
+		static void DequeueAndWrite();
 		static void SetConsoleColors(uint8_t colorMask);
+		static std::string GetLogTimestamp();
 
 		Log() = delete;
 	};

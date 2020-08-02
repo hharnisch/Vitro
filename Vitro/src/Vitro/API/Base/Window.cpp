@@ -59,18 +59,18 @@ namespace Vitro::Base
 		}
 	}
 
-	Layer* Window::Attach(Layer* layer)
+	Layer& Window::Attach(Layer& layer)
 	{
-		layer->OnAttach();
-		LayerStack.emplace(LayerStack.begin() + LastLayerIndex, layer);
+		layer.OnAttach();
+		LayerStack.emplace(LayerStack.begin() + LastLayerIndex, &layer);
 		LastLayerIndex++;
 		return layer;
 	}
 
-	Overlay* Window::Attach(Overlay* overlay)
+	Overlay& Window::Attach(Overlay& overlay)
 	{
-		overlay->OnAttach();
-		LayerStack.emplace_back(overlay);
+		overlay.OnAttach();
+		LayerStack.emplace_back(&overlay);
 		return overlay;
 	}
 }

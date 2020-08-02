@@ -2,6 +2,7 @@
 
 #include "Vitro/Events/Event.h"
 #include "Vitro/Events/Window/WindowCloseEvent.h"
+#include "Vitro/Events/Window/WindowOpenEvent.h"
 #include "Vitro/Graphics/Window.h"
 
 namespace Vitro
@@ -9,12 +10,12 @@ namespace Vitro
 	class Engine
 	{
 	public:
-		Engine(int argc, char** argv);
+		Engine(const std::string& appLogPath, const std::string& engineLogPath);
 		virtual ~Engine();
 
 		static bool Running();
-		static void DispatchToWindow(Window& window, Event& e);
-		static void OnWindowOpen(Window* window);
+
+		virtual void OnStart() = 0;
 
 		int Start();
 
@@ -25,6 +26,8 @@ namespace Vitro
 		static std::vector<Window*> OpenWindows;
 		static std::thread LoggingThread;
 
+		static void DispatchToWindow(Window& window, Event& e);
+		static bool OnWindowOpen(WindowOpenEvent& e);
 		static bool OnWindowClose(WindowCloseEvent& e);
 	};
 }

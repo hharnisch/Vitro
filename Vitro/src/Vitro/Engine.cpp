@@ -14,12 +14,12 @@ namespace Vitro
 	std::vector<Window*> Engine::OpenWindows;
 	std::thread Engine::LoggingThread;
 
-	Engine::Engine(int argc, char** argv)
+	Engine::Engine(const std::string& appLogPath, const std::string& engineLogPath)
 	{
-		Log::Initialize("", "", LoggingThread);
+		Log::Initialize(appLogPath, engineLogPath, LoggingThread);
 
 	#if VTR_SYSTEM_WINDOWS
-		Windows::API::Initialize();
+		Windows::API::Initialize(Engine::DispatchToWindow);
 	#else
 	#error Unsupported system.
 	#endif
@@ -46,22 +46,11 @@ namespace Vitro
 		return !IsShuttingDown;
 	}
 
-	void Engine::DispatchToWindow(Window& window, Event& e)
-	{
-		LogEngineTrace(e);
-		window.OnEvent(e);
-		e.Dispatch<WindowCloseEvent>(Engine::OnWindowClose);
-	}
-
-	void Engine::OnWindowOpen(Window* window)
-	{
-		OpenWindows.emplace_back(window);
-	}
-
 	int Engine::Start()
 	{
 		try
 		{
+			OnStart();
 			ShouldUpdate = true;
 			while(ShouldUpdate)
 				for(Window* window : OpenWindows)
@@ -77,9 +66,24 @@ namespace Vitro
 		}
 		catch(const std::exception& e)
 		{
-			LogEngineFatal(e.what());
+			LogEngineFatal(e.what()); // Can come from app in layers.
+			std::cin.get();
 			return EXIT_FAILURE;
 		}
+	}
+
+	void Engine::DispatchToWindow(Window& window, Event& e)
+	{
+		LogEngineTrace(e);
+		window.OnEvent(e);
+		e.Dispatch<WindowOpenEvent>(Engine::OnWindowOpen);
+		e.Dispatch<WindowCloseEvent>(Engine::OnWindowClose);
+	}
+
+	bool Engine::OnWindowOpen(WindowOpenEvent& e)
+	{
+		OpenWindows.emplace_back(&e.GetWindow());
+		return true;
 	}
 
 	bool Engine::OnWindowClose(WindowCloseEvent& e)

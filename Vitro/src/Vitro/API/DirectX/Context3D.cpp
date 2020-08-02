@@ -20,11 +20,11 @@ namespace Vitro::DirectX
 		adapter->GetParent(__uuidof(IDXGIFactory2), &factory);
 
 		DXGI_SWAP_CHAIN_DESC1 scd{0};
-		scd.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-		scd.SampleDesc.Count = 1;
-		scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-		scd.BufferCount = 2;
-		scd.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
+		scd.Format				= DXGI_FORMAT_R8G8B8A8_UNORM;
+		scd.SampleDesc.Count	= 1;
+		scd.BufferUsage			= DXGI_USAGE_RENDER_TARGET_OUTPUT;
+		scd.BufferCount			= 2;
+		scd.SwapEffect			= DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
 
 		DXGI_SWAP_CHAIN_FULLSCREEN_DESC fsd{0};
 		fsd.Windowed = true;
@@ -42,10 +42,10 @@ namespace Vitro::DirectX
 	void Context3D::SetViewport(int width, int height, int x, int y)
 	{
 		D3D11_VIEWPORT viewport{0};
-		viewport.TopLeftX = static_cast<FLOAT>(x);
-		viewport.TopLeftY = static_cast<FLOAT>(y);
-		viewport.Width = static_cast<FLOAT>(width);
-		viewport.Height = static_cast<FLOAT>(height);
+		viewport.TopLeftX	= static_cast<FLOAT>(x);
+		viewport.TopLeftY	= static_cast<FLOAT>(y);
+		viewport.Width		= static_cast<FLOAT>(width);
+		viewport.Height		= static_cast<FLOAT>(height);
 		API::Context->RSSetViewports(1, &viewport);
 	}
 

@@ -45,11 +45,11 @@ namespace Vitro
 		while(Engine::Running())
 		{
 			if(Queue.size())
-				Dequeue();
+				DequeueAndWrite();
 			std::this_thread::yield();
 		}
 		while(Queue.size())
-			Dequeue();
+			DequeueAndWrite();
 
 		if(AppLogTarget != &std::cout)
 			delete AppLogTarget;
@@ -57,7 +57,7 @@ namespace Vitro
 			delete EngineLogTarget;
 	}
 
-	void Log::Dequeue()
+	void Log::DequeueAndWrite()
 	{
 		Mutex.lock();
 		Entry entry = Queue.front();
@@ -66,30 +66,16 @@ namespace Vitro
 
 		SetConsoleColors(static_cast<uint8_t>(entry.Level));
 
-		using namespace std::chrono;
-		auto now = system_clock::now().time_since_epoch(); // Get the current time.
-		auto secs = duration_cast<seconds>(now).count();
-		tm calendarTime;
-		localtime_s(&calendarTime, &secs);
-
-		char timestamp[14]; // Timestamp is 14 characters long with the null character.
-		strftime(timestamp, sizeof(timestamp), "[%T.", &calendarTime);
-
-		auto msecs = duration_cast<milliseconds>(now).count(); // Append milliseconds to timestamp.
-		auto msecsstr = std::to_string(msecs % 1000 + 1000).c_str();
-		for(int i = sizeof(timestamp) - 4; i < sizeof(timestamp); i++)
-			timestamp[i] = msecsstr[i - sizeof(timestamp) + 5];
-
 		auto logTarget = entry.FromEngine ? EngineLogTarget : AppLogTarget;
 		auto logOrigin = entry.FromEngine ? "ENGINE" : "APP";
 
-		std::stringstream logText; // Construct the full log message text.
-		logText << timestamp << "] [" << logOrigin;
+		std::stringstream logText;
+		logText << "[" << GetLogTimestamp() << "] [" << logOrigin;
 		if(logTarget != &std::cout) // Append log level if not logging to the console.
 			logText << " " << FileUtils::ModifyToUpper(ToString(entry.Level));
 		logText << "] " << entry.Message << std::endl;
 
-		*logTarget << logText.str(); // Write to the log.
+		*logTarget << logText.str();
 	}
 
 	void Log::SetConsoleColors(uint8_t colorMask)
@@ -99,5 +85,24 @@ namespace Vitro
 	#else
 	#error Unsupported system.
 	#endif
+	}
+
+	std::string Log::GetLogTimestamp()
+	{
+		using namespace std::chrono;
+		auto now = system_clock::now().time_since_epoch(); // Get the current time.
+		auto secs = duration_cast<seconds>(now).count();
+		tm calendarTime;
+		localtime_s(&calendarTime, &secs);
+
+		char timestamp[13]; // Timestamp is 13 characters long with the null character.
+		strftime(timestamp, sizeof(timestamp), "%T.", &calendarTime);
+
+		auto msecs = duration_cast<milliseconds>(now).count(); // Append milliseconds to timestamp.
+		auto msecsstr = std::to_string(msecs % 1000 + 1000).c_str();
+		for(int i = sizeof(timestamp) - 4; i < sizeof(timestamp); i++)
+			timestamp[i] = msecsstr[i - sizeof(timestamp) + 5];
+
+		return timestamp;
 	}
 }

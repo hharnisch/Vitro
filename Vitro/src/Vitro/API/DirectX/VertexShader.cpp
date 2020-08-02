@@ -21,7 +21,7 @@ namespace Vitro::DirectX
 	{
 		auto ied = reinterpret_cast<D3D11_INPUT_ELEMENT_DESC*>(fields);
 		Microsoft::WRL::ComPtr<ID3D11InputLayout> layout;
-		auto r = API::Device->CreateInputLayout(ied, count, Bytecode.Raw(), Bytecode.Count(), &layout);
+		API::Device->CreateInputLayout(ied, count, Bytecode.Raw(), Bytecode.Count(), &layout);
 		API::Context->IASetInputLayout(layout.Get());
 	}
 }

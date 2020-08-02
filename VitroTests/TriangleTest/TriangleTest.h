@@ -1,23 +1,25 @@
 #pragma once
 
-#include "SandboxLayer.h"
+#include "TriangleLayer.h"
 
-class Sandbox : public Vitro::Engine
+#include <Vitro.h>
+
+class TriangleTest : public Vitro::Engine
 {
 public:
-	Sandbox() : Engine("", "")
+	TriangleTest() : Engine("", "")
 	{
 		AppWindow = new Vitro::Window(550, 450, 300, 150, "TriangleTest");
 	}
 
-	~Sandbox()
+	~TriangleTest()
 	{
 		delete AppWindow;
 	}
 
 	void OnStart() override
 	{
-		AppWindow->Attach<SandboxLayer>();
+		AppWindow->Attach<TriangleLayer>();
 		AppWindow->Open();
 	}
 

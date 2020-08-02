@@ -74,10 +74,9 @@ namespace Vitro::Windows
 
 	void Window::SetTitle(const std::string& title)
 	{
-		wchar_t* wstr = API::WidenChars(title.c_str());
-		if(SetWindowTextW(NativeHandle, wstr))
+		auto wstr = API::WidenChars(title);
+		if(SetWindowTextW(NativeHandle, wstr.c_str()))
 			Title = title;
-		free(wstr);
 	}
 
 	HWND Window::GetNativeHandle()
@@ -87,16 +86,15 @@ namespace Vitro::Windows
 
 	void Window::Open()
 	{
-		wchar_t* wstr = API::WidenChars(Title.c_str());
-		NativeHandle = CreateWindowExW(0, API::WindowClassName, wstr, WS_OVERLAPPEDWINDOW,
-									   X, Y, Width, Height, nullptr, nullptr,
-									   API::InstanceHandle, nullptr);
-		free(wstr);
+		auto wstr = API::WidenChars(Title);
+		NativeHandle = CreateWindowExW(0, API::WindowClassName, wstr.c_str(), WS_OVERLAPPEDWINDOW,
+									   X, Y, Width, Height, nullptr, nullptr, API::ModuleHandle,
+									   nullptr);
 		SetWindowLongPtr(NativeHandle, 0, reinterpret_cast<LONG_PTR>(this));
+
 		GraphicsContext3D = new Context3D(this);
 		GraphicsContext3D->SetViewport(Width, Height, 0, 0);
 
-		Engine::OnWindowOpen(this);
 		ImGui_ImplWin32_Init(NativeHandle);
 		ShowWindow(NativeHandle, SW_RESTORE);
 	}

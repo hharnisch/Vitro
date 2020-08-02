@@ -12,41 +12,38 @@ namespace Vitro::Windows
 	{
 	public:
 		static constexpr auto WindowClassName = L"VITRO";
-		static HANDLE StdOutHandle;
-		static HINSTANCE InstanceHandle;
+		static HMODULE ModuleHandle;
 
-		static void Initialize();
+		static void Initialize(std::function<void(Window&, Event&)> dispatcher);
+		static void SetConsoleColors(uint8_t colorMask);
+		static std::wstring WidenChars(const std::string& s);
+		static std::string NarrowChars(const std::wstring& ws);
 
 		// Exists only for the Windows API to deliver messages.
 		static LRESULT CALLBACK NotifyEngine(HWND wnd, UINT msg, WPARAM wp, LPARAM lp);
 
-		// Result must be deallocated manually!
-		static wchar_t* WidenChars(const char* str);
-
-		// Result must be deallocated manually!
-		static char* NarrowChars(const wchar_t* wstr);
-
-		static void SetConsoleColors(uint8_t colorMask);
-
 	private:
+		static HANDLE StdOutHandle;
+		static std::function<void(Window&, Event&)> Dispatcher;
 		static KeyCode LastKeyCode;
 		static int KeyRepeats;
 
-		static MouseCode GetMouseExtra(WPARAM wp);
+		static void OnWindowOpen(Window& window);
+		static void OnWindowClose(Window& window);
+		static void OnWindowMove(Window& window, LPARAM lp);
+		static void OnWindowSize(Window& window, LPARAM lp);
+		static void OnWindowFocus(Window& window);
+		static void OnWindowUnfocus(Window& window);
 		static void OnKeyDown(Window& window, WPARAM wp);
 		static void OnKeyUp(Window& window, WPARAM wp);
 		static void OnTextType(Window& window, WPARAM wp);
-		static void OnDoubleClick(Window& window, MouseCode button);
-		static void OnMouseDown(Window& window, MouseCode button);
 		static void OnMouseMove(Window& window, LPARAM lp);
-		static void OnMouseScrollHorizontal(Window& window, WPARAM wp);
-		static void OnMouseScrollVertical(Window& window, WPARAM wp);
+		static void OnMouseDown(Window& window, MouseCode button);
 		static void OnMouseUp(Window& window, MouseCode button);
-		static void OnWindowClose(Window& window);
-		static void OnWindowFocus(Window& window);
-		static void OnWindowMove(Window& window, LPARAM lp);
-		static void OnWindowSize(Window& window, LPARAM lp);
-		static void OnWindowUnfocus(Window& window);
+		static void OnDoubleClick(Window& window, MouseCode button);
+		static void OnMouseScrollVertical(Window& window, WPARAM wp);
+		static void OnMouseScrollHorizontal(Window& window, WPARAM wp);
+		static MouseCode GetMouseExtra(WPARAM wp);
 
 		API() = delete;
 	};

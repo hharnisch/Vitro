@@ -17,7 +17,7 @@ project "Vitro"
 	language			"C++"
 	cppdialect			"C++17"
 	staticruntime		"on"
-	targetdir			(".bin/" .. outputdir .. "/%{prj.name}")
+	targetdir			(".bin/"	 .. outputdir .. "/%{prj.name}")
 	objdir				(".bin_obj/" .. outputdir .. "/%{prj.name}")
 	libdirs				"%{prj.name}/lib"
 	pchsource			"%{prj.name}/src/_pch.cpp"
@@ -69,7 +69,7 @@ project "VitroTests"
 	language			"C++"
 	cppdialect			"C++17"
 	staticruntime		"on"
-	targetdir			(".bin/" .. outputdir .. "/%{prj.name}")
+	targetdir			(".bin/"	 .. outputdir .. "/%{prj.name}")
 	objdir				(".bin_obj/" .. outputdir .. "/%{prj.name}")
 	links				"Vitro"
 
