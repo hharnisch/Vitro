@@ -1,10 +1,14 @@
-﻿#pragma once
+#pragma once
 
-#if VTR_ENABLE_ASSERTIONS
+#define AssertCritical(condition, message)		\
+		if(!(condition))						\
+			throw std::runtime_error(message);
 
-#define Assert(condition, message)			\
-	if(!(condition))						\
-		throw std::runtime_error(message);
+#define ArrayCount(arr) (sizeof(arr) / sizeof(*arr))
+
+#if VTR_DEBUG
+
+#define Assert(condition, message) AssertCritical(condition, message)
 
 #define AssertArrayRange(arr, index, arrayName)						\
 	if(index >= sizeof(arr) / sizeof(*arr))							\

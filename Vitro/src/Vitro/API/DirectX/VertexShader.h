@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "Vitro/API/Base/VertexShader.h"
 
@@ -13,7 +13,7 @@ namespace Vitro::DirectX
 		VertexShader(const std::string& filePath);
 
 		void Bind() override;
-		void SetVertexLayout(VertexField fields[], uint32_t count) override;
+		void SetVertexLayout(const VertexLayout& layout) override;
 
 	private:
 		Microsoft::WRL::ComPtr<ID3D11VertexShader> ShaderPtr;

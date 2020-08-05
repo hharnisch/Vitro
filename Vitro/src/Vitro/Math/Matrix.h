@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "Vitro/Math/Matrix2.h"
 #include "Vitro/Math/Matrix3.h"
@@ -78,15 +78,15 @@ namespace Vitro
 	typedef Matrix<4, 2, uint64_t>		ULong4x2;
 	typedef Matrix<4, 3, uint64_t>		ULong4x3;
 	typedef Matrix<4, 4, uint64_t>		ULong4x4;
-	typedef Matrix<2, 2, float>			Float2x2, Mat2;
-	typedef Matrix<2, 3, float>			Float2x3, Mat2x3;
-	typedef Matrix<2, 4, float>			Float2x4, Mat2x4;
-	typedef Matrix<3, 2, float>			Float3x2, Mat3x2;
-	typedef Matrix<3, 3, float>			Float3x3, Mat3;
-	typedef Matrix<3, 4, float>			Float3x4, Mat3x4;
-	typedef Matrix<4, 2, float>			Float4x2, Mat4x2;
-	typedef Matrix<4, 3, float>			Float4x3, Mat4x3;
-	typedef Matrix<4, 4, float>			Float4x4, Mat4;
+	typedef Matrix<2, 2, float>			Float2x2;
+	typedef Matrix<2, 3, float>			Float2x3;
+	typedef Matrix<2, 4, float>			Float2x4;
+	typedef Matrix<3, 2, float>			Float3x2;
+	typedef Matrix<3, 3, float>			Float3x3;
+	typedef Matrix<3, 4, float>			Float3x4;
+	typedef Matrix<4, 2, float>			Float4x2;
+	typedef Matrix<4, 3, float>			Float4x3;
+	typedef Matrix<4, 4, float>			Float4x4;
 	typedef Matrix<2, 2, double>		Double2x2;
 	typedef Matrix<2, 3, double>		Double2x3;
 	typedef Matrix<2, 4, double>		Double2x4;

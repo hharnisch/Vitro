@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Vitro/Events/Event.h"
 #include "Vitro/Events/WindowEvent.h"
@@ -16,7 +16,7 @@ namespace Vitro
 
 		virtual void OnStart() = 0;
 
-		int Start();
+		int Run();
 
 	private:
 		static bool ShouldUpdate;

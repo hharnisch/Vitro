@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "Vitro/Math/Vector2.h"
 #include "Vitro/Math/Vector3.h"
@@ -30,9 +30,9 @@ namespace Vitro
 	typedef Vector<2, unsigned long>	ULong2;
 	typedef Vector<3, unsigned long>	ULong3;
 	typedef Vector<4, unsigned long>	ULong4;
-	typedef Vector<2, float>			Float2, Vec2;
-	typedef Vector<3, float>			Float3, Vec3;
-	typedef Vector<4, float>			Float4, Vec4;
+	typedef Vector<2, float>			Float2;
+	typedef Vector<3, float>			Float3;
+	typedef Vector<4, float>			Float4;
 	typedef Vector<2, double>			Double2;
 	typedef Vector<3, double>			Double3;
 	typedef Vector<4, double>			Double4;

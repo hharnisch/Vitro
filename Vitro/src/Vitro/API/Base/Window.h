@@ -1,7 +1,7 @@
 #pragma once
 
 #include "_pch.h"
-#include "Vitro/API/Base/Context3D.h"
+#include "Vitro/Events/Event.h"
 #include "Vitro/Graphics/Layer.h"
 #include "Vitro/Graphics/Overlay.h"
 
@@ -20,11 +20,13 @@ namespace Vitro::Base
 		virtual void SetY(int y) = 0;
 		virtual std::string GetTitle() const = 0;
 		virtual void SetTitle(const std::string& title) = 0;
+		virtual void* GetNativeHandle() const = 0;
 		virtual void Open() = 0;
 		virtual void Close() = 0;
 		virtual void Maximize() = 0;
 		virtual void Minimize() = 0;
-		virtual void UpdatePlatform() = 0;
+		virtual void PollEvents() = 0;
+		virtual void PlatformOnEvent(Event& e) = 0;
 
 		void Update();
 		void OnEvent(Event& e);
@@ -45,13 +47,9 @@ namespace Vitro::Base
 		}
 
 	protected:
-		int Width;
-		int Height;
-		int X;
-		int Y;
-		std::string Title;
-		std::unique_ptr<Context3D> GraphicsContext3D = nullptr;
+		std::shared_ptr<Renderer3D> Renderer = nullptr;
 
+		Window() = default;
 		Window(int width, int height, int x, int y, const std::string& title);
 		Window(Window&& other) noexcept;
 		virtual ~Window();

@@ -12,7 +12,6 @@ namespace Vitro::Windows
 	{
 	public:
 		static constexpr auto WindowClassName = L"VITRO";
-		static HMODULE ModuleHandle;
 
 		static void Initialize(std::function<void(Window&, Event&)> dispatcher);
 		static void SetConsoleColors(uint8_t colorMask);
@@ -23,7 +22,6 @@ namespace Vitro::Windows
 		static LRESULT CALLBACK NotifyEngine(HWND wnd, UINT msg, WPARAM wp, LPARAM lp);
 
 	private:
-		static HANDLE StdOutHandle;
 		static std::function<void(Window&, Event&)> Dispatcher;
 		static KeyCode LastKeyCode;
 		static int KeyRepeats;

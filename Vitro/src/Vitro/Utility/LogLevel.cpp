@@ -1,7 +1,7 @@
 #include "_pch.h"
 #include "LogLevel.h"
 
-#define $ToString(x) case LogLevel::x: return #x
+#define VTR_STRING_CONVERSION_CASE(X) case LogLevel::X: return #X
 
 namespace Vitro
 {
@@ -9,13 +9,13 @@ namespace Vitro
 	{
 		switch(level)
 		{
-			$ToString(Trace);
-			$ToString(Debug);
-			$ToString(Info);
-			$ToString(Warn);
-			$ToString(Error);
-			$ToString(Fatal);
+			VTR_STRING_CONVERSION_CASE(Trace);
+			VTR_STRING_CONVERSION_CASE(Debug);
+			VTR_STRING_CONVERSION_CASE(Info);
+			VTR_STRING_CONVERSION_CASE(Warn);
+			VTR_STRING_CONVERSION_CASE(Error);
+			VTR_STRING_CONVERSION_CASE(Fatal);
 		}
-		return "Unknown log level: " + static_cast<int>(level);
+		return "Unknown log level: " + std::to_string(static_cast<int>(level));
 	}
 }

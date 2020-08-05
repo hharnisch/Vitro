@@ -16,8 +16,8 @@ namespace Vitro
 	void Log::Initialize(const std::string& appLogPath, const std::string& engineLogPath,
 						 std::thread& loggingThread)
 	{
-		static bool Initialized;
-		Assert(!Initialized, "Logging has already been initialized by the engine.");
+		static bool initialized;
+		AssertCritical(!initialized, "Logging has already been initialized by the engine.");
 
 		if(appLogPath.size())
 			AppLogTarget = new std::ofstream(appLogPath);
@@ -30,7 +30,7 @@ namespace Vitro
 			EngineLogTarget = &std::cout;
 
 		loggingThread = std::thread(StartQueueProcessing);
-		Initialized = true;
+		initialized = true;
 	}
 
 	void Log::Enqueue(const Entry& entry)

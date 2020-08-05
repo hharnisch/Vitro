@@ -24,16 +24,21 @@ namespace Vitro::Windows
 		void SetY(int y) override;
 		std::string GetTitle() const override;
 		void SetTitle(const std::string& title) override;
+		void* GetNativeHandle() const override;
 		void Open() override;
 		void Close() override;
 		void Maximize() override;
 		void Minimize() override;
-		void UpdatePlatform() override;
-
-		HWND GetNativeHandle();
+		void PollEvents() override;
+		void PlatformOnEvent(Event& e) override;
 
 	private:
-		HWND NativeHandle = nullptr;
+		int Width;
+		int Height;
+		int X;
+		int Y;
+		std::string Title;
+		HWND NativeHandle;
 
 		Window(const Window&) = delete;
 		Window& operator=(const Window&) = delete;

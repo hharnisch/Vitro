@@ -5,11 +5,11 @@
 
 namespace Vitro::DirectX
 {
-	IndexBuffer::IndexBuffer(const Array<uint32_t>& indices) :
+	IndexBuffer::IndexBuffer(const HeapArray<uint32_t>& indices) :
 		IndexBuffer(indices.Raw(), static_cast<uint32_t>(indices.Count()))
 	{}
 
-	IndexBuffer::IndexBuffer(const uint32_t indices[], uint32_t count)
+	IndexBuffer::IndexBuffer(const uint32_t indices[], uint32_t count) : IndexCount(count)
 	{
 		D3D11_BUFFER_DESC bd{0};
 		bd.ByteWidth	= count * sizeof(uint32_t);
@@ -19,11 +19,17 @@ namespace Vitro::DirectX
 		D3D11_SUBRESOURCE_DATA srd{0};
 		srd.pSysMem = indices;
 
-		API::Device->CreateBuffer(&bd, &srd, &BufferPtr);
+		auto result = API::Device->CreateBuffer(&bd, &srd, &BufferPtr);
+		AssertCritical(SUCCEEDED(result), "Could not create index buffer.");
 	}
 
 	void IndexBuffer::Bind() const
 	{
 		API::Context->IASetIndexBuffer(BufferPtr.Get(), DXGI_FORMAT_R32_UINT, 0);
+	}
+
+	uint32_t IndexBuffer::Count() const
+	{
+		return IndexCount;
 	}
 }

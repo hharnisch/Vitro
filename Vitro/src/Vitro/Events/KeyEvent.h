@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Vitro/Events/Event.h"
 #include "Vitro/Events/KeyCode.h"
@@ -9,7 +9,7 @@ namespace Vitro
 	class KeyEvent : public Event
 	{
 	public:
-		$EventSource(EventSource::Input | EventSource::Keyboard);
+		VTR_EVENT_SOURCE(EventSource::Input | EventSource::Keyboard);
 
 		KeyCode GetKeyCode() const;
 
@@ -23,7 +23,7 @@ namespace Vitro
 	class KeyDownEvent : public KeyEvent
 	{
 	public:
-		$EventType(KeyDown);
+		VTR_EVENT_TYPE(KeyDown);
 
 		// Engine-internal constructor. Do NOT use in client application!
 		KeyDownEvent(KeyCode key, int repetitions);
@@ -40,7 +40,7 @@ namespace Vitro
 	class KeyUpEvent : public KeyEvent
 	{
 	public:
-		$EventType(KeyUp);
+		VTR_EVENT_TYPE(KeyUp);
 
 		// Engine-internal constructor. Do NOT use in client application!
 		KeyUpEvent(KeyCode key);
@@ -52,7 +52,7 @@ namespace Vitro
 	class TextTypeEvent : public KeyEvent
 	{
 	public:
-		$EventType(TextType);
+		VTR_EVENT_TYPE(TextType);
 
 		// Engine-internal constructor. Do NOT use in client application!
 		TextTypeEvent(KeyCode key, std::string character);

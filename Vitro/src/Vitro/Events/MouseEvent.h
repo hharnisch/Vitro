@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Vitro/Events/Event.h"
 #include "Vitro/Events/MouseCode.h"
@@ -9,7 +9,7 @@ namespace Vitro
 	class MouseEvent : public Event
 	{
 	public:
-		$EventSource(EventSource::Input | EventSource::MouseButton);
+		VTR_EVENT_SOURCE(EventSource::Input | EventSource::MouseButton);
 
 		explicit operator std::string() const override;
 
@@ -25,8 +25,8 @@ namespace Vitro
 	class MouseMoveEvent : public MouseEvent
 	{
 	public:
-		$EventSource(EventSource::Input | EventSource::Mouse);
-		$EventType(MouseMove);
+		VTR_EVENT_SOURCE(EventSource::Input | EventSource::Mouse);
+		VTR_EVENT_TYPE(MouseMove);
 
 		// Engine-internal constructor. Do NOT use in client application!
 		MouseMoveEvent(int x, int y);
@@ -45,7 +45,7 @@ namespace Vitro
 	class MouseDownEvent : public MouseEvent
 	{
 	public:
-		$EventType(MouseDown);
+		VTR_EVENT_TYPE(MouseDown);
 
 		// Engine-internal constructor. Do NOT use in client application!
 		MouseDownEvent(MouseCode button);
@@ -55,7 +55,7 @@ namespace Vitro
 	class MouseUpEvent : public MouseEvent
 	{
 	public:
-		$EventType(MouseUp);
+		VTR_EVENT_TYPE(MouseUp);
 
 		// Engine-internal constructor. Do NOT use in client application!
 		MouseUpEvent(MouseCode button);
@@ -65,7 +65,7 @@ namespace Vitro
 	class DoubleClickEvent : public MouseEvent
 	{
 	public:
-		$EventType(DoubleClick);
+		VTR_EVENT_TYPE(DoubleClick);
 
 		// Engine-internal constructor. Do NOT use in client application!
 		DoubleClickEvent(MouseCode button);
@@ -75,8 +75,8 @@ namespace Vitro
 	class MouseScrollEvent : public MouseEvent
 	{
 	public:
-		$EventSource(EventSource::Input | EventSource::Mouse);
-		$EventType(MouseScroll);
+		VTR_EVENT_SOURCE(EventSource::Input | EventSource::Mouse);
+		VTR_EVENT_TYPE(MouseScroll);
 
 		// Engine-internal constructor. Do NOT use in client application!
 		MouseScrollEvent(float xOffset, float yOffset);

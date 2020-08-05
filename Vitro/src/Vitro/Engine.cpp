@@ -4,18 +4,22 @@
 #include "Vitro/API/DirectX/API.h"
 #include "Vitro/API/Windows/API.h"
 #include "Vitro/Graphics/UI/UI.h"
+#include "Vitro/Utility/Assert.h"
 #include "Vitro/Utility/Log.h"
 
 namespace Vitro
 {
-	bool Engine::ShouldUpdate;
-	bool Engine::IsShuttingDown;
-	bool Engine::WindowIsClosing;
+	bool Engine::ShouldUpdate = false;
+	bool Engine::IsShuttingDown = false;
+	bool Engine::WindowIsClosing = false;
 	std::vector<Window*> Engine::OpenWindows;
 	std::thread Engine::LoggingThread;
 
 	Engine::Engine(const std::string& appLogPath, const std::string& engineLogPath)
 	{
+		static bool initialized;
+		AssertCritical(!initialized, "Engine object has already been created.");
+
 		Log::Initialize(appLogPath, engineLogPath, LoggingThread);
 
 	#if VTR_SYSTEM_WINDOWS
@@ -31,6 +35,8 @@ namespace Vitro
 	#endif
 
 		UI::Initialize();
+
+		initialized = true;
 	}
 
 	Engine::~Engine()
@@ -46,12 +52,14 @@ namespace Vitro
 		return !IsShuttingDown;
 	}
 
-	int Engine::Start()
+	int Engine::Run()
 	{
 		try
 		{
+			AssertCritical(!ShouldUpdate, "Engine has already been started.");
 			OnStart();
 			ShouldUpdate = true;
+
 			while(ShouldUpdate)
 				for(Window* window : OpenWindows)
 				{
@@ -62,11 +70,12 @@ namespace Vitro
 						break;
 					}
 				}
+
 			return EXIT_SUCCESS;
 		}
 		catch(const std::exception& e)
 		{
-			LogEngineFatal(e.what()); // Can come from app in layers.
+			LogEngineFatal(e.what());
 			std::cin.get();
 			return EXIT_FAILURE;
 		}

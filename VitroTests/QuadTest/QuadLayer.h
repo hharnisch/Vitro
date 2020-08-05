@@ -2,13 +2,12 @@
 
 #include <Vitro.h>
 
-class TriangleLayer : public Vitro::Layer
+class QuadLayer : public Vitro::Layer
 {
 public:
-	TriangleLayer() :
-		Vertices(Triangle, ArrayCount(Triangle)),
-		Indices(TriangleIndices, ArrayCount(TriangleIndices)),
-		VShader("TriangleVertex.cso"), FShader("TriangleFragment.cso")
+	QuadLayer() :
+		Vertices(Quad, ArrayCount(Quad)), Indices(QuadIndices, ArrayCount(QuadIndices)),
+		VShader("QuadVertex.cso"), FShader("QuadFragment.cso")
 	{}
 
 	void OnAttach() override
@@ -42,9 +41,9 @@ public:
 		using namespace Vitro;
 		e.Dispatch<KeyDownEvent>([random, this](KeyDownEvent& e)
 		{
-			for(int i = 0; i < ArrayCount(Triangle); i++)
-				Triangle[i].Color ={random(), random(), random(), random()};
-			Vertices = VertexBuffer<Vertex>(Triangle, ArrayCount(Triangle));
+			for(int i = 0; i < ArrayCount(Quad); i++)
+				Quad[i].Color ={random(), random(), random(), random()};
+			Vertices = VertexBuffer<Vertex>(Quad, ArrayCount(Quad));
 
 			return true;
 		});
@@ -57,14 +56,15 @@ private:
 		Vitro::Float4 Color;
 	};
 
-	Vertex Triangle[3]
+	Vertex Quad[4]
 	{
-		{{0.0f, 0.5f, 0.},	{1.f, 0.f, 0.f, 1.f}},
-		{{0.5f, -.5f, 0.},	{0.f, 1.f, 0.f, 1.f}},
-		{{-.5f, -.5f, 0.},	{0.f, 0.f, 1.f, 1.f}}
+		{{-.5f, -.5f, 0.0},	{1.f, 0.f, 0.f, 1.f}},
+		{{0.5f, 0.5f, 0.0},	{0.f, 1.f, 0.f, 1.f}},
+		{{0.5f, -.5f, 0.0},	{1.f, 1.f, 0.f, 1.f}},
+		{{-.5f, 0.5f, 0.0},	{0.f, 0.f, 1.f, 1.f}},
 	};
 
-	uint32_t TriangleIndices[3]{0, 1, 2};
+	uint32_t QuadIndices[6]{0, 1, 2, 0, 3, 1};
 
 	Vitro::VertexBuffer<Vertex> Vertices;
 	Vitro::IndexBuffer Indices;

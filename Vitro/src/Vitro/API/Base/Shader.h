@@ -1,7 +1,7 @@
 #pragma once
 
 #include "_pch.h"
-#include "Vitro/Utility/Array.h"
+#include "Vitro/Utility/HeapArray.h"
 
 namespace Vitro::Base
 {
@@ -10,9 +10,9 @@ namespace Vitro::Base
 	public:
 		virtual void Bind() = 0;
 
-		const Array<char>& GetBytecode() const;
+		const HeapArray<char>& GetBytecode() const { return Bytecode; }
 
 	protected:
-		Array<char> Bytecode;
+		HeapArray<char> Bytecode;
 	};
 }

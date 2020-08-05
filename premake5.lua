@@ -43,13 +43,13 @@ project "Vitro"
 	filter "configurations:Debug"
 		runtime			"Debug"
 		symbols			"on"
-		defines			{ "VTR_DEBUG", "VTR_ENGINE_LOG_LEVEL=VTR_LOG_LEVEL_DEBUG", "VTR_ENABLE_ASSERTIONS" }
+		defines			{ "VTR_DEBUG", "VTR_ENGINE_LOG_LEVEL=VTR_LOG_LEVEL_DEBUG" }
 		
 	filter "configurations:DebugOptimized"
 		runtime			"Debug"
 		symbols			"on"
 		optimize		"on"
-		defines			{ "VTR_DEBUG", "VTR_ENGINE_LOG_LEVEL=VTR_LOG_LEVEL_DEBUG", "VTR_ENABLE_ASSERTIONS" }
+		defines			{ "VTR_DEBUG", "VTR_ENGINE_LOG_LEVEL=VTR_LOG_LEVEL_DEBUG" }
 
 	filter "configurations:Release"
 		runtime			"Release"

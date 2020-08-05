@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SandboxLayer.h"
+#include <Vitro.h>
 
 class Sandbox : public Vitro::Engine
 {
@@ -17,7 +17,6 @@ public:
 
 	void OnStart() override
 	{
-		AppWindow->Attach<SandboxLayer>();
 		AppWindow->Open();
 	}
 

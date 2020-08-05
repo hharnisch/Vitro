@@ -9,20 +9,26 @@ class TriangleTest : public Vitro::Engine
 public:
 	TriangleTest() : Engine("", "")
 	{
-		AppWindow = new Vitro::Window(550, 450, 300, 150, "TriangleTest");
+		AppWindow1 = new Vitro::Window(550, 450, 300, 150, "TriangleTest 1");
+		AppWindow2 = new Vitro::Window(550, 450, 1000, 150, "TriangleTest 2");
 	}
 
 	~TriangleTest()
 	{
-		delete AppWindow;
+		delete AppWindow1;
+		delete AppWindow2;
 	}
 
 	void OnStart() override
 	{
-		AppWindow->Attach<TriangleLayer>();
-		AppWindow->Open();
+		AppWindow1->Open();
+		AppWindow1->Attach<TriangleLayer>();
+
+		AppWindow2->Open();
+		AppWindow2->Attach<TriangleLayer>();
 	}
 
 private:
-	Vitro::Window* AppWindow;
+	Vitro::Window* AppWindow1;
+	Vitro::Window* AppWindow2;
 };

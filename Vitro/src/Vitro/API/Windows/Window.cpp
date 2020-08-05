@@ -3,7 +3,7 @@
 
 #include "Vitro/Engine.h"
 #include "Vitro/API/Windows/API.h"
-#include "Vitro/Graphics/Context3D.h"
+#include "Vitro/Graphics/Renderer3D.h"
 
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_win32.h>
@@ -11,10 +11,13 @@
 namespace Vitro::Windows
 {
 	Window::Window(int width, int height, int x, int y, const std::string& title) :
-		Base::Window(width, height, x, y, title)
+		Width(width), Height(height), X(x), Y(y), Title(title), NativeHandle(nullptr)
 	{}
 
-	Window::Window(Window&& other) noexcept : Base::Window(std::move(other)),
+	Window::Window(Window&& other) noexcept :
+		Base::Window(std::move(other)),
+		Width(other.Width), Height(other.Height), X(other.X), Y(other.Y),
+		Title(std::move(other.Title)),
 		NativeHandle(std::exchange(other.NativeHandle, nullptr))
 	{}
 
@@ -26,6 +29,11 @@ namespace Vitro::Windows
 	Window& Window::operator=(Window&& other) noexcept
 	{
 		Base::Window::operator=(std::move(other));
+		Width = other.Width;
+		Height = other.Height;
+		X = other.X;
+		Y = other.Y;
+		Title = std::move(other.Title);
 		std::swap(NativeHandle, other.NativeHandle);
 		return *this;
 	}
@@ -86,7 +94,7 @@ namespace Vitro::Windows
 			Title = title;
 	}
 
-	HWND Window::GetNativeHandle()
+	void* Window::GetNativeHandle() const
 	{
 		return NativeHandle;
 	}
@@ -95,12 +103,10 @@ namespace Vitro::Windows
 	{
 		auto wstr = API::WidenChars(Title);
 		NativeHandle = CreateWindowExW(0, API::WindowClassName, wstr.c_str(), WS_OVERLAPPEDWINDOW,
-									   X, Y, Width, Height, nullptr, nullptr, API::ModuleHandle,
-									   nullptr);
+									   X, Y, Width, Height, nullptr, nullptr, nullptr, nullptr);
 		SetWindowLongPtr(NativeHandle, 0, reinterpret_cast<LONG_PTR>(this));
 
-		GraphicsContext3D = std::make_unique<Context3D>(this);
-		GraphicsContext3D->SetViewport(Width, Height, 0, 0);
+		Renderer = std::make_shared<Renderer3D>(*this);
 
 		ImGui_ImplWin32_Init(NativeHandle);
 		ShowWindow(NativeHandle, SW_RESTORE);
@@ -121,7 +127,7 @@ namespace Vitro::Windows
 		CloseWindow(NativeHandle);
 	}
 
-	void Window::UpdatePlatform()
+	void Window::PollEvents()
 	{
 		MSG msg;
 		while(PeekMessageW(&msg, nullptr, 0, 0, PM_REMOVE))
@@ -129,5 +135,21 @@ namespace Vitro::Windows
 			TranslateMessage(&msg);
 			DispatchMessageW(&msg);
 		}
+	}
+
+	void Window::PlatformOnEvent(Event& e)
+	{
+		e.Dispatch<WindowSizeEvent>([this](WindowSizeEvent& e)
+		{
+			Width = e.GetWidth();
+			Height = e.GetHeight();
+			return false;
+		});
+		e.Dispatch<WindowMoveEvent>([this](WindowMoveEvent& e)
+		{
+			X = e.GetX();
+			Y = e.GetY();
+			return false;
+		});
 	}
 }

@@ -9,7 +9,7 @@
 
 namespace Vitro::DirectX
 {
-	Context3D::Context3D(Window* window)
+	Context3D::Context3D(void* nativeHandle)
 	{
 		using namespace Microsoft::WRL;
 		ComPtr<IDXGIDevice1> dxgiDevice;
@@ -29,10 +29,10 @@ namespace Vitro::DirectX
 		DXGI_SWAP_CHAIN_FULLSCREEN_DESC fsd{0};
 		fsd.Windowed = true;
 
-		HWND hwnd = window->GetNativeHandle();
+		HWND hwnd = reinterpret_cast<HWND>(nativeHandle);
 		auto result = factory->CreateSwapChainForHwnd(API::Device.Get(), hwnd, &scd, &fsd, nullptr,
 													  &SwapChain);
-		Assert(SUCCEEDED(result), "Unable to create swap chain.");
+		AssertCritical(SUCCEEDED(result), "Unable to create swap chain.");
 
 		ComPtr<ID3D11Texture2D> backBuffer;
 		SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), &backBuffer);
@@ -49,13 +49,24 @@ namespace Vitro::DirectX
 		API::Context->RSSetViewports(1, &viewport);
 	}
 
+	void Context3D::SetClearColor(const Float4& color)
+	{
+		API::Context->ClearRenderTargetView(BackBuffer.Get(), color.Val);
+	}
+
 	void Context3D::TargetBackBuffer()
 	{
 		API::Context->OMSetRenderTargets(1, BackBuffer.GetAddressOf(), nullptr);
 	}
 
+	void Context3D::DrawIndices(const IndexBuffer& ib)
+	{
+		API::Context->DrawIndexed(ib.Count(), 0, 0);
+	}
+
 	void Context3D::SwapBuffers()
 	{
-		SwapChain->Present(1, 0);
+		auto result = SwapChain->Present(1, 0);
+		Assert(SUCCEEDED(result), "Swap chain could not present image.");
 	}
 }

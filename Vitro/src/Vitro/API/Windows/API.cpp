@@ -16,36 +16,31 @@ IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND wnd, UINT msg, WPARAM
 
 namespace Vitro::Windows
 {
-	HMODULE API::ModuleHandle;
-	HANDLE API::StdOutHandle;
 	std::function<void(Window&, Event&)> API::Dispatcher;
 	KeyCode API::LastKeyCode;
 	int API::KeyRepeats;
 
 	void API::Initialize(std::function<void(Window&, Event&)> dispatcher)
 	{
-		static bool Initialized;
-		Assert(!Initialized, "Windows API already initialized.");
+		static bool initialized;
+		AssertCritical(!initialized, "Windows API already initialized.");
 
 		Dispatcher = dispatcher;
-
-		ModuleHandle = GetModuleHandleW(nullptr);
-		StdOutHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 
 		WNDCLASSW wc{0};
 		wc.style			= CS_DBLCLKS;
 		wc.lpfnWndProc		= NotifyEngine;
-		wc.hInstance		= ModuleHandle;
 		wc.lpszClassName	= WindowClassName;
 		wc.cbWndExtra		= sizeof(void*);
 		RegisterClassW(&wc);
 
-		Initialized = true;
+		initialized = true;
 	}
 
 	void API::SetConsoleColors(uint8_t colorMask)
 	{
-		SetConsoleTextAttribute(StdOutHandle, colorMask);
+		static auto outHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+		SetConsoleTextAttribute(outHandle, colorMask);
 	}
 
 	std::wstring API::WidenChars(const std::string& s)

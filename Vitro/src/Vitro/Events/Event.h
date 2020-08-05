@@ -33,9 +33,9 @@ namespace Vitro
 #define Method(m) std::bind(&m, this, std::placeholders::_1)
 
 // Shorthand for implementing virtual methods related to the event type.
-#define $EventType(t) static EventType StaticType()				 { return EventType::t; }	\
-					  EventType GetType() const override		 { return StaticType(); }	\
-					  const std::string GetName() const override { return #t; }
+#define VTR_EVENT_TYPE(T) static EventType StaticType()				 { return EventType::T; }	\
+						  EventType GetType() const override		 { return StaticType(); }	\
+						  const std::string GetName() const override { return #T; }
 
 // Shorthand for implementing virtual methods related to the event source.
-#define $EventSource(s) EventSource GetSourceFlags() const override	{ return s; }
+#define VTR_EVENT_SOURCE(S) EventSource GetSourceFlags() const override	{ return S; }

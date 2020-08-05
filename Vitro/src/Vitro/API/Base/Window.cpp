@@ -1,22 +1,24 @@
 #include "_pch.h"
 #include "Window.h"
 
+#include "Vitro/Events/WindowEvent.h"
+#include "Vitro/Graphics/Renderer3D.h"
+
 namespace Vitro::Base
 {
 	void Window::Update()
 	{
-		GraphicsContext3D->TargetBackBuffer();
-
+		Renderer->BeginScene();
 		for(auto layer : LayerStack)
 			if(layer->Enabled)
 				layer->OnUpdate();
-		UpdatePlatform();
-
-		GraphicsContext3D->SwapBuffers();
+		PollEvents();
+		Renderer->EndScene();
 	}
 
 	void Window::OnEvent(Event& e)
 	{
+		PlatformOnEvent(e);
 		for(auto i = LayerStack.rbegin(); i != LayerStack.rend(); i++)
 		{
 			if((*i)->Enabled)
@@ -49,13 +51,7 @@ namespace Vitro::Base
 		}
 	}
 
-	Window::Window(int width, int height, int x, int y, const std::string& title) :
-		Width(width), Height(height), X(x), Y(y), Title(title)
-	{}
-
-	Window::Window(Window&& other) noexcept :
-		Width(other.Width), Height(other.Height), X(other.X), Y(other.Y),
-		Title(std::move(other.Title)), GraphicsContext3D(std::move(other.GraphicsContext3D)),
+	Window::Window(Window&& other) noexcept : Renderer(std::move(other.Renderer)),
 		LayerStack(std::move(other.LayerStack)), LastLayerIndex(other.LastLayerIndex)
 	{}
 
@@ -71,12 +67,7 @@ namespace Vitro::Base
 
 	Window& Window::operator=(Window&& other) noexcept
 	{
-		Width = other.Width;
-		Height = other.Height;
-		X = other.X;
-		Y = other.Y;
-		std::swap(Title, other.Title);
-		std::swap(GraphicsContext3D, other.GraphicsContext3D);
+		std::swap(Renderer, other.Renderer);
 		std::swap(LayerStack, other.LayerStack);
 		LastLayerIndex = other.LastLayerIndex;
 		return *this;
@@ -84,6 +75,7 @@ namespace Vitro::Base
 
 	Layer& Window::Attach(Layer& layer)
 	{
+		layer.Renderer = Renderer;
 		layer.OnAttach();
 		LayerStack.emplace(LayerStack.begin() + LastLayerIndex, &layer);
 		LastLayerIndex++;
@@ -92,6 +84,7 @@ namespace Vitro::Base
 
 	Overlay& Window::Attach(Overlay& overlay)
 	{
+		overlay.Renderer = Renderer;
 		overlay.OnAttach();
 		LayerStack.emplace_back(&overlay);
 		return overlay;

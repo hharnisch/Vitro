@@ -5,45 +5,51 @@
 
 namespace Vitro
 {
-	// Wrapper for variable-sized arrays. All methods are memory-safe when assertions are enabled.
-	template<typename T> struct Array
+	// Wrapper for dynamically allocated arrays. All methods are memory-safe in debug mode.
+	template<typename T> class HeapArray
 	{
 	public:
-		Array() = default;
+		inline HeapArray() = default;
 
-		inline Array(size_t count) : DataCount(count)
+		inline HeapArray(size_t count) : DataCount(count)
 		{
 			Data = new T[count];
 		}
 
-		~Array()
+		inline ~HeapArray()
 		{
 			delete[] Data;
 		}
 
-		Array(const Array& other) : Array(other.DataCount)
+		inline HeapArray(const HeapArray& other) : HeapArray(other.DataCount)
 		{
 			std::memcpy(Data, other.Data, DataCount * sizeof(T));
 		}
 
-		Array(Array&& other) noexcept :
+		inline HeapArray(HeapArray&& other) noexcept :
 			Data(std::exchange(other.Data, nullptr)),
 			DataCount(other.DataCount)
 		{}
 
-		Array& operator=(const Array& other)
+		inline HeapArray& operator=(const HeapArray& other)
 		{
-			return *this = Array(other);
+			return *this = HeapArray(other);
 		}
 
-		Array& operator=(Array&& other) noexcept
+		inline HeapArray& operator=(HeapArray&& other) noexcept
 		{
 			std::swap(Data, other.Data);
-			std::swap(DataCount, other.DataCount);
+			DataCount = other.DataCount;
 			return *this;
 		}
 
 		inline T& operator[](size_t index)
+		{
+			Assert(index < DataCount, "Array index out of range: " + std::to_string(index));
+			return *(Data + index);
+		}
+
+		inline const T& operator[](size_t index) const
 		{
 			Assert(index < DataCount, "Array index out of range: " + std::to_string(index));
 			return *(Data + index);
@@ -72,34 +78,34 @@ namespace Vitro
 		class Iterator
 		{
 		public:
-		#if VTR_ENABLE_ASSERTIONS
-			Iterator(T* begin, T* position, T* end) : Begin(begin), Position(position), End(end) {}
+		#if VTR_DEBUG
+			inline Iterator(T* begin, T* pos, T* end) : Begin(begin), Position(pos), End(end) {}
 		#else
-			Iterator(T* position) : Position(position) {}
+			inline Iterator(T* position) : Position(position) {}
 		#endif
 
-			T& operator*()
+			inline T& operator*()
 			{
 				return *Position;
 			}
 
-			bool operator==(Iterator other)
+			inline bool operator==(Iterator other)
 			{
 				return Position == other.Position;
 			}
 
-			bool operator!=(Iterator other)
+			inline bool operator!=(Iterator other)
 			{
 				return Position != other.Position;
 			}
 
-			Iterator& operator++()
+			inline Iterator& operator++()
 			{
 				Assert(Position < End, "Cannot increment iterator past end.");
 				Position += 1; return *this;
 			}
 
-			Iterator& operator--()
+			inline Iterator& operator--()
 			{
 				Assert(Begin < Position, "Cannot decrement iterator before begin.");
 				Position -= 1; return *this;
@@ -107,24 +113,24 @@ namespace Vitro
 
 		private:
 			T* Position;
-		#if VTR_ENABLE_ASSERTIONS
+		#if VTR_DEBUG
 			T* Begin;
 			T* End;
 		#endif
 		};
 
-		Iterator begin()
+		inline Iterator begin()
 		{
-		#if VTR_ENABLE_ASSERTIONS
+		#if VTR_DEBUG
 			return Iterator(Data, Data, Data + DataCount);
 		#else
 			return Iterator(Data);
 		#endif
 		}
 
-		Iterator end()
+		inline Iterator end()
 		{
-		#if VTR_ENABLE_ASSERTIONS
+		#if VTR_DEBUG
 			return Iterator(Data, Data + DataCount, Data + DataCount);
 		#else
 			return Iterator(Data + DataCount);
@@ -134,5 +140,8 @@ namespace Vitro
 	private:
 		T* __restrict Data = nullptr;
 		size_t DataCount = 0;
+
+		void* operator new(size_t) = delete;
+		void operator delete(void*) = delete;
 	};
 }

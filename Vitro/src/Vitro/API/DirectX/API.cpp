@@ -7,12 +7,17 @@ namespace Vitro::DirectX
 {
 	Microsoft::WRL::ComPtr<ID3D11Device5> API::Device;
 	Microsoft::WRL::ComPtr<ID3D11DeviceContext4> API::Context;
+	Microsoft::WRL::ComPtr<ID3D11Debug> API::DebugLayer;
 
 	void API::Initialize()
 	{
-		static bool Initialized;
-		Assert(!Initialized, "DirectX API already initialized.");
+		static bool initialized;
+		AssertCritical(!initialized, "DirectX API already initialized.");
 
+		UINT flags = 0;
+	#if VTR_DEBUG
+		flags |= D3D11_CREATE_DEVICE_DEBUG;
+	#endif
 		D3D_FEATURE_LEVEL featureLevels[]
 		{
 			D3D_FEATURE_LEVEL_11_1,
@@ -27,14 +32,18 @@ namespace Vitro::DirectX
 		using namespace Microsoft::WRL;
 		ComPtr<ID3D11Device> device;
 		ComPtr<ID3D11DeviceContext> context;
-		auto result = D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, 0,
+		auto result = D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, flags,
 										featureLevels, ARRAYSIZE(featureLevels), D3D11_SDK_VERSION,
 										&device, nullptr, &context);
-		Assert(SUCCEEDED(result), "DirectX device could not be created.");
-
+		AssertCritical(SUCCEEDED(result), "DirectX device could not be created.");
 		device.As(&API::Device);
 		context.As(&API::Context);
 
-		Initialized = true;
+	#if VTR_DEBUG
+		auto query = API::Device->QueryInterface(__uuidof(ID3D11Debug), &DebugLayer);
+		AssertCritical(SUCCEEDED(query), "Could not get debug layer.");
+	#endif
+
+		initialized = true;
 	}
 }

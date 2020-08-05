@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Vitro/API/Base/Context3D.h"
-#include "Vitro/Graphics/Window.h"
 
 #include <d3d11_4.h>
 #include <dxgi1_6.h>
@@ -12,10 +11,12 @@ namespace Vitro::DirectX
 	class Context3D : public Base::Context3D
 	{
 	public:
-		Context3D(Window* window);
+		Context3D(void* nativeHandle);
 
 		void SetViewport(int width, int height, int x, int y) override;
+		void SetClearColor(const Float4& color) override;
 		void TargetBackBuffer() override;
+		void DrawIndices(const IndexBuffer& ib) override;
 		void SwapBuffers() override;
 
 	private:

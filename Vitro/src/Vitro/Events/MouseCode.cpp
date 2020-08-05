@@ -1,7 +1,7 @@
 #include "_pch.h"
 #include "MouseCode.h"
 
-#define $ToString(x) case MouseCode::x: return #x
+#define VTR_STRING_CONVERSION_CASE(X) case MouseCode::X: return #X
 
 namespace Vitro
 {
@@ -9,13 +9,13 @@ namespace Vitro
 	{
 		switch(button)
 		{
-			$ToString(None);
-			$ToString(Mouse1);
-			$ToString(Mouse2);
-			$ToString(Wheel);
-			$ToString(Extra1);
-			$ToString(Extra2);
+			VTR_STRING_CONVERSION_CASE(None);
+			VTR_STRING_CONVERSION_CASE(Mouse1);
+			VTR_STRING_CONVERSION_CASE(Mouse2);
+			VTR_STRING_CONVERSION_CASE(Wheel);
+			VTR_STRING_CONVERSION_CASE(Extra1);
+			VTR_STRING_CONVERSION_CASE(Extra2);
 		}
-		return "Unknown mouse button: " + static_cast<int>(button);
+		return "Unknown mouse button: " + std::to_string(static_cast<int>(button));
 	}
 }

@@ -9,7 +9,7 @@ namespace Vitro
 	class WindowEvent : public Event
 	{
 	public:
-		$EventSource(EventSource::App);
+		VTR_EVENT_SOURCE(EventSource::App);
 
 		explicit operator std::string() const override;
 
@@ -25,7 +25,7 @@ namespace Vitro
 	class WindowCloseEvent : public WindowEvent
 	{
 	public:
-		$EventType(WindowClose);
+		VTR_EVENT_TYPE(WindowClose);
 
 		// Engine-internal constructor. Do NOT use in client application!
 		WindowCloseEvent(Window& window);
@@ -35,7 +35,7 @@ namespace Vitro
 	class WindowMoveEvent : public WindowEvent
 	{
 	public:
-		$EventType(WindowMove);
+		VTR_EVENT_TYPE(WindowMove);
 
 		// Engine-internal constructor. Do NOT use in client application!
 		WindowMoveEvent(Window& window, int width, int height);
@@ -54,7 +54,7 @@ namespace Vitro
 	class WindowSizeEvent : public WindowEvent
 	{
 	public:
-		$EventType(WindowSize);
+		VTR_EVENT_TYPE(WindowSize);
 
 		// Engine-internal constructor. Do NOT use in client application!
 		WindowSizeEvent(Window& window, int width, int height);
@@ -73,7 +73,7 @@ namespace Vitro
 	class WindowFocusEvent : public WindowEvent
 	{
 	public:
-		$EventType(WindowFocus);
+		VTR_EVENT_TYPE(WindowFocus);
 
 		// Engine-internal constructor. Do NOT use in client application!
 		WindowFocusEvent(Window& window);
@@ -83,7 +83,7 @@ namespace Vitro
 	class WindowUnfocusEvent : public WindowEvent
 	{
 	public:
-		$EventType(WindowUnfocus);
+		VTR_EVENT_TYPE(WindowUnfocus);
 
 		// Engine-internal constructor. Do NOT use in client application!
 		WindowUnfocusEvent(Window& window);
@@ -93,7 +93,7 @@ namespace Vitro
 	class WindowOpenEvent : public WindowEvent
 	{
 	public:
-		$EventType(WindowOpen);
+		VTR_EVENT_TYPE(WindowOpen);
 
 		// Engine-internal constructor. Do NOT use in client application!
 		WindowOpenEvent(Window& window);
