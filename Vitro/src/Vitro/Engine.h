@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "Vitro/Events/Event.h"
 #include "Vitro/Events/WindowEvent.h"
@@ -19,14 +19,12 @@ namespace Vitro
 		int Run();
 
 	private:
-		static bool ShouldUpdate;
-		static bool IsShuttingDown;
-		static bool WindowIsClosing;
+		static bool ShouldUpdate, IsShuttingDown, ResetUpdateToFirstWindow;
 		static std::vector<Window*> OpenWindows;
 		static std::thread LoggingThread;
 
 		static void DispatchToWindow(Window& window, Event& e);
-		static bool OnWindowOpen(WindowOpenEvent& e);
 		static bool OnWindowClose(WindowCloseEvent& e);
+		static bool OnWindowOpen(WindowOpenEvent& e);
 	};
 }

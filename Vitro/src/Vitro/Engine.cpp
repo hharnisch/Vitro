@@ -11,7 +11,7 @@ namespace Vitro
 {
 	bool Engine::ShouldUpdate = false;
 	bool Engine::IsShuttingDown = false;
-	bool Engine::WindowIsClosing = false;
+	bool Engine::ResetUpdateToFirstWindow = false;
 	std::vector<Window*> Engine::OpenWindows;
 	std::thread Engine::LoggingThread;
 
@@ -64,9 +64,9 @@ namespace Vitro
 				for(Window* window : OpenWindows)
 				{
 					window->Update();
-					if(WindowIsClosing)
+					if(ResetUpdateToFirstWindow)
 					{
-						WindowIsClosing = false;
+						ResetUpdateToFirstWindow = false;
 						break;
 					}
 				}
@@ -83,25 +83,25 @@ namespace Vitro
 
 	void Engine::DispatchToWindow(Window& window, Event& e)
 	{
-		LogEngineTrace(e);
 		window.OnEvent(e);
-		e.Dispatch<WindowOpenEvent>(Engine::OnWindowOpen);
 		e.Dispatch<WindowCloseEvent>(Engine::OnWindowClose);
-	}
-
-	bool Engine::OnWindowOpen(WindowOpenEvent& e)
-	{
-		OpenWindows.emplace_back(&e.GetWindow());
-		return true;
+		e.Dispatch<WindowOpenEvent>(Engine::OnWindowOpen);
 	}
 
 	bool Engine::OnWindowClose(WindowCloseEvent& e)
 	{
 		auto i = std::find(OpenWindows.begin(), OpenWindows.end(), &e.GetWindow());
 		OpenWindows.erase(i);
-		WindowIsClosing = true;
+		ResetUpdateToFirstWindow = true;
 
 		ShouldUpdate = OpenWindows.size();
+		return true;
+	}
+
+	bool Engine::OnWindowOpen(WindowOpenEvent& e)
+	{
+		OpenWindows.emplace_back(&e.GetWindow());
+		ResetUpdateToFirstWindow = true;
 		return true;
 	}
 }

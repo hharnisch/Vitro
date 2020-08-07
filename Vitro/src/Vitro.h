@@ -16,5 +16,6 @@
 #include "Vitro/Graphics/Window.h"
 #include "Vitro/Graphics/UI/UIOverlay.h"
 #include "Vitro/Math/Matrix.h"
+#include "Vitro/Math/Quaternion.h"
 #include "Vitro/Math/Vector.h"
 #include "Vitro/Utility/Log.h"

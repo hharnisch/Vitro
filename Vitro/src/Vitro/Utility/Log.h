@@ -28,6 +28,11 @@ namespace Vitro
 			return std::to_string(msg);
 		}
 
+		static std::string Concat(const bool& msg)
+		{
+			return msg ? "true" : "false";
+		}
+
 		template<typename M>
 		std::enable_if_t<std::is_enum_v<M>, std::string> static Concat(const M& msg)
 		{

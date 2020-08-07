@@ -46,8 +46,7 @@ namespace Vitro
 		int GetY() const;
 
 	private:
-		int X;
-		int Y;
+		int X, Y;
 	};
 
 	// Event fired when resizing a window.
@@ -65,8 +64,7 @@ namespace Vitro
 		int GetHeight() const;
 
 	private:
-		int Width;
-		int Height;
+		int Width, Height;
 	};
 
 	// Event fired when a window gets focus.

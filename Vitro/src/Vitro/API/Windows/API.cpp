@@ -65,11 +65,11 @@ namespace Vitro::Windows
 		auto& w = *reinterpret_cast<Window*>(GetWindowLongPtr(wnd, 0));
 		switch(msg)
 		{
-			case WM_DESTROY:	   OnWindowClose(w);					return 0;
 			case WM_MOVE:		   OnWindowMove(w, lp);					return 0;
 			case WM_SIZE:		   OnWindowSize(w, lp);					return 0;
 			case WM_SETFOCUS:	   OnWindowFocus(w);					return 0;
 			case WM_KILLFOCUS:	   OnWindowUnfocus(w);					return 0;
+			case WM_CLOSE:		   OnWindowClose(w);					return 0;
 			case WM_SHOWWINDOW:	   if(wp) OnWindowOpen(w);				return 0;
 			case WM_KEYDOWN:
 			case WM_SYSKEYDOWN:	   OnKeyDown(w, wp);					return 0;
@@ -97,11 +97,6 @@ namespace Vitro::Windows
 		}
 	}
 
-	void API::OnWindowClose(Window& window)
-	{
-		Dispatcher(window, WindowCloseEvent(window));
-	}
-
 	void API::OnWindowMove(Window& window, LPARAM lp)
 	{
 		WindowMoveEvent e(window, GET_X_LPARAM(lp), GET_Y_LPARAM(lp));
@@ -122,6 +117,12 @@ namespace Vitro::Windows
 	void API::OnWindowUnfocus(Window& window)
 	{
 		Dispatcher(window, WindowUnfocusEvent(window));
+	}
+
+	void API::OnWindowClose(Window& window)
+	{
+		Dispatcher(window, WindowCloseEvent(window));
+		window.Close();
 	}
 
 	void API::OnWindowOpen(Window& window)

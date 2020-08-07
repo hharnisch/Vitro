@@ -1,5 +1,7 @@
 #pragma once
 
+#include "_pch.h"
+
 #define AssertCritical(condition, message)		\
 		if(!(condition))						\
 			throw std::runtime_error(message);
@@ -8,7 +10,7 @@
 
 #if VTR_DEBUG
 
-#define Assert(condition, message) AssertCritical(condition, message)
+#define Assert(condition, message) if(!(condition)) __debugbreak();
 
 #define AssertArrayRange(arr, index, arrayName)						\
 	if(index >= sizeof(arr) / sizeof(*arr))							\

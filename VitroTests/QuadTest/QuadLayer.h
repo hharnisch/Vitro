@@ -37,7 +37,6 @@ public:
 	void OnEvent(Vitro::Event& e) override
 	{
 		auto random = []() { return std::rand() / static_cast<float>(RAND_MAX); };
-
 		using namespace Vitro;
 		e.Dispatch<KeyDownEvent>([random, this](KeyDownEvent& e)
 		{

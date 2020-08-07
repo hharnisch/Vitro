@@ -30,13 +30,16 @@ namespace Vitro::DirectX
 		fsd.Windowed = true;
 
 		HWND hwnd = reinterpret_cast<HWND>(nativeHandle);
-		auto result = factory->CreateSwapChainForHwnd(API::Device.Get(), hwnd, &scd, &fsd, nullptr,
-													  &SwapChain);
-		AssertCritical(SUCCEEDED(result), "Unable to create swap chain.");
+		auto swapChainResult = factory->CreateSwapChainForHwnd(API::Device.Get(), hwnd, &scd, &fsd,
+															   nullptr, &SwapChain);
+		AssertCritical(SUCCEEDED(swapChainResult), "Could not create swap chain.");
 
 		ComPtr<ID3D11Texture2D> backBuffer;
-		SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), &backBuffer);
-		API::Device->CreateRenderTargetView(backBuffer.Get(), nullptr, &BackBuffer);
+		auto bufferResult = SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), &backBuffer);
+		AssertCritical(SUCCEEDED(bufferResult), "Could not get back buffer.");
+
+		auto rtResult = API::Device->CreateRenderTargetView(backBuffer.Get(), nullptr, &BackBuffer);
+		AssertCritical(SUCCEEDED(rtResult), "Could not create render target on back buffer.");
 	}
 
 	void Context3D::SetViewport(int width, int height, int x, int y)

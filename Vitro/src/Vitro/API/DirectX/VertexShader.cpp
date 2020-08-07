@@ -37,7 +37,7 @@ namespace Vitro::DirectX
 		Microsoft::WRL::ComPtr<ID3D11InputLayout> layoutPtr;
 		auto result = API::Device->CreateInputLayout(ieds.Raw(), static_cast<UINT>(ieds.Count()),
 													 Bytecode.Raw(), Bytecode.Count(), &layoutPtr);
-		Assert(SUCCEEDED(result), "Could not create vertex layout.");
+		AssertCritical(SUCCEEDED(result), "Could not create vertex layout.");
 		API::Context->IASetInputLayout(layoutPtr.Get());
 	}
 }

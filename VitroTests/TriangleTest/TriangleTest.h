@@ -21,11 +21,11 @@ public:
 
 	void OnStart() override
 	{
-		AppWindow1->Open();
 		AppWindow1->Attach<TriangleLayer>();
+		AppWindow1->Open();
 
-		AppWindow2->Open();
 		AppWindow2->Attach<TriangleLayer>();
+		AppWindow2->Open();
 	}
 
 private:

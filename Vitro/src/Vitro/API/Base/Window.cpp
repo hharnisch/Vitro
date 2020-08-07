@@ -18,7 +18,6 @@ namespace Vitro::Base
 
 	void Window::OnEvent(Event& e)
 	{
-		PlatformOnEvent(e);
 		for(auto i = LayerStack.rbegin(); i != LayerStack.rend(); i++)
 		{
 			if((*i)->Enabled)

@@ -26,7 +26,6 @@ namespace Vitro::Base
 		virtual void Maximize() = 0;
 		virtual void Minimize() = 0;
 		virtual void PollEvents() = 0;
-		virtual void PlatformOnEvent(Event& e) = 0;
 
 		void Update();
 		void OnEvent(Event& e);

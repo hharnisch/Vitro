@@ -1,8 +1,8 @@
-﻿#pragma once
+#pragma once
 
 #include "Vitro/Utility/Assert.h"
 
-#define VTR_SCALAR typename = typename std::enable_if_t<std::is_arithmetic_v<O>, O>
+#define VTR_IS_SCALAR(O) typename = typename std::enable_if_t<std::is_arithmetic_v<O>, O>
 
 namespace Vitro
 {
@@ -19,11 +19,8 @@ namespace Vitro
 		};
 
 		template<typename O0, typename O1, typename O2, typename O3>
-		inline Vector(O0 x, O1 y, O2 z, O3 w) :
-			X(static_cast<N>(x)),
-			Y(static_cast<N>(y)),
-			Z(static_cast<N>(z)),
-			W(static_cast<N>(w))
+		inline Vector(O0 x, O1 y, O2 z, O3 w) : Val{static_cast<N>(x), static_cast<N>(y),
+													static_cast<N>(z), static_cast<N>(w)}
 		{}
 
 		template<typename O>
@@ -44,6 +41,12 @@ namespace Vitro
 		inline constexpr Vector() : Vector(0) {}
 
 		inline N& operator[](size_t index)
+		{
+			AssertArrayRange(Val, index, "Vector");
+			return Val[index];
+		}
+
+		inline const N& operator[](size_t index) const
 		{
 			AssertArrayRange(Val, index, "Vector");
 			return Val[index];
@@ -159,102 +162,102 @@ namespace Vitro
 			return X != v.X || Y != v.Y || Z != v.Z || W != v.W;
 		}
 
-		template<typename O, VTR_SCALAR> inline Vector<4, N> operator+(O scalar) const
+		template<typename O, VTR_IS_SCALAR(O)> inline Vector<4, N> operator+(O scalar) const
 		{
 			return {X + scalar, Y + scalar, Z + scalar, W + scalar};
 		}
 
-		template<typename O, VTR_SCALAR> inline Vector<4, N> operator-(O scalar) const
+		template<typename O, VTR_IS_SCALAR(O)> inline Vector<4, N> operator-(O scalar) const
 		{
 			return {X - scalar, Y - scalar, Z - scalar, W - scalar};
 		}
 
-		template<typename O, VTR_SCALAR> inline Vector<4, N> operator*(O scalar) const
+		template<typename O, VTR_IS_SCALAR(O)> inline Vector<4, N> operator*(O scalar) const
 		{
 			return {X * scalar, Y * scalar, Z * scalar, W * scalar};
 		}
 
-		template<typename O, VTR_SCALAR> inline Vector<4, N> operator/(O scalar) const
+		template<typename O, VTR_IS_SCALAR(O)> inline Vector<4, N> operator/(O scalar) const
 		{
 			return {X / scalar, Y / scalar, Z / scalar, W / scalar};
 		}
 
-		template<typename O, VTR_SCALAR> inline Vector<4, N> operator%(O scalar) const
+		template<typename O, VTR_IS_SCALAR(O)> inline Vector<4, N> operator%(O scalar) const
 		{
 			return {X % scalar, Y % scalar, Z % scalar, W % scalar};
 		}
 
-		template<typename O, VTR_SCALAR> inline Vector<4, N> operator&(O scalar) const
+		template<typename O, VTR_IS_SCALAR(O)> inline Vector<4, N> operator&(O scalar) const
 		{
 			return {X & scalar, Y & scalar, Z & scalar, W & scalar};
 		}
 
-		template<typename O, VTR_SCALAR> inline Vector<4, N> operator|(O scalar) const
+		template<typename O, VTR_IS_SCALAR(O)> inline Vector<4, N> operator|(O scalar) const
 		{
 			return {X | scalar, Y | scalar, Z | scalar, W | scalar};
 		}
 
-		template<typename O, VTR_SCALAR> inline Vector<4, N> operator^(O scalar) const
+		template<typename O, VTR_IS_SCALAR(O)> inline Vector<4, N> operator^(O scalar) const
 		{
 			return {X ^ scalar, Y ^ scalar, Z ^ scalar, W ^ scalar};
 		}
 
-		template<typename O, VTR_SCALAR> inline Vector<4, N> operator<<(O scalar) const
+		template<typename O, VTR_IS_SCALAR(O)> inline Vector<4, N> operator<<(O scalar) const
 		{
 			return {X << scalar, Y << scalar, Z << scalar, W << scalar};
 		}
 
-		template<typename O, VTR_SCALAR> inline Vector<4, N> operator>>(O scalar) const
+		template<typename O, VTR_IS_SCALAR(O)> inline Vector<4, N> operator>>(O scalar) const
 		{
 			return {X >> scalar, Y >> scalar, Z >> scalar, W >> scalar};
 		}
 
-		template<typename O, VTR_SCALAR> inline Vector<4, N>& operator+=(O scalar)
+		template<typename O, VTR_IS_SCALAR(O)> inline Vector<4, N>& operator+=(O scalar)
 		{
 			X += scalar; Y += scalar; Z += scalar; W += scalar; return *this;
 		}
 
-		template<typename O, VTR_SCALAR> inline Vector<4, N>& operator-=(O scalar)
+		template<typename O, VTR_IS_SCALAR(O)> inline Vector<4, N>& operator-=(O scalar)
 		{
 			X -= scalar; Y -= scalar; Z -= scalar; W -= scalar; return *this;
 		}
 
-		template<typename O, VTR_SCALAR> inline Vector<4, N>& operator*=(O scalar)
+		template<typename O, VTR_IS_SCALAR(O)> inline Vector<4, N>& operator*=(O scalar)
 		{
 			X *= scalar; Y *= scalar; Z *= scalar; W *= scalar; return *this;
 		}
 
-		template<typename O, VTR_SCALAR> inline Vector<4, N>& operator/=(O scalar)
+		template<typename O, VTR_IS_SCALAR(O)> inline Vector<4, N>& operator/=(O scalar)
 		{
 			X /= scalar; Y /= scalar; Z /= scalar; W /= scalar; return *this;
 		}
 
-		template<typename O, VTR_SCALAR> inline Vector<4, N>& operator%=(O scalar)
+		template<typename O, VTR_IS_SCALAR(O)> inline Vector<4, N>& operator%=(O scalar)
 		{
 			X %= scalar; Y %= scalar; Z %= scalar; W %= scalar; return *this;
 		}
 
-		template<typename O, VTR_SCALAR> inline Vector<4, N>& operator&=(O scalar)
+		template<typename O, VTR_IS_SCALAR(O)> inline Vector<4, N>& operator&=(O scalar)
 		{
 			X &= scalar; Y &= scalar; Z &= scalar; W &= scalar; return *this;
 		}
 
-		template<typename O, VTR_SCALAR> inline Vector<4, N>& operator|=(O scalar)
+		template<typename O, VTR_IS_SCALAR(O)> inline Vector<4, N>& operator|=(O scalar)
 		{
 			X |= scalar; Y |= scalar; Z |= scalar; W |= scalar; return *this;
 		}
 
-		template<typename O, VTR_SCALAR> inline Vector<4, N>& operator^=(O scalar)
+		template<typename O, VTR_IS_SCALAR(O)> inline Vector<4, N>& operator^=(O scalar)
 		{
 			X ^= scalar; Y ^= scalar; Z ^= scalar; W ^= scalar; return *this;
 		}
 
-		template<typename O, VTR_SCALAR> inline Vector<4, N>& operator<<=(O scalar)
+		template<typename O, VTR_IS_SCALAR(O)> inline Vector<4, N>& operator<<=(O scalar)
 		{
 			X <<= scalar; Y <<= scalar; Z <<= scalar; W <<= scalar; return *this;
 		}
 
-		template<typename O, VTR_SCALAR> inline Vector<4, N>& operator>>=(O scalar)
+		template<typename O, VTR_IS_SCALAR(O)> inline Vector<4, N>& operator>>=(O scalar)
 		{
 			X >>= scalar; Y >>= scalar; Z >>= scalar; W >>= scalar; return *this;
 		}
@@ -302,61 +305,61 @@ namespace Vitro
 		}
 	};
 
-	template<typename N, typename O, VTR_SCALAR>
+	template<typename N, typename O, VTR_IS_SCALAR(O)>
 	inline Vector<4, N> operator+(O scalar, const Vector<4, N>& v)
 	{
 		return {scalar + v.X, scalar + v.Y, scalar + v.Z, scalar + v.W};
 	}
 
-	template<typename N, typename O, VTR_SCALAR>
+	template<typename N, typename O, VTR_IS_SCALAR(O)>
 	inline Vector<4, N> operator-(O scalar, const Vector<4, N>& v)
 	{
 		return {scalar - v.X, scalar - v.Y, scalar - v.Z, scalar - v.W};
 	}
 
-	template<typename N, typename O, VTR_SCALAR>
+	template<typename N, typename O, VTR_IS_SCALAR(O)>
 	inline Vector<4, N> operator*(O scalar, const Vector<4, N>& v)
 	{
 		return {scalar * v.X, scalar * v.Y, scalar * v.Z, scalar * v.W};
 	}
 
-	template<typename N, typename O, VTR_SCALAR>
+	template<typename N, typename O, VTR_IS_SCALAR(O)>
 	inline Vector<4, N> operator/(O scalar, const Vector<4, N>& v)
 	{
 		return {scalar / v.X, scalar / v.Y, scalar / v.Z, scalar / v.W};
 	}
 
-	template<typename N, typename O, VTR_SCALAR>
+	template<typename N, typename O, VTR_IS_SCALAR(O)>
 	inline Vector<4, N> operator%(O scalar, const Vector<4, N>& v)
 	{
 		return {scalar % v.X, scalar % v.Y, scalar % v.Z, scalar % v.W};
 	}
 
-	template<typename N, typename O, VTR_SCALAR>
+	template<typename N, typename O, VTR_IS_SCALAR(O)>
 	inline Vector<4, N> operator&(O scalar, const Vector<4, N>& v)
 	{
 		return {scalar & v.X, scalar & v.Y, scalar & v.Z, scalar & v.W};
 	}
 
-	template<typename N, typename O, VTR_SCALAR>
+	template<typename N, typename O, VTR_IS_SCALAR(O)>
 	inline Vector<4, N> operator|(O scalar, const Vector<4, N>& v)
 	{
 		return {scalar | v.X, scalar | v.Y, scalar | v.Z, scalar | v.W};
 	}
 
-	template<typename N, typename O, VTR_SCALAR>
+	template<typename N, typename O, VTR_IS_SCALAR(O)>
 	inline Vector<4, N> operator^(O scalar, const Vector<4, N>& v)
 	{
 		return {scalar ^ v.X, scalar ^ v.Y, scalar ^ v.Z, scalar ^ v.W};
 	}
 
-	template<typename N, typename O, VTR_SCALAR>
+	template<typename N, typename O, VTR_IS_SCALAR(O)>
 	inline Vector<4, N> operator<<(O scalar, const Vector<4, N>& v)
 	{
 		return {scalar << v.X, scalar << v.Y, scalar << v.Z, scalar << v.W};
 	}
 
-	template<typename N, typename O, VTR_SCALAR>
+	template<typename N, typename O, VTR_IS_SCALAR(O)>
 	inline Vector<4, N> operator>>(O scalar, const Vector<4, N>& v)
 	{
 		return {scalar >> v.X, scalar >> v.Y, scalar >> v.Z, scalar >> v.W};

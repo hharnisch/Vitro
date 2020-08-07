@@ -10,88 +10,93 @@
 
 namespace Vitro::Windows
 {
-	Window::Window(int width, int height, int x, int y, const std::string& title) :
-		Width(width), Height(height), X(x), Y(y), Title(title), NativeHandle(nullptr)
-	{}
+	Window::Window(int width, int height, int x, int y, const std::string& title)
+	{
+		auto wstr = API::WidenChars(title);
+		NativeHandle = CreateWindowExW(0, API::WindowClassName, wstr.c_str(), WS_OVERLAPPEDWINDOW,
+									   x, y, width, height, nullptr, nullptr, nullptr, nullptr);
+		SetWindowLongPtr(NativeHandle, 0, reinterpret_cast<LONG_PTR>(this));
+		Renderer = std::make_shared<Renderer3D>(*this);
+
+		ImGui_ImplWin32_Init(NativeHandle);
+	}
 
 	Window::Window(Window&& other) noexcept :
-		Base::Window(std::move(other)),
-		Width(other.Width), Height(other.Height), X(other.X), Y(other.Y),
-		Title(std::move(other.Title)),
-		NativeHandle(std::exchange(other.NativeHandle, nullptr))
+		Base::Window(std::move(other)), NativeHandle(std::exchange(other.NativeHandle, nullptr))
 	{}
 
 	Window::~Window()
 	{
-		Close();
+		DestroyWindow(NativeHandle);
 	}
 
 	Window& Window::operator=(Window&& other) noexcept
 	{
 		Base::Window::operator=(std::move(other));
-		Width = other.Width;
-		Height = other.Height;
-		X = other.X;
-		Y = other.Y;
-		Title = std::move(other.Title);
 		std::swap(NativeHandle, other.NativeHandle);
 		return *this;
 	}
 
 	int Window::GetWidth() const
 	{
-		return Width;
+		RECT rect;
+		GetWindowRect(NativeHandle, &rect);
+		return rect.right - rect.left;
 	}
 
 	void Window::SetWidth(int width)
 	{
-		if(SetWindowPos(NativeHandle, nullptr, 0, 0, Width, Height, SWP_NOMOVE | SWP_NOZORDER))
-			Width = width;
+		SetWindowPos(NativeHandle, nullptr, 0, 0, width, GetHeight(), SWP_NOMOVE | SWP_NOZORDER);
 	}
 
 	int Window::GetHeight() const
 	{
-		return Height;
+		RECT rect;
+		GetWindowRect(NativeHandle, &rect);
+		return rect.bottom - rect.top;
 	}
 
 	void Window::SetHeight(int height)
 	{
-		if(SetWindowPos(NativeHandle, nullptr, 0, 0, Width, Height, SWP_NOMOVE | SWP_NOZORDER))
-			Height = height;
+		SetWindowPos(NativeHandle, nullptr, 0, 0, GetWidth(), height, SWP_NOMOVE | SWP_NOZORDER);
 	}
 
 	int Window::GetX() const
 	{
-		return X;
+		RECT rect;
+		GetWindowRect(NativeHandle, &rect);
+		return rect.left;
 	}
 
 	void Window::SetX(int x)
 	{
-		if(SetWindowPos(NativeHandle, nullptr, X, Y, 0, 0, SWP_NOSIZE | SWP_NOZORDER))
-			X = x;
+		SetWindowPos(NativeHandle, nullptr, x, GetY(), 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 	}
 
 	int Window::GetY() const
 	{
-		return Y;
+		RECT rect;
+		GetWindowRect(NativeHandle, &rect);
+		return rect.top;
 	}
 
 	void Window::SetY(int y)
 	{
-		if(SetWindowPos(NativeHandle, nullptr, X, Y, 0, 0, SWP_NOSIZE | SWP_NOZORDER))
-			Y = y;
+		SetWindowPos(NativeHandle, nullptr, GetX(), y, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 	}
 
 	std::string Window::GetTitle() const
 	{
-		return Title;
+		int length = GetWindowTextLengthW(NativeHandle);
+		std::wstring title(length, 0);
+		GetWindowTextW(NativeHandle, &title[0], length + 1);
+		return API::NarrowChars(title);
 	}
 
 	void Window::SetTitle(const std::string& title)
 	{
 		auto wstr = API::WidenChars(title);
-		if(SetWindowTextW(NativeHandle, wstr.c_str()))
-			Title = title;
+		SetWindowTextW(NativeHandle, wstr.c_str());
 	}
 
 	void* Window::GetNativeHandle() const
@@ -101,20 +106,12 @@ namespace Vitro::Windows
 
 	void Window::Open()
 	{
-		auto wstr = API::WidenChars(Title);
-		NativeHandle = CreateWindowExW(0, API::WindowClassName, wstr.c_str(), WS_OVERLAPPEDWINDOW,
-									   X, Y, Width, Height, nullptr, nullptr, nullptr, nullptr);
-		SetWindowLongPtr(NativeHandle, 0, reinterpret_cast<LONG_PTR>(this));
-
-		Renderer = std::make_shared<Renderer3D>(*this);
-
-		ImGui_ImplWin32_Init(NativeHandle);
 		ShowWindow(NativeHandle, SW_RESTORE);
 	}
 
 	void Window::Close()
 	{
-		DestroyWindow(NativeHandle);
+		ShowWindow(NativeHandle, SW_HIDE);
 	}
 
 	void Window::Maximize()
@@ -135,21 +132,5 @@ namespace Vitro::Windows
 			TranslateMessage(&msg);
 			DispatchMessageW(&msg);
 		}
-	}
-
-	void Window::PlatformOnEvent(Event& e)
-	{
-		e.Dispatch<WindowSizeEvent>([this](WindowSizeEvent& e)
-		{
-			Width = e.GetWidth();
-			Height = e.GetHeight();
-			return false;
-		});
-		e.Dispatch<WindowMoveEvent>([this](WindowMoveEvent& e)
-		{
-			X = e.GetX();
-			Y = e.GetY();
-			return false;
-		});
 	}
 }

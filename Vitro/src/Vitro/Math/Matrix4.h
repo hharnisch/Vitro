@@ -1,6 +1,7 @@
 #pragma once
 
-#define VTR_SCALAR typename = typename std::enable_if_t<std::is_arithmetic_v<O>, O>
+#define VTR_IS_SCALAR(O) typename = typename std::enable_if_t<std::is_arithmetic_v<O>, O>
+#define VTR_IS_FLOAT(N) typename = typename std::enable_if_t<std::is_floating_point_v<N>, N>
 
 namespace Vitro
 {
@@ -97,42 +98,42 @@ namespace Vitro
 			return Val[0] != m[0] || Val[1] != m[1] || Val[2] != m[2] || Val[3] != m[3];
 		}
 
-		template<typename O, VTR_SCALAR> inline Matrix<R, 4, N> operator+(O scalar) const
+		template<typename O, VTR_IS_SCALAR(O)> inline Matrix<R, 4, N> operator+(O scalar) const
 		{
 			return {Val[0] + scalar, Val[1] + scalar, Val[2] + scalar, Val[3] + scalar};
 		}
 
-		template<typename O, VTR_SCALAR> inline Matrix<R, 4, N> operator-(O scalar) const
+		template<typename O, VTR_IS_SCALAR(O)> inline Matrix<R, 4, N> operator-(O scalar) const
 		{
 			return {Val[0] - scalar, Val[1] - scalar, Val[2] - scalar, Val[3] - scalar};
 		}
 
-		template<typename O, VTR_SCALAR> inline Matrix<R, 4, N> operator*(O scalar) const
+		template<typename O, VTR_IS_SCALAR(O)> inline Matrix<R, 4, N> operator*(O scalar) const
 		{
 			return {Val[0] * scalar, Val[1] * scalar, Val[2] * scalar, Val[3] * scalar};
 		}
 
-		template<typename O, VTR_SCALAR> inline Matrix<R, 4, N> operator/(O scalar) const
+		template<typename O, VTR_IS_SCALAR(O)> inline Matrix<R, 4, N> operator/(O scalar) const
 		{
 			return {Val[0] / scalar, Val[1] / scalar, Val[2] / scalar, Val[3] / scalar};
 		}
 
-		template<typename O, VTR_SCALAR> inline Matrix<R, 4, N>& operator+=(O scalar)
+		template<typename O, VTR_IS_SCALAR(O)> inline Matrix<R, 4, N>& operator+=(O scalar)
 		{
 			Val[0] += scalar; Val[1] += scalar; Val[2] += scalar; Val[3] += scalar; return *this;
 		}
 
-		template<typename O, VTR_SCALAR> inline Matrix<R, 4, N>& operator-=(O scalar)
+		template<typename O, VTR_IS_SCALAR(O)> inline Matrix<R, 4, N>& operator-=(O scalar)
 		{
 			Val[0] -= scalar; Val[1] -= scalar; Val[2] -= scalar; Val[3] -= scalar; return *this;
 		}
 
-		template<typename O, VTR_SCALAR> inline Matrix<R, 4, N>& operator*=(O scalar)
+		template<typename O, VTR_IS_SCALAR(O)> inline Matrix<R, 4, N>& operator*=(O scalar)
 		{
 			Val[0] *= scalar; Val[1] *= scalar; Val[2] *= scalar; Val[3] *= scalar; return *this;
 		}
 
-		template<typename O, VTR_SCALAR> inline Matrix<R, 4, N>& operator/=(O scalar)
+		template<typename O, VTR_IS_SCALAR(O)> inline Matrix<R, 4, N>& operator/=(O scalar)
 		{
 			Val[0] /= scalar; Val[1] /= scalar; Val[2] /= scalar; Val[3] /= scalar; return *this;
 		}
@@ -355,25 +356,25 @@ namespace Vitro
 				v.X * m[3].X + v.Y * m[3].Y + v.Z * m[3].Z + v.W * m[3].W};
 	}
 
-	template<size_t R, typename N, typename O, VTR_SCALAR>
+	template<size_t R, typename N, typename O, VTR_IS_SCALAR(O)>
 	inline Matrix<R, 4, N> operator+(O scalar, const Matrix<R, 4, N>& m)
 	{
 		return {scalar + m[0], scalar + m[1], scalar + m[2], scalar + m[3]};
 	}
 
-	template<size_t R, typename N, typename O, VTR_SCALAR>
+	template<size_t R, typename N, typename O, VTR_IS_SCALAR(O)>
 	inline Matrix<R, 4, N> operator-(O scalar, const Matrix<R, 4, N>& m)
 	{
 		return {scalar - m[0], scalar - m[1], scalar - m[2], scalar - m[3]};
 	}
 
-	template<size_t R, typename N, typename O, VTR_SCALAR>
+	template<size_t R, typename N, typename O, VTR_IS_SCALAR(O)>
 	inline Matrix<R, 4, N> operator*(O scalar, const Matrix<R, 4, N>& m)
 	{
 		return {scalar * m[0], scalar * m[1], scalar * m[2], scalar * m[3]};
 	}
 
-	template<size_t R, typename N, typename O, VTR_SCALAR>
+	template<size_t R, typename N, typename O, VTR_IS_SCALAR(O)>
 	inline Matrix<R, 4, N> operator/(O scalar, const Matrix<R, 4, N>& m)
 	{
 		return {scalar / m[0], scalar / m[1], scalar / m[2], scalar / m[3]};
@@ -469,5 +470,85 @@ namespace Vitro
 				m[0].Y, m[1].Y, m[2].Y, m[3].Y,
 				m[0].Z, m[1].Z, m[2].Z, m[3].Z,
 				m[0].W, m[1].W, m[2].W, m[3].W};
+	}
+
+	template<typename N, VTR_IS_FLOAT(N)>
+	Matrix<4, 4, N> inline Orthographic(N left, N right, N bottom, N top)
+	{
+		Matrix<4, 4, N> ortho;
+		ortho[0].X = 2 / (right - left);
+		ortho[1].Y = 2 / (top - bottom);
+		ortho[2].Z = -1;
+		ortho[3].X = -(right + left) / (right - left);
+		ortho[3].Y = -(top + bottom) / (top - bottom);
+		return ortho;
+	}
+
+	template<typename N, VTR_IS_FLOAT(N)>
+	Matrix<4, 4, N> inline Perspective(N fovInRadians, N width, N height, N nearZ, N farZ)
+	{
+		Assert(width > 0, "Width must be positive.");
+		Assert(height > 0, "Height must be positive.");
+		Assert(fovInRadians > 0, "Field of view must be positive.");
+
+		N scaledHeight = std::cos(0.5 * fovInRadians) / std::sin(0.5 * fovInRadians);
+		N scaledWidth = scaledHeight * height / width;
+
+		Matrix<4, 4, N> perspective(0);
+		perspective[0].X = scaledWidth;
+		perspective[1].Y = scaledHeight;
+		perspective[2].Z = -(farZ + nearZ) / (farZ - nearZ);
+		perspective[2].W = -1;
+		perspective[3].Z = -(2 * farZ * nearZ) / (farZ - nearZ);
+		return perspective;
+	}
+
+	template<typename N, VTR_IS_FLOAT(N)>
+	Matrix<4, 4, N> inline Translate(const Matrix<4, 4, N>& m, const Vector<3, N>& v)
+	{
+		Matrix<4, 4, N> result(m, 0, 0, 0, 0, m, 0, 0, 0, 0, m, 0, 0, 0, 0, m);
+		result[3] = m[0] * v.X + m[1] * v.Y + m[2] * v.Z + m[3];
+		return result;
+	}
+
+	template<typename N, VTR_IS_FLOAT(N)>
+	Matrix<4, 4, N> inline Rotate(const Matrix<4, 4, N>& m, N angle, const Vector<3, N>& v)
+	{
+		N cos = std::cos(angle);
+		N sin = std::sin(angle);
+
+		Vector<3, N> axis(Normalize(v));
+		Vector<3, N> temp((1 - cos) * axis);
+
+		Matrix<4, 4, N> rotated(0);
+		rotated[0].X = cos + temp.X * axis.X;
+		rotated[0].Y = temp.X * axis.Y + sin * axis.Z;
+		rotated[0].Z = temp.X * axis.Z - sin * axis.Y;
+
+		rotated[1][0] = temp.Y * axis.X - sin * axis.Z;
+		rotated[1][1] = cos + temp.Y * axis.Y;
+		rotated[1][2] = temp.Y * axis.Z + sin * axis.X;
+
+		rotated[2][0] = temp.Z * axis.X + sin * axis.Y;
+		rotated[2][1] = temp.Z * axis.Y - sin * axis.X;
+		rotated[2][2] = cos + temp.Z * axis.Z;
+
+		Matrix<4, 4, N> result(0);
+		result[0] = m[0] * rotated[0].X + m[1] * rotated[0].Y + m[2] * rotated[0].Z;
+		result[1] = m[0] * rotated[1].X + m[1] * rotated[1].Y + m[2] * rotated[1].Z;
+		result[2] = m[0] * rotated[2].X + m[1] * rotated[2].Y + m[2] * rotated[2].Z;
+		result[3] = m[3];
+		return result;
+	}
+
+	template<typename N, VTR_IS_FLOAT(N)>
+	Matrix<4, 4, N> inline Scale(const Matrix<4, 4, N>& m, const Vector<3, N>& v)
+	{
+		Matrix<4, 4, N> result(0);
+		result[0] = m[0] * v.X;
+		result[1] = m[1] * v.Y;
+		result[2] = m[2] * v.Z;
+		result[3] = m[3];
+		return result;
 	}
 }

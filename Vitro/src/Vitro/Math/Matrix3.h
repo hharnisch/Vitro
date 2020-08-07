@@ -1,6 +1,6 @@
-#pragma once
+﻿#pragma once
 
-#define VTR_SCALAR typename = typename std::enable_if_t<std::is_arithmetic_v<O>, O>
+#define VTR_IS_SCALAR(O) typename = typename std::enable_if_t<std::is_arithmetic_v<O>, O>
 
 namespace Vitro
 {
@@ -90,42 +90,42 @@ namespace Vitro
 			return Val[0] != m[0] || Val[1] != m[1] || Val[2] != m[2];
 		}
 
-		template<typename O, VTR_SCALAR> inline Matrix<R, 3, N> operator+(O scalar) const
+		template<typename O, VTR_IS_SCALAR(O)> inline Matrix<R, 3, N> operator+(O scalar) const
 		{
 			return {Val[0] + scalar, Val[1] + scalar, Val[2] + scalar};
 		}
 
-		template<typename O, VTR_SCALAR> inline Matrix<R, 3, N> operator-(O scalar) const
+		template<typename O, VTR_IS_SCALAR(O)> inline Matrix<R, 3, N> operator-(O scalar) const
 		{
 			return {Val[0] - scalar, Val[1] - scalar, Val[2] - scalar};
 		}
 
-		template<typename O, VTR_SCALAR> inline Matrix<R, 3, N> operator*(O scalar) const
+		template<typename O, VTR_IS_SCALAR(O)> inline Matrix<R, 3, N> operator*(O scalar) const
 		{
 			return {Val[0] * scalar, Val[1] * scalar, Val[2] * scalar};
 		}
 
-		template<typename O, VTR_SCALAR> inline Matrix<R, 3, N> operator/(O scalar) const
+		template<typename O, VTR_IS_SCALAR(O)> inline Matrix<R, 3, N> operator/(O scalar) const
 		{
 			return {Val[0] / scalar, Val[1] / scalar, Val[2] / scalar};
 		}
 
-		template<typename O, VTR_SCALAR> inline Matrix<R, 3, N>& operator+=(O scalar)
+		template<typename O, VTR_IS_SCALAR(O)> inline Matrix<R, 3, N>& operator+=(O scalar)
 		{
 			Val[0] += scalar; Val[1] += scalar; Val[2] += scalar; return *this;
 		}
 
-		template<typename O, VTR_SCALAR> inline Matrix<R, 3, N>& operator-=(O scalar)
+		template<typename O, VTR_IS_SCALAR(O)> inline Matrix<R, 3, N>& operator-=(O scalar)
 		{
 			Val[0] -= scalar; Val[1] -= scalar; Val[2] -= scalar; return *this;
 		}
 
-		template<typename O, VTR_SCALAR> inline Matrix<R, 3, N>& operator*=(O scalar)
+		template<typename O, VTR_IS_SCALAR(O)> inline Matrix<R, 3, N>& operator*=(O scalar)
 		{
 			Val[0] *= scalar; Val[1] *= scalar; Val[2] *= scalar; return *this;
 		}
 
-		template<typename O, VTR_SCALAR> inline Matrix<R, 3, N>& operator/=(O scalar)
+		template<typename O, VTR_IS_SCALAR(O)> inline Matrix<R, 3, N>& operator/=(O scalar)
 		{
 			Val[0] /= scalar; Val[1] /= scalar; Val[2] /= scalar; return *this;
 		}
@@ -344,25 +344,25 @@ namespace Vitro
 				v.X * m[2].X + v.Y * m[2].Y + v.Z * m[2].Z + v.W * m[2].W};
 	}
 
-	template<size_t R, typename N, typename O, VTR_SCALAR>
+	template<size_t R, typename N, typename O, VTR_IS_SCALAR(O)>
 	inline Matrix<R, 3, N> operator+(O scalar, const Matrix<R, 3, N>& m)
 	{
 		return {scalar + m[0], scalar + m[1], scalar + m[2]};
 	}
 
-	template<size_t R, typename N, typename O, VTR_SCALAR>
+	template<size_t R, typename N, typename O, VTR_IS_SCALAR(O)>
 	inline Matrix<R, 3, N> operator-(O scalar, const Matrix<R, 3, N>& m)
 	{
 		return {scalar - m[0], scalar - m[1], scalar - m[2]};
 	}
 
-	template<size_t R, typename N, typename O, VTR_SCALAR>
+	template<size_t R, typename N, typename O, VTR_IS_SCALAR(O)>
 	inline Matrix<R, 3, N> operator*(O scalar, const Matrix<R, 3, N>& m)
 	{
 		return {scalar * m[0], scalar * m[1], scalar * m[2]};
 	}
 
-	template<size_t R, typename N, typename O, VTR_SCALAR>
+	template<size_t R, typename N, typename O, VTR_IS_SCALAR(O)>
 	inline Matrix<R, 3, N> operator/(O scalar, const Matrix<R, 3, N>& m)
 	{
 		return {scalar / m[0], scalar / m[1], scalar / m[2]};

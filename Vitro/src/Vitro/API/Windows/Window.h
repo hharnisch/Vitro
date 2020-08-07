@@ -30,14 +30,8 @@ namespace Vitro::Windows
 		void Maximize() override;
 		void Minimize() override;
 		void PollEvents() override;
-		void PlatformOnEvent(Event& e) override;
 
 	private:
-		int Width;
-		int Height;
-		int X;
-		int Y;
-		std::string Title;
 		HWND NativeHandle;
 
 		Window(const Window&) = delete;

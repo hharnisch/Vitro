@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "Vitro/Events/Event.h"
 #include "Vitro/Events/MouseCode.h"
@@ -37,8 +37,7 @@ namespace Vitro
 		int GetY() const;
 
 	private:
-		int X;
-		int Y;
+		int X, Y;
 	};
 
 	// Event fired when pressing down a mouse button.
@@ -90,7 +89,6 @@ namespace Vitro
 		float GetYOffset() const;
 
 	private:
-		float XOffset;
-		float YOffset;
+		float XOffset, YOffset;
 	};
 }

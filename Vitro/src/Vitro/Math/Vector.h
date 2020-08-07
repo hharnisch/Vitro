@@ -78,4 +78,16 @@ namespace Vitro
 		temp = *reinterpret_cast<Vector<D, float>*>(&i);
 		return temp * (1.5f - half * temp * temp);
 	}
+
+	template<size_t D, typename N>
+	inline auto Sin(const Vector<D, N>& vec) -> Vector<D, decltype(std::sin(vec.X))>
+	{
+		return Apply(vec, static_cast<decltype(std::sin(vec.X))(*)(N)>(std::sin));
+	}
+
+	template<size_t D, typename N>
+	inline auto Cos(const Vector<D, N>& vec) -> Vector<D, decltype(std::cos(vec.X))>
+	{
+		return Apply(vec, static_cast<decltype(std::cos(vec.X))(*)(N)>(std::cos));
+	}
 }
