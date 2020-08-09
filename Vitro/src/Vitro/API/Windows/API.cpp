@@ -16,10 +16,6 @@ IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND wnd, UINT msg, WPARAM
 
 namespace Vitro::Windows
 {
-	std::function<void(Window&, Event&)> API::Dispatcher;
-	KeyCode API::LastKeyCode;
-	int API::KeyRepeats;
-
 	void API::Initialize(std::function<void(Window&, Event&)> dispatcher)
 	{
 		static bool initialized;

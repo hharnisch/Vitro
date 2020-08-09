@@ -9,12 +9,6 @@
 
 namespace Vitro
 {
-	bool Engine::ShouldUpdate = false;
-	bool Engine::IsShuttingDown = false;
-	bool Engine::ResetUpdateToFirstWindow = false;
-	std::vector<Window*> Engine::OpenWindows;
-	std::thread Engine::LoggingThread;
-
 	Engine::Engine(const std::string& appLogPath, const std::string& engineLogPath)
 	{
 		static bool initialized;
@@ -61,7 +55,7 @@ namespace Vitro
 			ShouldUpdate = true;
 
 			while(ShouldUpdate)
-				for(Window* window : OpenWindows)
+				for(auto window : OpenWindows)
 				{
 					window->Update();
 					if(ResetUpdateToFirstWindow)
@@ -90,10 +84,10 @@ namespace Vitro
 
 	bool Engine::OnWindowClose(WindowCloseEvent& e)
 	{
-		auto i = std::find(OpenWindows.begin(), OpenWindows.end(), &e.GetWindow());
-		OpenWindows.erase(i);
-		ResetUpdateToFirstWindow = true;
+		auto window = std::find(OpenWindows.begin(), OpenWindows.end(), &e.GetWindow());
+		OpenWindows.erase(window);
 
+		ResetUpdateToFirstWindow = true;
 		ShouldUpdate = OpenWindows.size();
 		return true;
 	}

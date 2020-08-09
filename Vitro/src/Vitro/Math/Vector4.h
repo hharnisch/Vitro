@@ -19,26 +19,26 @@ namespace Vitro
 		};
 
 		template<typename O0, typename O1, typename O2, typename O3>
-		inline Vector(O0 x, O1 y, O2 z, O3 w) : Val{static_cast<N>(x), static_cast<N>(y),
-													static_cast<N>(z), static_cast<N>(w)}
+		constexpr Vector(O0 x, O1 y, O2 z, O3 w) : Val{static_cast<N>(x), static_cast<N>(y),
+													   static_cast<N>(z), static_cast<N>(w)}
 		{}
 
 		template<typename O>
-		inline Vector(O scalar) :
+		constexpr Vector(O scalar) :
 			Vector(static_cast<N>(scalar), static_cast<N>(scalar), static_cast<N>(scalar),
 				   static_cast<N>(scalar))
 		{}
 
 		template<typename O>
-		inline Vector(const Vector<2, O>& other) : Vector(other.X, other.Y, 0, 0) {}
+		constexpr Vector(const Vector<2, O>& other) : Vector(other.X, other.Y, 0, 0) {}
 
 		template<typename O>
-		inline Vector(const Vector<3, O>& other) : Vector(other.X, other.Y, other.Z, 0) {}
+		constexpr Vector(const Vector<3, O>& other) : Vector(other.X, other.Y, other.Z, 0) {}
 
 		template<typename O>
-		inline Vector(const Vector<4, O>& other) : Vector(other.X, other.Y, other.Z, other.W) {}
+		constexpr Vector(const Vector<4, O>& other) : Vector(other.X, other.Y, other.Z, other.W) {}
 
-		inline constexpr Vector() : Vector(0) {}
+		constexpr Vector() : Vector(0) {}
 
 		inline N& operator[](size_t index)
 		{

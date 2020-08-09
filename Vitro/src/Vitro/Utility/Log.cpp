@@ -8,11 +8,6 @@
 
 namespace Vitro
 {
-	std::ostream* Log::AppLogTarget;
-	std::ostream* Log::EngineLogTarget;
-	std::list<Log::Entry> Log::Queue;
-	std::mutex Log::Mutex;
-
 	void Log::Initialize(const std::string& appLogPath, const std::string& engineLogPath,
 						 std::thread& loggingThread)
 	{
@@ -28,8 +23,8 @@ namespace Vitro
 			EngineLogTarget = new std::ofstream(engineLogPath);
 		else
 			EngineLogTarget = &std::cout;
-
 		loggingThread = std::thread(StartQueueProcessing);
+
 		initialized = true;
 	}
 
@@ -99,7 +94,7 @@ namespace Vitro
 		strftime(timestamp, sizeof(timestamp), "%T.", &calendarTime);
 
 		auto msecs = duration_cast<milliseconds>(now).count(); // Append milliseconds to timestamp.
-		auto msecsstr = std::to_string(msecs % 1000 + 1000).c_str();
+		auto msecsstr = std::to_string(msecs % 1000 + 1000);
 		for(int i = sizeof(timestamp) - 4; i < sizeof(timestamp); i++)
 			timestamp[i] = msecsstr[i - sizeof(timestamp) + 5];
 

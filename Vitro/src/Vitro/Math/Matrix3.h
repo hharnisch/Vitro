@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #define VTR_IS_SCALAR(O) typename = typename std::enable_if_t<std::is_arithmetic_v<O>, O>
 
@@ -14,39 +14,43 @@ namespace Vitro
 
 	public:
 		template<typename = typename std::enable_if_t<R == 2>, typename O0, typename O1,
-			typename O2, typename O3, typename O4, typename O5> inline Matrix(O0 x0, O1 y0,
-																			  O2 x1, O3 y1,
-																			  O4 x2, O5 y2)
-			: Val{Col(x0, y0), Col(x1, y1), Col(x2, y2)}
+			typename O2, typename O3, typename O4, typename O5> constexpr Matrix(O0 x0, O1 y0,
+																				 O2 x1, O3 y1,
+																				 O4 x2, O5 y2) :
+			Val{Col(x0, y0), Col(x1, y1), Col(x2, y2)}
 		{}
 
 		template<typename = typename std::enable_if_t<R == 3>, typename O0, typename O1,
 			typename O2, typename O3, typename O4, typename O5, typename O6, typename O7,
-			typename O8> inline Matrix(O0 x0, O1 y0, O2 z0,
-									   O3 x1, O4 y1, O5 z1,
-									   O6 x2, O7 y2, O8 z2)
-			: Val{Col(x0, y0, z0), Col(x1, y1, z1), Col(x2, y2, z2)}
+			typename O8> constexpr Matrix(O0 x0, O1 y0, O2 z0,
+										  O3 x1, O4 y1, O5 z1,
+										  O6 x2, O7 y2, O8 z2) :
+			Val{Col(x0, y0, z0), Col(x1, y1, z1), Col(x2, y2, z2)}
 		{}
 
 		template<typename = typename std::enable_if_t<R == 4>, typename O0, typename O1,
 			typename O2, typename O3, typename O4, typename O5, typename O6, typename O7,
 			typename O8, typename O9, typename O10, typename O11>
-			inline Matrix(O0 x0, O1 y0, O2 z0, O3 w0,
-						  O4 x1, O5 y1, O6 z1, O7 w1,
-						  O8 x2, O9 y2, O10 z2, O11 w2)
-			: Val{Col(x0, y0, z0, w0), Col(x1, y1, z1, w1), Col(x2, y2, z2, w2)}
+			constexpr Matrix(O0 x0, O1 y0, O2 z0, O3 w0,
+							 O4 x1, O5 y1, O6 z1, O7 w1,
+							 O8 x2, O9 y2, O10 z2, O11 w2) :
+			Val{Col(x0, y0, z0, w0), Col(x1, y1, z1, w1), Col(x2, y2, z2, w2)}
 		{}
 
-		template<typename = typename std::enable_if_t<R == 3>>
-		inline constexpr Matrix() : Matrix(1, 0, 0, 0, 1, 0, 0, 0, 1) {}
+		template<typename = typename std::enable_if_t<R == 3>> constexpr Matrix() : Matrix(0) {}
 
-		template<typename O>
-		inline Matrix(O scalar) : Val{Col(scalar), Col(scalar), Col(scalar)} {}
+		template<typename O, VTR_IS_SCALAR(O)>
+		constexpr Matrix(O scalar) : Val{Col(scalar), Col(scalar), Col(scalar)} {}
 
 		template<typename O0, typename O1, typename O2>
-		inline Matrix(const Vector<R, O0>& v0, const Vector<R, O1>& v1, const Vector<R, O2>& v2)
+		constexpr Matrix(const Vector<R, O0>& v0, const Vector<R, O1>& v1, const Vector<R, O2>& v2)
 			: Val{v0, v1, v2}
 		{}
+
+		static constexpr std::enable_if_t<R == 3, Matrix<3, 3, N>> Identity()
+		{
+			return {1, 0, 0, 0, 1, 0, 0, 0, 1};
+		}
 
 		inline Col& operator[](size_t index)
 		{

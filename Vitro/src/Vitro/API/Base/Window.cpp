@@ -18,10 +18,10 @@ namespace Vitro::Base
 
 	void Window::OnEvent(Event& e)
 	{
-		for(auto i = LayerStack.rbegin(); i != LayerStack.rend(); i++)
+		for(auto layer = LayerStack.rbegin(); layer != LayerStack.rend(); layer++)
 		{
-			if((*i)->Enabled)
-				(*i)->OnEvent(e);
+			if((*layer)->Enabled)
+				(*layer)->OnEvent(e);
 			if(e.IsHandled())
 				break;
 		}

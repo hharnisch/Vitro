@@ -19,9 +19,9 @@ namespace Vitro
 		int Run();
 
 	private:
-		static bool ShouldUpdate, IsShuttingDown, ResetUpdateToFirstWindow;
-		static std::vector<Window*> OpenWindows;
-		static std::thread LoggingThread;
+		static inline bool ShouldUpdate, IsShuttingDown, ResetUpdateToFirstWindow;
+		static inline std::vector<Window*> OpenWindows;
+		static inline std::thread LoggingThread;
 
 		static void DispatchToWindow(Window& window, Event& e);
 		static bool OnWindowClose(WindowCloseEvent& e);

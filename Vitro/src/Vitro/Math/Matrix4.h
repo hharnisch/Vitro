@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Vitro/Math/Quaternion.h"
+
 #define VTR_IS_SCALAR(O) typename = typename std::enable_if_t<std::is_arithmetic_v<O>, O>
 #define VTR_IS_FLOAT(N) typename = typename std::enable_if_t<std::is_floating_point_v<N>, N>
 
@@ -16,45 +18,65 @@ namespace Vitro
 	public:
 		template<typename = typename std::enable_if_t<R == 2>, typename O0, typename O1,
 			typename O2, typename O3, typename O4, typename O5, typename O6, typename O7>
-			inline Matrix(O0 x0, O1 y0,
-						  O2 x1, O3 y1,
-						  O4 x2, O5 y2,
-						  O6 x3, O7 y3)
-			: Val{Col(x0, y0), Col(x1, y1), Col(x2, y2), Col(x3, y3)}
+			constexpr Matrix(O0 x0, O1 y0,
+							 O2 x1, O3 y1,
+							 O4 x2, O5 y2,
+							 O6 x3, O7 y3) :
+			Val{Col(x0, y0), Col(x1, y1), Col(x2, y2), Col(x3, y3)}
 		{}
 
 		template<typename = typename std::enable_if_t<R == 3>, typename O0, typename O1,
 			typename O2, typename O3, typename O4, typename O5, typename O6, typename O7,
 			typename O8, typename O9, typename O10, typename O11>
-			inline Matrix(O0 x0, O1 y0, O2 z0,
-						  O3 x1, O4 y1, O5 z1,
-						  O6 x2, O7 y2, O8 z2,
-						  O9 x3, O10 y3, O11 z3)
-			: Val{Col(x0, y0, z0), Col(x1, y1, z1), Col(x2, y2, z2), Col(x3, y3, z3)}
+			constexpr Matrix(O0 x0, O1 y0, O2 z0,
+							 O3 x1, O4 y1, O5 z1,
+							 O6 x2, O7 y2, O8 z2,
+							 O9 x3, O10 y3, O11 z3) :
+			Val{Col(x0, y0, z0), Col(x1, y1, z1), Col(x2, y2, z2), Col(x3, y3, z3)}
 		{}
 
 		template<typename = typename std::enable_if_t<R == 4>, typename O0, typename O1,
 			typename O2, typename O3, typename O4, typename O5, typename O6, typename O7,
 			typename O8, typename O9, typename O10, typename O11, typename O12, typename O13,
-			typename O14, typename O15> inline Matrix(O0 x0, O1 y0, O2 z0, O3 w0,
-													  O4 x1, O5 y1, O6 z1, O7 w1,
-													  O8 x2, O9 y2, O10 z2, O11 w2,
-													  O12 x3, O13 y3, O14 z3, O15 w3)
-			: Val{Col(x0, y0, z0, w0), Col(x1, y1, z1, w1), Col(x2, y2, z2, w2),
-				   Col(x3, y3, z3, w3)}
+			typename O14, typename O15> constexpr Matrix(O0 x0, O1 y0, O2 z0, O3 w0,
+														 O4 x1, O5 y1, O6 z1, O7 w1,
+														 O8 x2, O9 y2, O10 z2, O11 w2,
+														 O12 x3, O13 y3, O14 z3, O15 w3) :
+			Val{Col(x0, y0, z0, w0), Col(x1, y1, z1, w1), Col(x2, y2, z2, w2), Col(x3, y3, z3, w3)}
+		{}
+
+		template<typename = typename std::enable_if_t<R == 4>> constexpr Matrix() : Matrix(0) {}
+
+		template<typename O, VTR_IS_SCALAR(O)>
+		constexpr Matrix(O scalar) : Val{Col(scalar), Col(scalar), Col(scalar), Col(scalar)} {}
+
+		template<typename O0, typename O1, typename O2, typename O3>
+		constexpr Matrix(const Vector<R, O0>& v0, const Vector<R, O1>& v1, const Vector<R, O2>& v2,
+						 const Vector<R, O3>& v3) : Val{v0, v1, v2, v3}
 		{}
 
 		template<typename = typename std::enable_if_t<R == 4>>
-		inline constexpr Matrix() : Matrix(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1) {}
+		constexpr Matrix(const Quaternion<N>& q)
+		{
+			N aa = q.A * q.A;
+			N bb = q.B * q.B;
+			N cc = q.C * q.C;
+			N ac = q.A * q.C;
+			N ab = q.A * q.B;
+			N bc = q.B * q.C;
+			N da = q.D * q.A;
+			N db = q.D * q.B;
+			N dc = q.D * q.C;
+			Val[0] ={1 - 2 * (bb * cc), 2 * (ab + dc), 2 * (ac - db), 0};
+			Val[1] ={2 * (ab - dc), 1 - 2 * (aa + cc), 2 * (bc + da), 0};
+			Val[2] ={2 * (ac + db), 2 * (bc - da), 1 - 2 * (aa + bb), 0};
+			Val[3] ={0, 0, 0, 1};
+		}
 
-		template<typename O>
-		inline Matrix(O scalar) : Val{Col(scalar), Col(scalar), Col(scalar), Col(scalar)} {}
-
-		template<typename O0, typename O1, typename O2, typename O3>
-		inline Matrix(const Vector<R, O0>& v0, const Vector<R, O1>& v1, const Vector<R, O2>& v2,
-					  const Vector<R, O3>& v3)
-			: Val{v0, v1, v2, v3}
-		{}
+		static constexpr std::enable_if_t<R == 4, Matrix<4, 4, N>> Identity()
+		{
+			return {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1};
+		}
 
 		inline Col& operator[](size_t index)
 		{
@@ -171,10 +193,10 @@ namespace Vitro
 		inline explicit operator std::string() const
 		{
 			std::stringstream s;
-			s << "[" << static_cast<std::string>(Val[0]) << ", ";
+			s << '[' << static_cast<std::string>(Val[0]) << ", ";
 			s << static_cast<std::string>(Val[1]) << ", ";
 			s << static_cast<std::string>(Val[2]) << ", ";
-			s << static_cast<std::string>(Val[3]) << "]";
+			s << static_cast<std::string>(Val[3]) << ']';
 			return s.str();
 		}
 	};
@@ -475,7 +497,7 @@ namespace Vitro
 	template<typename N, VTR_IS_FLOAT(N)>
 	Matrix<4, 4, N> inline Orthographic(N left, N right, N bottom, N top)
 	{
-		Matrix<4, 4, N> ortho;
+		auto ortho = Matrix<4, 4, N>::Identity();
 		ortho[0].X = 2 / (right - left);
 		ortho[1].Y = 2 / (top - bottom);
 		ortho[2].Z = -1;
@@ -485,18 +507,17 @@ namespace Vitro
 	}
 
 	template<typename N, VTR_IS_FLOAT(N)>
-	Matrix<4, 4, N> inline Perspective(N fovInRadians, N width, N height, N nearZ, N farZ)
+	Matrix<4, 4, N> inline Perspective(N fovInRadians, int width, int height, N nearZ, N farZ)
 	{
 		Assert(width > 0, "Width must be positive.");
 		Assert(height > 0, "Height must be positive.");
 		Assert(fovInRadians > 0, "Field of view must be positive.");
 
-		N scaledHeight = std::cos(0.5 * fovInRadians) / std::sin(0.5 * fovInRadians);
-		N scaledWidth = scaledHeight * height / width;
-
-		Matrix<4, 4, N> perspective(0);
-		perspective[0].X = scaledWidth;
-		perspective[1].Y = scaledHeight;
+		Matrix<4, 4, N> perspective;
+		N scHeight = static_cast<N>(std::cos(0.5 * fovInRadians) / std::sin(0.5 * fovInRadians));
+		N scWidth = scHeight * height / width;
+		perspective[0].X = scWidth;
+		perspective[1].Y = scHeight;
 		perspective[2].Z = -(farZ + nearZ) / (farZ - nearZ);
 		perspective[2].W = -1;
 		perspective[3].Z = -(2 * farZ * nearZ) / (farZ - nearZ);
@@ -506,7 +527,7 @@ namespace Vitro
 	template<typename N, VTR_IS_FLOAT(N)>
 	Matrix<4, 4, N> inline Translate(const Matrix<4, 4, N>& m, const Vector<3, N>& v)
 	{
-		Matrix<4, 4, N> result(m, 0, 0, 0, 0, m, 0, 0, 0, 0, m, 0, 0, 0, 0, m);
+		Matrix<4, 4, N> result = m;
 		result[3] = m[0] * v.X + m[1] * v.Y + m[2] * v.Z + m[3];
 		return result;
 	}
@@ -520,7 +541,7 @@ namespace Vitro
 		Vector<3, N> axis(Normalize(v));
 		Vector<3, N> temp((1 - cos) * axis);
 
-		Matrix<4, 4, N> rotated(0);
+		Matrix<4, 4, N> rotated;
 		rotated[0].X = cos + temp.X * axis.X;
 		rotated[0].Y = temp.X * axis.Y + sin * axis.Z;
 		rotated[0].Z = temp.X * axis.Z - sin * axis.Y;
@@ -533,7 +554,7 @@ namespace Vitro
 		rotated[2][1] = temp.Z * axis.Y - sin * axis.X;
 		rotated[2][2] = cos + temp.Z * axis.Z;
 
-		Matrix<4, 4, N> result(0);
+		Matrix<4, 4, N> result;
 		result[0] = m[0] * rotated[0].X + m[1] * rotated[0].Y + m[2] * rotated[0].Z;
 		result[1] = m[0] * rotated[1].X + m[1] * rotated[1].Y + m[2] * rotated[1].Z;
 		result[2] = m[0] * rotated[2].X + m[1] * rotated[2].Y + m[2] * rotated[2].Z;
@@ -544,7 +565,7 @@ namespace Vitro
 	template<typename N, VTR_IS_FLOAT(N)>
 	Matrix<4, 4, N> inline Scale(const Matrix<4, 4, N>& m, const Vector<3, N>& v)
 	{
-		Matrix<4, 4, N> result(0);
+		Matrix<4, 4, N> result;
 		result[0] = m[0] * v.X;
 		result[1] = m[1] * v.Y;
 		result[2] = m[2] * v.Z;

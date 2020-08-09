@@ -10,17 +10,23 @@ namespace Vitro
 	{
 	public:
 		virtual EventType GetType() const = 0;
-		virtual const std::string GetName() const = 0;
+		virtual std::string GetName() const = 0;
 		virtual EventSource GetSourceFlags() const = 0;
+		virtual explicit operator std::string() const = 0;
 
-		virtual explicit operator std::string() const;
-
-		bool HasSourceFlag(EventSource flag) const;
-		bool IsHandled() const;
-
-		template<typename E, typename H> void Dispatch(const H& handler)
+		inline bool HasSourceFlag(EventSource flag) const
 		{
-			if(E::StaticType() == GetType())
+			return flag & GetSourceFlags();
+		}
+
+		inline bool IsHandled() const
+		{
+			return Handled;
+		}
+
+		template<typename E, typename H> inline void Dispatch(const H& handler)
+		{
+			if(GetType() == E::DispatchType)
 				Handled = handler(static_cast<E&>(*this));
 		}
 
@@ -33,9 +39,9 @@ namespace Vitro
 #define Method(m) std::bind(&m, this, std::placeholders::_1)
 
 // Shorthand for implementing virtual methods related to the event type.
-#define VTR_EVENT_TYPE(T) static EventType StaticType()				 { return EventType::T; }	\
-						  EventType GetType() const override		 { return StaticType(); }	\
-						  const std::string GetName() const override { return #T; }
+#define VTR_EVENT_TYPE(T) static constexpr EventType DispatchType = EventType::T;				\
+						  inline EventType   GetType() const override { return DispatchType; }	\
+						  inline std::string GetName() const override { return #T; }
 
 // Shorthand for implementing virtual methods related to the event source.
-#define VTR_EVENT_SOURCE(S) EventSource GetSourceFlags() const override	{ return S; }
+#define VTR_EVENT_SOURCE(S) inline EventSource GetSourceFlags() const override { return S; }

@@ -10,10 +10,10 @@ namespace Vitro::DirectX
 	public:
 		static void Initialize();
 
-		static Microsoft::WRL::ComPtr<ID3D11Device5> Device;
-		static Microsoft::WRL::ComPtr<ID3D11DeviceContext4> Context;
+		static inline Microsoft::WRL::ComPtr<ID3D11Device5> Device;
+		static inline Microsoft::WRL::ComPtr<ID3D11DeviceContext4> Context;
 	#if VTR_DEBUG
-		static Microsoft::WRL::ComPtr<ID3D11Debug> DebugLayer;
+		static inline Microsoft::WRL::ComPtr<ID3D11Debug> DebugLayer;
 	#endif
 
 	private:

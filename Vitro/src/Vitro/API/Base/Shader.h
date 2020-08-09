@@ -10,7 +10,10 @@ namespace Vitro::Base
 	public:
 		virtual void Bind() = 0;
 
-		const HeapArray<char>& GetBytecode() const { return Bytecode; }
+		inline const HeapArray<char>& GetBytecode() const
+		{
+			return Bytecode;
+		}
 
 	protected:
 		HeapArray<char> Bytecode;

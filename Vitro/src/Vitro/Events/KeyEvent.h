@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "Vitro/Events/Event.h"
 #include "Vitro/Events/KeyCode.h"
@@ -11,12 +11,15 @@ namespace Vitro
 	public:
 		VTR_EVENT_SOURCE(EventSource::Input | EventSource::Keyboard);
 
-		KeyCode GetKeyCode() const;
+		inline KeyCode GetKey() const
+		{
+			return Key;
+		}
 
 	protected:
 		KeyCode Key;
 
-		KeyEvent(KeyCode key);
+		inline KeyEvent(KeyCode key) : Key(key) {}
 	};
 
 	// Event fired when pressing down a keyboard key.
@@ -26,11 +29,19 @@ namespace Vitro
 		VTR_EVENT_TYPE(KeyDown);
 
 		// Engine-internal constructor. Do NOT use in client application!
-		KeyDownEvent(KeyCode key, int repetitions);
+		inline KeyDownEvent(KeyCode key, int repeats) : KeyEvent(key), Repeats(repeats) {}
 
-		explicit operator std::string() const override;
+		inline explicit operator std::string() const override
+		{
+			std::stringstream s;
+			s << GetName() << ": " << ToString(Key) << " (Repeats: " << Repeats << ')';
+			return s.str();
+		}
 
-		int GetRepeats() const;
+		inline int GetRepeats() const
+		{
+			return Repeats;
+		}
 
 	private:
 		int Repeats;
@@ -43,9 +54,14 @@ namespace Vitro
 		VTR_EVENT_TYPE(KeyUp);
 
 		// Engine-internal constructor. Do NOT use in client application!
-		KeyUpEvent(KeyCode key);
+		inline KeyUpEvent(KeyCode key) : KeyEvent(key) {}
 
-		explicit operator std::string() const override;
+		inline explicit operator std::string() const override
+		{
+			std::stringstream s;
+			s << GetName() << ": " << ToString(Key);
+			return s.str();
+		}
 	};
 
 	// Event fired when receiving text character input from the keyboard.
@@ -55,13 +71,21 @@ namespace Vitro
 		VTR_EVENT_TYPE(TextType);
 
 		// Engine-internal constructor. Do NOT use in client application!
-		TextTypeEvent(KeyCode key, std::string character);
+		inline TextTypeEvent(KeyCode key, const std::string& text) : KeyEvent(key), Text(text) {}
 
-		explicit operator std::string() const override;
+		inline explicit operator std::string() const override
+		{
+			std::stringstream s;
+			s << GetName() << ": " << Text << " (Key: " << ToString(Key) << ')';
+			return s.str();
+		}
 
-		std::string GetCharacter() const;
+		inline std::string GetText() const
+		{
+			return Text;
+		}
 
 	private:
-		std::string Character;
+		std::string Text;
 	};
 }

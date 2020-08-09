@@ -53,10 +53,10 @@ namespace Vitro
 		}
 
 	private:
-		static std::ostream* AppLogTarget;
-		static std::ostream* EngineLogTarget;
-		static std::list<Entry> Queue;
-		static std::mutex Mutex;
+		static inline std::ostream* AppLogTarget;
+		static inline std::ostream* EngineLogTarget;
+		static inline std::list<Entry> Queue;
+		static inline std::mutex Mutex;
 
 		static void StartQueueProcessing();
 		static void DequeueAndWrite();

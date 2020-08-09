@@ -13,6 +13,7 @@ namespace Vitro
 
 	void Renderer3D::BeginScene()
 	{
+		Context->SetClearColor({0, 0, 0, 1});
 		Context->TargetBackBuffer();
 	}
 

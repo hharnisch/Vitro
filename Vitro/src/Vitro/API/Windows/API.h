@@ -22,9 +22,9 @@ namespace Vitro::Windows
 		static LRESULT CALLBACK NotifyEngine(HWND wnd, UINT msg, WPARAM wp, LPARAM lp);
 
 	private:
-		static std::function<void(Window&, Event&)> Dispatcher;
-		static KeyCode LastKeyCode;
-		static int KeyRepeats;
+		static inline std::function<void(Window&, Event&)> Dispatcher;
+		static inline KeyCode LastKeyCode;
+		static inline int KeyRepeats;
 
 		static void OnWindowMove(Window& window, LPARAM lp);
 		static void OnWindowSize(Window& window, LPARAM lp);

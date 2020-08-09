@@ -16,32 +16,37 @@ namespace Vitro
 
 	public:
 		template<typename = typename std::enable_if_t<R == 2>, typename O0, typename O1,
-			typename O2, typename O3> inline Matrix(O0 x0, O1 y0,
-													O2 x1, O3 y1)
-			: Val{Col(x0, y0), Col(x1, y1)}
+			typename O2, typename O3> constexpr Matrix(O0 x0, O1 y0,
+													   O2 x1, O3 y1) :
+			Val{Col(x0, y0), Col(x1, y1)}
 		{}
 
 		template<typename = typename std::enable_if_t<R == 3>, typename O0, typename O1,
-			typename O2, typename O3, typename O4, typename O5> inline Matrix(O0 x0, O1 y0, O2 z0,
-																			  O3 x1, O4 y1, O5 z1)
-			: Val{Col(x0, y0, z0), Col(x1, y1, z1)}
+			typename O2, typename O3, typename O4, typename O5>
+			constexpr Matrix(O0 x0, O1 y0, O2 z0,
+							 O3 x1, O4 y1, O5 z1) :
+			Val{Col(x0, y0, z0), Col(x1, y1, z1)}
 		{}
 
 		template<typename = typename std::enable_if_t<R == 4>, typename O0, typename O1,
 			typename O2, typename O3, typename O4, typename O5, typename O6, typename O7>
-			inline Matrix(O0 x0, O1 y0, O2 z0, O3 w0,
-						  O4 x1, O5 y1, O6 z1, O7 w1)
-			: Val{Col(x0, y0, z0, w0), Col(x1, y1, z1, w1)}
+			constexpr Matrix(O0 x0, O1 y0, O2 z0, O3 w0,
+							 O4 x1, O5 y1, O6 z1, O7 w1) :
+			Val{Col(x0, y0, z0, w0), Col(x1, y1, z1, w1)}
 		{}
 
-		template<typename = typename std::enable_if_t<R == 2>>
-		inline constexpr Matrix() : Matrix(1, 0, 0, 1) {}
+		template<typename = typename std::enable_if_t<R == 2>> constexpr Matrix() : Matrix(0) {}
 
-		template<typename O>
-		inline Matrix(O scalar) : Val{Col(scalar), Col(scalar)} {}
+		template<typename O, VTR_IS_SCALAR(O)>
+		constexpr Matrix(O scalar) : Val{Col(scalar), Col(scalar)} {}
 
 		template<typename O0, typename O1>
-		inline Matrix(const Vector<R, O0>& v0, const Vector<R, O1>& v1) : Val{v0, v1} {}
+		constexpr Matrix(const Vector<R, O0>& v0, const Vector<R, O1>& v1) : Val{v0, v1} {}
+
+		static constexpr std::enable_if_t<R == 2, Matrix<2, 2, N>> Identity()
+		{
+			return {1, 0, 0, 1};
+		}
 
 		inline Col& operator[](size_t index)
 		{

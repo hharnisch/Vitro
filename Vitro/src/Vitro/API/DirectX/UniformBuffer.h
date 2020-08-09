@@ -12,7 +12,7 @@ namespace Vitro::DirectX
 	template<typename U> class UniformBuffer : public Base::UniformBuffer<U>
 	{
 	public:
-		UniformBuffer(const U& uniformStruct, uint32_t uniformCount) : Count(uniformCount)
+		UniformBuffer(const U& uniformContainer, uint32_t uniformCount) : Count(uniformCount)
 		{
 			D3D11_BUFFER_DESC bd{0};
 			bd.ByteWidth	= sizeof(U);
@@ -20,7 +20,7 @@ namespace Vitro::DirectX
 			bd.BindFlags	= D3D11_BIND_CONSTANT_BUFFER;
 
 			D3D11_SUBRESOURCE_DATA srd{0};
-			srd.pSysMem = &uniformStruct;
+			srd.pSysMem = &uniformContainer;
 
 			auto result = API::Device->CreateBuffer(&bd, &srd, &BufferPtr);
 			AssertCritical(SUCCEEDED(result), "Could not create uniform buffer.");
@@ -28,8 +28,12 @@ namespace Vitro::DirectX
 
 		void Bind() const override
 		{
-			UINT firstUniform = 0;
-			API::Context->VSSetConstantBuffers1(0, 1, BufferPtr.Get(), &firstUniform, &Count);
+			API::Context->VSSetConstantBuffers(0, 1, BufferPtr.GetAddressOf());
+		}
+
+		void Update(const U& uniformContainer) const override
+		{
+			API::Context->UpdateSubresource(BufferPtr.Get(), 0, nullptr, &uniformContainer, 0, 0);
 		}
 
 	private:

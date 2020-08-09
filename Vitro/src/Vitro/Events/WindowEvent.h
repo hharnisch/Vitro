@@ -11,14 +11,22 @@ namespace Vitro
 	public:
 		VTR_EVENT_SOURCE(EventSource::App);
 
-		explicit operator std::string() const override;
+		inline explicit operator std::string() const override
+		{
+			std::stringstream s;
+			s << GetName() << ": " << &WindowRef;
+			return s.str();
+		}
 
-		Window& GetWindow();
+		inline Window& GetWindow()
+		{
+			return WindowRef;
+		}
 
 	protected:
 		Window& WindowRef;
 
-		WindowEvent(Window& window);
+		inline WindowEvent(Window& window) : WindowRef(window) {}
 	};
 
 	// Event fired when closing a window.
@@ -28,7 +36,7 @@ namespace Vitro
 		VTR_EVENT_TYPE(WindowClose);
 
 		// Engine-internal constructor. Do NOT use in client application!
-		WindowCloseEvent(Window& window);
+		inline WindowCloseEvent(Window& window) : WindowEvent(window) {}
 	};
 
 	// Event fired when resizing a window.
@@ -38,12 +46,24 @@ namespace Vitro
 		VTR_EVENT_TYPE(WindowMove);
 
 		// Engine-internal constructor. Do NOT use in client application!
-		WindowMoveEvent(Window& window, int width, int height);
+		inline WindowMoveEvent(Window& window, int x, int y) : WindowEvent(window), X(x), Y(y) {}
 
-		explicit operator std::string() const override;
+		inline explicit operator std::string() const override
+		{
+			std::stringstream s;
+			s << GetName() << ": " << &WindowRef << ", " << X << ", " << Y;
+			return s.str();
+		}
 
-		int GetX() const;
-		int GetY() const;
+		inline int GetX() const
+		{
+			return X;
+		}
+
+		inline int GetY() const
+		{
+			return Y;
+		}
 
 	private:
 		int X, Y;
@@ -56,12 +76,26 @@ namespace Vitro
 		VTR_EVENT_TYPE(WindowSize);
 
 		// Engine-internal constructor. Do NOT use in client application!
-		WindowSizeEvent(Window& window, int width, int height);
+		inline WindowSizeEvent(Window& window, int width, int height) :
+			WindowEvent(window), Width(width), Height(height)
+		{}
 
-		explicit operator std::string() const override;
+		inline explicit operator std::string() const override
+		{
+			std::stringstream s;
+			s << GetName() << ": " << &WindowRef << ", " << Width << ", " << Height;
+			return s.str();
+		}
 
-		int GetWidth() const;
-		int GetHeight() const;
+		inline int GetWidth() const
+		{
+			return Width;
+		}
+
+		inline int GetHeight() const
+		{
+			return Height;
+		}
 
 	private:
 		int Width, Height;
@@ -74,7 +108,7 @@ namespace Vitro
 		VTR_EVENT_TYPE(WindowFocus);
 
 		// Engine-internal constructor. Do NOT use in client application!
-		WindowFocusEvent(Window& window);
+		inline WindowFocusEvent(Window& window) : WindowEvent(window) {}
 	};
 
 	// Event fired when a window loses focus.
@@ -84,7 +118,7 @@ namespace Vitro
 		VTR_EVENT_TYPE(WindowUnfocus);
 
 		// Engine-internal constructor. Do NOT use in client application!
-		WindowUnfocusEvent(Window& window);
+		inline WindowUnfocusEvent(Window& window) : WindowEvent(window) {}
 	};
 
 	// Event fired when opening a window.
@@ -94,6 +128,6 @@ namespace Vitro
 		VTR_EVENT_TYPE(WindowOpen);
 
 		// Engine-internal constructor. Do NOT use in client application!
-		WindowOpenEvent(Window& window);
+		inline WindowOpenEvent(Window& window) : WindowEvent(window) {}
 	};
 }

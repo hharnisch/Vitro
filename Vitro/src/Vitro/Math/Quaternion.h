@@ -14,14 +14,14 @@ namespace Vitro
 			N Val[4];
 		};
 
-		inline Quaternion() = default;
+		constexpr Quaternion() : Quaternion(0, 0, 0, 0) {}
 
 		template<typename O0, typename O1, typename O2, typename O3>
-		inline Quaternion(O0 a, O1 b, O2 c, O3 d) : Val{static_cast<N>(a), static_cast<N>(b),
-														static_cast<N>(c), static_cast<N>(d)}
+		constexpr Quaternion(O0 a, O1 b, O2 c, O3 d) : Val{static_cast<N>(a), static_cast<N>(b),
+														   static_cast<N>(c), static_cast<N>(d)}
 		{}
 
-		inline Quaternion(const Vector<3, N>& eulerAngles)
+		constexpr Quaternion(const Vector<3, N>& eulerAngles)
 		{
 			Vector<3, N> cos = Cos(eulerAngles * 0.5);
 			Vector<3, N> sin = Sin(eulerAngles * 0.5);

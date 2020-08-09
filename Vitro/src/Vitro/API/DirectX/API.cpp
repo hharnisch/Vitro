@@ -5,12 +5,6 @@
 
 namespace Vitro::DirectX
 {
-	Microsoft::WRL::ComPtr<ID3D11Device5> API::Device;
-	Microsoft::WRL::ComPtr<ID3D11DeviceContext4> API::Context;
-#if VTR_DEBUG
-	Microsoft::WRL::ComPtr<ID3D11Debug> API::DebugLayer;
-#endif
-
 	void API::Initialize()
 	{
 		static bool initialized;

@@ -9,26 +9,20 @@ class QuadTest : public Vitro::Engine
 public:
 	QuadTest() : Engine("", "")
 	{
-		AppWindow1 = new Vitro::Window(550, 450, 300, 150, "QuadTest 1");
-		AppWindow2 = new Vitro::Window(550, 450, 1000, 150, "QuadTest 2");
+		AppWindow = new Vitro::Window(550, 450, 300, 150, "QuadTest");
 	}
 
 	~QuadTest()
 	{
-		delete AppWindow1;
-		delete AppWindow2;
+		delete AppWindow;
 	}
 
 	void OnStart() override
 	{
-		AppWindow1->Attach<QuadLayer>();
-		AppWindow1->Open();
-
-		AppWindow2->Attach<QuadLayer>();
-		AppWindow2->Open();
+		AppWindow->Attach<QuadLayer>(550, 450);
+		AppWindow->Open();
 	}
 
 private:
-	Vitro::Window* AppWindow1;
-	Vitro::Window* AppWindow2;
+	Vitro::Window* AppWindow;
 };

@@ -34,13 +34,13 @@ namespace Vitro::Base
 
 		template<typename L, typename... Args>
 		std::enable_if_t<std::is_base_of_v<Layer, L> && !std::is_base_of_v<Overlay, L>, L&>
-			Attach(Args&... args)
+			Attach(Args&&... args)
 		{
 			return static_cast<L&>(Attach(*new L(std::forward<Args>(args)...)));
 		}
 
 		template<typename O, typename... Args>
-		std::enable_if_t<std::is_base_of_v<Overlay, O>, O&> Attach(Args&... args)
+		std::enable_if_t<std::is_base_of_v<Overlay, O>, O&> Attach(Args&&... args)
 		{
 			return static_cast<O&>(Attach(*new O(std::forward<Args>(args)...)));
 		}

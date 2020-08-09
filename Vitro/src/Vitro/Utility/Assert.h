@@ -14,7 +14,7 @@
 
 #define AssertArrayRange(arr, index, arrayName)						\
 	if(index >= sizeof(arr) / sizeof(*arr))							\
-		throw std::out_of_range(arrayName + " index out of range.");
+		throw std::out_of_range(std::string(arrayName) + " index out of range.");
 
 #else
 
