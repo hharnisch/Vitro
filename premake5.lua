@@ -8,32 +8,32 @@ workspace "Vitro"
 outputdir = "%{cfg.buildcfg}_%{cfg.architecture}_%{cfg.system}"
 
 group "Dependencies"
-	include "Vitro/lib/imgui"
+	include "External/IMGUI"
 group ""
 
-project "Vitro"
-	location			"Vitro"
+project "VitroEngine"
+	location			"VitroEngine"
 	kind				"StaticLib"
 	language			"C++"
 	cppdialect			"C++17"
 	staticruntime		"on"
 	targetdir			(".bin/"	 .. outputdir .. "/%{prj.name}")
 	objdir				(".bin_obj/" .. outputdir .. "/%{prj.name}")
-	libdirs				"%{prj.name}/lib"
-	pchsource			"%{prj.name}/src/_pch.cpp"
+	libdirs				"External"
+	pchsource			"%{prj.name}/_pch.cpp"
 	pchheader			"_pch.h"
-	links				"imgui"
+	links				"IMGUI"
 
 	files
 	{
-		"%{prj.name}/src/**.cpp",
-		"%{prj.name}/src/**.h"		
+		"%{prj.name}/**.cpp",
+		"%{prj.name}/**.h"		
 	}
 
 	includedirs
 	{
-		"%{prj.name}/src",
-		"%{prj.name}/lib"
+		"%{prj.name}",
+		"External"
 	}
 
 	filter "system:windows"
@@ -71,7 +71,7 @@ project "VitroTests"
 	staticruntime		"on"
 	targetdir			(".bin/"	 .. outputdir .. "/%{prj.name}")
 	objdir				(".bin_obj/" .. outputdir .. "/%{prj.name}")
-	links				"Vitro"
+	links				"VitroEngine"
 
 	files
 	{
@@ -82,7 +82,7 @@ project "VitroTests"
 
 	includedirs
 	{
-		"Vitro/src"
+		"VitroEngine"
 	}
 	
 	filter "files:**.hlsl"
