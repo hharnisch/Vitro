@@ -17,7 +17,8 @@ namespace Vitro
 		uint32_t StorageSize;
 		uint32_t Offset;
 
-		VertexField(const char name[], uint32_t index, VertexFieldType type, bool normalized = false);
+		VertexField(const char name[], uint32_t index, VertexFieldType type,
+					bool normalized = false);
 
 	private:
 		static uint32_t GetSizeOf(VertexFieldType type);

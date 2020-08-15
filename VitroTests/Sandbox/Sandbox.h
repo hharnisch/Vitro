@@ -7,7 +7,7 @@ class Sandbox : public Vitro::Engine
 public:
 	Sandbox() : Engine("", "")
 	{
-		AppWindow = new Vitro::Window(550, 450, 300, 150, "TriangleTest");
+		AppWindow = new Vitro::Window(550, 450, 300, 150, "Sandbox");
 	}
 
 	~Sandbox()

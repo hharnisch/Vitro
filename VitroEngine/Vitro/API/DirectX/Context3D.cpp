@@ -78,6 +78,11 @@ namespace Vitro::DirectX
 											D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	}
 
+	void Context3D::SetVSync(bool enabled)
+	{
+		SwapInterval = enabled ? 1 : 0;
+	}
+
 	void Context3D::TargetBackBuffer()
 	{
 		API::Context->OMSetRenderTargets(1, BackBuffer.GetAddressOf(), DepthBuffer.Get());
@@ -90,7 +95,7 @@ namespace Vitro::DirectX
 
 	void Context3D::SwapBuffers()
 	{
-		auto result = SwapChain->Present(1, 0);
+		auto result = SwapChain->Present(SwapInterval, 0);
 		Assert(SUCCEEDED(result), "Swap chain could not present image.");
 	}
 }

@@ -15,6 +15,7 @@ namespace Vitro::DirectX
 
 		void SetViewport(int width, int height, int x, int y) override;
 		void SetClearColor(const Float4& color) override;
+		void SetVSync(bool enabled) override;
 		void TargetBackBuffer() override;
 		void DrawIndices(const IndexBuffer& ib) override;
 		void SwapBuffers() override;
@@ -23,5 +24,6 @@ namespace Vitro::DirectX
 		Microsoft::WRL::ComPtr<IDXGISwapChain1> SwapChain;
 		Microsoft::WRL::ComPtr<ID3D11RenderTargetView> BackBuffer;
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilView> DepthBuffer;
+		uint32_t SwapInterval = 1;
 	};
 }

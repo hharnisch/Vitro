@@ -1,10 +1,14 @@
 #include "_pch.h"
 #include "Camera.h"
 
+#include "Vitro/Math/Trigonometry.h"
+#include <Vitro\Utility\Log.h> // TODO
+
 namespace Vitro
 {
-	Camera::Camera(const Float3& position, const Float4x4& projection) :
-		Position(position), Projection(projection), Orientation(0, 0, 0)
+	Camera::Camera(const Float3& position, const Quaternion<>& orientation,
+				   const Float4x4& projection) :
+		Position(position), Orientation(orientation), Projection(projection)
 	{
 		UpdateView();
 	}
@@ -30,31 +34,37 @@ namespace Vitro
 		UpdateView();
 	}
 
-	void Camera::AdjustPosition(const Float3& position)
+	void Camera::Translate(const Float3& adjustment)
 	{
-		Position += position;
+		Position += adjustment;
 		UpdateView();
 	}
 
-	const Float3& Camera::GetOrientation() const
+	const Quaternion<>& Camera::GetOrientation() const
 	{
 		return Orientation;
 	}
 
-	void Camera::SetOrientation(const Float3& orientation)
+	void Camera::SetOrientation(const Quaternion<>& orientation)
 	{
-		Orientation = orientation;
+		Orientation = Normalize(orientation);
 		UpdateView();
 	}
 
-	void Camera::AdjustOrientation(const Float3& orientation)
+	void Camera::SetOrientation(const Float3& eulerAngles)
 	{
-		Orientation += orientation;
+		Orientation = Quaternion(eulerAngles);
+		UpdateView();
+	}
+
+	void Camera::Rotate(float pitch, float yaw, float roll)
+	{
+		Orientation *= Quaternion({pitch, yaw, roll});
 		UpdateView();
 	}
 
 	void Camera::UpdateView()
 	{
-		View = LookAtLH(Position, Orientation, DefaultUp);
+		View = Inverse(Vitro::Translate(Position) * Float4x4(Orientation));
 	}
 }

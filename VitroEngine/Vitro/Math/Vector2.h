@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Vitro/Utility/Assert.h"
 
@@ -292,7 +292,7 @@ namespace Vitro
 		inline explicit operator std::string() const
 		{
 			std::stringstream s;
-			s << "(" << +X << "," << +Y << ")";
+			s << '(' << +X << ',' << +Y << ')';
 			return s.str();
 		}
 	};

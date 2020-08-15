@@ -9,15 +9,16 @@ public:
 		Vertices(Cube, ArrayCount(Cube)),
 		Indices(CubeIndices, ArrayCount(CubeIndices)),
 		Uniforms(CamUniforms, 1),
-		Cam({0, 3, -5}, Vitro::PerspectiveLH(0.4f * 3.14f, width, height, 1.0f, 1000.f)),
+		Cam({0, 3, -3}, {0}, Vitro::PerspectiveLH(0.4f * 3.14f, width, height, 1.0f, 1000.f)),
 		VShader("CubeVertex.cso"),
 		FShader("CubeFragment.cso")
 	{}
 
 	void OnAttach() override
 	{
-		using namespace Vitro;
 		std::srand(static_cast<uint32_t>(time(nullptr)));
+
+		using namespace Vitro;
 		VertexLayout vl
 		{
 			{VertexField::Position, 0, VertexFieldType::Float3},
@@ -39,23 +40,53 @@ public:
 		Uniforms.Update(CamUniforms);
 		Uniforms.Bind();
 		Renderer->Submit(Indices);
+
+		CamUniforms.MVP = Translate(Cam.GetProjection() * Cam.GetView(), {2.5, 2.5, 2.5});
+		Vertices.Bind(VertexTopology::TriangleList);
+		Uniforms.Update(CamUniforms);
+		Uniforms.Bind();
+		Renderer->Submit(Indices);
+
+		if(Input::IsDown(KeyCode::A))
+			Cam.Translate({-0.25, 0, 0});
+		if(Input::IsDown(KeyCode::D))
+			Cam.Translate({+0.25, 0, 0});
+
+		if(Input::IsDown(KeyCode::Q))
+			Cam.Translate({0, -0.25, 0});
+		if(Input::IsDown(KeyCode::E))
+			Cam.Translate({0, +0.25, 0});
+
+		if(Input::IsDown(KeyCode::W))
+			Cam.Translate({0, 0, +0.25});
+		if(Input::IsDown(KeyCode::S))
+			Cam.Translate({0, 0, -0.25});
+
+		if(Input::IsDown(KeyCode::R))
+			Cam.SetPosition({0, 3, -3});
 	}
 
 	void OnEvent(Vitro::Event& e) override
 	{
+		auto random = []() { return std::rand() / static_cast<float>(RAND_MAX); };
+
 		using namespace Vitro;
-		e.Dispatch<KeyDownEvent>([this](KeyDownEvent& e)
+		e.Dispatch<MouseUpEvent>([random, this](MouseUpEvent& e)
 		{
-			switch(e.GetKey())
-			{
-				case KeyCode::Q: Cam.AdjustPosition({+0.5, 0, 0}); break;
-				case KeyCode::E: Cam.AdjustPosition({-0.5, 0, 0}); break;
-				case KeyCode::D: Cam.AdjustPosition({0, +0.5, 0}); break;
-				case KeyCode::A: Cam.AdjustPosition({0, -0.5, 0}); break;
-				case KeyCode::W: Cam.AdjustPosition({0, 0, +0.5}); break;
-				case KeyCode::S: Cam.AdjustPosition({0, 0, -0.5}); break;
-				case KeyCode::R: Cam.SetPosition({0, 3, -5}); break;
-			}
+			for(auto& vertex : Cube)
+				vertex.Color ={random(), random(), random(), random()};
+			Vertices = VertexBuffer<Vertex>(Cube, ArrayCount(Cube));
+			return true;
+		});
+
+		e.Dispatch<MouseMoveEvent>([this](MouseMoveEvent& e)
+		{
+			if(Input::IsDown(KeyCode::Tab))
+				Cam.Rotate(e.GetX() / 10000.f, 0, 0);
+			if(Input::IsDown(KeyCode::Space))
+				Cam.Rotate(0, e.GetY() / 10000.f, 0);
+			if(Input::IsDown(KeyCode::Alt))
+				Cam.Rotate(0, 0, e.GetX() / 10000.f);
 			return true;
 		});
 	}

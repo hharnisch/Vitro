@@ -22,6 +22,8 @@ namespace Vitro::Windows
 		// Exists only for the Windows API to deliver messages.
 		static LRESULT CALLBACK NotifyEngine(HWND wnd, UINT msg, WPARAM wp, LPARAM lp);
 
+		API() = delete;
+
 	private:
 		static inline KeyCode LastKeyCode;
 		static inline int KeyRepeats;
@@ -42,7 +44,5 @@ namespace Vitro::Windows
 		static void OnMouseScrollVertical(Window& window, WPARAM wp);
 		static void OnMouseScrollHorizontal(Window& window, WPARAM wp);
 		static MouseCode GetMouseExtra(WPARAM wp);
-
-		API() = delete;
 	};
 }

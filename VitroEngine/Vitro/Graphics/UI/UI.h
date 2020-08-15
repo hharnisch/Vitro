@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 namespace Vitro
 {
@@ -8,7 +8,6 @@ namespace Vitro
 		static void Initialize();
 		static void Finalize();
 
-	private:
 		UI() = delete;
 	};
 }

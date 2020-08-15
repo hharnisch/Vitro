@@ -16,7 +16,6 @@ namespace Vitro::DirectX
 		static inline Microsoft::WRL::ComPtr<ID3D11Debug> DebugLayer;
 	#endif
 
-	private:
 		API() = delete;
 	};
 }

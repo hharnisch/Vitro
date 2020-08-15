@@ -125,15 +125,15 @@ namespace Vitro
 		#endif
 		}
 
-	private:
-		T* __restrict Data;
-		size_t DataCount;
-
 		StackArray(StackArray&&) = delete;
 		StackArray& operator=(StackArray&&) = delete;
 		void* operator new(size_t) = delete;
 		void* operator new[](size_t) = delete;
 		void operator delete(void*) = delete;
 		void operator delete[](void*) = delete;
+
+	private:
+		T* __restrict Data;
+		size_t DataCount;
 	};
 }

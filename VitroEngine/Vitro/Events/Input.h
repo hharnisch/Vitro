@@ -12,12 +12,12 @@ namespace Vitro
 		friend class Windows::API;
 
 	public:
-		static inline bool IsKeyDown(KeyCode key)
+		static inline bool IsDown(KeyCode key)
 		{
 			return KeyStates[key];
 		}
 
-		static inline bool IsMouseDown(MouseCode button)
+		static inline bool IsDown(MouseCode button)
 		{
 			return MouseStates[button];
 		}
@@ -37,11 +37,11 @@ namespace Vitro
 			return MousePosition.Y;
 		}
 
+		Input() = delete;
+
 	private:
 		static inline std::unordered_map<KeyCode, bool> KeyStates;
 		static inline std::unordered_map<MouseCode, bool> MouseStates;
 		static inline Int2 MousePosition;
-
-		Input() = delete;
 	};
 }

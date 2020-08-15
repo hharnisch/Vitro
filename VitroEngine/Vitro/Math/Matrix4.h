@@ -58,18 +58,18 @@ namespace Vitro
 		template<typename = typename std::enable_if_t<R == 4>>
 		constexpr Matrix(const Quaternion<N>& q)
 		{
-			N aa = q.A * q.A;
-			N bb = q.B * q.B;
-			N cc = q.C * q.C;
-			N ac = q.A * q.C;
-			N ab = q.A * q.B;
-			N bc = q.B * q.C;
-			N da = q.D * q.A;
-			N db = q.D * q.B;
-			N dc = q.D * q.C;
-			Val[0] ={1 - 2 * (bb * cc), 2 * (ab + dc), 2 * (ac - db), 0};
-			Val[1] ={2 * (ab - dc), 1 - 2 * (aa + cc), 2 * (bc + da), 0};
-			Val[2] ={2 * (ac + db), 2 * (bc - da), 1 - 2 * (aa + bb), 0};
+			N xx(q.X * q.X);
+			N yy(q.Y * q.Y);
+			N zz(q.Z * q.Z);
+			N xz(q.X * q.Z);
+			N xy(q.X * q.Y);
+			N yz(q.Y * q.Z);
+			N wx(q.W * q.X);
+			N wy(q.W * q.Y);
+			N wz(q.W * q.Z);
+			Val[0] ={1 - 2 * (yy * zz), 2 * (xy + wz), 2 * (xz - wy), 0};
+			Val[1] ={2 * (xy - wz), 1 - 2 * (xx + zz), 2 * (yz + wx), 0};
+			Val[2] ={2 * (xz + wy), 2 * (yz - wx), 1 - 2 * (xx + yy), 0};
 			Val[3] ={0, 0, 0, 1};
 		}
 
@@ -496,7 +496,7 @@ namespace Vitro
 
 	// Left-hand coordinates, Z normalization between 0 and 1
 	template<typename N, VTR_IS_FLOAT(N)>
-	Matrix<4, 4, N> inline OrthographicLH(N left, N right, N bottom, N top, N farZ, N nearZ)
+	inline Matrix<4, 4, N> OrthographicLH(N left, N right, N bottom, N top, N farZ, N nearZ)
 	{
 		auto ortho = Matrix<4, 4, N>::Identity();
 		ortho[0].X = 2 / (right - left);
@@ -510,7 +510,7 @@ namespace Vitro
 
 	// Left-hand coordinates, Z normalization between 0 and 1
 	template<typename N, VTR_IS_FLOAT(N), typename I>
-	Matrix<4, 4, N> inline PerspectiveLH(N fovInRadians, I width, I height, N nearZ, N farZ)
+	inline Matrix<4, 4, N> PerspectiveLH(N fovInRadians, I width, I height, N nearZ, N farZ)
 	{
 		N aspect = width / static_cast<N>(height);
 		Assert(std::abs(aspect - std::numeric_limits<N>::epsilon()) > 0, "Invalid aspect ratio.");
@@ -527,7 +527,7 @@ namespace Vitro
 
 	// Left-hand coordinates
 	template<typename N, VTR_IS_FLOAT(N)>
-	Matrix<4, 4, N> inline LookAtLH(const Vector<3, N>& eye, const Vector<3, N>& at,
+	inline Matrix<4, 4, N> LookAtLH(const Vector<3, N>& eye, const Vector<3, N>& at,
 									const Vector<3, N>& up)
 	{
 		Vector<3, N> zAxis = Normalize(at - eye);
@@ -540,15 +540,22 @@ namespace Vitro
 	}
 
 	template<typename N, VTR_IS_FLOAT(N)>
-	Matrix<4, 4, N> inline Translate(const Matrix<4, 4, N>& m, const Vector<3, N>& v)
+	inline Matrix<4, 4, N> Translate(const Matrix<4, 4, N>& m, const Vector<3, N>& v)
 	{
 		Matrix<4, 4, N> result = m;
 		result[3] = m[0] * v.X + m[1] * v.Y + m[2] * v.Z + m[3];
 		return result;
 	}
 
+	template<typename N, VTR_IS_FLOAT(N)> inline Matrix<4, 4, N> Translate(const Vector<3, N>& v)
+	{
+		auto result = Matrix<4, 4, N>::Identity();
+		result[3] = result[0] * v.X + result[1] * v.Y + result[2] * v.Z + result[3];
+		return result;
+	}
+
 	template<typename N, VTR_IS_FLOAT(N)>
-	Matrix<4, 4, N> inline Rotate(const Matrix<4, 4, N>& m, N angle, const Vector<3, N>& v)
+	inline Matrix<4, 4, N> Rotate(const Matrix<4, 4, N>& m, N angle, const Vector<3, N>& v)
 	{
 		N cos = std::cos(angle);
 		N sin = std::sin(angle);
@@ -578,7 +585,7 @@ namespace Vitro
 	}
 
 	template<typename N, VTR_IS_FLOAT(N)>
-	Matrix<4, 4, N> inline Scale(const Matrix<4, 4, N>& m, const Vector<3, N>& v)
+	inline Matrix<4, 4, N> Scale(const Matrix<4, 4, N>& m, const Vector<3, N>& v)
 	{
 		Matrix<4, 4, N> result;
 		result[0] = m[0] * v.X;

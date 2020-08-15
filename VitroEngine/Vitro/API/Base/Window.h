@@ -47,6 +47,9 @@ namespace Vitro::Base
 			return static_cast<O&>(Attach(*new O(std::forward<Args>(args)...)));
 		}
 
+		Window(const Window&) = delete;
+		Window& operator=(const Window&) = delete;
+
 	protected:
 		std::shared_ptr<Renderer3D> Renderer = nullptr;
 
@@ -62,8 +65,5 @@ namespace Vitro::Base
 
 		Layer& Attach(Layer& layer);
 		Overlay& Attach(Overlay& overlay);
-
-		Window(const Window&) = delete;
-		Window& operator=(const Window&) = delete;
 	};
 }

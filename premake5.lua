@@ -17,8 +17,8 @@ project "VitroEngine"
 	language			"C++"
 	cppdialect			"C++17"
 	staticruntime		"on"
-	targetdir			(".bin/"	 .. outputdir .. "/%{prj.name}")
 	objdir				(".bin_obj/" .. outputdir .. "/%{prj.name}")
+	targetdir			(".bin/"	 .. outputdir .. "/%{prj.name}")
 	libdirs				"External"
 	pchsource			"%{prj.name}/_pch.cpp"
 	pchheader			"_pch.h"
@@ -38,7 +38,7 @@ project "VitroEngine"
 
 	filter "system:windows"
 		systemversion	"latest"
-		defines			"VTR_SYSTEM_WINDOWS"
+		defines			{ "VTR_SYSTEM_WINDOWS", "WIN32_LEAN_AND_MEAN" }
 
 	filter "configurations:Debug"
 		runtime			"Debug"
@@ -69,8 +69,9 @@ project "VitroTests"
 	language			"C++"
 	cppdialect			"C++17"
 	staticruntime		"on"
-	targetdir			(".bin/"	 .. outputdir .. "/%{prj.name}")
 	objdir				(".bin_obj/" .. outputdir .. "/%{prj.name}")
+	targetdir			(".bin/"	 .. outputdir .. "/%{prj.name}")
+	debugdir			(".bin/"	 .. outputdir .. "/%{prj.name}")	
 	links				"VitroEngine"
 
 	files
@@ -99,7 +100,7 @@ project "VitroTests"
 
 	filter "system:windows"
 		systemversion	"latest"
-		defines			"VTR_SYSTEM_WINDOWS"
+		defines			{ "VTR_SYSTEM_WINDOWS", "WIN32_LEAN_AND_MEAN" }
 
 	filter "configurations:Debug"
 		runtime			"Debug"

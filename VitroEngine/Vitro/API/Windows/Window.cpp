@@ -15,6 +15,7 @@ namespace Vitro::Windows
 		auto wstr = API::WidenChars(title);
 		NativeHandle = CreateWindowExW(0, API::WindowClassName, wstr.c_str(), WS_OVERLAPPEDWINDOW,
 									   x, y, width, height, nullptr, nullptr, nullptr, nullptr);
+		AssertCritical(NativeHandle, "Could not create window.");
 		SetWindowLongPtr(NativeHandle, 0, reinterpret_cast<LONG_PTR>(this));
 		Renderer = std::make_shared<Renderer3D>(*this);
 

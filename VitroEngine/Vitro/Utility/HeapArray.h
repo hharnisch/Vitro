@@ -24,8 +24,7 @@ namespace Vitro
 		inline HeapArray(const HeapArray& other) : HeapArray(other.DataCount)
 		{
 			auto src = other.begin();
-			auto dst = begin();
-			for(; src != other.end(); ++src, ++dst)
+			for(auto dst = begin(); dst != end(); ++src, ++dst)
 				*dst = *src;
 		}
 
@@ -203,11 +202,11 @@ namespace Vitro
 		#endif
 		}
 
+		void* operator new(size_t) = delete;
+		void operator delete(void*) = delete;
+
 	private:
 		T* __restrict Data = nullptr;
 		size_t DataCount = 0;
-
-		void* operator new(size_t) = delete;
-		void operator delete(void*) = delete;
 	};
 }

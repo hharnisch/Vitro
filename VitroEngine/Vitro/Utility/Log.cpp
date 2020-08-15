@@ -1,4 +1,4 @@
-﻿#include "_pch.h"
+#include "_pch.h"
 #include "Log.h"
 
 #include "Vitro/Engine.h"
@@ -65,9 +65,9 @@ namespace Vitro
 		auto logOrigin = entry.FromEngine ? "ENGINE" : "APP";
 
 		std::stringstream logText;
-		logText << "[" << GetLogTimestamp() << "] [" << logOrigin;
+		logText << '[' << GetLogTimestamp() << "] [" << logOrigin;
 		if(logTarget != &std::cout) // Append log level if not logging to the console.
-			logText << " " << FileUtils::ModifyToUpper(ToString(entry.Level));
+			logText << ' ' << FileUtils::ModifyToUpper(ToString(entry.Level));
 		logText << "] " << entry.Message << std::endl;
 
 		*logTarget << logText.str();

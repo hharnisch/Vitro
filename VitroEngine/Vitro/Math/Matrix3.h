@@ -167,9 +167,9 @@ namespace Vitro
 		inline explicit operator std::string() const
 		{
 			std::stringstream s;
-			s << "[" << static_cast<std::string>(Val[0]) << ", ";
+			s << '[' << static_cast<std::string>(Val[0]) << ", ";
 			s << static_cast<std::string>(Val[1]) << ", ";
-			s << static_cast<std::string>(Val[2]) << "]";
+			s << static_cast<std::string>(Val[2]) << ']';
 			return s.str();
 		}
 	};

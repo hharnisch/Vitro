@@ -33,10 +33,10 @@ namespace Vitro::Windows
 		void Minimize() override;
 		void PollEvents() override;
 
-	private:
-		HWND NativeHandle;
-
 		Window(const Window&) = delete;
 		Window& operator=(const Window&) = delete;
+
+	private:
+		HWND NativeHandle;
 	};
 }

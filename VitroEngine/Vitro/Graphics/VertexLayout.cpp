@@ -29,4 +29,14 @@ namespace Vitro
 	{
 		return Stride;
 	}
+
+	std::vector<VertexField>::const_iterator VertexLayout::begin() const
+	{
+		return Fields.begin();
+	}
+
+	std::vector<VertexField>::const_iterator VertexLayout::end() const
+	{
+		return Fields.end();
+	}
 }

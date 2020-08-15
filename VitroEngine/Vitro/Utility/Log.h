@@ -52,6 +52,8 @@ namespace Vitro
 			return Concat(msg) + " | " + Concat(args...);
 		}
 
+		Log() = delete;
+
 	private:
 		static inline std::ostream* AppLogTarget;
 		static inline std::ostream* EngineLogTarget;
@@ -62,8 +64,6 @@ namespace Vitro
 		static void DequeueAndWrite();
 		static void SetConsoleColors(uint8_t colorMask);
 		static std::string GetLogTimestamp();
-
-		Log() = delete;
 	};
 }
 

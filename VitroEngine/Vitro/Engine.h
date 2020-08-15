@@ -27,6 +27,11 @@ namespace Vitro
 		int Run();
 		bool IsRunning();
 
+		Engine(const Engine&) = delete;
+		Engine(Engine&&) = delete;
+		Engine& operator=(const Engine&) = delete;
+		Engine& operator=(Engine&&) = delete;
+
 	private:
 		static inline Engine* Singleton;
 
@@ -38,10 +43,5 @@ namespace Vitro
 
 		void OnWindowClose(WindowCloseEvent& e);
 		void OnWindowOpen(WindowOpenEvent& e);
-
-		Engine(const Engine&) = delete;
-		Engine(Engine&&) = delete;
-		Engine& operator=(const Engine&) = delete;
-		Engine& operator=(Engine&&) = delete;
 	};
 }

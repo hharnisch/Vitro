@@ -23,15 +23,17 @@ namespace Vitro::DirectX
 	void VertexShader::SetVertexLayout(const VertexLayout& layout)
 	{
 		StackArray<D3D11_INPUT_ELEMENT_DESC> ieds(layout.Count());
-		for(int i = 0; i < ieds.Count(); i++)
+
+		auto src = layout.begin();
+		for(auto dst = ieds.begin(); dst != ieds.end(); ++src, ++dst)
 		{
-			ieds[i].SemanticName			= layout[i].Name.c_str();
-			ieds[i].SemanticIndex			= layout[i].Index;
-			ieds[i].Format					= static_cast<DXGI_FORMAT>(layout[i].Type);
-			ieds[i].InputSlot				= 0;
-			ieds[i].AlignedByteOffset		= layout[i].Offset;
-			ieds[i].InputSlotClass			= D3D11_INPUT_PER_VERTEX_DATA;
-			ieds[i].InstanceDataStepRate	= 0;
+			(*dst).SemanticName			= (*src).Name.c_str();
+			(*dst).SemanticIndex		= (*src).Index;
+			(*dst).Format				= static_cast<DXGI_FORMAT>((*src).Type);
+			(*dst).InputSlot			= 0;
+			(*dst).AlignedByteOffset	= (*src).Offset;
+			(*dst).InputSlotClass		= D3D11_INPUT_PER_VERTEX_DATA;
+			(*dst).InstanceDataStepRate	= 0;
 		}
 
 		Microsoft::WRL::ComPtr<ID3D11InputLayout> layoutPtr;
