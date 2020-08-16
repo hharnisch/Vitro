@@ -496,7 +496,7 @@ namespace Vitro
 
 	// Left-hand coordinates, Z normalization between 0 and 1
 	template<typename N, VTR_IS_FLOAT(N)>
-	inline Matrix<4, 4, N> OrthographicLH(N left, N right, N bottom, N top, N farZ, N nearZ)
+	inline Matrix<4, 4, N> Orthographic(N left, N right, N bottom, N top, N farZ, N nearZ)
 	{
 		auto ortho = Matrix<4, 4, N>::Identity();
 		ortho[0].X = 2 / (right - left);
@@ -510,7 +510,7 @@ namespace Vitro
 
 	// Left-hand coordinates, Z normalization between 0 and 1
 	template<typename N, VTR_IS_FLOAT(N), typename I>
-	inline Matrix<4, 4, N> PerspectiveLH(N fovInRadians, I width, I height, N nearZ, N farZ)
+	inline Matrix<4, 4, N> Perspective(N fovInRadians, I width, I height, N nearZ, N farZ)
 	{
 		N aspect = width / static_cast<N>(height);
 		Assert(std::abs(aspect - std::numeric_limits<N>::epsilon()) > 0, "Invalid aspect ratio.");
@@ -527,8 +527,8 @@ namespace Vitro
 
 	// Left-hand coordinates
 	template<typename N, VTR_IS_FLOAT(N)>
-	inline Matrix<4, 4, N> LookAtLH(const Vector<3, N>& eye, const Vector<3, N>& at,
-									const Vector<3, N>& up)
+	inline Matrix<4, 4, N> LookAt(const Vector<3, N>& eye, const Vector<3, N>& at,
+								  const Vector<3, N>& up)
 	{
 		Vector<3, N> zAxis = Normalize(at - eye);
 		Vector<3, N> xAxis = Normalize(Cross(up, zAxis));

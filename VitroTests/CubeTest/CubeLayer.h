@@ -9,7 +9,7 @@ public:
 		Vertices(Cube, ArrayCount(Cube)),
 		Indices(CubeIndices, ArrayCount(CubeIndices)),
 		Uniforms(CamUniforms, 1),
-		Cam({0, 3, -3}, {0}, Vitro::PerspectiveLH(0.4f * 3.14f, width, height, 1.0f, 1000.f)),
+		Cam({0, 3, -3}, Vitro::Perspective(0.4f * 3.14f, width, height, 1.0f, 1000.f)),
 		VShader("CubeVertex.cso"),
 		FShader("CubeFragment.cso")
 	{}
@@ -57,10 +57,10 @@ public:
 		if(Input::IsDown(KeyCode::E))
 			Cam.Translate({0, +0.25, 0});
 
-		if(Input::IsDown(KeyCode::W))
-			Cam.Translate({0, 0, +0.25});
 		if(Input::IsDown(KeyCode::S))
 			Cam.Translate({0, 0, -0.25});
+		if(Input::IsDown(KeyCode::W))
+			Cam.Translate({0, 0, +0.25});
 
 		if(Input::IsDown(KeyCode::R))
 			Cam.SetPosition({0, 3, -3});
@@ -82,11 +82,11 @@ public:
 		e.Dispatch<MouseMoveEvent>([this](MouseMoveEvent& e)
 		{
 			if(Input::IsDown(KeyCode::Tab))
-				Cam.Rotate(e.GetX() / 10000.f, 0, 0);
+				Cam.Pitch(e.GetX() / 10000.f);
 			if(Input::IsDown(KeyCode::Space))
-				Cam.Rotate(0, e.GetY() / 10000.f, 0);
+				Cam.Yaw(e.GetY() / 10000.f);
 			if(Input::IsDown(KeyCode::Alt))
-				Cam.Rotate(0, 0, e.GetX() / 10000.f);
+				Cam.Roll(e.GetX() / 10000.f);
 			return true;
 		});
 	}

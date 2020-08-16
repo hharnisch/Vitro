@@ -9,28 +9,30 @@ namespace Vitro
 	{
 	public:
 		Camera() = default;
-		Camera(const Float3& position, const Quaternion<>& orientation, const Float4x4& projection);
+		Camera(const Float3& position, const Float4x4& projection);
 
 		const Float4x4& GetView() const;
 		const Float4x4& GetProjection() const;
 
 		const Float3& GetPosition() const;
 		void SetPosition(const Float3& position);
-		void Translate(const Float3& adjustment);
+		void Translate(const Float3& translation);
 
-		const Quaternion<>& GetOrientation() const;
-		void SetOrientation(const Quaternion<>& orientation);
-		void SetOrientation(const Float3& eulerAngles);
-		void Rotate(float pitch, float yaw, float roll);
+		void Pitch(float radians);
+		void Yaw(float radians);
+		void Roll(float radians);
 
 	private:
-		static constexpr Float3 DefaultForward{0, 0, 1};
 		static constexpr Float3 DefaultRight{1, 0, 0};
 		static constexpr Float3 DefaultUp{0, 1, 0};
+		static constexpr Float3 DefaultForward{0, 0, 1};
 
 		Float4x4 Projection, View;
 		Float3 Position;
-		Quaternion<> Orientation;
+
+		Float3 Right = DefaultRight;
+		Float3 Up = DefaultUp;
+		Float3 Forward = DefaultForward;
 
 		void UpdateView();
 	};

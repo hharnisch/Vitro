@@ -55,8 +55,8 @@ namespace Vitro
 		try
 		{
 			AssertCritical(!ShouldUpdate, "Engine has already been started.");
-			OnStart();
 			ShouldUpdate = true;
+			OnStart();
 			while(ShouldUpdate)
 				for(auto window : OpenWindows)
 				{

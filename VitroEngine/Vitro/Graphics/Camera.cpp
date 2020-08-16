@@ -1,14 +1,10 @@
 #include "_pch.h"
 #include "Camera.h"
 
-#include "Vitro/Math/Trigonometry.h"
-#include <Vitro\Utility\Log.h> // TODO
-
 namespace Vitro
 {
-	Camera::Camera(const Float3& position, const Quaternion<>& orientation,
-				   const Float4x4& projection) :
-		Position(position), Orientation(orientation), Projection(projection)
+	Camera::Camera(const Float3& position, const Float4x4& projection) :
+		Position(position), Projection(projection)
 	{
 		UpdateView();
 	}
@@ -34,37 +30,37 @@ namespace Vitro
 		UpdateView();
 	}
 
-	void Camera::Translate(const Float3& adjustment)
+	void Camera::Translate(const Float3& translation)
 	{
-		Position += adjustment;
+		Position += Right * translation.X;
+		Position += Up * translation.Y;
+		Position += Forward * translation.Z;
 		UpdateView();
 	}
 
-	const Quaternion<>& Camera::GetOrientation() const
+	void Camera::Pitch(float radians)
 	{
-		return Orientation;
-	}
-
-	void Camera::SetOrientation(const Quaternion<>& orientation)
-	{
-		Orientation = Normalize(orientation);
+		Forward = Normalize(Forward * std::cos(radians) + Up * std::sin(radians));
+		Up = Cross(Forward, Right);
 		UpdateView();
 	}
 
-	void Camera::SetOrientation(const Float3& eulerAngles)
+	void Camera::Yaw(float radians)
 	{
-		Orientation = Quaternion(eulerAngles);
+		Forward = Normalize(Forward * std::cos(radians) + Right * std::sin(radians));
+		Right = Cross(Up, Forward);
 		UpdateView();
 	}
 
-	void Camera::Rotate(float pitch, float yaw, float roll)
+	void Camera::Roll(float radians)
 	{
-		Orientation *= Quaternion({pitch, yaw, roll});
+		Right = Normalize(Right * std::cos(radians) + Up * std::sin(radians));
+		Up = Cross(Forward, Right);
 		UpdateView();
 	}
 
 	void Camera::UpdateView()
 	{
-		View = Inverse(Vitro::Translate(Position) * Float4x4(Orientation));
+		View = LookAt(Position, Position + Forward, Up);
 	}
 }
