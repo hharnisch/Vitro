@@ -7,9 +7,14 @@
 #include "Vitro/Events/KeyEvent.h"
 #include "Vitro/Events/MouseEvent.h"
 #include "Vitro/Events/WindowEvent.h"
+#include "Vitro/Utility/StackArray.h"
 
-#include <Windowsx.h>
+#include <windowsx.h>
 #include <imgui/imgui_impl_win32.h>
+
+
+
+#include <Vitro\Utility\Log.h> //TODO
 
 // Forward declaration for IMGUI
 IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND wnd, UINT msg, WPARAM wp, LPARAM lp);
@@ -21,12 +26,19 @@ namespace Vitro::Windows
 		static bool initialized;
 		AssertCritical(!initialized, "Windows API already initialized.");
 
-		WNDCLASSW wc{0};
+		WNDCLASSW wc {0};
 		wc.style			= CS_DBLCLKS;
 		wc.lpfnWndProc		= NotifyEngine;
 		wc.lpszClassName	= WindowClassName;
 		wc.cbWndExtra		= sizeof(void*);
-		RegisterClassW(&wc);
+		auto wcResult = RegisterClassW(&wc);
+		AssertCritical(SUCCEEDED(wcResult), "Could not create Windows API window class.");
+
+		RAWINPUTDEVICE rid {0};
+		rid.usUsagePage	= 0x01; // Usage page constant for generic desktop controls
+		rid.usUsage		= 0x02; // Usage constant for a generic mouse
+		auto ridResult = RegisterRawInputDevices(&rid, 1, sizeof(rid));
+		AssertCritical(ridResult, "Could not get raw mouse input device.");
 
 		initialized = true;
 	}
@@ -65,6 +77,7 @@ namespace Vitro::Windows
 			case WM_KILLFOCUS:	   OnWindowUnfocus(w);					return 0;
 			case WM_CLOSE:		   OnWindowClose(w);					return 0;
 			case WM_SHOWWINDOW:	   if(wp) OnWindowOpen(w);				return 0;
+			case WM_INPUT:		   OnRawInput(w, lp);					return 0;
 			case WM_KEYDOWN:
 			case WM_SYSKEYDOWN:	   OnKeyDown(w, wp);					return 0;
 			case WM_KEYUP:
@@ -128,6 +141,18 @@ namespace Vitro::Windows
 		Engine::Get().OnWindowOpen(e);
 	}
 
+	void API::OnRawInput(Window& window, LPARAM lp)
+	{
+		UINT size = 0;
+		GetRawInputData(reinterpret_cast<HRAWINPUT>(lp), RID_INPUT, nullptr, &size,
+						sizeof(RAWINPUTHEADER));
+		StackArray<BYTE> bytes(size);
+		GetRawInputData(reinterpret_cast<HRAWINPUT>(lp), RID_INPUT, bytes.Raw(), &size,
+						sizeof(RAWINPUTHEADER));
+		auto& input = *reinterpret_cast<RAWINPUT*>(bytes.Raw());
+		window.OnEvent(MouseMoveEvent(input.data.mouse.lLastX, -input.data.mouse.lLastY));
+	}
+
 	void API::OnKeyDown(Window& window, WPARAM wp)
 	{
 		auto key = static_cast<KeyCode>(wp);
@@ -158,8 +183,7 @@ namespace Vitro::Windows
 
 	void API::OnMouseMove(Window& window, LPARAM lp)
 	{
-		auto pos = Input::MousePosition = Int2(GET_X_LPARAM(lp), GET_Y_LPARAM(lp));
-		window.OnEvent(MouseMoveEvent(pos.X, pos.Y));
+		Input::MousePosition = Int2(GET_X_LPARAM(lp), GET_Y_LPARAM(lp));
 	}
 
 	void API::OnMouseDown(Window& window, MouseCode button)

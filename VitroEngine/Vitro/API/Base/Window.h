@@ -4,6 +4,7 @@
 #include "Vitro/Events/Event.h"
 #include "Vitro/Graphics/Layer.h"
 #include "Vitro/Graphics/Overlay.h"
+#include "Vitro/Utility/TimeStep.h"
 
 namespace Vitro::Base
 {
@@ -28,8 +29,9 @@ namespace Vitro::Base
 		virtual void Maximize() = 0;
 		virtual void Minimize() = 0;
 		virtual void PollEvents() = 0;
+		virtual void TrapCursor(bool shouldTrap) = 0;
 
-		void Update();
+		void Update(TimeStep ts);
 		void OnEvent(Event& e);
 		void Detach(Layer& layer);
 		void Detach(Overlay& overlay);

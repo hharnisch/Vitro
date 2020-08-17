@@ -8,6 +8,6 @@ namespace Vitro::Base
 	{
 	public:
 		virtual void Bind(VertexTopology vt) const = 0;
-		virtual uint32_t Count() const = 0;
+		virtual size_t Count() const = 0;
 	};
 }

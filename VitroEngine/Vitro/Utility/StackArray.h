@@ -33,13 +33,13 @@ namespace Vitro
 
 		inline T& operator[](size_t index)
 		{
-			Assert(index < DataCount, "Array index out of range: " + std::to_string(index));
+			AssertDebug(index < DataCount, "Array index out of range: " + std::to_string(index));
 			return *(Data + index);
 		}
 
 		inline const T& operator[](size_t index) const
 		{
-			Assert(index < DataCount, "Array index out of range: " + std::to_string(index));
+			AssertDebug(index < DataCount, "Array index out of range: " + std::to_string(index));
 			return *(Data + index);
 		}
 
@@ -89,13 +89,13 @@ namespace Vitro
 
 			inline Iterator& operator++()
 			{
-				Assert(Position < End, "Cannot increment iterator past end.");
+				AssertDebug(Position < End, "Cannot increment iterator past end.");
 				Position += 1; return *this;
 			}
 
 			inline Iterator& operator--()
 			{
-				Assert(Begin < Position, "Cannot decrement iterator before begin.");
+				AssertDebug(Begin < Position, "Cannot decrement iterator before begin.");
 				Position -= 1; return *this;
 			}
 

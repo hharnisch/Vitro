@@ -35,12 +35,13 @@ namespace Vitro
 	private:
 		static inline Engine* Singleton;
 
-		bool ShouldUpdate{};
-		bool IsShuttingDown{};
-		bool ResetUpdateToFirstWindow{};
 		std::vector<Window*> OpenWindows;
 		std::thread LoggingThread;
+		bool ShouldUpdate {};
+		bool IsShuttingDown {};
+		bool ResetUpdateToFirstWindow {};
 
+		float GetTime();
 		void OnWindowClose(WindowCloseEvent& e);
 		void OnWindowOpen(WindowOpenEvent& e);
 	};

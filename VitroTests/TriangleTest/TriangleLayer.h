@@ -8,7 +8,8 @@ public:
 	TriangleLayer() :
 		Vertices(Triangle, ArrayCount(Triangle)),
 		Indices(TriangleIndices, ArrayCount(TriangleIndices)),
-		VShader("TriangleVertex.cso"), FShader("TriangleFragment.cso")
+		VertexShader("TriangleVertex.cso"),
+		FragmentShader("TriangleFragment.cso")
 	{}
 
 	void OnAttach() override
@@ -21,15 +22,15 @@ public:
 			{VertexField::Position, 0, VertexFieldType::Float3},
 			{VertexField::Color,	0, VertexFieldType::Float4}
 		};
-		VShader.SetVertexLayout(vl);
-		VShader.Bind();
-		FShader.Bind();
+		VertexShader.SetVertexLayout(vl);
+		VertexShader.Bind();
+		FragmentShader.Bind();
 	}
 
 	void OnDetach() override
 	{}
 
-	void OnUpdate() override
+	void OnUpdate(Vitro::TimeStep ts) override
 	{
 		Vertices.Bind(Vitro::VertexTopology::TriangleList);
 		Renderer->Submit(Indices);
@@ -43,7 +44,7 @@ public:
 		e.Dispatch<KeyDownEvent>([random, this](KeyDownEvent& e)
 		{
 			for(auto& vertex : Triangle)
-				vertex.Color ={random(), random(), random(), random()};
+				vertex.Color = {random(), random(), random(), random()};
 			Vertices = VertexBuffer<Vertex>(Triangle, ArrayCount(Triangle));
 			return true;
 		});
@@ -63,10 +64,10 @@ private:
 		{{-.5f, -.5f, 0.5},	{0.f, 0.f, 1.f, 1.f}}
 	};
 
-	uint32_t TriangleIndices[3]{0, 1, 2};
+	uint32_t TriangleIndices[3] {0, 1, 2};
 
 	Vitro::VertexBuffer<Vertex> Vertices;
 	Vitro::IndexBuffer Indices;
-	Vitro::VertexShader VShader;
-	Vitro::FragmentShader FShader;
+	Vitro::VertexShader VertexShader;
+	Vitro::FragmentShader FragmentShader;
 };

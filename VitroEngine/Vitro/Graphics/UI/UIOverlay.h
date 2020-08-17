@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "Vitro/Graphics/Overlay.h"
 
@@ -12,7 +12,7 @@ namespace Vitro
 
 		void OnAttach() override;
 		void OnDetach() override;
-		void OnUpdate() override;
+		void OnUpdate(TimeStep ts) override;
 		void OnEvent(Event& event) override;
 	};
 }

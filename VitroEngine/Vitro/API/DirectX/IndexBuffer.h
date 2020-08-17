@@ -12,13 +12,13 @@ namespace Vitro::DirectX
 	{
 	public:
 		IndexBuffer(const HeapArray<uint32_t>& indices);
-		IndexBuffer(const uint32_t indices[], uint32_t count);
+		IndexBuffer(const uint32_t indices[], size_t count);
 
 		void Bind() const override;
-		uint32_t Count() const override;
+		size_t Count() const override;
 
 	private:
 		Microsoft::WRL::ComPtr<ID3D11Buffer> BufferPtr;
-		uint32_t IndexCount;
+		size_t IndexCount;
 	};
 }

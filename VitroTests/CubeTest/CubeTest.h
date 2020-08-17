@@ -21,6 +21,7 @@ public:
 	{
 		AppWindow->Attach<CubeLayer>(AppWindow->GetWidth(), AppWindow->GetHeight());
 		AppWindow->Open();
+		AppWindow->TrapCursor(true);
 	}
 
 private:

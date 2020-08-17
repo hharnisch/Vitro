@@ -19,14 +19,14 @@ namespace Vitro::DirectX
 		ComPtr<IDXGIFactory2> factory;
 		adapter->GetParent(__uuidof(IDXGIFactory2), &factory);
 
-		DXGI_SWAP_CHAIN_DESC1 scd{0};
+		DXGI_SWAP_CHAIN_DESC1 scd {0};
 		scd.Format				= DXGI_FORMAT_R8G8B8A8_UNORM;
 		scd.SampleDesc.Count	= 1;
 		scd.BufferUsage			= DXGI_USAGE_RENDER_TARGET_OUTPUT;
 		scd.BufferCount			= 2;
 		scd.SwapEffect			= DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
 
-		DXGI_SWAP_CHAIN_FULLSCREEN_DESC fsd{0};
+		DXGI_SWAP_CHAIN_FULLSCREEN_DESC fsd {0};
 		fsd.Windowed = true;
 
 		HWND hwnd = reinterpret_cast<HWND>(nativeHandle);
@@ -41,7 +41,7 @@ namespace Vitro::DirectX
 		auto rtResult = API::Device->CreateRenderTargetView(backBuffer.Get(), nullptr, &BackBuffer);
 		AssertCritical(SUCCEEDED(rtResult), "Could not create render target on back buffer.");
 
-		D3D11_TEXTURE2D_DESC t2d{0};
+		D3D11_TEXTURE2D_DESC t2d {0};
 		t2d.Width				= width;
 		t2d.Height				= height;
 		t2d.MipLevels			= 1;
@@ -61,7 +61,7 @@ namespace Vitro::DirectX
 
 	void Context3D::SetViewport(int width, int height, int x, int y)
 	{
-		D3D11_VIEWPORT viewport{0};
+		D3D11_VIEWPORT viewport {0};
 		viewport.TopLeftX	= static_cast<FLOAT>(x);
 		viewport.TopLeftY	= static_cast<FLOAT>(y);
 		viewport.Width		= static_cast<FLOAT>(width);
@@ -90,12 +90,12 @@ namespace Vitro::DirectX
 
 	void Context3D::DrawIndices(const IndexBuffer& ib)
 	{
-		API::Context->DrawIndexed(ib.Count(), 0, 0);
+		API::Context->DrawIndexed(static_cast<uint32_t>(ib.Count()), 0, 0);
 	}
 
 	void Context3D::SwapBuffers()
 	{
 		auto result = SwapChain->Present(SwapInterval, 0);
-		Assert(SUCCEEDED(result), "Swap chain could not present image.");
+		AssertDebug(SUCCEEDED(result), "Swap chain could not present image.");
 	}
 }

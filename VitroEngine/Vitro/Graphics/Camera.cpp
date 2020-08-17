@@ -1,5 +1,6 @@
 #include "_pch.h"
 #include "Camera.h"
+#include <Vitro\Utility\Log.h> // TODO
 
 namespace Vitro
 {
@@ -9,17 +10,22 @@ namespace Vitro
 		UpdateView();
 	}
 
-	const Float4x4& Camera::GetView() const
+	Float4x4 Camera::GetView() const
 	{
 		return View;
 	}
 
-	const Float4x4& Camera::GetProjection() const
+	Float4x4 Camera::GetProjection() const
 	{
 		return Projection;
 	}
 
-	const Float3& Camera::GetPosition() const
+	Float4x4 Camera::GetViewProjection() const
+	{
+		return Projection * View;
+	}
+
+	Float3 Camera::GetPosition() const
 	{
 		return Position;
 	}
@@ -32,9 +38,7 @@ namespace Vitro
 
 	void Camera::Translate(const Float3& translation)
 	{
-		Position += Right * translation.X;
-		Position += Up * translation.Y;
-		Position += Forward * translation.Z;
+		Position += Float3x3(Right, Up, Forward) * translation;
 		UpdateView();
 	}
 
@@ -48,7 +52,7 @@ namespace Vitro
 	void Camera::Yaw(float radians)
 	{
 		Forward = Normalize(Forward * std::cos(radians) + Right * std::sin(radians));
-		Right = Cross(Up, Forward);
+		Right = Cross(DefaultUp, Forward);
 		UpdateView();
 	}
 
@@ -57,6 +61,21 @@ namespace Vitro
 		Right = Normalize(Right * std::cos(radians) + Up * std::sin(radians));
 		Up = Cross(Forward, Right);
 		UpdateView();
+	}
+
+	Float3 Camera::RightDirection() const
+	{
+		return Right;
+	}
+
+	Float3 Camera::UpDirection() const
+	{
+		return Up;
+	}
+
+	Float3 Camera::ForwardDirection() const
+	{
+		return Forward;
 	}
 
 	void Camera::UpdateView()

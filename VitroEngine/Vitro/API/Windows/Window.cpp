@@ -148,4 +148,16 @@ namespace Vitro::Windows
 			DispatchMessageW(&msg);
 		}
 	}
+
+	void Window::TrapCursor(bool shouldTrap)
+	{
+		if(shouldTrap)
+		{
+			RECT rect;
+			GetWindowRect(NativeHandle, &rect);
+			ClipCursor(&rect);
+		}
+		else
+			ClipCursor(nullptr);
+	}
 }

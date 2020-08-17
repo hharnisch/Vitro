@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "Vitro/Utility/Assert.h"
 
@@ -35,264 +35,264 @@ namespace Vitro
 
 		constexpr Vector() : Vector(0) {}
 
-		inline N& operator[](size_t index)
+		constexpr N& operator[](size_t index)
 		{
-			AssertArrayRange(Val, index, "Vector");
+			AssertArrayRange(Val, index);
 			return Val[index];
 		}
 
-		inline const N& operator[](size_t index) const
+		constexpr const N& operator[](size_t index) const
 		{
-			AssertArrayRange(Val, index, "Vector");
+			AssertArrayRange(Val, index);
 			return Val[index];
 		}
 
-		template<typename O> inline Vector<3, N> operator+(const Vector<3, O>& v) const
+		template<typename O> constexpr Vector<3, N> operator+(const Vector<3, O>& v) const
 		{
 			return {X + v.X, Y + v.Y, Z + v.Z};
 		}
 
-		template<typename O> inline Vector<3, N> operator-(const Vector<3, O>& v) const
+		template<typename O> constexpr Vector<3, N> operator-(const Vector<3, O>& v) const
 		{
 			return {X - v.X, Y - v.Y, Z - v.Z};
 		}
 
-		template<typename O> inline Vector<3, N> operator*(const Vector<3, O>& v) const
+		template<typename O> constexpr Vector<3, N> operator*(const Vector<3, O>& v) const
 		{
 			return {X * v.X, Y * v.Y, Z * v.Z};
 		}
 
-		template<typename O> inline Vector<3, N> operator/(const Vector<3, O>& v) const
+		template<typename O> constexpr Vector<3, N> operator/(const Vector<3, O>& v) const
 		{
 			return {X / v.X, Y / v.Y, Z / v.Z};
 		}
 
-		template<typename O> inline Vector<3, N> operator%(const Vector<3, O>& v) const
+		template<typename O> constexpr Vector<3, N> operator%(const Vector<3, O>& v) const
 		{
 			return {X % v.X, Y % v.Y, Z % v.Z};
 		}
 
-		template<typename O> inline Vector<3, N> operator&(const Vector<3, O>& v) const
+		template<typename O> constexpr Vector<3, N> operator&(const Vector<3, O>& v) const
 		{
 			return {X & v.X, Y & v.Y, Z & v.Z};
 		}
 
-		template<typename O> inline Vector<3, N> operator|(const Vector<3, O>& v) const
+		template<typename O> constexpr Vector<3, N> operator|(const Vector<3, O>& v) const
 		{
 			return {X | v.X, Y | v.Y, Z | v.Z};
 		}
 
-		template<typename O> inline Vector<3, N> operator^(const Vector<3, O>& v) const
+		template<typename O> constexpr Vector<3, N> operator^(const Vector<3, O>& v) const
 		{
 			return {X ^ v.X, Y ^ v.Y, Z ^ v.Z};
 		}
 
-		template<typename O> inline Vector<3, N> operator<<(const Vector<3, O>& v) const
+		template<typename O> constexpr Vector<3, N> operator<<(const Vector<3, O>& v) const
 		{
 			return {X << v.X, Y << v.Y, Z << v.Z};
 		}
 
-		template<typename O> inline Vector<3, N> operator>>(const Vector<3, O>& v) const
+		template<typename O> constexpr Vector<3, N> operator>>(const Vector<3, O>& v) const
 		{
 			return {X >> v.X, Y >> v.Y, Z >> v.Z};
 		}
 
-		template<typename O> inline Vector<3, N>& operator+=(const Vector<3, O>& v)
+		template<typename O> constexpr Vector<3, N>& operator+=(const Vector<3, O>& v)
 		{
 			X += v.X; Y += v.Y; Z += v.Z; return *this;
 		}
 
-		template<typename O> inline Vector<3, N>& operator-=(const Vector<3, O>& v)
+		template<typename O> constexpr Vector<3, N>& operator-=(const Vector<3, O>& v)
 		{
 			X -= v.X; Y -= v.Y; Z -= v.Z; return *this;
 		}
 
-		template<typename O> inline Vector<3, N>& operator*=(const Vector<3, O>& v)
+		template<typename O> constexpr Vector<3, N>& operator*=(const Vector<3, O>& v)
 		{
 			X *= v.X; Y *= v.Y; Z *= v.Z; return *this;
 		}
 
-		template<typename O> inline Vector<3, N>& operator/=(const Vector<3, O>& v)
+		template<typename O> constexpr Vector<3, N>& operator/=(const Vector<3, O>& v)
 		{
 			X /= v.X; Y /= v.Y; Z /= v.Z; return *this;
 		}
 
-		template<typename O> inline Vector<3, N>& operator%=(const Vector<3, O>& v)
+		template<typename O> constexpr Vector<3, N>& operator%=(const Vector<3, O>& v)
 		{
 			X %= v.X; Y %= v.Y; Z %= v.Z; return *this;
 		}
 
-		template<typename O> inline Vector<3, N>& operator&=(const Vector<3, O>& v)
+		template<typename O> constexpr Vector<3, N>& operator&=(const Vector<3, O>& v)
 		{
 			X &= v.X; Y &= v.Y; Z &= v.Z; return *this;
 		}
 
-		template<typename O> inline Vector<3, N>& operator|=(const Vector<3, O>& v)
+		template<typename O> constexpr Vector<3, N>& operator|=(const Vector<3, O>& v)
 		{
 			X |= v.X; Y |= v.Y; Z |= v.Z; return *this;
 		}
 
-		template<typename O> inline Vector<3, N>& operator^=(const Vector<3, O>& v)
+		template<typename O> constexpr Vector<3, N>& operator^=(const Vector<3, O>& v)
 		{
 			X ^= v.X; Y ^= v.Y; Z ^= v.Z; return *this;
 		}
 
-		template<typename O> inline Vector<3, N>& operator<<=(const Vector<3, O>& v)
+		template<typename O> constexpr Vector<3, N>& operator<<=(const Vector<3, O>& v)
 		{
 			X <<= v.X; Y <<= v.Y; Z <<= v.Z; return *this;
 		}
 
-		template<typename O> inline Vector<3, N>& operator>>=(const Vector<3, O>& v)
+		template<typename O> constexpr Vector<3, N>& operator>>=(const Vector<3, O>& v)
 		{
 			X >>= v.X; Y >>= v.Y; Z >>= v.Z; return *this;
 		}
 
-		template<typename O> inline bool operator==(const Vector<3, O>& v) const
+		template<typename O> constexpr bool operator==(const Vector<3, O>& v) const
 		{
 			return X == v.X && Y == v.Y && Z == v.Z;
 		}
 
-		template<typename O> inline bool operator!=(const Vector<3, O>& v) const
+		template<typename O> constexpr bool operator!=(const Vector<3, O>& v) const
 		{
 			return X != v.X || Y != v.Y || Z != v.Z;
 		}
 
-		template<typename O, VTR_IS_SCALAR(O)> inline Vector<3, N> operator+(O scalar) const
+		template<typename O, VTR_IS_SCALAR(O)> constexpr Vector<3, N> operator+(O scalar) const
 		{
 			return {X + scalar, Y + scalar, Z + scalar};
 		}
 
-		template<typename O, VTR_IS_SCALAR(O)> inline Vector<3, N> operator-(O scalar) const
+		template<typename O, VTR_IS_SCALAR(O)> constexpr Vector<3, N> operator-(O scalar) const
 		{
 			return {X - scalar, Y - scalar, Z - scalar};
 		}
 
-		template<typename O, VTR_IS_SCALAR(O)> inline Vector<3, N> operator*(O scalar) const
+		template<typename O, VTR_IS_SCALAR(O)> constexpr Vector<3, N> operator*(O scalar) const
 		{
 			return {X * scalar, Y * scalar, Z * scalar};
 		}
 
-		template<typename O, VTR_IS_SCALAR(O)> inline Vector<3, N> operator/(O scalar) const
+		template<typename O, VTR_IS_SCALAR(O)> constexpr Vector<3, N> operator/(O scalar) const
 		{
 			return {X / scalar, Y / scalar, Z / scalar};
 		}
 
-		template<typename O, VTR_IS_SCALAR(O)> inline Vector<3, N> operator%(O scalar) const
+		template<typename O, VTR_IS_SCALAR(O)> constexpr Vector<3, N> operator%(O scalar) const
 		{
 			return {X % scalar, Y % scalar, Z % scalar};
 		}
 
-		template<typename O, VTR_IS_SCALAR(O)> inline Vector<3, N> operator&(O scalar) const
+		template<typename O, VTR_IS_SCALAR(O)> constexpr Vector<3, N> operator&(O scalar) const
 		{
 			return {X & scalar, Y & scalar, Z & scalar};
 		}
 
-		template<typename O, VTR_IS_SCALAR(O)> inline Vector<3, N> operator|(O scalar) const
+		template<typename O, VTR_IS_SCALAR(O)> constexpr Vector<3, N> operator|(O scalar) const
 		{
 			return {X | scalar, Y | scalar, Z | scalar};
 		}
 
-		template<typename O, VTR_IS_SCALAR(O)> inline Vector<3, N> operator^(O scalar) const
+		template<typename O, VTR_IS_SCALAR(O)> constexpr Vector<3, N> operator^(O scalar) const
 		{
 			return {X ^ scalar, Y ^ scalar, Z ^ scalar};
 		}
 
-		template<typename O, VTR_IS_SCALAR(O)> inline Vector<3, N> operator<<(O scalar) const
+		template<typename O, VTR_IS_SCALAR(O)> constexpr Vector<3, N> operator<<(O scalar) const
 		{
 			return {X << scalar, Y << scalar, Z << scalar};
 		}
 
-		template<typename O, VTR_IS_SCALAR(O)> inline Vector<3, N> operator>>(O scalar) const
+		template<typename O, VTR_IS_SCALAR(O)> constexpr Vector<3, N> operator>>(O scalar) const
 		{
 			return {X >> scalar, Y >> scalar, Z >> scalar};
 		}
 
-		template<typename O, VTR_IS_SCALAR(O)> inline Vector<3, N>& operator+=(O scalar)
+		template<typename O, VTR_IS_SCALAR(O)> constexpr Vector<3, N>& operator+=(O scalar)
 		{
 			X += scalar; Y += scalar; Z += scalar; return *this;
 		}
 
-		template<typename O, VTR_IS_SCALAR(O)> inline Vector<3, N>& operator-=(O scalar)
+		template<typename O, VTR_IS_SCALAR(O)> constexpr Vector<3, N>& operator-=(O scalar)
 		{
 			X -= scalar; Y -= scalar; Z -= scalar; return *this;
 		}
 
-		template<typename O, VTR_IS_SCALAR(O)> inline Vector<3, N>& operator*=(O scalar)
+		template<typename O, VTR_IS_SCALAR(O)> constexpr Vector<3, N>& operator*=(O scalar)
 		{
 			X *= scalar; Y *= scalar; Z *= scalar; return *this;
 		}
 
-		template<typename O, VTR_IS_SCALAR(O)> inline Vector<3, N>& operator/=(O scalar)
+		template<typename O, VTR_IS_SCALAR(O)> constexpr Vector<3, N>& operator/=(O scalar)
 		{
 			X /= scalar; Y /= scalar; Z /= scalar; return *this;
 		}
 
-		template<typename O, VTR_IS_SCALAR(O)> inline Vector<3, N>& operator%=(O scalar)
+		template<typename O, VTR_IS_SCALAR(O)> constexpr Vector<3, N>& operator%=(O scalar)
 		{
 			X %= scalar; Y %= scalar; Z %= scalar; return *this;
 		}
 
-		template<typename O, VTR_IS_SCALAR(O)> inline Vector<3, N>& operator&=(O scalar)
+		template<typename O, VTR_IS_SCALAR(O)> constexpr Vector<3, N>& operator&=(O scalar)
 		{
 			X &= scalar; Y &= scalar; Z &= scalar; return *this;
 		}
 
-		template<typename O, VTR_IS_SCALAR(O)> inline Vector<3, N>& operator|=(O scalar)
+		template<typename O, VTR_IS_SCALAR(O)> constexpr Vector<3, N>& operator|=(O scalar)
 		{
 			X |= scalar; Y |= scalar; Z |= scalar; return *this;
 		}
 
-		template<typename O, VTR_IS_SCALAR(O)> inline Vector<3, N>& operator^=(O scalar)
+		template<typename O, VTR_IS_SCALAR(O)> constexpr Vector<3, N>& operator^=(O scalar)
 		{
 			X ^= scalar; Y ^= scalar; Z ^= scalar; return *this;
 		}
 
-		template<typename O, VTR_IS_SCALAR(O)> inline Vector<3, N>& operator<<=(O scalar)
+		template<typename O, VTR_IS_SCALAR(O)> constexpr Vector<3, N>& operator<<=(O scalar)
 		{
 			X <<= scalar; Y <<= scalar; Z <<= scalar; return *this;
 		}
 
-		template<typename O, VTR_IS_SCALAR(O)> inline Vector<3, N>& operator>>=(O scalar)
+		template<typename O, VTR_IS_SCALAR(O)> constexpr Vector<3, N>& operator>>=(O scalar)
 		{
 			X >>= scalar; Y >>= scalar; Z >>= scalar; return *this;
 		}
 
-		inline Vector<3, N> operator+() const
+		constexpr Vector<3, N> operator+() const
 		{
 			return {+X, +Y, +Z};
 		}
 
-		inline Vector<3, N> operator-() const
+		constexpr Vector<3, N> operator-() const
 		{
 			return {-X, -Y, -Z};
 		}
 
-		inline Vector<3, N> operator~() const
+		constexpr Vector<3, N> operator~() const
 		{
 			return {~X, ~Y, ~Z};
 		}
 
-		inline Vector<3, N>& operator++()
+		constexpr Vector<3, N>& operator++()
 		{
 			++X; ++Y; ++Z; return *this;
 		}
 
-		inline Vector<3, N>& operator--()
+		constexpr Vector<3, N>& operator--()
 		{
 			--X; --Y; --Z; return *this;
 		}
 
-		inline Vector<3, N> operator++(int)
+		constexpr Vector<3, N> operator++(int)
 		{
 			auto oldValue = *this; ++X; ++Y; ++Z; return oldValue;
 		}
 
-		inline Vector<3, N> operator--(int)
+		constexpr Vector<3, N> operator--(int)
 		{
 			auto oldValue = *this; --X; --Y; --Z; return oldValue;
 		}
 
-		inline explicit operator std::string() const
+		constexpr explicit operator std::string() const
 		{
 			std::stringstream s;
 			s << '(' << +X << ',' << +Y << ',' << +Z << ')';
@@ -301,72 +301,72 @@ namespace Vitro
 	};
 
 	template<typename N, typename O, VTR_IS_SCALAR(O)>
-	inline Vector<3, N> operator+(O scalar, const Vector<3, N>& v)
+	constexpr Vector<3, N> operator+(O scalar, const Vector<3, N>& v)
 	{
 		return {scalar + v.X, scalar + v.Y, scalar + v.Z};
 	}
 
 	template<typename N, typename O, VTR_IS_SCALAR(O)>
-	inline Vector<3, N> operator-(O scalar, const Vector<3, N>& v)
+	constexpr Vector<3, N> operator-(O scalar, const Vector<3, N>& v)
 	{
 		return {scalar - v.X, scalar - v.Y, scalar - v.Z};
 	}
 
 	template<typename N, typename O, VTR_IS_SCALAR(O)>
-	inline Vector<3, N> operator*(O scalar, const Vector<3, N>& v)
+	constexpr Vector<3, N> operator*(O scalar, const Vector<3, N>& v)
 	{
 		return {scalar * v.X, scalar * v.Y, scalar * v.Z};
 	}
 
 	template<typename N, typename O, VTR_IS_SCALAR(O)>
-	inline Vector<3, N> operator/(O scalar, const Vector<3, N>& v)
+	constexpr Vector<3, N> operator/(O scalar, const Vector<3, N>& v)
 	{
 		return {scalar / v.X, scalar / v.Y, scalar / v.Z};
 	}
 
 	template<typename N, typename O, VTR_IS_SCALAR(O)>
-	inline Vector<3, N> operator%(O scalar, const Vector<3, N>& v)
+	constexpr Vector<3, N> operator%(O scalar, const Vector<3, N>& v)
 	{
 		return {scalar % v.X, scalar % v.Y, scalar % v.Z};
 	}
 
 	template<typename N, typename O, VTR_IS_SCALAR(O)>
-	inline Vector<3, N> operator&(O scalar, const Vector<3, N>& v)
+	constexpr Vector<3, N> operator&(O scalar, const Vector<3, N>& v)
 	{
 		return {scalar & v.X, scalar & v.Y, scalar & v.Z};
 	}
 
 	template<typename N, typename O, VTR_IS_SCALAR(O)>
-	inline Vector<3, N> operator|(O scalar, const Vector<3, N>& v)
+	constexpr Vector<3, N> operator|(O scalar, const Vector<3, N>& v)
 	{
 		return {scalar | v.X, scalar | v.Y, scalar | v.Z};
 	}
 
 	template<typename N, typename O, VTR_IS_SCALAR(O)>
-	inline Vector<3, N> operator^(O scalar, const Vector<3, N>& v)
+	constexpr Vector<3, N> operator^(O scalar, const Vector<3, N>& v)
 	{
 		return {scalar ^ v.X, scalar ^ v.Y, scalar ^ v.Z};
 	}
 
 	template<typename N, typename O, VTR_IS_SCALAR(O)>
-	inline Vector<3, N> operator<<(O scalar, const Vector<3, N>& v)
+	constexpr Vector<3, N> operator<<(O scalar, const Vector<3, N>& v)
 	{
 		return {scalar << v.X, scalar << v.Y, scalar << v.Z};
 	}
 
 	template<typename N, typename O, VTR_IS_SCALAR(O)>
-	inline Vector<3, N> operator>>(O scalar, const Vector<3, N>& v)
+	constexpr Vector<3, N> operator>>(O scalar, const Vector<3, N>& v)
 	{
 		return {scalar >> v.X, scalar >> v.Y, scalar >> v.Z};
 	}
 
-	template<typename N, typename O> inline N Dot(const Vector<3, N>& lv, const Vector<3, O>& rv)
+	template<typename N, typename O> constexpr N Dot(const Vector<3, N>& lv, const Vector<3, O>& rv)
 	{
 		auto temp = lv * rv; return temp.X + temp.Y + temp.Z;
 	}
 
 	template<typename N, typename O>
-	inline Vector<3, N> Cross(const Vector<3, N>& lv, const Vector<3, O>& rv)
+	constexpr Vector<3, N> Cross(const Vector<3, N>& lv, const Vector<3, O>& rv)
 	{
 		return {lv.Y * rv.Z - rv.Y * lv.Z,
 				lv.Z * rv.X - rv.Z * lv.X,

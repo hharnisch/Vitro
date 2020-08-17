@@ -57,16 +57,23 @@ namespace Vitro
 			AssertCritical(!ShouldUpdate, "Engine has already been started.");
 			ShouldUpdate = true;
 			OnStart();
+
+			float previousTime = GetTime();
 			while(ShouldUpdate)
+			{
+				float currentTime = GetTime();
+				TimeStep ts = currentTime - previousTime;
+				previousTime = currentTime;
 				for(auto window : OpenWindows)
 				{
-					window->Update();
+					window->Update(ts);
 					if(ResetUpdateToFirstWindow)
 					{
 						ResetUpdateToFirstWindow = false;
 						break;
 					}
 				}
+			}
 			return EXIT_SUCCESS;
 		}
 		catch(const std::exception& e)
@@ -75,6 +82,13 @@ namespace Vitro
 			std::cin.get();
 			return EXIT_FAILURE;
 		}
+	}
+
+	float Engine::GetTime()
+	{
+		using namespace std::chrono;
+		auto now = steady_clock::now().time_since_epoch();
+		return static_cast<float>(duration_cast<milliseconds>(now).count());
 	}
 
 	void Engine::OnWindowClose(WindowCloseEvent& e)

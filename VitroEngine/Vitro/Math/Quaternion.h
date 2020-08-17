@@ -18,7 +18,7 @@ namespace Vitro
 		constexpr Quaternion() : Quaternion(0, 0, 0, 0) {}
 
 		template<typename O0, typename O1, typename O2, typename O3>
-		constexpr Quaternion(O0 w, O1 x, O2 y, O3 z) : Val{static_cast<N>(w), static_cast<N>(x),
+		constexpr Quaternion(O0 w, O1 x, O2 y, O3 z) : Val {static_cast<N>(w), static_cast<N>(x),
 														   static_cast<N>(y), static_cast<N>(z)}
 		{}
 
@@ -33,80 +33,80 @@ namespace Vitro
 			Z = cos.X * cos.Y * sin.Z - sin.X * sin.Y * cos.Z;
 		}
 
-		inline N& operator[](size_t index)
+		constexpr N& operator[](size_t index)
 		{
-			AssertArrayRange(Val, index, "Quaternion");
+			AssertArrayRange(Val, index);
 			return Val[index];
 		}
 
-		inline const N& operator[](size_t index) const
+		constexpr const N& operator[](size_t index) const
 		{
-			AssertArrayRange(Val, index, "Quaternion");
+			AssertArrayRange(Val, index);
 			return Val[index];
 		}
 
-		template<typename O> inline Quaternion<N> operator+(const Quaternion<O>& q) const
+		template<typename O> constexpr Quaternion<N> operator+(const Quaternion<O>& q) const
 		{
 			return {W + q.W, X + q.X, Y + q.Y, Z + q.Z};
 		}
 
-		template<typename O> inline Quaternion<N> operator-(const Quaternion<O>& q) const
+		template<typename O> constexpr Quaternion<N> operator-(const Quaternion<O>& q) const
 		{
 			return {W - q.W, X - q.X, Y - q.Y, Z - q.Z};
 		}
 
-		template<typename O> inline Quaternion<N> operator*(const Quaternion<O>& q) const
+		template<typename O> constexpr Quaternion<N> operator*(const Quaternion<O>& q) const
 		{
 			return {W * q.W - X * q.X - Y * q.Y - Z * q.Z, W * q.X + X * q.W + Y * q.Z - Z * q.Y,
 					W * q.Y + Y * q.W + Z * q.X - X * q.Z, W * q.Z + Z * q.W + X * q.Y - Y * q.X};
 		}
 
-		template<typename O> inline Quaternion<N>& operator+=(const Quaternion<O>& q)
+		template<typename O> constexpr Quaternion<N>& operator+=(const Quaternion<O>& q)
 		{
 			W += q.W; X += q.X; Y += q.Y; Z += q.Z; return *this;
 		}
 
-		template<typename O> inline Quaternion<N>& operator-=(const Quaternion<O>& q)
+		template<typename O> constexpr Quaternion<N>& operator-=(const Quaternion<O>& q)
 		{
 			W -= q.W; X -= q.X; Y -= q.Y; Z -= q.Z; return *this;
 		}
 
-		template<typename O> inline Quaternion<N>& operator*=(const Quaternion<O>& q)
+		template<typename O> constexpr Quaternion<N>& operator*=(const Quaternion<O>& q)
 		{
 			return *this = *this * q;
 		}
 
-		template<typename O> inline bool operator==(const Quaternion<O>& q) const
+		template<typename O> constexpr bool operator==(const Quaternion<O>& q) const
 		{
 			return W == q.W && X == q.X && Y == q.Y && Z == q.Z;
 		}
 
-		template<typename O> inline bool operator!=(const Quaternion<O>& q) const
+		template<typename O> constexpr bool operator!=(const Quaternion<O>& q) const
 		{
 			return W != q.W || X != q.X || Y != q.Y || Z != q.Z;
 		}
 
-		template<typename O, VTR_IS_SCALAR(O)> inline Quaternion<N> operator+(O scalar) const
+		template<typename O, VTR_IS_SCALAR(O)> constexpr Quaternion<N> operator+(O scalar) const
 		{
 			return {W + scalar, X + scalar, Y + scalar, Z + scalar};
 		}
 
-		template<typename O, VTR_IS_SCALAR(O)> inline Quaternion<N> operator-(O scalar) const
+		template<typename O, VTR_IS_SCALAR(O)> constexpr Quaternion<N> operator-(O scalar) const
 		{
 			return {W - scalar, X - scalar, Y - scalar, Z - scalar};
 		}
 
-		template<typename O, VTR_IS_SCALAR(O)> inline Quaternion<N> operator*(O scalar) const
+		template<typename O, VTR_IS_SCALAR(O)> constexpr Quaternion<N> operator*(O scalar) const
 		{
 			return {W * scalar, X * scalar, Y * scalar, Z * scalar};
 		}
 
-		template<typename O, VTR_IS_SCALAR(O)> inline Quaternion<N> operator/(O scalar) const
+		template<typename O, VTR_IS_SCALAR(O)> constexpr Quaternion<N> operator/(O scalar) const
 		{
 			return {W / scalar, X / scalar, Y / scalar, Z / scalar};
 		}
 
-		template<typename O> inline Vector<3, N> operator*(const Vector<3, O>& v) const
+		template<typename O> constexpr Vector<3, N> operator*(const Vector<3, O>& v) const
 		{
 			Vector<3, N> qv(W, X, Y);
 			Vector<3, N> uv(Cross(qv, v));
@@ -114,7 +114,7 @@ namespace Vitro
 			return v + (uv * Z + uuv) * 2;
 		}
 
-		inline Vector<3, N> ToEulerAngles() const
+		constexpr Vector<3, N> ToEulerAngles() const
 		{
 			Vector<3, N> angles;
 
@@ -135,7 +135,7 @@ namespace Vitro
 			return angles;
 		}
 
-		inline explicit operator std::string() const
+		constexpr explicit operator std::string() const
 		{
 			std::stringstream s;
 			s << '(' << +W << ", " << +X << ", " << +Y << ", " << +Z << ')';
@@ -144,37 +144,37 @@ namespace Vitro
 	};
 
 	template<typename N, typename O, VTR_IS_SCALAR(O)>
-	inline Quaternion<N> operator+(O scalar, const Quaternion<N>& q)
+	constexpr Quaternion<N> operator+(O scalar, const Quaternion<N>& q)
 	{
 		return {scalar + q.W, scalar + q.X, scalar + q.Y, scalar + q.Z};
 	}
 
 	template<typename N, typename O, VTR_IS_SCALAR(O)>
-	inline Quaternion<N> operator-(O scalar, const Quaternion<N>& q)
+	constexpr Quaternion<N> operator-(O scalar, const Quaternion<N>& q)
 	{
 		return {scalar - q.W, scalar - q.X, scalar - q.Y, scalar - q.Z};
 	}
 
 	template<typename N, typename O, VTR_IS_SCALAR(O)>
-	inline Quaternion<N> operator*(O scalar, const Quaternion<N>& q)
+	constexpr Quaternion<N> operator*(O scalar, const Quaternion<N>& q)
 	{
 		return {scalar * q.W, scalar * q.X, scalar * q.Y, scalar * q.Z};
 	}
 
 	template<typename N, typename O, VTR_IS_SCALAR(O)>
-	inline Quaternion<N> operator/(O scalar, const Quaternion<N>& q)
+	constexpr Quaternion<N> operator/(O scalar, const Quaternion<N>& q)
 	{
 		return {scalar / q.W, scalar / q.X, scalar / q.Y, scalar / q.Z};
 	}
 
-	template<typename N, typename O> inline N Dot(const Quaternion<N>& lq, const Quaternion<O>& rq)
+	template<typename N, typename O> constexpr N Dot(const Quaternion<N>& lq, const Quaternion<O>& rq)
 	{
 		Quaternion temp(lq.W * rq.W, lq.X * rq.X, lq.Y * rq.Y, lq.Z * rq.Z);
 		return temp.W + temp.X + temp.Y + temp.Z;
 	}
 
 	template<typename N, typename O>
-	inline Quaternion<N> Cross(const Quaternion<N>& lq, const Quaternion<O>& rq)
+	constexpr Quaternion<N> Cross(const Quaternion<N>& lq, const Quaternion<O>& rq)
 	{
 		return {lq.W * rq.W - lq.X * rq.X - lq.Y * rq.Y - lq.Z * rq.Z,
 				lq.W * rq.X + lq.X * rq.W + lq.Y * rq.Z - lq.Z * rq.Y,
@@ -183,13 +183,13 @@ namespace Vitro
 	}
 
 	template<typename N>
-	inline auto Length(const Quaternion<N>& q) -> decltype(std::sqrt(q.W))
+	constexpr auto Length(const Quaternion<N>& q) -> decltype(std::sqrt(q.W))
 	{
 		return std::sqrt(Dot(q, q));
 	}
 
 	template<typename N>
-	inline auto Normalize(const Quaternion<N>& q) -> Quaternion<decltype(Length(q))>
+	constexpr auto Normalize(const Quaternion<N>& q) -> Quaternion<decltype(Length(q))>
 	{
 		return 1 / Length(q) * q;
 	}

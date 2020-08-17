@@ -37,27 +37,29 @@ namespace Vitro
 		VTR_EVENT_TYPE(MouseMove);
 
 		// Engine-internal constructor. Do NOT use in client application!
-		inline MouseMoveEvent(int x, int y) : MouseEvent(MouseCode::None), X(x), Y(y) {}
+		inline MouseMoveEvent(int xDir, int yDir) :
+			MouseEvent(MouseCode::None), XDirection(xDir), YDirection(yDir)
+		{}
 
 		inline explicit operator std::string() const override
 		{
 			std::stringstream s;
-			s << GetName() << ": " << X << ", " << Y;
+			s << GetName() << ": " << XDirection << ", " << YDirection;
 			return s.str();
 		}
 
-		inline int GetX() const
+		inline int GetXDirection() const
 		{
-			return X;
+			return XDirection;
 		}
 
-		inline int GetY() const
+		inline int GetYDirection() const
 		{
-			return Y;
+			return YDirection;
 		}
 
 	private:
-		int X, Y;
+		int XDirection, YDirection;
 	};
 
 	// Event fired when pressing down a mouse button.

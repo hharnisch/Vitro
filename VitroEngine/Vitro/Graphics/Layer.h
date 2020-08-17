@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Vitro/Events/Event.h"
+#include "Vitro/Utility/TimeStep.h"
 
 namespace Vitro
 {
@@ -17,7 +18,7 @@ namespace Vitro
 
 		virtual void OnAttach() = 0;
 		virtual void OnDetach() = 0;
-		virtual void OnUpdate() = 0;
+		virtual void OnUpdate(TimeStep ts) = 0;
 		virtual void OnEvent(Event& e) = 0;
 
 		Layer(const Layer&) = delete;

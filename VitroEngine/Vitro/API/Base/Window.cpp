@@ -6,12 +6,12 @@
 
 namespace Vitro::Base
 {
-	void Window::Update()
+	void Window::Update(TimeStep ts)
 	{
 		Renderer->BeginScene();
 		for(auto layer : LayerStack)
 			if(layer->Enabled)
-				layer->OnUpdate();
+				layer->OnUpdate(ts);
 		PollEvents();
 		Renderer->EndScene();
 	}

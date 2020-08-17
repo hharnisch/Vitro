@@ -22,7 +22,7 @@ namespace Vitro
 							 O2 x1, O3 y1,
 							 O4 x2, O5 y2,
 							 O6 x3, O7 y3) :
-			Val{Col(x0, y0), Col(x1, y1), Col(x2, y2), Col(x3, y3)}
+			Val {Col(x0, y0), Col(x1, y1), Col(x2, y2), Col(x3, y3)}
 		{}
 
 		template<typename = typename std::enable_if_t<R == 3>, typename O0, typename O1,
@@ -32,7 +32,7 @@ namespace Vitro
 							 O3 x1, O4 y1, O5 z1,
 							 O6 x2, O7 y2, O8 z2,
 							 O9 x3, O10 y3, O11 z3) :
-			Val{Col(x0, y0, z0), Col(x1, y1, z1), Col(x2, y2, z2), Col(x3, y3, z3)}
+			Val {Col(x0, y0, z0), Col(x1, y1, z1), Col(x2, y2, z2), Col(x3, y3, z3)}
 		{}
 
 		template<typename = typename std::enable_if_t<R == 4>, typename O0, typename O1,
@@ -42,17 +42,17 @@ namespace Vitro
 														 O4 x1, O5 y1, O6 z1, O7 w1,
 														 O8 x2, O9 y2, O10 z2, O11 w2,
 														 O12 x3, O13 y3, O14 z3, O15 w3) :
-			Val{Col(x0, y0, z0, w0), Col(x1, y1, z1, w1), Col(x2, y2, z2, w2), Col(x3, y3, z3, w3)}
+			Val {Col(x0, y0, z0, w0), Col(x1, y1, z1, w1), Col(x2, y2, z2, w2), Col(x3, y3, z3, w3)}
 		{}
 
 		template<typename = typename std::enable_if_t<R == 4>> constexpr Matrix() : Matrix(0) {}
 
 		template<typename O, VTR_IS_SCALAR(O)>
-		constexpr Matrix(O scalar) : Val{Col(scalar), Col(scalar), Col(scalar), Col(scalar)} {}
+		constexpr Matrix(O scalar) : Val {Col(scalar), Col(scalar), Col(scalar), Col(scalar)} {}
 
 		template<typename O0, typename O1, typename O2, typename O3>
 		constexpr Matrix(const Vector<R, O0>& v0, const Vector<R, O1>& v1, const Vector<R, O2>& v2,
-						 const Vector<R, O3>& v3) : Val{v0, v1, v2, v3}
+						 const Vector<R, O3>& v3) : Val {v0, v1, v2, v3}
 		{}
 
 		template<typename = typename std::enable_if_t<R == 4>>
@@ -67,10 +67,10 @@ namespace Vitro
 			N wx(q.W * q.X);
 			N wy(q.W * q.Y);
 			N wz(q.W * q.Z);
-			Val[0] ={1 - 2 * (yy * zz), 2 * (xy + wz), 2 * (xz - wy), 0};
-			Val[1] ={2 * (xy - wz), 1 - 2 * (xx + zz), 2 * (yz + wx), 0};
-			Val[2] ={2 * (xz + wy), 2 * (yz - wx), 1 - 2 * (xx + yy), 0};
-			Val[3] ={0, 0, 0, 1};
+			Val[0] = {1 - 2 * (yy * zz), 2 * (xy + wz), 2 * (xz - wy), 0};
+			Val[1] = {2 * (xy - wz), 1 - 2 * (xx + zz), 2 * (yz + wx), 0};
+			Val[2] = {2 * (xz + wy), 2 * (yz - wx), 1 - 2 * (xx + yy), 0};
+			Val[3] = {0, 0, 0, 1};
 		}
 
 		static constexpr std::enable_if_t<R == 4, Matrix<4, 4, N>> Identity()
@@ -78,119 +78,119 @@ namespace Vitro
 			return {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1};
 		}
 
-		inline Col& operator[](size_t index)
+		constexpr Col& operator[](size_t index)
 		{
-			AssertArrayRange(Val, index, "Matrix column");
+			AssertArrayRange(Val, index);
 			return Val[index];
 		}
 
-		inline const Col& operator[](size_t index) const
+		constexpr const Col& operator[](size_t index) const
 		{
-			AssertArrayRange(Val, index, "Matrix column");
+			AssertArrayRange(Val, index);
 			return Val[index];
 		}
 
-		template<typename O> inline Matrix<R, 4, N> operator+(const Matrix<R, 4, O>& m) const
+		template<typename O> constexpr Matrix<R, 4, N> operator+(const Matrix<R, 4, O>& m) const
 		{
 			return {Val[0] + m[0], Val[1] + m[1], Val[2] + m[2], Val[3] + m[3]};
 		}
 
-		template<typename O> inline Matrix<R, 4, N> operator-(const Matrix<R, 4, O>& m) const
+		template<typename O> constexpr Matrix<R, 4, N> operator-(const Matrix<R, 4, O>& m) const
 		{
 			return {Val[0] - m[0], Val[1] - m[1], Val[2] - m[2], Val[3] - m[3]};
 		}
 
-		template<typename O> inline Matrix<R, 4, N>& operator+=(const Matrix<R, 4, O>& m)
+		template<typename O> constexpr Matrix<R, 4, N>& operator+=(const Matrix<R, 4, O>& m)
 		{
 			Val[0] += m[0]; Val[1] += m[1]; Val[2] += m[2]; Val[3] += m[3]; return *this;
 		}
 
-		template<typename O> inline Matrix<R, 4, N>& operator-=(const Matrix<R, 4, O>& m)
+		template<typename O> constexpr Matrix<R, 4, N>& operator-=(const Matrix<R, 4, O>& m)
 		{
 			Val[0] -= m[0]; Val[1] -= m[1]; Val[2] -= m[2]; Val[3] -= m[3]; return *this;
 		}
 
-		template<typename O> inline bool operator==(const Matrix<R, 4, O>& m) const
+		template<typename O> constexpr bool operator==(const Matrix<R, 4, O>& m) const
 		{
 			return Val[0] == m[0] && Val[1] == m[1] && Val[2] == m[2] && Val[3] == m[3];
 		}
 
-		template<typename O> inline bool operator!=(const Matrix<R, 4, O>& m) const
+		template<typename O> constexpr bool operator!=(const Matrix<R, 4, O>& m) const
 		{
 			return Val[0] != m[0] || Val[1] != m[1] || Val[2] != m[2] || Val[3] != m[3];
 		}
 
-		template<typename O, VTR_IS_SCALAR(O)> inline Matrix<R, 4, N> operator+(O scalar) const
+		template<typename O, VTR_IS_SCALAR(O)> constexpr Matrix<R, 4, N> operator+(O scalar) const
 		{
 			return {Val[0] + scalar, Val[1] + scalar, Val[2] + scalar, Val[3] + scalar};
 		}
 
-		template<typename O, VTR_IS_SCALAR(O)> inline Matrix<R, 4, N> operator-(O scalar) const
+		template<typename O, VTR_IS_SCALAR(O)> constexpr Matrix<R, 4, N> operator-(O scalar) const
 		{
 			return {Val[0] - scalar, Val[1] - scalar, Val[2] - scalar, Val[3] - scalar};
 		}
 
-		template<typename O, VTR_IS_SCALAR(O)> inline Matrix<R, 4, N> operator*(O scalar) const
+		template<typename O, VTR_IS_SCALAR(O)> constexpr Matrix<R, 4, N> operator*(O scalar) const
 		{
 			return {Val[0] * scalar, Val[1] * scalar, Val[2] * scalar, Val[3] * scalar};
 		}
 
-		template<typename O, VTR_IS_SCALAR(O)> inline Matrix<R, 4, N> operator/(O scalar) const
+		template<typename O, VTR_IS_SCALAR(O)> constexpr Matrix<R, 4, N> operator/(O scalar) const
 		{
 			return {Val[0] / scalar, Val[1] / scalar, Val[2] / scalar, Val[3] / scalar};
 		}
 
-		template<typename O, VTR_IS_SCALAR(O)> inline Matrix<R, 4, N>& operator+=(O scalar)
+		template<typename O, VTR_IS_SCALAR(O)> constexpr Matrix<R, 4, N>& operator+=(O scalar)
 		{
 			Val[0] += scalar; Val[1] += scalar; Val[2] += scalar; Val[3] += scalar; return *this;
 		}
 
-		template<typename O, VTR_IS_SCALAR(O)> inline Matrix<R, 4, N>& operator-=(O scalar)
+		template<typename O, VTR_IS_SCALAR(O)> constexpr Matrix<R, 4, N>& operator-=(O scalar)
 		{
 			Val[0] -= scalar; Val[1] -= scalar; Val[2] -= scalar; Val[3] -= scalar; return *this;
 		}
 
-		template<typename O, VTR_IS_SCALAR(O)> inline Matrix<R, 4, N>& operator*=(O scalar)
+		template<typename O, VTR_IS_SCALAR(O)> constexpr Matrix<R, 4, N>& operator*=(O scalar)
 		{
 			Val[0] *= scalar; Val[1] *= scalar; Val[2] *= scalar; Val[3] *= scalar; return *this;
 		}
 
-		template<typename O, VTR_IS_SCALAR(O)> inline Matrix<R, 4, N>& operator/=(O scalar)
+		template<typename O, VTR_IS_SCALAR(O)> constexpr Matrix<R, 4, N>& operator/=(O scalar)
 		{
 			Val[0] /= scalar; Val[1] /= scalar; Val[2] /= scalar; Val[3] /= scalar; return *this;
 		}
 
-		inline Matrix<R, 4, N> operator+() const
+		constexpr Matrix<R, 4, N> operator+() const
 		{
 			return {+Val[0], +Val[1], +Val[2], +Val[3]};
 		}
 
-		inline Matrix<R, 4, N> operator-() const
+		constexpr Matrix<R, 4, N> operator-() const
 		{
 			return {-Val[0], -Val[1], -Val[2], -Val[3]};
 		}
 
-		inline Matrix<R, 4, N>& operator++()
+		constexpr Matrix<R, 4, N>& operator++()
 		{
 			++Val[0]; ++Val[1]; ++Val[2]; ++Val[3]; return *this;
 		}
 
-		inline Matrix<R, 4, N>& operator--()
+		constexpr Matrix<R, 4, N>& operator--()
 		{
 			--Val[0]; --Val[1]; --Val[2]; --Val[3]; return *this;
 		}
 
-		inline Matrix<R, 4, N> operator++(int)
+		constexpr Matrix<R, 4, N> operator++(int)
 		{
 			auto oldValue = *this; ++Val[0]; ++Val[1]; ++Val[2]; ++Val[3]; return oldValue;
 		}
 
-		inline Matrix<R, 4, N> operator--(int)
+		constexpr Matrix<R, 4, N> operator--(int)
 		{
 			auto oldValue = *this; --Val[0]; --Val[1]; --Val[2]; --Val[3]; return oldValue;
 		}
 
-		inline explicit operator std::string() const
+		constexpr explicit operator std::string() const
 		{
 			std::stringstream s;
 			s << '[' << static_cast<std::string>(Val[0]) << ", ";
@@ -202,7 +202,7 @@ namespace Vitro
 	};
 
 	template<typename N, typename O>
-	inline Matrix<2, 2, N> operator*(const Matrix<2, 4, N>& lm, const Matrix<4, 2, O>& rm)
+	constexpr Matrix<2, 2, N> operator*(const Matrix<2, 4, N>& lm, const Matrix<4, 2, O>& rm)
 	{
 		return {lm[0].X * rm[0].X + lm[1].X * rm[0].Y + lm[2].X * rm[0].Z + lm[3].X * rm[0].W,
 				lm[0].Y * rm[0].X + lm[1].Y * rm[0].Y + lm[2].Y * rm[0].Z + lm[3].Y * rm[0].W,
@@ -211,7 +211,7 @@ namespace Vitro
 	}
 
 	template<typename N, typename O>
-	inline Matrix<2, 3, N> operator*(const Matrix<2, 4, N>& lm, const Matrix<4, 3, O>& rm)
+	constexpr Matrix<2, 3, N> operator*(const Matrix<2, 4, N>& lm, const Matrix<4, 3, O>& rm)
 	{
 		return {lm[0].X * rm[0].X + lm[1].X * rm[0].Y + lm[2].X * rm[0].Z + lm[3].X * rm[0].W,
 				lm[0].Y * rm[0].X + lm[1].Y * rm[0].Y + lm[2].Y * rm[0].Z + lm[3].Y * rm[0].W,
@@ -222,7 +222,7 @@ namespace Vitro
 	}
 
 	template<typename N, typename O>
-	inline Matrix<2, 4, N> operator*(const Matrix<2, 4, N>& lm, const Matrix<4, 4, O>& rm)
+	constexpr Matrix<2, 4, N> operator*(const Matrix<2, 4, N>& lm, const Matrix<4, 4, O>& rm)
 	{
 		return {lm[0].X * rm[0].X + lm[1].X * rm[0].Y + lm[2].X * rm[0].Z + lm[3].X * rm[0].W,
 				lm[0].Y * rm[0].X + lm[1].Y * rm[0].Y + lm[2].Y * rm[0].Z + lm[3].Y * rm[0].W,
@@ -235,7 +235,7 @@ namespace Vitro
 	}
 
 	template<typename N, typename O>
-	inline Matrix<3, 2, N> operator*(const Matrix<3, 4, N>& lm, const Matrix<4, 2, O>& rm)
+	constexpr Matrix<3, 2, N> operator*(const Matrix<3, 4, N>& lm, const Matrix<4, 2, O>& rm)
 	{
 		return {lm[0].X * rm[0].X + lm[1].X * rm[0].Y + lm[2].X * rm[0].Z + lm[3].X * rm[0].W,
 				lm[0].Y * rm[0].X + lm[1].Y * rm[0].Y + lm[2].Y * rm[0].Z + lm[3].Y * rm[0].W,
@@ -246,7 +246,7 @@ namespace Vitro
 	}
 
 	template<typename N, typename O>
-	inline Matrix<3, 3, N> operator*(const Matrix<3, 4, N>& lm, const Matrix<4, 3, O>& rm)
+	constexpr Matrix<3, 3, N> operator*(const Matrix<3, 4, N>& lm, const Matrix<4, 3, O>& rm)
 	{
 		return {lm[0].X * rm[0].X + lm[1].X * rm[0].Y + lm[2].X * rm[0].Z + lm[3].X * rm[0].W,
 				lm[0].Y * rm[0].X + lm[1].Y * rm[0].Y + lm[2].Y * rm[0].Z + lm[3].Y * rm[0].W,
@@ -260,7 +260,7 @@ namespace Vitro
 	}
 
 	template<typename N, typename O>
-	inline Matrix<3, 4, N> operator*(const Matrix<3, 4, N>& lm, const Matrix<4, 4, O>& rm)
+	constexpr Matrix<3, 4, N> operator*(const Matrix<3, 4, N>& lm, const Matrix<4, 4, O>& rm)
 	{
 		return {lm[0].X * rm[0].X + lm[1].X * rm[0].Y + lm[2].X * rm[0].Z + lm[3].X * rm[0].W,
 				lm[0].Y * rm[0].X + lm[1].Y * rm[0].Y + lm[2].Y * rm[0].Z + lm[3].Y * rm[0].W,
@@ -277,7 +277,7 @@ namespace Vitro
 	}
 
 	template<typename N, typename O>
-	inline Matrix<4, 2, N> operator*(const Matrix<4, 4, N>& lm, const Matrix<4, 2, O>& rm)
+	constexpr Matrix<4, 2, N> operator*(const Matrix<4, 4, N>& lm, const Matrix<4, 2, O>& rm)
 	{
 		return {lm[0].X * rm[0].X + lm[1].X * rm[0].Y + lm[2].X * rm[0].Z + lm[3].X * rm[0].W,
 				lm[0].Y * rm[0].X + lm[1].Y * rm[0].Y + lm[2].Y * rm[0].Z + lm[3].Y * rm[0].W,
@@ -290,7 +290,7 @@ namespace Vitro
 	}
 
 	template<typename N, typename O>
-	inline Matrix<4, 3, N> operator*(const Matrix<4, 4, N>& lm, const Matrix<4, 3, O>& rm)
+	constexpr Matrix<4, 3, N> operator*(const Matrix<4, 4, N>& lm, const Matrix<4, 3, O>& rm)
 	{
 		return {lm[0].X * rm[0].X + lm[1].X * rm[0].Y + lm[2].X * rm[0].Z + lm[3].X * rm[0].W,
 				lm[0].Y * rm[0].X + lm[1].Y * rm[0].Y + lm[2].Y * rm[0].Z + lm[3].Y * rm[0].W,
@@ -307,7 +307,7 @@ namespace Vitro
 	}
 
 	template<typename N, typename O>
-	inline Matrix<4, 4, N> operator*(const Matrix<4, 4, N>& lm, const Matrix<4, 4, O>& rm)
+	constexpr Matrix<4, 4, N> operator*(const Matrix<4, 4, N>& lm, const Matrix<4, 4, O>& rm)
 	{
 		return {lm[0].X * rm[0].X + lm[1].X * rm[0].Y + lm[2].X * rm[0].Z + lm[3].X * rm[0].W,
 				lm[0].Y * rm[0].X + lm[1].Y * rm[0].Y + lm[2].Y * rm[0].Z + lm[3].Y * rm[0].W,
@@ -328,14 +328,14 @@ namespace Vitro
 	}
 
 	template<typename N, typename O>
-	inline Vector<2, N> operator*(const Matrix<2, 4, N>& m, const Vector<4, O>& v)
+	constexpr Vector<2, N> operator*(const Matrix<2, 4, N>& m, const Vector<4, O>& v)
 	{
 		return {m[0].X * v.X + m[1].X * v.Y + m[2].X * v.Z + m[3].X * v.W,
 				m[0].Y * v.X + m[1].Y * v.Y + m[2].Y * v.Z + m[3].Y * v.W};
 	}
 
 	template<typename N, typename O>
-	inline Vector<4, N> operator*(const Vector<2, O>& v, const Matrix<2, 4, N>& m)
+	constexpr Vector<4, N> operator*(const Vector<2, O>& v, const Matrix<2, 4, N>& m)
 	{
 		return {v.X * m[0].X + v.Y * m[0].Y,
 				v.X * m[1].X + v.Y * m[1].Y,
@@ -344,7 +344,7 @@ namespace Vitro
 	}
 
 	template<typename N, typename O>
-	inline Vector<3, N> operator*(const Matrix<3, 4, N>& m, const Vector<4, O>& v)
+	constexpr Vector<3, N> operator*(const Matrix<3, 4, N>& m, const Vector<4, O>& v)
 	{
 		return {m[0].X * v.X + m[1].X * v.Y + m[2].X * v.Z + m[3].X * v.W,
 				m[0].Y * v.X + m[1].Y * v.Y + m[2].Y * v.Z + m[3].Y * v.W,
@@ -352,7 +352,7 @@ namespace Vitro
 	}
 
 	template<typename N, typename O>
-	inline Vector<4, N> operator*(const Vector<3, O>& v, const Matrix<3, 4, N>& m)
+	constexpr Vector<4, N> operator*(const Vector<3, O>& v, const Matrix<3, 4, N>& m)
 	{
 		return {v.X * m[0].X + v.Y * m[0].Y + v.Z * m[0].Z,
 				v.X * m[1].X + v.Y * m[1].Y + v.Z * m[1].Z,
@@ -361,7 +361,7 @@ namespace Vitro
 	}
 
 	template<typename N, typename O>
-	inline Vector<4, N> operator*(const Matrix<4, 4, N>& m, const Vector<4, O>& v)
+	constexpr Vector<4, N> operator*(const Matrix<4, 4, N>& m, const Vector<4, O>& v)
 	{
 		return {m[0].X * v.X + m[1].X * v.Y + m[2].X * v.Z + m[3].X * v.W,
 				m[0].Y * v.X + m[1].Y * v.Y + m[2].Y * v.Z + m[3].Y * v.W,
@@ -370,7 +370,7 @@ namespace Vitro
 	}
 
 	template<typename N, typename O>
-	inline Vector<4, N> operator*(const Vector<4, O>& v, const Matrix<4, 4, N>& m)
+	constexpr Vector<4, N> operator*(const Vector<4, O>& v, const Matrix<4, 4, N>& m)
 	{
 		return {v.X * m[0].X + v.Y * m[0].Y + v.Z * m[0].Z + v.W * m[0].W,
 				v.X * m[1].X + v.Y * m[1].Y + v.Z * m[1].Z + v.W * m[1].W,
@@ -379,30 +379,30 @@ namespace Vitro
 	}
 
 	template<size_t R, typename N, typename O, VTR_IS_SCALAR(O)>
-	inline Matrix<R, 4, N> operator+(O scalar, const Matrix<R, 4, N>& m)
+	constexpr Matrix<R, 4, N> operator+(O scalar, const Matrix<R, 4, N>& m)
 	{
 		return {scalar + m[0], scalar + m[1], scalar + m[2], scalar + m[3]};
 	}
 
 	template<size_t R, typename N, typename O, VTR_IS_SCALAR(O)>
-	inline Matrix<R, 4, N> operator-(O scalar, const Matrix<R, 4, N>& m)
+	constexpr Matrix<R, 4, N> operator-(O scalar, const Matrix<R, 4, N>& m)
 	{
 		return {scalar - m[0], scalar - m[1], scalar - m[2], scalar - m[3]};
 	}
 
 	template<size_t R, typename N, typename O, VTR_IS_SCALAR(O)>
-	inline Matrix<R, 4, N> operator*(O scalar, const Matrix<R, 4, N>& m)
+	constexpr Matrix<R, 4, N> operator*(O scalar, const Matrix<R, 4, N>& m)
 	{
 		return {scalar * m[0], scalar * m[1], scalar * m[2], scalar * m[3]};
 	}
 
 	template<size_t R, typename N, typename O, VTR_IS_SCALAR(O)>
-	inline Matrix<R, 4, N> operator/(O scalar, const Matrix<R, 4, N>& m)
+	constexpr Matrix<R, 4, N> operator/(O scalar, const Matrix<R, 4, N>& m)
 	{
 		return {scalar / m[0], scalar / m[1], scalar / m[2], scalar / m[3]};
 	}
 
-	template<typename N> inline N Determinant(const Matrix<4, 4, N>& m)
+	template<typename N> constexpr N Determinant(const Matrix<4, 4, N>& m)
 	{
 		N subFactor0 = m[2].Z * m[3].W - m[3].Z * m[2].W;
 		N subFactor1 = m[2].Y * m[3].W - m[3].Y * m[2].W;
@@ -421,7 +421,7 @@ namespace Vitro
 	}
 
 	template<typename N, typename F = float>
-	inline Matrix<4, 4, F> Inverse(const Matrix<4, 4, N>& m)
+	constexpr Matrix<4, 4, F> Inverse(const Matrix<4, 4, N>& m)
 	{
 		N coef00 = m[2].Z * m[3].W - m[3].Z * m[2].W;
 		N coef02 = m[1].Z * m[3].W - m[3].Z * m[1].W;
@@ -473,20 +473,20 @@ namespace Vitro
 		return inverse * (static_cast<F>(1) / dotProduct);
 	}
 
-	template<typename N> inline Matrix<4, 2, N> Transpose(const Matrix<2, 4, N>& m)
+	template<typename N> constexpr Matrix<4, 2, N> Transpose(const Matrix<2, 4, N>& m)
 	{
 		return {m[0].X, m[1].X, m[2].X, m[3].X,
 				m[0].Y, m[1].Y, m[2].Y, m[3].Y};
 	}
 
-	template<typename N> inline Matrix<4, 3, N> Transpose(const Matrix<3, 4, N>& m)
+	template<typename N> constexpr Matrix<4, 3, N> Transpose(const Matrix<3, 4, N>& m)
 	{
 		return {m[0].X, m[1].X, m[2].X, m[3].X,
 				m[0].Y, m[1].Y, m[2].Y, m[3].Y,
 				m[0].Z, m[1].Z, m[2].Z, m[3].Z};
 	}
 
-	template<typename N> inline Matrix<4, 4, N> Transpose(const Matrix<4, 4, N>& m)
+	template<typename N> constexpr Matrix<4, 4, N> Transpose(const Matrix<4, 4, N>& m)
 	{
 		return {m[0].X, m[1].X, m[2].X, m[3].X,
 				m[0].Y, m[1].Y, m[2].Y, m[3].Y,
@@ -496,7 +496,7 @@ namespace Vitro
 
 	// Left-hand coordinates, Z normalization between 0 and 1
 	template<typename N, VTR_IS_FLOAT(N)>
-	inline Matrix<4, 4, N> Orthographic(N left, N right, N bottom, N top, N farZ, N nearZ)
+	constexpr Matrix<4, 4, N> Orthographic(N left, N right, N bottom, N top, N farZ, N nearZ)
 	{
 		auto ortho = Matrix<4, 4, N>::Identity();
 		ortho[0].X = 2 / (right - left);
@@ -510,10 +510,10 @@ namespace Vitro
 
 	// Left-hand coordinates, Z normalization between 0 and 1
 	template<typename N, VTR_IS_FLOAT(N), typename I>
-	inline Matrix<4, 4, N> Perspective(N fovInRadians, I width, I height, N nearZ, N farZ)
+	constexpr Matrix<4, 4, N> Perspective(N fovInRadians, I width, I height, N nearZ, N farZ)
 	{
 		N aspect = width / static_cast<N>(height);
-		Assert(std::abs(aspect - std::numeric_limits<N>::epsilon()) > 0, "Invalid aspect ratio.");
+		AssertDebug(std::abs(aspect - std::numeric_limits<N>::epsilon()) > 0, "Bad aspect ratio.");
 		N fovTan = std::tan(fovInRadians / 2);
 
 		Matrix<4, 4, N> perspective;
@@ -527,8 +527,8 @@ namespace Vitro
 
 	// Left-hand coordinates
 	template<typename N, VTR_IS_FLOAT(N)>
-	inline Matrix<4, 4, N> LookAt(const Vector<3, N>& eye, const Vector<3, N>& at,
-								  const Vector<3, N>& up)
+	constexpr Matrix<4, 4, N> LookAt(const Vector<3, N>& eye, const Vector<3, N>& at,
+									 const Vector<3, N>& up)
 	{
 		Vector<3, N> zAxis = Normalize(at - eye);
 		Vector<3, N> xAxis = Normalize(Cross(up, zAxis));
@@ -540,14 +540,14 @@ namespace Vitro
 	}
 
 	template<typename N, VTR_IS_FLOAT(N)>
-	inline Matrix<4, 4, N> Translate(const Matrix<4, 4, N>& m, const Vector<3, N>& v)
+	constexpr Matrix<4, 4, N> Translate(const Matrix<4, 4, N>& m, const Vector<3, N>& v)
 	{
 		Matrix<4, 4, N> result = m;
 		result[3] = m[0] * v.X + m[1] * v.Y + m[2] * v.Z + m[3];
 		return result;
 	}
 
-	template<typename N, VTR_IS_FLOAT(N)> inline Matrix<4, 4, N> Translate(const Vector<3, N>& v)
+	template<typename N, VTR_IS_FLOAT(N)> constexpr Matrix<4, 4, N> Translate(const Vector<3, N>& v)
 	{
 		auto result = Matrix<4, 4, N>::Identity();
 		result[3] = result[0] * v.X + result[1] * v.Y + result[2] * v.Z + result[3];
@@ -555,7 +555,7 @@ namespace Vitro
 	}
 
 	template<typename N, VTR_IS_FLOAT(N)>
-	inline Matrix<4, 4, N> Rotate(const Matrix<4, 4, N>& m, N angle, const Vector<3, N>& v)
+	constexpr Matrix<4, 4, N> Rotate(const Matrix<4, 4, N>& m, N angle, const Vector<3, N>& v)
 	{
 		N cos = std::cos(angle);
 		N sin = std::sin(angle);
@@ -585,7 +585,7 @@ namespace Vitro
 	}
 
 	template<typename N, VTR_IS_FLOAT(N)>
-	inline Matrix<4, 4, N> Scale(const Matrix<4, 4, N>& m, const Vector<3, N>& v)
+	constexpr Matrix<4, 4, N> Scale(const Matrix<4, 4, N>& m, const Vector<3, N>& v)
 	{
 		Matrix<4, 4, N> result;
 		result[0] = m[0] * v.X;

@@ -32,6 +32,7 @@ namespace Vitro::Windows
 		void Maximize() override;
 		void Minimize() override;
 		void PollEvents() override;
+		void TrapCursor(bool shouldTrap) override;
 
 		Window(const Window&) = delete;
 		Window& operator=(const Window&) = delete;

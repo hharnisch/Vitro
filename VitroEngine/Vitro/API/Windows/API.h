@@ -19,14 +19,14 @@ namespace Vitro::Windows
 		static std::wstring WidenChars(const std::string& s);
 		static std::string NarrowChars(const std::wstring& ws);
 
-		// Exists only for the Windows API to deliver messages.
-		static LRESULT CALLBACK NotifyEngine(HWND wnd, UINT msg, WPARAM wp, LPARAM lp);
-
 		API() = delete;
 
 	private:
 		static inline KeyCode LastKeyCode;
 		static inline int KeyRepeats;
+
+		// Exists only for the Windows API to deliver messages.
+		static LRESULT CALLBACK NotifyEngine(HWND wnd, UINT msg, WPARAM wp, LPARAM lp);
 
 		static void OnWindowMove(Window& window, LPARAM lp);
 		static void OnWindowSize(Window& window, LPARAM lp);
@@ -34,6 +34,7 @@ namespace Vitro::Windows
 		static void OnWindowUnfocus(Window& window);
 		static void OnWindowClose(Window& window);
 		static void OnWindowOpen(Window& window);
+		static void OnRawInput(Window& window, LPARAM lp);
 		static void OnKeyDown(Window& window, WPARAM wp);
 		static void OnKeyUp(Window& window, WPARAM wp);
 		static void OnTextType(Window& window, WPARAM wp);
