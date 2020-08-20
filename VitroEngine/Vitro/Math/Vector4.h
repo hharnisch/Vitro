@@ -1,5 +1,6 @@
 #pragma once
 
+#include "_pch.h"
 #include "Vitro/Utility/Assert.h"
 
 #define VTR_IS_SCALAR(O) typename = typename std::enable_if_t<std::is_arithmetic_v<O>, O>
@@ -8,7 +9,7 @@ namespace Vitro
 {
 	template<size_t D, typename N> struct Vector;
 
-	template<typename N> struct Vector<4, N>
+	template<typename N> struct Vector<4, N> final
 	{
 		union
 		{
@@ -297,7 +298,7 @@ namespace Vitro
 			auto oldValue = *this; --X; --Y; --Z; --W; return oldValue;
 		}
 
-		constexpr explicit operator std::string() const
+		explicit operator std::string() const
 		{
 			std::stringstream s;
 			s << '(' << +X << ',' << +Y << ',' << +Z << ',' << +W << ')';

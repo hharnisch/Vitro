@@ -1,4 +1,4 @@
-#include "_pch.h"
+﻿#include "_pch.h"
 #include "UIOverlay.h"
 
 #include <imgui/imgui.h>
@@ -19,7 +19,7 @@ namespace Vitro
 	void UIOverlay::OnDetach()
 	{}
 
-	void UIOverlay::OnUpdate(TimeStep ts)
+	void UIOverlay::OnTick(Tick t)
 	{
 	#if VTR_API_DIRECTX
 		ImGui_ImplDX11_NewFrame();

@@ -30,7 +30,7 @@ namespace Vitro
 	};
 
 	// Event fired when moving the mouse.
-	class MouseMoveEvent : public MouseEvent
+	class MouseMoveEvent final : public MouseEvent
 	{
 	public:
 		VTR_EVENT_SOURCE(EventSource::Input | EventSource::Mouse);
@@ -63,7 +63,7 @@ namespace Vitro
 	};
 
 	// Event fired when pressing down a mouse button.
-	class MouseDownEvent : public MouseEvent
+	class MouseDownEvent final : public MouseEvent
 	{
 	public:
 		VTR_EVENT_TYPE(MouseDown);
@@ -73,7 +73,7 @@ namespace Vitro
 	};
 
 	// Event fired when releasing a mouse button.
-	class MouseUpEvent : public MouseEvent
+	class MouseUpEvent final : public MouseEvent
 	{
 	public:
 		VTR_EVENT_TYPE(MouseUp);
@@ -83,7 +83,7 @@ namespace Vitro
 	};
 
 	// Event fired when double-clicking a mouse button.
-	class DoubleClickEvent : public MouseEvent
+	class DoubleClickEvent final : public MouseEvent
 	{
 	public:
 		VTR_EVENT_TYPE(DoubleClick);
@@ -93,7 +93,7 @@ namespace Vitro
 	};
 
 	// Event fired when scrolling the mouse wheel.
-	class MouseScrollEvent : public MouseEvent
+	class MouseScrollEvent final : public MouseEvent
 	{
 	public:
 		VTR_EVENT_SOURCE(EventSource::Input | EventSource::Mouse);

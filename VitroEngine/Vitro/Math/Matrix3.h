@@ -1,43 +1,47 @@
 #pragma once
 
+#include "_pch.h"
+#include "Vitro/Math/Vector.h"
+
 #define VTR_IS_SCALAR(O) typename = typename std::enable_if_t<std::is_arithmetic_v<O>, O>
 
 namespace Vitro
 {
 	template<size_t R, size_t C, typename N> struct Matrix;
 
-	template<size_t R, typename N> struct Matrix<R, 3, N>
+	template<size_t R, typename N> struct Matrix<R, 3, N> final
 	{
 	private:
 		typedef Vector<R, N> Col;
 		Col Val[3];
 
 	public:
-		template<typename = typename std::enable_if_t<R == 2>, typename O0, typename O1,
-			typename O2, typename O3, typename O4, typename O5> constexpr Matrix(O0 x0, O1 y0,
-																				 O2 x1, O3 y1,
-																				 O4 x2, O5 y2) :
+		template<typename O0, typename O1, typename O2, typename O3, typename O4, typename O5,
+			typename std::enable_if_t<R == 2, O0>* = nullptr>
+			constexpr Matrix(O0 x0, O1 y0,
+							 O2 x1, O3 y1,
+							 O4 x2, O5 y2) :
 			Val {Col(x0, y0), Col(x1, y1), Col(x2, y2)}
 		{}
 
-		template<typename = typename std::enable_if_t<R == 3>, typename O0, typename O1,
-			typename O2, typename O3, typename O4, typename O5, typename O6, typename O7,
-			typename O8> constexpr Matrix(O0 x0, O1 y0, O2 z0,
-										  O3 x1, O4 y1, O5 z1,
-										  O6 x2, O7 y2, O8 z2) :
+		template<typename O0, typename O1, typename O2, typename O3, typename O4, typename O5,
+			typename O6, typename O7, typename O8, typename std::enable_if_t<R == 3, O0>* = nullptr>
+			constexpr Matrix(O0 x0, O1 y0, O2 z0,
+							 O3 x1, O4 y1, O5 z1,
+							 O6 x2, O7 y2, O8 z2) :
 			Val {Col(x0, y0, z0), Col(x1, y1, z1), Col(x2, y2, z2)}
 		{}
 
-		template<typename = typename std::enable_if_t<R == 4>, typename O0, typename O1,
-			typename O2, typename O3, typename O4, typename O5, typename O6, typename O7,
-			typename O8, typename O9, typename O10, typename O11>
+		template<typename O0, typename O1, typename O2, typename O3, typename O4, typename O5,
+			typename O6, typename O7, typename O8, typename O9, typename O10, typename O11,
+			typename std::enable_if_t<R == 4, O0>* = nullptr>
 			constexpr Matrix(O0 x0, O1 y0, O2 z0, O3 w0,
 							 O4 x1, O5 y1, O6 z1, O7 w1,
 							 O8 x2, O9 y2, O10 z2, O11 w2) :
 			Val {Col(x0, y0, z0, w0), Col(x1, y1, z1, w1), Col(x2, y2, z2, w2)}
 		{}
 
-		template<typename = typename std::enable_if_t<R == 3>> constexpr Matrix() : Matrix(0) {}
+		constexpr Matrix() : Matrix(0) {}
 
 		template<typename O, VTR_IS_SCALAR(O)>
 		constexpr Matrix(O scalar) : Val {Col(scalar), Col(scalar), Col(scalar)} {}
@@ -164,7 +168,7 @@ namespace Vitro
 			auto oldValue = *this; --Val[0]; --Val[1]; --Val[2]; return oldValue;
 		}
 
-		constexpr explicit operator std::string() const
+		explicit operator std::string() const
 		{
 			std::stringstream s;
 			s << '[' << static_cast<std::string>(Val[0]) << ", ";

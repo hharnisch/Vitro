@@ -4,13 +4,7 @@
 
 namespace Vitro
 {
-	class FileUtils
-	{
-	public:
-		static HeapArray<char> GetBinaryData(const std::string& filePath);
-		static std::string ToUpper(const std::string& str);
-		static std::string& ModifyToUpper(std::string& str);
-
-		FileUtils() = delete;
-	};
+	HeapArray<char> GetBinaryFileData(const std::string& filePath);
+	std::string StringToUpper(const std::string& str);
+	std::string& ModifyStringToUpper(std::string& str);
 }

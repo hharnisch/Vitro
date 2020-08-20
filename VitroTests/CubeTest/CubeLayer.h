@@ -6,10 +6,10 @@ class CubeLayer : public Vitro::Layer
 {
 public:
 	CubeLayer(int width, int height) :
+		Cam({-3, 0, -3}, {3, 0, 3}, Vitro::Perspective(0.4f * 3.14f, width, height, 1.0f, 1000.f)),
 		Vertices(Cube, ArrayCount(Cube)),
 		Indices(CubeIndices, ArrayCount(CubeIndices)),
 		Uniforms(CamUniforms, 1),
-		Cam({0, 3, -3}, Vitro::Perspective(0.4f * 3.14f, width, height, 1.0f, 1000.f)),
 		VertexShader("CubeVertex.cso"),
 		FragmentShader("CubeFragment.cso")
 	{}
@@ -32,38 +32,42 @@ public:
 	void OnDetach() override
 	{}
 
-	void OnUpdate(Vitro::TimeStep ts) override
+	void OnTick(Vitro::Tick t) override
 	{
 		using namespace Vitro;
-		CamUniforms.MVP = Cam.GetViewProjection();
-		Vertices.Bind(VertexTopology::TriangleList);
-		Uniforms.Update(CamUniforms);
-		Uniforms.Bind();
-		Renderer->Submit(Indices);
 
-		CamUniforms.MVP = Translate(Cam.GetViewProjection(), {2.5, 2.5, 2.5});
-		Vertices.Bind(VertexTopology::TriangleList);
-		Uniforms.Update(CamUniforms);
-		Uniforms.Bind();
-		Renderer->Submit(Indices);
+		constexpr int distance = 5;
+		constexpr int count = 3;
+		for(int i = 0; i < count * distance; i += distance)
+			for(int j = 0; j < count * distance; j += distance)
+				for(int k = 0; k < count * distance; k += distance)
+				{
+					CamUniforms.MVP = Translate(Cam.GetViewProjection(), {i, j, k});
+					Vertices.Bind(VertexTopology::TriangleList);
+					Uniforms.Update(CamUniforms);
+					Uniforms.Bind();
+					Renderer->Submit(Indices);
+				}
+
+		constexpr float moveSpeed = 0.5;
 
 		if(Input::IsDown(KeyCode::A))
-			Cam.Translate({-0.25, 0, 0});
+			Cam.Translate({-moveSpeed, 0, 0});
 		if(Input::IsDown(KeyCode::D))
-			Cam.Translate({+0.25, 0, 0});
+			Cam.Translate({moveSpeed, 0, 0});
 
 		if(Input::IsDown(KeyCode::Q))
-			Cam.Translate({0, -0.25, 0});
+			Cam.Translate({0, -moveSpeed, 0});
 		if(Input::IsDown(KeyCode::E))
-			Cam.Translate({0, +0.25, 0});
+			Cam.Translate({0, moveSpeed, 0});
 
 		if(Input::IsDown(KeyCode::S))
-			Cam.Translate({0, 0, -0.25});
+			Cam.Translate({0, 0, -moveSpeed});
 		if(Input::IsDown(KeyCode::W))
-			Cam.Translate({0, 0, +0.25});
+			Cam.Translate({0, 0, moveSpeed});
 
 		if(Input::IsDown(KeyCode::R))
-			Cam.SetPosition({0, 3, -3});
+			Cam.SetPosition({-3, 0, -3});
 
 		if(Input::IsDown(KeyCode::F))
 			Cam.Roll(-0.1f);
@@ -122,13 +126,12 @@ private:
 	{
 		Vitro::Float4x4 MVP;
 	};
-
 	CameraUniforms CamUniforms;
-
 	Vitro::Camera Cam;
+
 	Vitro::VertexBuffer<Vertex> Vertices;
-	Vitro::UniformBuffer<CameraUniforms> Uniforms;
 	Vitro::IndexBuffer Indices;
+	Vitro::UniformBuffer<CameraUniforms> Uniforms;
 	Vitro::VertexShader VertexShader;
 	Vitro::FragmentShader FragmentShader;
 };

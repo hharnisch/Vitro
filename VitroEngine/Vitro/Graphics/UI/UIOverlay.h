@@ -4,7 +4,7 @@
 
 namespace Vitro
 {
-	class UIOverlay : public Overlay
+	class UIOverlay final : public Overlay
 	{
 	public:
 		UIOverlay() = default;
@@ -12,7 +12,7 @@ namespace Vitro
 
 		void OnAttach() override;
 		void OnDetach() override;
-		void OnUpdate(TimeStep ts) override;
+		void OnTick(Tick t) override;
 		void OnEvent(Event& event) override;
 	};
 }

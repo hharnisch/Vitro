@@ -1,11 +1,10 @@
-project "IMGUI"
+project "imgui"
 	kind				"StaticLib"
 	language			"C++"
 	cppdialect			"C++17"
 	staticruntime		"on"
 	targetdir			("../../.bin/"	  .. outputdir .. "/%{prj.name}")
 	objdir				("../../.bin_obj/" .. outputdir .. "/%{prj.name}")
-	disablewarnings		{ "4244", "6011", "26451", "26495" }
 
 	includedirs
 	{

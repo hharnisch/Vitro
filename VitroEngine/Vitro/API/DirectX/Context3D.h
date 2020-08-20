@@ -8,7 +8,7 @@
 
 namespace Vitro::DirectX
 {
-	class Context3D : public Base::Context3D
+	class Context3D final : public Base::Context3D
 	{
 	public:
 		Context3D(void* nativeHandle, uint32_t width, uint32_t height);
@@ -23,7 +23,7 @@ namespace Vitro::DirectX
 	private:
 		Microsoft::WRL::ComPtr<IDXGISwapChain1> SwapChain;
 		Microsoft::WRL::ComPtr<ID3D11RenderTargetView> BackBuffer;
-		Microsoft::WRL::ComPtr<ID3D11DepthStencilView> DepthBuffer;
+		Microsoft::WRL::ComPtr<ID3D11DepthStencilView> DepthStencilBuffer;
 		uint32_t SwapInterval = 1;
 	};
 }

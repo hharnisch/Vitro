@@ -6,9 +6,11 @@ workspace "Vitro"
 	startproject		"VitroTests"
 
 outputdir = "%{cfg.buildcfg}_%{cfg.architecture}_%{cfg.system}"
+build_optimization_flags = { "/GT", "/GL", "/Ot" }
+link_optimization_flags = { "/LTCG" }
 
 group "Dependencies"
-	include "External/IMGUI"
+	include "External/imgui"
 group ""
 
 project "VitroEngine"
@@ -17,12 +19,13 @@ project "VitroEngine"
 	language			"C++"
 	cppdialect			"C++17"
 	staticruntime		"on"
+	rtti				"off"
 	objdir				(".bin_obj/" .. outputdir .. "/%{prj.name}")
 	targetdir			(".bin/"	 .. outputdir .. "/%{prj.name}")
 	libdirs				"External"
 	pchsource			"%{prj.name}/_pch.cpp"
 	pchheader			"_pch.h"
-	links				"IMGUI"
+	links				"imgui"
 
 	files
 	{
@@ -48,12 +51,16 @@ project "VitroEngine"
 	filter "configurations:DebugOptimized"
 		runtime			"Debug"
 		symbols			"on"
-		optimize		"on"
+		optimize		"speed"
+		buildoptions	(build_optimization_flags)
+		linkoptions		(link_optimization_flags)
 		defines			{ "VTR_DEBUG", "VTR_ENGINE_LOG_LEVEL=VTR_LOG_LEVEL_DEBUG" }
 
 	filter "configurations:Release"
 		runtime			"Release"
-		optimize		"on"
+		optimize		"speed"
+		buildoptions	(build_optimization_flags)
+		linkoptions		(link_optimization_flags)
 		defines			{ "VTR_RELEASE", "VTR_ENGINE_LOG_LEVEL=VTR_LOG_LEVEL_ERROR" }
 
 	filter "platforms:DirectX"
@@ -109,11 +116,15 @@ project "VitroTests"
 	filter "configurations:DebugOptimized"
 		runtime			"Debug"
 		symbols			"on"
-		optimize		"on"
+		optimize		"speed"
+		buildoptions	(build_optimization_flags)
+		linkoptions		(link_optimization_flags)
 
 	filter "configurations:Release"
 		runtime			"Release"
-		optimize		"on"
+		optimize		"speed"
+		buildoptions	(build_optimization_flags)
+		linkoptions		(link_optimization_flags)
 
 	filter "platforms:DirectX"
 		defines			"VTR_API_DIRECTX"

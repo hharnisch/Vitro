@@ -26,7 +26,7 @@ namespace Vitro
 
 		template<typename E, typename H> inline void Dispatch(const H& handler)
 		{
-			if(GetType() == E::DispatchType)
+			if(GetType() == E::Type)
 				Handled = handler(static_cast<E&>(*this));
 		}
 
@@ -39,8 +39,8 @@ namespace Vitro
 #define Method(m) std::bind(&m, this, std::placeholders::_1)
 
 // Shorthand for implementing virtual methods related to the event type.
-#define VTR_EVENT_TYPE(T) static constexpr EventType DispatchType = EventType::T;				\
-						  inline EventType   GetType() const override { return DispatchType; }	\
+#define VTR_EVENT_TYPE(T) static constexpr EventType Type = EventType::T;				\
+						  inline EventType   GetType() const override { return Type; }	\
 						  inline std::string GetName() const override { return #T; }
 
 // Shorthand for implementing virtual methods related to the event source.

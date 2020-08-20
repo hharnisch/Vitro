@@ -1,31 +1,30 @@
 #pragma once
 
-#include "Vitro/Events/Event.h"
-#include "Vitro/Events/WindowEvent.h"
 #include "Vitro/Graphics/Window.h"
 
 #if VTR_SYSTEM_WINDOWS
-#include "Vitro/API/Windows/API.h"
+#include "Vitro/API/Windows/ApplicationBase.h"
 #endif
 
 namespace Vitro
 {
-	class Engine
-	{
-	#if VTR_SYSTEM_WINDOWS
-		friend class Windows::API;
-	#endif
+#if VTR_SYSTEM_WINDOWS
+	typedef Windows::ApplicationBase ApplicationBase;
+#endif
 
+	class Engine : public ApplicationBase
+	{
 	public:
 		Engine(const std::string& appLogPath, const std::string& engineLogPath);
 		virtual ~Engine();
 
-		static Engine& Get();
+		static inline Engine& Get() { return *Singleton; }
+		inline bool IsRunning() { return !IsShuttingDown; }
+		inline Tick GetTick() { return EngineTick; }
 
 		virtual void OnStart() = 0;
 
 		int Run();
-		bool IsRunning();
 
 		Engine(const Engine&) = delete;
 		Engine(Engine&&) = delete;
@@ -35,14 +34,16 @@ namespace Vitro
 	private:
 		static inline Engine* Singleton;
 
-		std::vector<Window*> OpenWindows;
-		std::thread LoggingThread;
-		bool ShouldUpdate {};
+		bool ShouldTick {};
 		bool IsShuttingDown {};
-		bool ResetUpdateToFirstWindow {};
+		bool ResetTickToFirstWindow {};
+		Tick EngineTick;
+		std::thread LoggingThread;
+		std::vector<Window*> OpenWindows;
 
-		float GetTime();
-		void OnWindowClose(WindowCloseEvent& e);
-		void OnWindowOpen(WindowOpenEvent& e);
+		float MeasureTime();
+		void StartTicking();
+		void EraseWindow(Window& window) final override;
+		void EmplaceWindow(Window& window) final override;
 	};
 }

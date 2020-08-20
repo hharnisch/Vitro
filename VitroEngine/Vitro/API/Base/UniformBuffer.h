@@ -6,6 +6,6 @@ namespace Vitro::Base
 	{
 	public:
 		virtual void Bind() const = 0;
-		virtual void Update(const U& uniformContainer) const = 0;
+		virtual void Update(const U& uniformData) const = 0;
 	};
 }

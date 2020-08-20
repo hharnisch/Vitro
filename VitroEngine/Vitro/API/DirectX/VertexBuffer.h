@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Vitro/API/Base/VertexBuffer.h"
-#include "Vitro/API/DirectX/API.h"
+#include "Vitro/API/DirectX/RHI.h"
 #include "Vitro/Utility/HeapArray.h"
 
 #include <d3d11_4.h>
@@ -9,7 +9,7 @@
 
 namespace Vitro::DirectX
 {
-	template<typename V> class VertexBuffer : public Base::VertexBuffer<V>
+	template<typename V> class VertexBuffer final : public Base::VertexBuffer<V>
 	{
 	public:
 		VertexBuffer(const HeapArray<V>& vertices) : VertexBuffer(vertices.Raw(), vertices.Count())
@@ -25,16 +25,16 @@ namespace Vitro::DirectX
 			D3D11_SUBRESOURCE_DATA srd {0};
 			srd.pSysMem = vertices;
 
-			auto result = API::Device->CreateBuffer(&bd, &srd, &BufferPtr);
-			AssertCritical(SUCCEEDED(result), "Could not create vertex buffer.");
+			auto res = RHI::Get().Device->CreateBuffer(&bd, &srd, &Buffer);
+			AssertCritical(SUCCEEDED(res), "Could not create vertex buffer.");
 		}
 
 		void Bind(VertexTopology vt) const override
 		{
 			UINT stride = sizeof(V);
 			UINT offset = 0;
-			API::Context->IASetVertexBuffers(0, 1, BufferPtr.GetAddressOf(), &stride, &offset);
-			API::Context->IASetPrimitiveTopology(static_cast<D3D11_PRIMITIVE_TOPOLOGY>(vt));
+			RHI::Get().Context->IASetVertexBuffers(0, 1, Buffer.GetAddressOf(), &stride, &offset);
+			RHI::Get().Context->IASetPrimitiveTopology(static_cast<D3D11_PRIMITIVE_TOPOLOGY>(vt));
 		}
 
 		size_t Count() const override
@@ -43,7 +43,7 @@ namespace Vitro::DirectX
 		}
 
 	private:
-		Microsoft::WRL::ComPtr<ID3D11Buffer> BufferPtr;
+		Microsoft::WRL::ComPtr<ID3D11Buffer> Buffer;
 		size_t VertexCount;
 	};
 }

@@ -1,11 +1,10 @@
 #include "_pch.h"
 #include "Camera.h"
-#include <Vitro\Utility\Log.h> // TODO
 
 namespace Vitro
 {
-	Camera::Camera(const Float3& position, const Float4x4& projection) :
-		Position(position), Projection(projection)
+	Camera::Camera(const Float3& position, const Float3& target, const Float4x4& projection) :
+		Projection(projection), Position(position), Forward(target)
 	{
 		UpdateView();
 	}
@@ -45,14 +44,13 @@ namespace Vitro
 	void Camera::Pitch(float radians)
 	{
 		Forward = Normalize(Forward * std::cos(radians) + Up * std::sin(radians));
-		Up = Cross(Forward, Right);
 		UpdateView();
 	}
 
 	void Camera::Yaw(float radians)
 	{
 		Forward = Normalize(Forward * std::cos(radians) + Right * std::sin(radians));
-		Right = Cross(DefaultUp, Forward);
+		Right = Cross(Up, Forward);
 		UpdateView();
 	}
 

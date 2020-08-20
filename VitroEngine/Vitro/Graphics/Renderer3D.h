@@ -6,7 +6,7 @@
 
 namespace Vitro
 {
-	class Renderer3D
+	class Renderer3D final
 	{
 	public:
 		Renderer3D(const Base::Window& window);

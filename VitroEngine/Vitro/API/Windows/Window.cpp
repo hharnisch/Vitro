@@ -2,7 +2,6 @@
 #include "Window.h"
 
 #include "Vitro/Engine.h"
-#include "Vitro/API/Windows/API.h"
 #include "Vitro/Graphics/Renderer3D.h"
 
 #include <imgui/imgui.h>
@@ -12,9 +11,10 @@ namespace Vitro::Windows
 {
 	Window::Window(int width, int height, int x, int y, const std::string& title)
 	{
-		auto wstr = API::WidenChars(title);
-		NativeHandle = CreateWindowExW(0, API::WindowClassName, wstr.c_str(), WS_OVERLAPPEDWINDOW,
-									   x, y, width, height, nullptr, nullptr, nullptr, nullptr);
+		auto wstr = ApplicationBase::WidenChars(title);
+		NativeHandle = CreateWindowExW(0, ApplicationBase::WindowClassName, wstr.c_str(),
+									   WS_OVERLAPPEDWINDOW, x, y, width, height, nullptr, nullptr,
+									   nullptr, nullptr);
 		AssertCritical(NativeHandle, "Could not create window.");
 		SetWindowLongPtr(NativeHandle, 0, reinterpret_cast<LONG_PTR>(this));
 		Renderer = std::make_shared<Renderer3D>(*this);
@@ -105,12 +105,12 @@ namespace Vitro::Windows
 		int length = GetWindowTextLengthW(NativeHandle);
 		std::wstring title(length, 0);
 		GetWindowTextW(NativeHandle, &title[0], length + 1);
-		return API::NarrowChars(title);
+		return ApplicationBase::NarrowChars(title);
 	}
 
 	void Window::SetTitle(const std::string& title)
 	{
-		auto wstr = API::WidenChars(title);
+		auto wstr = ApplicationBase::WidenChars(title);
 		SetWindowTextW(NativeHandle, wstr.c_str());
 	}
 
@@ -137,16 +137,6 @@ namespace Vitro::Windows
 	void Window::Minimize()
 	{
 		CloseWindow(NativeHandle);
-	}
-
-	void Window::PollEvents()
-	{
-		MSG msg;
-		while(PeekMessageW(&msg, nullptr, 0, 0, PM_REMOVE))
-		{
-			TranslateMessage(&msg);
-			DispatchMessageW(&msg);
-		}
 	}
 
 	void Window::TrapCursor(bool shouldTrap)

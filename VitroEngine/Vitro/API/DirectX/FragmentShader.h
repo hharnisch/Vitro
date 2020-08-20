@@ -7,7 +7,7 @@
 
 namespace Vitro::DirectX
 {
-	class FragmentShader : public Base::FragmentShader
+	class FragmentShader final : public Base::FragmentShader
 	{
 	public:
 		FragmentShader(const std::string& filePath);

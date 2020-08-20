@@ -5,10 +5,6 @@
 #include "Vitro/Utility/Assert.h"
 #include "Vitro/Utility/Log.h"
 
-#if VTR_API_DIRECTX
-#include "Vitro/API/DirectX/API.h"
-#endif
-
 namespace Vitro
 {
 	Engine::Engine(const std::string& appLogPath, const std::string& engineLogPath)
@@ -17,19 +13,6 @@ namespace Vitro
 		Singleton = this;
 
 		Log::Initialize(appLogPath, engineLogPath, LoggingThread);
-
-	#if VTR_SYSTEM_WINDOWS
-		Windows::API::Initialize();
-	#else
-	#error Unsupported system.
-	#endif
-
-	#if VTR_API_DIRECTX
-		DirectX::API::Initialize();
-	#else
-	#error Unsupported graphics API.
-	#endif
-
 		UI::Initialize();
 	}
 
@@ -40,40 +23,14 @@ namespace Vitro
 		LoggingThread.join();
 	}
 
-	Engine& Engine::Get()
-	{
-		return *Singleton;
-	}
-
-	bool Engine::IsRunning()
-	{
-		return !IsShuttingDown;
-	}
-
 	int Engine::Run()
 	{
 		try
 		{
-			AssertCritical(!ShouldUpdate, "Engine has already been started.");
-			ShouldUpdate = true;
+			AssertCritical(!ShouldTick, "Engine is already running.");
+			ShouldTick = true;
 			OnStart();
-
-			float previousTime = GetTime();
-			while(ShouldUpdate)
-			{
-				float currentTime = GetTime();
-				TimeStep ts = currentTime - previousTime;
-				previousTime = currentTime;
-				for(auto window : OpenWindows)
-				{
-					window->Update(ts);
-					if(ResetUpdateToFirstWindow)
-					{
-						ResetUpdateToFirstWindow = false;
-						break;
-					}
-				}
-			}
+			StartTicking();
 			return EXIT_SUCCESS;
 		}
 		catch(const std::exception& e)
@@ -84,25 +41,46 @@ namespace Vitro
 		}
 	}
 
-	float Engine::GetTime()
+	float Engine::MeasureTime()
 	{
 		using namespace std::chrono;
 		auto now = steady_clock::now().time_since_epoch();
-		return static_cast<float>(duration_cast<milliseconds>(now).count());
+		return static_cast<float>(duration_cast<nanoseconds>(now).count());
 	}
 
-	void Engine::OnWindowClose(WindowCloseEvent& e)
+	void Engine::StartTicking()
 	{
-		auto window = std::find(OpenWindows.begin(), OpenWindows.end(), &e.GetWindow());
-		OpenWindows.erase(window);
-
-		ResetUpdateToFirstWindow = true;
-		ShouldUpdate = OpenWindows.size();
+		float previousTime = MeasureTime();
+		while(ShouldTick)
+		{
+			float currentTime = MeasureTime();
+			EngineTick = (currentTime - previousTime) / 1000000;
+			previousTime = currentTime;
+			for(auto window : OpenWindows)
+			{
+				window->OnTick(EngineTick);
+				if(ResetTickToFirstWindow)
+				{
+					ResetTickToFirstWindow = false;
+					break;
+				}
+			}
+			PollEvents();
+		}
 	}
 
-	void Engine::OnWindowOpen(WindowOpenEvent& e)
+	void Engine::EraseWindow(Window& window)
 	{
-		OpenWindows.emplace_back(&e.GetWindow());
-		ResetUpdateToFirstWindow = true;
+		auto i = std::find(OpenWindows.begin(), OpenWindows.end(), &window);
+		OpenWindows.erase(i);
+
+		ResetTickToFirstWindow = true;
+		ShouldTick = OpenWindows.size();
+	}
+
+	void Engine::EmplaceWindow(Window& window)
+	{
+		OpenWindows.emplace_back(&window);
+		ResetTickToFirstWindow = true;
 	}
 }

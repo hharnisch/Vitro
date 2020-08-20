@@ -8,7 +8,7 @@
 
 namespace Vitro::DirectX
 {
-	class IndexBuffer : public Base::IndexBuffer
+	class IndexBuffer final : public Base::IndexBuffer
 	{
 	public:
 		IndexBuffer(const HeapArray<uint32_t>& indices);
@@ -18,7 +18,7 @@ namespace Vitro::DirectX
 		size_t Count() const override;
 
 	private:
-		Microsoft::WRL::ComPtr<ID3D11Buffer> BufferPtr;
+		Microsoft::WRL::ComPtr<ID3D11Buffer> Buffer;
 		size_t IndexCount;
 	};
 }

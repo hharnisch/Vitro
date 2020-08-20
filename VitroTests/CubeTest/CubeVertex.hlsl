@@ -1,4 +1,4 @@
-cbuffer cbPerObject
+cbuffer CameraUniforms
 {
 	float4x4 MVP;
 };

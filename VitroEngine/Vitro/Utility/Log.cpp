@@ -1,8 +1,7 @@
-#include "_pch.h"
+﻿#include "_pch.h"
 #include "Log.h"
 
 #include "Vitro/Engine.h"
-#include "Vitro/API/Windows/API.h"
 #include "Vitro/Utility/Assert.h"
 #include "Vitro/Utility/FileUtils.h"
 
@@ -59,7 +58,7 @@ namespace Vitro
 		Queue.pop_front();
 		Mutex.unlock();
 
-		SetConsoleColors(static_cast<uint8_t>(entry.Level));
+		Engine::Get().SetConsoleColors(static_cast<uint8_t>(entry.Level));
 
 		auto logTarget = entry.FromEngine ? EngineLogTarget : AppLogTarget;
 		auto logOrigin = entry.FromEngine ? "ENGINE" : "APP";
@@ -67,19 +66,13 @@ namespace Vitro
 		std::stringstream logText;
 		logText << '[' << GetLogTimestamp() << "] [" << logOrigin;
 		if(logTarget != &std::cout) // Append log level if not logging to the console.
-			logText << ' ' << FileUtils::ModifyToUpper(ToString(entry.Level));
+		{
+			auto level = ToString(entry.Level);
+			logText << ' ' << ModifyStringToUpper(level);
+		}
 		logText << "] " << entry.Message << std::endl;
 
 		*logTarget << logText.str();
-	}
-
-	void Log::SetConsoleColors(uint8_t colorMask)
-	{
-	#if VTR_SYSTEM_WINDOWS
-		Windows::API::SetConsoleColors(colorMask);
-	#else
-	#error Unsupported system.
-	#endif
 	}
 
 	std::string Log::GetLogTimestamp()

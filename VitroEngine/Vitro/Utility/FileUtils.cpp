@@ -1,9 +1,9 @@
-﻿#include "_pch.h"
+#include "_pch.h"
 #include "FileUtils.h"
 
 namespace Vitro
 {
-	HeapArray<char> FileUtils::GetBinaryData(const std::string& filePath)
+	HeapArray<char> GetBinaryFileData(const std::string& filePath)
 	{
 		FILE* file;
 		fopen_s(&file, filePath.c_str(), "rb");
@@ -20,7 +20,7 @@ namespace Vitro
 		return data;
 	}
 
-	std::string FileUtils::ToUpper(const std::string& str)
+	std::string StringToUpper(const std::string& str)
 	{
 		std::string newstr(str.size(), 0);
 		for(int i = 0; i < str.size(); i++)
@@ -28,7 +28,7 @@ namespace Vitro
 		return newstr;
 	}
 
-	std::string& FileUtils::ModifyToUpper(std::string& str)
+	std::string& ModifyStringToUpper(std::string& str)
 	{
 		for(char& ch : str)
 			ch = std::toupper(ch);

@@ -6,7 +6,7 @@
 
 namespace Vitro
 {
-	template<typename N = float> struct Quaternion
+	template<typename N = float> struct Quaternion final
 	{
 		union
 		{
@@ -120,7 +120,7 @@ namespace Vitro
 
 			auto pitchSin = 2 * (W * Y - Z * X);
 			if(std::abs(pitchSin) >= 1)
-				angles.X = std::copysign(static_cast<N>(Pi) / 2, pitchSin);
+				angles.X = std::copysign(Pi<N> / 2, pitchSin);
 			else
 				angles.X = std::asin(pitchSin);
 
@@ -135,7 +135,7 @@ namespace Vitro
 			return angles;
 		}
 
-		constexpr explicit operator std::string() const
+		explicit operator std::string() const
 		{
 			std::stringstream s;
 			s << '(' << +W << ", " << +X << ", " << +Y << ", " << +Z << ')';
@@ -167,7 +167,8 @@ namespace Vitro
 		return {scalar / q.W, scalar / q.X, scalar / q.Y, scalar / q.Z};
 	}
 
-	template<typename N, typename O> constexpr N Dot(const Quaternion<N>& lq, const Quaternion<O>& rq)
+	template<typename N, typename O>
+	constexpr N Dot(const Quaternion<N>& lq, const Quaternion<O>& rq)
 	{
 		Quaternion temp(lq.W * rq.W, lq.X * rq.X, lq.Y * rq.Y, lq.Z * rq.Z);
 		return temp.W + temp.X + temp.Y + temp.Z;

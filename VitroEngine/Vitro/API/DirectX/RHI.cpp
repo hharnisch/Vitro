@@ -1,11 +1,11 @@
-#include "_pch.h"
-#include "API.h"
+﻿#include "_pch.h"
+#include "RHI.h"
 
 #include "Vitro/Utility/Assert.h"
 
 namespace Vitro::DirectX
 {
-	void API::Initialize()
+	RHI::RHI()
 	{
 		static bool initialized;
 		AssertCritical(!initialized, "DirectX API already initialized.");
@@ -28,15 +28,15 @@ namespace Vitro::DirectX
 		using namespace Microsoft::WRL;
 		ComPtr<ID3D11Device> device;
 		ComPtr<ID3D11DeviceContext> context;
-		auto result = D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, flags,
-										featureLevels, ARRAYSIZE(featureLevels), D3D11_SDK_VERSION,
-										&device, nullptr, &context);
-		AssertCritical(SUCCEEDED(result), "DirectX device could not be created.");
-		device.As(&API::Device);
-		context.As(&API::Context);
+		auto res = D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, flags,
+									 featureLevels, ARRAYSIZE(featureLevels), D3D11_SDK_VERSION,
+									 &device, nullptr, &context);
+		AssertCritical(SUCCEEDED(res), "DirectX device could not be created.");
+		device.As(&Device);
+		context.As(&Context);
 
 	#if VTR_DEBUG
-		auto query = API::Device->QueryInterface(__uuidof(ID3D11Debug), &DebugLayer);
+		auto query = Device->QueryInterface(__uuidof(ID3D11Debug), &DebugLayer);
 		AssertCritical(SUCCEEDED(query), "Could not get debug layer.");
 	#endif
 

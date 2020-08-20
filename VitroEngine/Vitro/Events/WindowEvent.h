@@ -30,7 +30,7 @@ namespace Vitro
 	};
 
 	// Event fired when closing a window.
-	class WindowCloseEvent : public WindowEvent
+	class WindowCloseEvent final : public WindowEvent
 	{
 	public:
 		VTR_EVENT_TYPE(WindowClose);
@@ -40,7 +40,7 @@ namespace Vitro
 	};
 
 	// Event fired when resizing a window.
-	class WindowMoveEvent : public WindowEvent
+	class WindowMoveEvent final : public WindowEvent
 	{
 	public:
 		VTR_EVENT_TYPE(WindowMove);
@@ -70,7 +70,7 @@ namespace Vitro
 	};
 
 	// Event fired when resizing a window.
-	class WindowSizeEvent : public WindowEvent
+	class WindowSizeEvent final : public WindowEvent
 	{
 	public:
 		VTR_EVENT_TYPE(WindowSize);
@@ -102,7 +102,7 @@ namespace Vitro
 	};
 
 	// Event fired when a window gets focus.
-	class WindowFocusEvent : public WindowEvent
+	class WindowFocusEvent final : public WindowEvent
 	{
 	public:
 		VTR_EVENT_TYPE(WindowFocus);
@@ -112,7 +112,7 @@ namespace Vitro
 	};
 
 	// Event fired when a window loses focus.
-	class WindowUnfocusEvent : public WindowEvent
+	class WindowUnfocusEvent final : public WindowEvent
 	{
 	public:
 		VTR_EVENT_TYPE(WindowUnfocus);
@@ -122,7 +122,7 @@ namespace Vitro
 	};
 
 	// Event fired when opening a window.
-	class WindowOpenEvent : public WindowEvent
+	class WindowOpenEvent final : public WindowEvent
 	{
 	public:
 		VTR_EVENT_TYPE(WindowOpen);

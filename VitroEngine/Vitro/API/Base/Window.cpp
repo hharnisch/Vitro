@@ -1,18 +1,18 @@
-#include "_pch.h"
+﻿#include "_pch.h"
 #include "Window.h"
 
 #include "Vitro/Events/WindowEvent.h"
 #include "Vitro/Graphics/Renderer3D.h"
+#include "Vitro/Utility/Log.h"
 
 namespace Vitro::Base
 {
-	void Window::Update(TimeStep ts)
+	void Window::OnTick(Tick t)
 	{
 		Renderer->BeginScene();
 		for(auto layer : LayerStack)
 			if(layer->Enabled)
-				layer->OnUpdate(ts);
-		PollEvents();
+				layer->OnTick(t);
 		Renderer->EndScene();
 	}
 

@@ -5,11 +5,11 @@
 
 namespace Vitro
 {
-	class Camera
+	class Camera final
 	{
 	public:
 		Camera() = default;
-		Camera(const Float3& position, const Float4x4& projection);
+		Camera(const Float3& position, const Float3& target, const Float4x4& projection);
 
 		Float4x4 GetView() const;
 		Float4x4 GetProjection() const;
@@ -19,7 +19,7 @@ namespace Vitro
 		void Translate(const Float3& translation);
 		void Pitch(float radians);
 		void Yaw(float radians);
-		void Roll(float radians); // currently not compatible with yaw
+		void Roll(float radians);
 		Float3 RightDirection() const;
 		Float3 UpDirection() const;
 		Float3 ForwardDirection() const;

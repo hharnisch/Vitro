@@ -4,7 +4,7 @@
 
 namespace Vitro
 {
-	struct VertexField
+	struct VertexField final
 	{
 	public:
 		static constexpr auto Position = "POSITION";

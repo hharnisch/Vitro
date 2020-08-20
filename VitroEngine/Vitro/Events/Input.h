@@ -1,15 +1,15 @@
 #pragma once
 
-#include "Vitro/API/Windows/API.h"
+#include "Vitro/Engine.h"
 #include "Vitro/Events/KeyCode.h"
 #include "Vitro/Events/MouseCode.h"
 #include "Vitro/Math/Vector.h"
 
 namespace Vitro
 {
-	class Input
+	class Input final
 	{
-		friend class Windows::API;
+		friend ApplicationBase;
 
 	public:
 		static inline bool IsDown(KeyCode key)

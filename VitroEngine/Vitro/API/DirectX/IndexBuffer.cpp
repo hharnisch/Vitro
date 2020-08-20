@@ -1,7 +1,7 @@
 #include "_pch.h"
 #include "IndexBuffer.h"
 
-#include "Vitro/API/DirectX/API.h"
+#include "Vitro/API/DirectX/RHI.h"
 
 namespace Vitro::DirectX
 {
@@ -19,13 +19,13 @@ namespace Vitro::DirectX
 		D3D11_SUBRESOURCE_DATA srd {0};
 		srd.pSysMem = indices;
 
-		auto result = API::Device->CreateBuffer(&bd, &srd, &BufferPtr);
-		AssertCritical(SUCCEEDED(result), "Could not create index buffer.");
+		auto res = RHI::Get().Device->CreateBuffer(&bd, &srd, &Buffer);
+		AssertCritical(SUCCEEDED(res), "Could not create index buffer.");
 	}
 
 	void IndexBuffer::Bind() const
 	{
-		API::Context->IASetIndexBuffer(BufferPtr.Get(), DXGI_FORMAT_R32_UINT, 0);
+		RHI::Get().Context->IASetIndexBuffer(Buffer.Get(), DXGI_FORMAT_R32_UINT, 0);
 	}
 
 	size_t IndexBuffer::Count() const

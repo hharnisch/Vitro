@@ -30,7 +30,7 @@ public:
 	void OnDetach() override
 	{}
 
-	void OnUpdate(Vitro::TimeStep ts) override
+	void OnTick(Vitro::Tick t) override
 	{
 		Vertices.Bind(Vitro::VertexTopology::TriangleList);
 		Renderer->Submit(Indices);

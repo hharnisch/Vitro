@@ -2,11 +2,11 @@
 
 #include "Vitro/API/Base/Window.h"
 
-#include <Windows.h>
+#include <windows.h>
 
 namespace Vitro::Windows
 {
-	class Window : public Base::Window
+	class Window final : public Base::Window
 	{
 	public:
 		Window(int width, int height, int x, int y, const std::string& title);
@@ -31,7 +31,6 @@ namespace Vitro::Windows
 		void Close() override;
 		void Maximize() override;
 		void Minimize() override;
-		void PollEvents() override;
 		void TrapCursor(bool shouldTrap) override;
 
 		Window(const Window&) = delete;

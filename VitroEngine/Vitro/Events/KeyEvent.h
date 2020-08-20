@@ -23,7 +23,7 @@ namespace Vitro
 	};
 
 	// Event fired when pressing down a keyboard key.
-	class KeyDownEvent : public KeyEvent
+	class KeyDownEvent final : public KeyEvent
 	{
 	public:
 		VTR_EVENT_TYPE(KeyDown);
@@ -48,7 +48,7 @@ namespace Vitro
 	};
 
 	// Event fired when releasing a keyboard key.
-	class KeyUpEvent : public KeyEvent
+	class KeyUpEvent final : public KeyEvent
 	{
 	public:
 		VTR_EVENT_TYPE(KeyUp);
@@ -65,13 +65,13 @@ namespace Vitro
 	};
 
 	// Event fired when receiving text character input from the keyboard.
-	class TextTypeEvent : public KeyEvent
+	class KeyTextEvent final : public KeyEvent
 	{
 	public:
-		VTR_EVENT_TYPE(TextType);
+		VTR_EVENT_TYPE(KeyText);
 
 		// Engine-internal constructor. Do NOT use in client application!
-		inline TextTypeEvent(KeyCode key, const std::string& text) : KeyEvent(key), Text(text) {}
+		inline KeyTextEvent(KeyCode key, const std::string& text) : KeyEvent(key), Text(text) {}
 
 		inline explicit operator std::string() const override
 		{

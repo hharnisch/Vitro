@@ -13,7 +13,7 @@ namespace Vitro
 		WindowOpen,
 		KeyDown,
 		KeyUp,
-		TextType,
+		KeyText,
 		MouseMove,
 		MouseDown,
 		MouseUp,

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "_pch.h"
 #include "Vitro/Utility/LogLevel.h"
@@ -62,7 +62,6 @@ namespace Vitro
 
 		static void StartQueueProcessing();
 		static void DequeueAndWrite();
-		static void SetConsoleColors(uint8_t colorMask);
 		static std::string GetLogTimestamp();
 	};
 }

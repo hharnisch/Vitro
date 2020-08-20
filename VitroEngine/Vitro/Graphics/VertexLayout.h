@@ -5,7 +5,7 @@
 
 namespace Vitro
 {
-	class VertexLayout
+	class VertexLayout final
 	{
 	public:
 		VertexLayout(const std::initializer_list<VertexField>& fields);

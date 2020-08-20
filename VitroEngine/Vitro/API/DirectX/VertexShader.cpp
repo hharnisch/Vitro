@@ -1,7 +1,7 @@
-#include "_pch.h"
+﻿#include "_pch.h"
 #include "VertexShader.h"
 
-#include "Vitro/API/DirectX/API.h"
+#include "Vitro/API/DirectX/RHI.h"
 #include "Vitro/Utility/FileUtils.h"
 #include "Vitro/Utility/StackArray.h"
 
@@ -9,22 +9,22 @@ namespace Vitro::DirectX
 {
 	VertexShader::VertexShader(const std::string& filePath)
 	{
-		Bytecode = FileUtils::GetBinaryData(filePath);
-		auto result = API::Device->CreateVertexShader(Bytecode.Raw(), Bytecode.Count(), nullptr,
-													  &ShaderPtr);
-		AssertCritical(SUCCEEDED(result), "Could not create vertex shader.");
+		Bytecode = GetBinaryFileData(filePath);
+		auto res = RHI::Get().Device->CreateVertexShader(Bytecode.Raw(), Bytecode.Count(), nullptr,
+														 &ShaderPtr);
+		AssertCritical(SUCCEEDED(res), "Could not create vertex shader.");
 	}
 
 	void VertexShader::Bind()
 	{
-		API::Context->VSSetShader(ShaderPtr.Get(), nullptr, 0);
+		RHI::Get().Context->VSSetShader(ShaderPtr.Get(), nullptr, 0);
 	}
 
-	void VertexShader::SetVertexLayout(const VertexLayout& layout)
+	void VertexShader::SetVertexLayout(const VertexLayout& vl)
 	{
-		StackArray<D3D11_INPUT_ELEMENT_DESC> ieds(layout.Count());
+		StackArray<D3D11_INPUT_ELEMENT_DESC> ieds(vl.Count());
 
-		auto src = layout.begin();
+		auto src = vl.begin();
 		for(auto dst = ieds.begin(); dst != ieds.end(); ++src, ++dst)
 		{
 			(*dst).SemanticName			= (*src).Name.c_str();
@@ -36,10 +36,10 @@ namespace Vitro::DirectX
 			(*dst).InstanceDataStepRate	= 0;
 		}
 
-		Microsoft::WRL::ComPtr<ID3D11InputLayout> layoutPtr;
-		auto result = API::Device->CreateInputLayout(ieds.Raw(), static_cast<UINT>(ieds.Count()),
-													 Bytecode.Raw(), Bytecode.Count(), &layoutPtr);
-		AssertCritical(SUCCEEDED(result), "Could not create vertex layout.");
-		API::Context->IASetInputLayout(layoutPtr.Get());
+		Microsoft::WRL::ComPtr<ID3D11InputLayout> il;
+		auto res = RHI::Get().Device->CreateInputLayout(ieds.Raw(), static_cast<UINT>(ieds.Count()),
+														Bytecode.Raw(), Bytecode.Count(), &il);
+		AssertCritical(SUCCEEDED(res), "Could not create vertex layout.");
+		RHI::Get().Context->IASetInputLayout(il.Get());
 	}
 }

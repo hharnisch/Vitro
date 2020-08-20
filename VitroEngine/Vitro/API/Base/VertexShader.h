@@ -8,6 +8,6 @@ namespace Vitro::Base
 	class VertexShader : public Shader
 	{
 	public:
-		virtual void SetVertexLayout(const VertexLayout& layout) = 0;
+		virtual void SetVertexLayout(const VertexLayout& vl) = 0;
 	};
 }

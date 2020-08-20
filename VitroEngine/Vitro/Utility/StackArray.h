@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "_pch.h"
 #include "Vitro/Utility/Assert.h"
@@ -67,7 +67,7 @@ namespace Vitro
 		{
 		public:
 		#if VTR_DEBUG
-			inline Iterator(T* begin, T* pos, T* end) : Begin(begin), Position(pos), End(end) {}
+			inline Iterator(T* pos, T* begin, T* end) : Position(pos), Begin(begin), End(end) {}
 		#else
 			inline Iterator(T* position) : Position(position) {}
 		#endif
@@ -119,7 +119,7 @@ namespace Vitro
 		inline Iterator end()
 		{
 		#if VTR_DEBUG
-			return Iterator(Data, Data + DataCount, Data + DataCount);
+			return Iterator(Data + DataCount, Data, Data + DataCount);
 		#else
 			return Iterator(Data + DataCount);
 		#endif
