@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Vitro/Engine.h"
-#include "Vitro/Events/KeyCode.h"
-#include "Vitro/Events/MouseCode.h"
+#include "Vitro/Application/ApplicationBase.h"
+#include "Vitro/Application/KeyCode.h"
+#include "Vitro/Application/MouseCode.h"
 #include "Vitro/Math/Vector.h"
 
 namespace Vitro

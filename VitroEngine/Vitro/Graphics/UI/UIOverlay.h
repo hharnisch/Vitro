@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Vitro/Graphics/Overlay.h"
+#include "Vitro/Application/Overlay.h"
 
 namespace Vitro
 {

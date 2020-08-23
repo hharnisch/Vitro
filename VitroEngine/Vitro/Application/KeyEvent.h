@@ -1,7 +1,7 @@
-#pragma once
+﻿#pragma once
 
-#include "Vitro/Events/Event.h"
-#include "Vitro/Events/KeyCode.h"
+#include "Vitro/Application/Event.h"
+#include "Vitro/Application/KeyCode.h"
 
 namespace Vitro
 {

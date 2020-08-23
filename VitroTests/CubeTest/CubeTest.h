@@ -9,12 +9,7 @@ class CubeTest : public Vitro::Engine
 public:
 	CubeTest() : Engine("", "")
 	{
-		AppWindow = new Vitro::Window(1200, 900, 300, 150, "CubeTest");
-	}
-
-	~CubeTest()
-	{
-		delete AppWindow;
+		AppWindow = Vitro::Window::New(1200, 900, 300, 150, "CubeTest");
 	}
 
 	void OnStart() override
@@ -25,5 +20,5 @@ public:
 	}
 
 private:
-	Vitro::Window* AppWindow;
+	Vitro::Ref<Vitro::Window> AppWindow;
 };

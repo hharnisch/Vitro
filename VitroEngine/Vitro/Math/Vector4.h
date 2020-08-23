@@ -16,11 +16,11 @@ namespace Vitro
 			struct { N X, Y, Z, W; };
 			struct { N R, G, B, A; };
 			struct { N S, T, P, Q; };
-			N Val[4];
+			N Raw[4];
 		};
 
 		template<typename O0, typename O1, typename O2, typename O3>
-		constexpr Vector(O0 x, O1 y, O2 z, O3 w) : Val {static_cast<N>(x), static_cast<N>(y),
+		constexpr Vector(O0 x, O1 y, O2 z, O3 w) : Raw {static_cast<N>(x), static_cast<N>(y),
 													   static_cast<N>(z), static_cast<N>(w)}
 		{}
 
@@ -43,14 +43,14 @@ namespace Vitro
 
 		constexpr N& operator[](size_t index)
 		{
-			AssertArrayRange(Val, index);
-			return Val[index];
+			AssertArrayRange(Raw, index);
+			return Raw[index];
 		}
 
 		constexpr const N& operator[](size_t index) const
 		{
-			AssertArrayRange(Val, index);
-			return Val[index];
+			AssertArrayRange(Raw, index);
+			return Raw[index];
 		}
 
 		template<typename O> constexpr Vector<4, N> operator+(const Vector<4, O>& v) const

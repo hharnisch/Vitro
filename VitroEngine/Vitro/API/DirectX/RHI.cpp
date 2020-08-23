@@ -1,19 +1,21 @@
-﻿#include "_pch.h"
+#include "_pch.h"
 #include "RHI.h"
 
 #include "Vitro/Utility/Assert.h"
 
 namespace Vitro::DirectX
 {
-	RHI::RHI()
+	void RHI::Initialize()
 	{
-		static bool initialized;
+		static bool initialized = false;
 		AssertCritical(!initialized, "DirectX API already initialized.");
 
 		UINT flags = 0;
+
 	#if VTR_DEBUG
 		flags |= D3D11_CREATE_DEVICE_DEBUG;
 	#endif
+
 		D3D_FEATURE_LEVEL featureLevels[]
 		{
 			D3D_FEATURE_LEVEL_11_1,

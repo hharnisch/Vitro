@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "_pch.h"
 #include "Vitro/Utility/Assert.h"
@@ -16,14 +16,16 @@ namespace Vitro
 			Data = static_cast<T*>(_malloca(count * sizeof(T)));
 		}
 
+		inline StackArray(const StackArray& other) : StackArray(other.DataCount)
+		{
+			auto src = other.begin();
+			for(auto dst = begin(); dst != end(); ++src, ++dst)
+				*dst = *src;
+		}
+
 		inline ~StackArray()
 		{
 			_freea(Data);
-		}
-
-		inline StackArray(const StackArray& other) : StackArray(other.DataCount)
-		{
-			std::memcpy(Data, other.Data, DataCount * sizeof(T));
 		}
 
 		inline StackArray& operator=(const StackArray& other)

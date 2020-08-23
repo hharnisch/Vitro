@@ -1,7 +1,7 @@
 #include "_pch.h"
 #include "Window.h"
 
-#include "Vitro/Engine.h"
+#include "Vitro/API/Windows/ApplicationBase.h"
 #include "Vitro/Graphics/Renderer3D.h"
 
 #include <imgui/imgui.h>
@@ -17,23 +17,24 @@ namespace Vitro::Windows
 									   nullptr, nullptr);
 		AssertCritical(NativeHandle, "Could not create window.");
 		SetWindowLongPtr(NativeHandle, 0, reinterpret_cast<LONG_PTR>(this));
-		Renderer = std::make_shared<Renderer3D>(*this);
+		Renderer = Ref<Renderer3D>::New(NativeHandle, GetViewportWidth(), GetViewportHeight());
 
 		ImGui_ImplWin32_Init(NativeHandle);
 	}
 
 	Window::Window(Window&& other) noexcept :
-		Base::Window(std::move(other)), NativeHandle(std::exchange(other.NativeHandle, nullptr))
+		Vitro::Window(std::move(other)), NativeHandle(std::exchange(other.NativeHandle, nullptr))
 	{}
 
 	Window::~Window()
 	{
 		DestroyWindow(NativeHandle);
+		ImGui_ImplWin32_Shutdown();
 	}
 
 	Window& Window::operator=(Window&& other) noexcept
 	{
-		Base::Window::operator=(std::move(other));
+		Vitro::Window::operator=(std::move(other));
 		std::swap(NativeHandle, other.NativeHandle);
 		return *this;
 	}

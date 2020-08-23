@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "_pch.h"
 #include "Vitro/Utility/Assert.h"
@@ -16,11 +16,6 @@ namespace Vitro
 			Data = new T[count];
 		}
 
-		inline ~HeapArray()
-		{
-			delete[] Data;
-		}
-
 		inline HeapArray(const HeapArray& other) : HeapArray(other.DataCount)
 		{
 			auto src = other.begin();
@@ -32,6 +27,11 @@ namespace Vitro
 			Data(std::exchange(other.Data, nullptr)),
 			DataCount(other.DataCount)
 		{}
+
+		inline ~HeapArray()
+		{
+			delete[] Data;
+		}
 
 		inline HeapArray& operator=(const HeapArray& other)
 		{

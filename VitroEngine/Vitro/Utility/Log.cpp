@@ -1,4 +1,4 @@
-﻿#include "_pch.h"
+#include "_pch.h"
 #include "Log.h"
 
 #include "Vitro/Engine.h"
@@ -10,7 +10,7 @@ namespace Vitro
 	void Log::Initialize(const std::string& appLogPath, const std::string& engineLogPath,
 						 std::thread& loggingThread)
 	{
-		static bool initialized;
+		static bool initialized = false;
 		AssertCritical(!initialized, "Logging has already been initialized by the engine.");
 
 		if(appLogPath.size())

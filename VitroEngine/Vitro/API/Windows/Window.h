@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Vitro/API/Base/Window.h"
+#include "Vitro/Application/Window.h"
 
 #include <windows.h>
 
 namespace Vitro::Windows
 {
-	class Window final : public Base::Window
+	class Window final : public Vitro::Window
 	{
 	public:
 		Window(int width, int height, int x, int y, const std::string& title);

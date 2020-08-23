@@ -1,4 +1,4 @@
-﻿#include "_pch.h"
+#include "_pch.h"
 #include "Context3D.h"
 
 #include "Vitro/API/DirectX/RHI.h"
@@ -9,11 +9,11 @@
 
 namespace Vitro::DirectX
 {
-	Context3D::Context3D(void* nativeHandle, uint32_t width, uint32_t height)
+	Context3D::Context3D(void* nativeWindowHandle, uint32_t width, uint32_t height)
 	{
 		using namespace Microsoft::WRL;
 		ComPtr<IDXGIDevice1> dxgiDevice;
-		RHI::Get().Device.As(&dxgiDevice);
+		RHI::Device.As(&dxgiDevice);
 		ComPtr<IDXGIAdapter> adapter;
 		dxgiDevice->GetAdapter(&adapter);
 		ComPtr<IDXGIFactory2> factory;
@@ -29,17 +29,16 @@ namespace Vitro::DirectX
 		DXGI_SWAP_CHAIN_FULLSCREEN_DESC fsd {0};
 		fsd.Windowed = true;
 
-		HWND hwnd = reinterpret_cast<HWND>(nativeHandle);
-		auto scRes = factory->CreateSwapChainForHwnd(RHI::Get().Device.Get(), hwnd, &scd, &fsd,
-													 nullptr, &SwapChain);
+		HWND hwnd = reinterpret_cast<HWND>(nativeWindowHandle);
+		auto scRes = factory->CreateSwapChainForHwnd(RHI::Device.Get(), hwnd, &scd, &fsd, nullptr,
+													 &SwapChain);
 		AssertCritical(SUCCEEDED(scRes), "Could not create swap chain.");
 
 		ComPtr<ID3D11Texture2D> rtTexture;
 		auto rtTexRes = SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), &rtTexture);
 		AssertCritical(SUCCEEDED(rtTexRes), "Could not get render target texture.");
 
-		auto rtRes = RHI::Get().Device->CreateRenderTargetView(rtTexture.Get(), nullptr,
-															   &BackBuffer);
+		auto rtRes = RHI::Device->CreateRenderTargetView(rtTexture.Get(), nullptr, &BackBuffer);
 		AssertCritical(SUCCEEDED(rtRes), "Could not create back buffer.");
 
 		D3D11_TEXTURE2D_DESC t2dd {0};
@@ -53,11 +52,11 @@ namespace Vitro::DirectX
 		t2dd.BindFlags			= D3D11_BIND_DEPTH_STENCIL;
 
 		ComPtr<ID3D11Texture2D> dsTexture;
-		auto dsTexRes = RHI::Get().Device->CreateTexture2D(&t2dd, nullptr, &dsTexture);
+		auto dsTexRes = RHI::Device->CreateTexture2D(&t2dd, nullptr, &dsTexture);
 		AssertCritical(SUCCEEDED(dsTexRes), "Could not create depth stencil texture.");
 
-		auto dsRes = RHI::Get().Device->CreateDepthStencilView(dsTexture.Get(), nullptr,
-															   &DepthStencilBuffer);
+		auto dsRes = RHI::Device->CreateDepthStencilView(dsTexture.Get(), nullptr,
+														 &DepthStencilBuffer);
 		AssertCritical(SUCCEEDED(dsRes), "Could not create depth stencil buffer.");
 	}
 
@@ -70,14 +69,14 @@ namespace Vitro::DirectX
 		viewport.Height		= static_cast<FLOAT>(height);
 		viewport.MinDepth	= 0.0;
 		viewport.MaxDepth	= 1.0;
-		RHI::Get().Context->RSSetViewports(1, &viewport);
+		RHI::Context->RSSetViewports(1, &viewport);
 	}
 
 	void Context3D::SetClearColor(const Float4& color)
 	{
-		RHI::Get().Context->ClearRenderTargetView(BackBuffer.Get(), color.Val);
-		RHI::Get().Context->ClearDepthStencilView(DepthStencilBuffer.Get(),
-												  D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+		RHI::Context->ClearRenderTargetView(BackBuffer.Get(), color.Raw);
+		RHI::Context->ClearDepthStencilView(DepthStencilBuffer.Get(),
+											D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	}
 
 	void Context3D::SetVSync(bool enabled)
@@ -87,13 +86,12 @@ namespace Vitro::DirectX
 
 	void Context3D::TargetBackBuffer()
 	{
-		RHI::Get().Context->OMSetRenderTargets(1, BackBuffer.GetAddressOf(),
-											   DepthStencilBuffer.Get());
+		RHI::Context->OMSetRenderTargets(1, BackBuffer.GetAddressOf(), DepthStencilBuffer.Get());
 	}
 
-	void Context3D::DrawIndices(const IndexBuffer& ib)
+	void Context3D::DrawIndices(const Ref<IndexBuffer>& ib)
 	{
-		RHI::Get().Context->DrawIndexed(static_cast<uint32_t>(ib.Count()), 0, 0);
+		RHI::Context->DrawIndexed(ib->Count(), 0, 0);
 	}
 
 	void Context3D::SwapBuffers()

@@ -15,16 +15,21 @@ namespace Vitro
 	{
 	private:
 		typedef Vector<R, N> Col;
-		Col Val[4];
+		Col Raw[4];
 
 	public:
+		static constexpr std::enable_if_t<R == 4, Matrix<4, 4, N>> Identity()
+		{
+			return {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1};
+		}
+
 		template<typename O0, typename O1, typename O2, typename O3, typename O4, typename O5,
 			typename O6, typename O7, typename std::enable_if_t<R == 2, O0>* = nullptr>
 			constexpr Matrix(O0 x0, O1 y0,
 							 O2 x1, O3 y1,
 							 O4 x2, O5 y2,
 							 O6 x3, O7 y3) :
-			Val {Col(x0, y0), Col(x1, y1), Col(x2, y2), Col(x3, y3)}
+			Raw {Col(x0, y0), Col(x1, y1), Col(x2, y2), Col(x3, y3)}
 		{}
 
 		template<typename O0, typename O1, typename O2, typename O3, typename O4, typename O5,
@@ -34,7 +39,7 @@ namespace Vitro
 							 O3 x1, O4 y1, O5 z1,
 							 O6 x2, O7 y2, O8 z2,
 							 O9 x3, O10 y3, O11 z3) :
-			Val {Col(x0, y0, z0), Col(x1, y1, z1), Col(x2, y2, z2), Col(x3, y3, z3)}
+			Raw {Col(x0, y0, z0), Col(x1, y1, z1), Col(x2, y2, z2), Col(x3, y3, z3)}
 		{}
 
 		template<typename O0, typename O1, typename O2, typename O3, typename O4, typename O5,
@@ -45,17 +50,17 @@ namespace Vitro
 							 O4 x1, O5 y1, O6 z1, O7 w1,
 							 O8 x2, O9 y2, O10 z2, O11 w2,
 							 O12 x3, O13 y3, O14 z3, O15 w3) :
-			Val {Col(x0, y0, z0, w0), Col(x1, y1, z1, w1), Col(x2, y2, z2, w2), Col(x3, y3, z3, w3)}
+			Raw {Col(x0, y0, z0, w0), Col(x1, y1, z1, w1), Col(x2, y2, z2, w2), Col(x3, y3, z3, w3)}
 		{}
 
 		constexpr Matrix() : Matrix(0) {}
 
 		template<typename O, VTR_IS_SCALAR(O)>
-		constexpr Matrix(O scalar) : Val {Col(scalar), Col(scalar), Col(scalar), Col(scalar)} {}
+		constexpr Matrix(O scalar) : Raw {Col(scalar), Col(scalar), Col(scalar), Col(scalar)} {}
 
 		template<typename O0, typename O1, typename O2, typename O3>
 		constexpr Matrix(const Vector<R, O0>& v0, const Vector<R, O1>& v1, const Vector<R, O2>& v2,
-						 const Vector<R, O3>& v3) : Val {v0, v1, v2, v3}
+						 const Vector<R, O3>& v3) : Raw {v0, v1, v2, v3}
 		{}
 
 		constexpr Matrix(std::enable_if_t<R == 4, const Quaternion<N>&> q)
@@ -69,136 +74,131 @@ namespace Vitro
 			N wx(q.W * q.X);
 			N wy(q.W * q.Y);
 			N wz(q.W * q.Z);
-			Val[0] = {1 - 2 * (yy * zz), 2 * (xy + wz), 2 * (xz - wy), 0};
-			Val[1] = {2 * (xy - wz), 1 - 2 * (xx + zz), 2 * (yz + wx), 0};
-			Val[2] = {2 * (xz + wy), 2 * (yz - wx), 1 - 2 * (xx + yy), 0};
-			Val[3] = {0, 0, 0, 1};
-		}
-
-		static constexpr std::enable_if_t<R == 4, Matrix<4, 4, N>> Identity()
-		{
-			return {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1};
+			Raw[0] = {1 - 2 * (yy * zz), 2 * (xy + wz), 2 * (xz - wy), 0};
+			Raw[1] = {2 * (xy - wz), 1 - 2 * (xx + zz), 2 * (yz + wx), 0};
+			Raw[2] = {2 * (xz + wy), 2 * (yz - wx), 1 - 2 * (xx + yy), 0};
+			Raw[3] = {0, 0, 0, 1};
 		}
 
 		constexpr Col& operator[](size_t index)
 		{
-			AssertArrayRange(Val, index);
-			return Val[index];
+			AssertArrayRange(Raw, index);
+			return Raw[index];
 		}
 
 		constexpr const Col& operator[](size_t index) const
 		{
-			AssertArrayRange(Val, index);
-			return Val[index];
+			AssertArrayRange(Raw, index);
+			return Raw[index];
 		}
 
 		template<typename O> constexpr Matrix<R, 4, N> operator+(const Matrix<R, 4, O>& m) const
 		{
-			return {Val[0] + m[0], Val[1] + m[1], Val[2] + m[2], Val[3] + m[3]};
+			return {Raw[0] + m[0], Raw[1] + m[1], Raw[2] + m[2], Raw[3] + m[3]};
 		}
 
 		template<typename O> constexpr Matrix<R, 4, N> operator-(const Matrix<R, 4, O>& m) const
 		{
-			return {Val[0] - m[0], Val[1] - m[1], Val[2] - m[2], Val[3] - m[3]};
+			return {Raw[0] - m[0], Raw[1] - m[1], Raw[2] - m[2], Raw[3] - m[3]};
 		}
 
 		template<typename O> constexpr Matrix<R, 4, N>& operator+=(const Matrix<R, 4, O>& m)
 		{
-			Val[0] += m[0]; Val[1] += m[1]; Val[2] += m[2]; Val[3] += m[3]; return *this;
+			Raw[0] += m[0]; Raw[1] += m[1]; Raw[2] += m[2]; Raw[3] += m[3]; return *this;
 		}
 
 		template<typename O> constexpr Matrix<R, 4, N>& operator-=(const Matrix<R, 4, O>& m)
 		{
-			Val[0] -= m[0]; Val[1] -= m[1]; Val[2] -= m[2]; Val[3] -= m[3]; return *this;
+			Raw[0] -= m[0]; Raw[1] -= m[1]; Raw[2] -= m[2]; Raw[3] -= m[3]; return *this;
 		}
 
 		template<typename O> constexpr bool operator==(const Matrix<R, 4, O>& m) const
 		{
-			return Val[0] == m[0] && Val[1] == m[1] && Val[2] == m[2] && Val[3] == m[3];
+			return Raw[0] == m[0] && Raw[1] == m[1] && Raw[2] == m[2] && Raw[3] == m[3];
 		}
 
 		template<typename O> constexpr bool operator!=(const Matrix<R, 4, O>& m) const
 		{
-			return Val[0] != m[0] || Val[1] != m[1] || Val[2] != m[2] || Val[3] != m[3];
+			return Raw[0] != m[0] || Raw[1] != m[1] || Raw[2] != m[2] || Raw[3] != m[3];
 		}
 
 		template<typename O, VTR_IS_SCALAR(O)> constexpr Matrix<R, 4, N> operator+(O scalar) const
 		{
-			return {Val[0] + scalar, Val[1] + scalar, Val[2] + scalar, Val[3] + scalar};
+			return {Raw[0] + scalar, Raw[1] + scalar, Raw[2] + scalar, Raw[3] + scalar};
 		}
 
 		template<typename O, VTR_IS_SCALAR(O)> constexpr Matrix<R, 4, N> operator-(O scalar) const
 		{
-			return {Val[0] - scalar, Val[1] - scalar, Val[2] - scalar, Val[3] - scalar};
+			return {Raw[0] - scalar, Raw[1] - scalar, Raw[2] - scalar, Raw[3] - scalar};
 		}
 
 		template<typename O, VTR_IS_SCALAR(O)> constexpr Matrix<R, 4, N> operator*(O scalar) const
 		{
-			return {Val[0] * scalar, Val[1] * scalar, Val[2] * scalar, Val[3] * scalar};
+			return {Raw[0] * scalar, Raw[1] * scalar, Raw[2] * scalar, Raw[3] * scalar};
 		}
 
 		template<typename O, VTR_IS_SCALAR(O)> constexpr Matrix<R, 4, N> operator/(O scalar) const
 		{
-			return {Val[0] / scalar, Val[1] / scalar, Val[2] / scalar, Val[3] / scalar};
+			return {Raw[0] / scalar, Raw[1] / scalar, Raw[2] / scalar, Raw[3] / scalar};
 		}
 
 		template<typename O, VTR_IS_SCALAR(O)> constexpr Matrix<R, 4, N>& operator+=(O scalar)
 		{
-			Val[0] += scalar; Val[1] += scalar; Val[2] += scalar; Val[3] += scalar; return *this;
+			Raw[0] += scalar; Raw[1] += scalar; Raw[2] += scalar; Raw[3] += scalar; return *this;
 		}
 
 		template<typename O, VTR_IS_SCALAR(O)> constexpr Matrix<R, 4, N>& operator-=(O scalar)
 		{
-			Val[0] -= scalar; Val[1] -= scalar; Val[2] -= scalar; Val[3] -= scalar; return *this;
+			Raw[0] -= scalar; Raw[1] -= scalar; Raw[2] -= scalar; Raw[3] -= scalar; return *this;
 		}
 
 		template<typename O, VTR_IS_SCALAR(O)> constexpr Matrix<R, 4, N>& operator*=(O scalar)
 		{
-			Val[0] *= scalar; Val[1] *= scalar; Val[2] *= scalar; Val[3] *= scalar; return *this;
+			Raw[0] *= scalar; Raw[1] *= scalar; Raw[2] *= scalar; Raw[3] *= scalar; return *this;
 		}
 
 		template<typename O, VTR_IS_SCALAR(O)> constexpr Matrix<R, 4, N>& operator/=(O scalar)
 		{
-			Val[0] /= scalar; Val[1] /= scalar; Val[2] /= scalar; Val[3] /= scalar; return *this;
+			Raw[0] /= scalar; Raw[1] /= scalar; Raw[2] /= scalar; Raw[3] /= scalar; return *this;
 		}
 
 		constexpr Matrix<R, 4, N> operator+() const
 		{
-			return {+Val[0], +Val[1], +Val[2], +Val[3]};
+			return {+Raw[0], +Raw[1], +Raw[2], +Raw[3]};
 		}
 
 		constexpr Matrix<R, 4, N> operator-() const
 		{
-			return {-Val[0], -Val[1], -Val[2], -Val[3]};
+			return {-Raw[0], -Raw[1], -Raw[2], -Raw[3]};
 		}
 
 		constexpr Matrix<R, 4, N>& operator++()
 		{
-			++Val[0]; ++Val[1]; ++Val[2]; ++Val[3]; return *this;
+			++Raw[0]; ++Raw[1]; ++Raw[2]; ++Raw[3]; return *this;
 		}
 
 		constexpr Matrix<R, 4, N>& operator--()
 		{
-			--Val[0]; --Val[1]; --Val[2]; --Val[3]; return *this;
+			--Raw[0]; --Raw[1]; --Raw[2]; --Raw[3]; return *this;
 		}
 
 		constexpr Matrix<R, 4, N> operator++(int)
 		{
-			auto oldValue = *this; ++Val[0]; ++Val[1]; ++Val[2]; ++Val[3]; return oldValue;
+			auto oldValue = *this; ++Raw[0]; ++Raw[1]; ++Raw[2]; ++Raw[3]; return oldValue;
 		}
 
 		constexpr Matrix<R, 4, N> operator--(int)
 		{
-			auto oldValue = *this; --Val[0]; --Val[1]; --Val[2]; --Val[3]; return oldValue;
+			auto oldValue = *this; --Raw[0]; --Raw[1]; --Raw[2]; --Raw[3]; return oldValue;
 		}
 
 		explicit operator std::string() const
 		{
 			std::stringstream s;
-			s << '[' << static_cast<std::string>(Val[0]) << ", ";
-			s << static_cast<std::string>(Val[1]) << ", ";
-			s << static_cast<std::string>(Val[2]) << ", ";
-			s << static_cast<std::string>(Val[3]) << ']';
+			s << '[' << static_cast<std::string>(Raw[0]) << ", ";
+			s << static_cast<std::string>(Raw[1]) << ", ";
+			s << static_cast<std::string>(Raw[2]) << ", ";
+			s << static_cast<std::string>(Raw[3]) << ']';
 			return s.str();
 		}
 	};
@@ -544,7 +544,7 @@ namespace Vitro
 	template<typename N, VTR_IS_FLOAT(N)>
 	constexpr Matrix<4, 4, N> Translate(const Matrix<4, 4, N>& m, const Vector<3, N>& v)
 	{
-		Matrix<4, 4, N> result = m;
+		auto result = m;
 		result[3] = m[0] * v.X + m[1] * v.Y + m[2] * v.Z + m[3];
 		return result;
 	}

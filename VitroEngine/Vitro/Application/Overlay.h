@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Vitro/Graphics/Layer.h"
+#include "Vitro/Application/Layer.h"
 
 namespace Vitro
 {

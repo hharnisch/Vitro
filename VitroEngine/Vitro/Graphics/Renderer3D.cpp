@@ -1,15 +1,14 @@
 #include "_pch.h"
 #include "Renderer3D.h"
 
-#include "Vitro/Graphics/Window.h"
+#include "Vitro/Application/Window.h"
 
 namespace Vitro
 {
-	Renderer3D::Renderer3D(const Base::Window& window)
+	Renderer3D::Renderer3D(void* nativeWindowHandle, int width, int height)
 	{
-		Context = std::make_unique<Context3D>(window.GetNativeHandle(), window.GetViewportWidth(),
-											  window.GetViewportHeight());
-		Context->SetViewport(window.GetWidth(), window.GetHeight(), 0, 0);
+		Context = Context3D::New(nativeWindowHandle, width, height);
+		Context->SetViewport(width, height, 0, 0);
 	}
 
 	void Renderer3D::BeginScene()
@@ -23,9 +22,9 @@ namespace Vitro
 		Context->SwapBuffers();
 	}
 
-	void Renderer3D::Submit(const IndexBuffer& ib)
+	void Renderer3D::Submit(const Ref<IndexBuffer>& ib)
 	{
-		ib.Bind();
+		ib->Bind();
 		Context->DrawIndices(ib);
 	}
 }

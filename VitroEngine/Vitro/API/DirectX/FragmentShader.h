@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Vitro/API/Base/FragmentShader.h"
+#include "Vitro/Graphics/FragmentShader.h"
 
 #include <d3d11_4.h>
 #include <wrl.h>
 
 namespace Vitro::DirectX
 {
-	class FragmentShader final : public Base::FragmentShader
+	class FragmentShader final : public Vitro::FragmentShader
 	{
 	public:
 		FragmentShader(const std::string& filePath);

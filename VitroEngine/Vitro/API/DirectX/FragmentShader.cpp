@@ -9,13 +9,13 @@ namespace Vitro::DirectX
 	FragmentShader::FragmentShader(const std::string& filePath)
 	{
 		Bytecode = GetBinaryFileData(filePath);
-		auto res = RHI::Get().Device->CreatePixelShader(Bytecode.Raw(), Bytecode.Count(), nullptr,
-														&ShaderPtr);
+		auto res = RHI::Device->CreatePixelShader(Bytecode.Raw(), Bytecode.Count(), nullptr,
+												  &ShaderPtr);
 		AssertCritical(SUCCEEDED(res), "Could not create fragment shader.");
 	}
 
 	void FragmentShader::Bind()
 	{
-		RHI::Get().Context->PSSetShader(ShaderPtr.Get(), nullptr, 0);
+		RHI::Context->PSSetShader(ShaderPtr.Get(), nullptr, 0);
 	}
 }

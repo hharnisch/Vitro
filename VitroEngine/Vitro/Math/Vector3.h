@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "_pch.h"
 #include "Vitro/Utility/Assert.h"
@@ -16,7 +16,7 @@ namespace Vitro
 			struct { N X, Y, Z; };
 			struct { N R, G, B; };
 			struct { N S, T, P; };
-			N Val[3];
+			N Raw[3];
 		};
 
 		template<typename O0, typename O1, typename O2> constexpr Vector(O0 x, O1 y, O2 z) :
@@ -38,14 +38,14 @@ namespace Vitro
 
 		constexpr N& operator[](size_t index)
 		{
-			AssertArrayRange(Val, index);
-			return Val[index];
+			AssertArrayRange(Raw, index);
+			return Raw[index];
 		}
 
 		constexpr const N& operator[](size_t index) const
 		{
-			AssertArrayRange(Val, index);
-			return Val[index];
+			AssertArrayRange(Raw, index);
+			return Raw[index];
 		}
 
 		template<typename O> constexpr Vector<3, N> operator+(const Vector<3, O>& v) const

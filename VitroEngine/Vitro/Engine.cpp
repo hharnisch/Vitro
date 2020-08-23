@@ -5,6 +5,10 @@
 #include "Vitro/Utility/Assert.h"
 #include "Vitro/Utility/Log.h"
 
+#if VTR_API_DIRECTX
+#include "Vitro/API/DirectX/RHI.h"
+#endif
+
 namespace Vitro
 {
 	Engine::Engine(const std::string& appLogPath, const std::string& engineLogPath)
@@ -13,6 +17,13 @@ namespace Vitro
 		Singleton = this;
 
 		Log::Initialize(appLogPath, engineLogPath, LoggingThread);
+
+	#if VTR_API_DIRECTX
+		DirectX::RHI::Initialize();
+	#else
+	#error Unsupported graphics API.
+	#endif
+
 		UI::Initialize();
 	}
 
@@ -21,7 +32,7 @@ namespace Vitro
 		IsShuttingDown = true;
 		UI::Finalize();
 		LoggingThread.join();
-	}
+}
 
 	int Engine::Run()
 	{
@@ -71,7 +82,7 @@ namespace Vitro
 
 	void Engine::EraseWindow(Window& window)
 	{
-		auto i = std::find(OpenWindows.begin(), OpenWindows.end(), &window);
+		auto i = std::find(OpenWindows.begin(), OpenWindows.end(), Ref(&window));
 		OpenWindows.erase(i);
 
 		ResetTickToFirstWindow = true;
@@ -80,7 +91,7 @@ namespace Vitro
 
 	void Engine::EmplaceWindow(Window& window)
 	{
-		OpenWindows.emplace_back(&window);
+		OpenWindows.emplace_back(Ref(&window));
 		ResetTickToFirstWindow = true;
 	}
 }

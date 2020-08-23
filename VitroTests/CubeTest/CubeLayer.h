@@ -6,13 +6,14 @@ class CubeLayer : public Vitro::Layer
 {
 public:
 	CubeLayer(int width, int height) :
-		Cam({-3, 0, -3}, {3, 0, 3}, Vitro::Perspective(0.4f * 3.14f, width, height, 1.0f, 1000.f)),
-		Vertices(Cube, ArrayCount(Cube)),
-		Indices(CubeIndices, ArrayCount(CubeIndices)),
-		Uniforms(CamUniforms, 1),
-		VertexShader("CubeVertex.cso"),
-		FragmentShader("CubeFragment.cso")
-	{}
+		Cam({-3, 0, -3}, {3, 0, 3}, Vitro::Perspective(0.4f * 3.14f, width, height, 1.0f, 1000.f))
+	{
+		Vertices = Vitro::VertexBuffer::New(Cube, sizeof(Vertex), sizeof(Cube));
+		Indices = Vitro::IndexBuffer::New(CubeIndices, ArrayCount(CubeIndices));
+		Uniforms = Vitro::UniformBuffer::New(&CamUniforms, sizeof(CamUniforms));
+		VertexShader = Vitro::VertexShader::New("CubeVertex.cso");
+		FragmentShader = Vitro::FragmentShader::New("CubeFragment.cso");
+	}
 
 	void OnAttach() override
 	{
@@ -24,9 +25,9 @@ public:
 			{VertexField::Position, 0, VertexFieldType::Float3},
 			{VertexField::Color,	0, VertexFieldType::Float4}
 		};
-		VertexShader.SetVertexLayout(vl);
-		VertexShader.Bind();
-		FragmentShader.Bind();
+		VertexShader->SetVertexLayout(vl);
+		VertexShader->Bind();
+		FragmentShader->Bind();
 	}
 
 	void OnDetach() override
@@ -43,9 +44,9 @@ public:
 				for(int k = 0; k < count * distance; k += distance)
 				{
 					CamUniforms.MVP = Translate(Cam.GetViewProjection(), {i, j, k});
-					Vertices.Bind(VertexTopology::TriangleList);
-					Uniforms.Update(CamUniforms);
-					Uniforms.Bind();
+					Vertices->Bind(VertexTopology::TriangleList);
+					Uniforms->Update(&CamUniforms);
+					Uniforms->Bind();
 					Renderer->Submit(Indices);
 				}
 
@@ -84,7 +85,7 @@ public:
 		{
 			for(auto& vertex : Cube)
 				vertex.Color = {random(), random(), random(), random()};
-			Vertices = VertexBuffer<Vertex>(Cube, ArrayCount(Cube));
+			Vertices->Update(Cube);
 			return true;
 		});
 
@@ -129,9 +130,9 @@ private:
 	CameraUniforms CamUniforms;
 	Vitro::Camera Cam;
 
-	Vitro::VertexBuffer<Vertex> Vertices;
-	Vitro::IndexBuffer Indices;
-	Vitro::UniformBuffer<CameraUniforms> Uniforms;
-	Vitro::VertexShader VertexShader;
-	Vitro::FragmentShader FragmentShader;
+	Vitro::Ref<Vitro::VertexBuffer> Vertices;
+	Vitro::Ref<Vitro::IndexBuffer> Indices;
+	Vitro::Ref<Vitro::UniformBuffer> Uniforms;
+	Vitro::Ref<Vitro::VertexShader> VertexShader;
+	Vitro::Ref<Vitro::FragmentShader> FragmentShader;
 };

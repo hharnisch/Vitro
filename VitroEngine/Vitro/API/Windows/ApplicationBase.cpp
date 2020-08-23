@@ -1,12 +1,11 @@
-﻿#include "_pch.h"
+#include "_pch.h"
 #include "ApplicationBase.h"
 
 #include "Vitro/Engine.h"
-#include "Vitro/API/Windows/Window.h"
-#include "Vitro/Events/Input.h"
-#include "Vitro/Events/KeyEvent.h"
-#include "Vitro/Events/MouseEvent.h"
-#include "Vitro/Events/WindowEvent.h"
+#include "Vitro/Application/Input.h"
+#include "Vitro/Application/KeyEvent.h"
+#include "Vitro/Application/MouseEvent.h"
+#include "Vitro/Application/WindowEvent.h"
 #include "Vitro/Utility/StackArray.h"
 
 #include <windowsx.h>
@@ -17,28 +16,6 @@ IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND wnd, UINT msg, WPARAM
 
 namespace Vitro::Windows
 {
-	ApplicationBase::ApplicationBase()
-	{
-		static bool initialized;
-		AssertCritical(!initialized, "Windows API already initialized.");
-
-		WNDCLASSW wc {0};
-		wc.style			= CS_DBLCLKS;
-		wc.lpfnWndProc		= ReceiveMessages;
-		wc.lpszClassName	= WindowClassName;
-		wc.cbWndExtra		= sizeof(void*);
-		auto wcRes = RegisterClassW(&wc);
-		AssertCritical(SUCCEEDED(wcRes), "Could not create Windows API window class.");
-
-		RAWINPUTDEVICE rid {0};
-		rid.usUsagePage	= 0x01; // Usage page constant for generic desktop controls
-		rid.usUsage		= 0x02; // Usage constant for a generic mouse
-		auto ridRes = RegisterRawInputDevices(&rid, 1, sizeof(rid));
-		AssertCritical(ridRes, "Could not get raw mouse input device.");
-
-		initialized = true;
-	}
-
 	std::wstring ApplicationBase::WidenChars(const std::string& s)
 	{
 		int length = MultiByteToWideChar(CP_UTF8, 0, s.c_str(), -1, nullptr, 0);
@@ -61,6 +38,28 @@ namespace Vitro::Windows
 		SetConsoleTextAttribute(outHandle, colorMask);
 	}
 
+	ApplicationBase::ApplicationBase()
+	{
+		static bool initialized = false;
+		AssertCritical(!initialized, "Windows API already initialized.");
+
+		WNDCLASSW wc {0};
+		wc.style			= CS_DBLCLKS;
+		wc.lpfnWndProc		= ReceiveMessages;
+		wc.lpszClassName	= WindowClassName;
+		wc.cbWndExtra		= sizeof(void*);
+		auto wcRes = RegisterClassW(&wc);
+		AssertCritical(SUCCEEDED(wcRes), "Could not create Windows API window class.");
+
+		RAWINPUTDEVICE rid {0};
+		rid.usUsagePage	= 0x01; // Usage page constant for generic desktop controls
+		rid.usUsage		= 0x02; // Usage constant for a generic mouse
+		auto ridRes = RegisterRawInputDevices(&rid, 1, sizeof(rid));
+		AssertCritical(ridRes, "Could not get raw mouse input device.");
+
+		initialized = true;
+	}
+
 	void ApplicationBase::PollEvents()
 	{
 		MSG msg;
@@ -78,7 +77,7 @@ namespace Vitro::Windows
 
 	LRESULT ApplicationBase::ForwardMessages(HWND wnd, UINT msg, WPARAM wp, LPARAM lp)
 	{
-		ImGui_ImplWin32_WndProcHandler(wnd, msg, wp, lp);
+		//ImGui_ImplWin32_WndProcHandler(wnd, msg, wp, lp);
 		auto& w = *reinterpret_cast<Window*>(GetWindowLongPtr(wnd, 0));
 		switch(msg)
 		{

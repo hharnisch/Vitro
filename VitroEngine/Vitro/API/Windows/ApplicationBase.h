@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Vitro/API/Windows/Window.h"
-#include "Vitro/Events/KeyCode.h"
-#include "Vitro/Events/MouseCode.h"
-#include "Vitro/Events/WindowEvent.h"
+#include "Vitro/Application/KeyCode.h"
+#include "Vitro/Application/MouseCode.h"
+#include "Vitro/Application/Window.h"
+#include "Vitro/Application/WindowEvent.h"
 
 #include <windows.h>
 
@@ -14,14 +14,14 @@ namespace Vitro::Windows
 	public:
 		static constexpr auto WindowClassName = L"VITRO";
 
-		ApplicationBase();
-
 		static std::wstring WidenChars(const std::string& s);
 		static std::string NarrowChars(const std::wstring& ws);
 
 		void SetConsoleColors(uint8_t colorMask);
 
 	protected:
+		ApplicationBase();
+
 		virtual void EraseWindow(Window& window) = 0;
 		virtual void EmplaceWindow(Window& window) = 0;
 

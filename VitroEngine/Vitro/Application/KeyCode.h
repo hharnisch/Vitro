@@ -1,5 +1,7 @@
 #pragma once
 
+#include "_pch.h"
+
 namespace Vitro
 {
 	// Identical to Windows virtual key codes.

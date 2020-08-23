@@ -1,14 +1,18 @@
-﻿#pragma once
+#pragma once
 
-#if VTR_API_DIRECTX
-#include "Vitro/API/DirectX/VertexBuffer.h"
-#endif
+#include "Vitro/Graphics/VertexTopology.h"
+#include "Vitro/Utility/Ref.h"
 
 namespace Vitro
 {
-#if VTR_API_DIRECTX
-	template<typename V> using VertexBuffer = DirectX::VertexBuffer<V>;
-#else
-#error Unsupported graphics API.
-#endif
+	class VertexBuffer : public RefCounted
+	{
+	public:
+		virtual ~VertexBuffer() = default;
+
+		static Ref<VertexBuffer> New(const void* vertices, size_t stride, size_t size);
+
+		virtual void Bind(VertexTopology vt) const = 0;
+		virtual void Update(const void* vertices) const = 0;
+	};
 }

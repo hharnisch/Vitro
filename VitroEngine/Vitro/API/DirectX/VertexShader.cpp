@@ -1,4 +1,4 @@
-﻿#include "_pch.h"
+#include "_pch.h"
 #include "VertexShader.h"
 
 #include "Vitro/API/DirectX/RHI.h"
@@ -10,14 +10,14 @@ namespace Vitro::DirectX
 	VertexShader::VertexShader(const std::string& filePath)
 	{
 		Bytecode = GetBinaryFileData(filePath);
-		auto res = RHI::Get().Device->CreateVertexShader(Bytecode.Raw(), Bytecode.Count(), nullptr,
-														 &ShaderPtr);
+		auto res = RHI::Device->CreateVertexShader(Bytecode.Raw(), Bytecode.Count(), nullptr,
+												   &ShaderPtr);
 		AssertCritical(SUCCEEDED(res), "Could not create vertex shader.");
 	}
 
 	void VertexShader::Bind()
 	{
-		RHI::Get().Context->VSSetShader(ShaderPtr.Get(), nullptr, 0);
+		RHI::Context->VSSetShader(ShaderPtr.Get(), nullptr, 0);
 	}
 
 	void VertexShader::SetVertexLayout(const VertexLayout& vl)
@@ -37,9 +37,9 @@ namespace Vitro::DirectX
 		}
 
 		Microsoft::WRL::ComPtr<ID3D11InputLayout> il;
-		auto res = RHI::Get().Device->CreateInputLayout(ieds.Raw(), static_cast<UINT>(ieds.Count()),
-														Bytecode.Raw(), Bytecode.Count(), &il);
+		auto res = RHI::Device->CreateInputLayout(ieds.Raw(), static_cast<UINT>(ieds.Count()),
+												  Bytecode.Raw(), Bytecode.Count(), &il);
 		AssertCritical(SUCCEEDED(res), "Could not create vertex layout.");
-		RHI::Get().Context->IASetInputLayout(il.Get());
+		RHI::Context->IASetInputLayout(il.Get());
 	}
 }

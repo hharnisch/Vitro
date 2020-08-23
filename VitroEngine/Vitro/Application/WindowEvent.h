@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Vitro/Events/Event.h"
-#include "Vitro/Graphics/Window.h"
+#include "Vitro/Application/Event.h"
+#include "Vitro/Application/Window.h"
 
 namespace Vitro
 {

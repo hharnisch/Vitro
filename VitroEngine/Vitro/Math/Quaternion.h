@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Vitro/Math/Trigonometry.h"
 #include "Vitro/Math/Vector.h"
@@ -12,13 +12,13 @@ namespace Vitro
 		{
 			struct { N W, X, Y, Z; };
 			struct { N A, B, C, D; };
-			N Val[4];
+			N Raw[4];
 		};
 
 		constexpr Quaternion() : Quaternion(0, 0, 0, 0) {}
 
 		template<typename O0, typename O1, typename O2, typename O3>
-		constexpr Quaternion(O0 w, O1 x, O2 y, O3 z) : Val {static_cast<N>(w), static_cast<N>(x),
+		constexpr Quaternion(O0 w, O1 x, O2 y, O3 z) : Raw {static_cast<N>(w), static_cast<N>(x),
 														   static_cast<N>(y), static_cast<N>(z)}
 		{}
 
@@ -35,14 +35,14 @@ namespace Vitro
 
 		constexpr N& operator[](size_t index)
 		{
-			AssertArrayRange(Val, index);
-			return Val[index];
+			AssertArrayRange(Raw, index);
+			return Raw[index];
 		}
 
 		constexpr const N& operator[](size_t index) const
 		{
-			AssertArrayRange(Val, index);
-			return Val[index];
+			AssertArrayRange(Raw, index);
+			return Raw[index];
 		}
 
 		template<typename O> constexpr Quaternion<N> operator+(const Quaternion<O>& q) const

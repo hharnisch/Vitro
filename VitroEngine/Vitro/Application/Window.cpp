@@ -1,12 +1,24 @@
-﻿#include "_pch.h"
+#include "_pch.h"
 #include "Window.h"
 
-#include "Vitro/Events/WindowEvent.h"
+#include "Vitro/Application/WindowEvent.h"
 #include "Vitro/Graphics/Renderer3D.h"
-#include "Vitro/Utility/Log.h"
 
-namespace Vitro::Base
+#if VTR_SYSTEM_WINDOWS
+#include "Vitro/API/Windows/Window.h"
+#endif
+
+namespace Vitro
 {
+	Ref<Window> Window::New(int width, int height, int x, int y, const std::string& title)
+	{
+	#if VTR_SYSTEM_WINDOWS
+		return Ref<Windows::Window>::New(width, height, x, y, title);
+	#else
+	#error Unsupported system.
+	#endif
+	}
+
 	void Window::OnTick(Tick t)
 	{
 		Renderer->BeginScene();

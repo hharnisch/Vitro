@@ -1,14 +1,17 @@
 #pragma once
 
-#if VTR_API_DIRECTX
-#include "Vitro/API/DirectX/UniformBuffer.h"
-#endif
+#include "Vitro/Utility/Ref.h"
 
 namespace Vitro
 {
-#if VTR_API_DIRECTX
-	template<typename V> using UniformBuffer = DirectX::UniformBuffer<V>;
-#else
-#error Unsupported graphics API.
-#endif
+	class UniformBuffer : public RefCounted
+	{
+	public:
+		virtual ~UniformBuffer() = default;
+
+		static Ref<UniformBuffer> New(const void* uniforms, size_t size);
+
+		virtual void Bind() const = 0;
+		virtual void Update(const void* uniforms) const = 0;
+	};
 }

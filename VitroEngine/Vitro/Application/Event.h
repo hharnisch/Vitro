@@ -1,8 +1,8 @@
 #pragma once
 
 #include "_pch.h"
-#include "Vitro/Events/EventSource.h"
-#include "Vitro/Events/EventType.h"
+#include "Vitro/Application/EventSource.h"
+#include "Vitro/Application/EventType.h"
 
 namespace Vitro
 {

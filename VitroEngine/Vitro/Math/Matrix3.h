@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "_pch.h"
 #include "Vitro/Math/Vector.h"
@@ -13,15 +13,20 @@ namespace Vitro
 	{
 	private:
 		typedef Vector<R, N> Col;
-		Col Val[3];
+		Col Raw[3];
 
 	public:
+		static constexpr std::enable_if_t<R == 3, Matrix<3, 3, N>> Identity()
+		{
+			return {1, 0, 0, 0, 1, 0, 0, 0, 1};
+		}
+
 		template<typename O0, typename O1, typename O2, typename O3, typename O4, typename O5,
 			typename std::enable_if_t<R == 2, O0>* = nullptr>
 			constexpr Matrix(O0 x0, O1 y0,
 							 O2 x1, O3 y1,
 							 O4 x2, O5 y2) :
-			Val {Col(x0, y0), Col(x1, y1), Col(x2, y2)}
+			Raw {Col(x0, y0), Col(x1, y1), Col(x2, y2)}
 		{}
 
 		template<typename O0, typename O1, typename O2, typename O3, typename O4, typename O5,
@@ -29,7 +34,7 @@ namespace Vitro
 			constexpr Matrix(O0 x0, O1 y0, O2 z0,
 							 O3 x1, O4 y1, O5 z1,
 							 O6 x2, O7 y2, O8 z2) :
-			Val {Col(x0, y0, z0), Col(x1, y1, z1), Col(x2, y2, z2)}
+			Raw {Col(x0, y0, z0), Col(x1, y1, z1), Col(x2, y2, z2)}
 		{}
 
 		template<typename O0, typename O1, typename O2, typename O3, typename O4, typename O5,
@@ -38,142 +43,137 @@ namespace Vitro
 			constexpr Matrix(O0 x0, O1 y0, O2 z0, O3 w0,
 							 O4 x1, O5 y1, O6 z1, O7 w1,
 							 O8 x2, O9 y2, O10 z2, O11 w2) :
-			Val {Col(x0, y0, z0, w0), Col(x1, y1, z1, w1), Col(x2, y2, z2, w2)}
+			Raw {Col(x0, y0, z0, w0), Col(x1, y1, z1, w1), Col(x2, y2, z2, w2)}
 		{}
 
 		constexpr Matrix() : Matrix(0) {}
 
 		template<typename O, VTR_IS_SCALAR(O)>
-		constexpr Matrix(O scalar) : Val {Col(scalar), Col(scalar), Col(scalar)} {}
+		constexpr Matrix(O scalar) : Raw {Col(scalar), Col(scalar), Col(scalar)} {}
 
 		template<typename O0, typename O1, typename O2>
 		constexpr Matrix(const Vector<R, O0>& v0, const Vector<R, O1>& v1, const Vector<R, O2>& v2)
-			: Val {v0, v1, v2}
+			: Raw {v0, v1, v2}
 		{}
-
-		static constexpr std::enable_if_t<R == 3, Matrix<3, 3, N>> Identity()
-		{
-			return {1, 0, 0, 0, 1, 0, 0, 0, 1};
-		}
 
 		constexpr Col& operator[](size_t index)
 		{
-			AssertArrayRange(Val, index);
-			return Val[index];
+			AssertArrayRange(Raw, index);
+			return Raw[index];
 		}
 
 		constexpr const Col& operator[](size_t index) const
 		{
-			AssertArrayRange(Val, index);
-			return Val[index];
+			AssertArrayRange(Raw, index);
+			return Raw[index];
 		}
 
 		template<typename O> constexpr Matrix<R, 3, N> operator+(const Matrix<R, 3, O>& m) const
 		{
-			return {Val[0] + m[0], Val[1] + m[1], Val[2] + m[2]};
+			return {Raw[0] + m[0], Raw[1] + m[1], Raw[2] + m[2]};
 		}
 
 		template<typename O> constexpr Matrix<R, 3, N> operator-(const Matrix<R, 3, O>& m) const
 		{
-			return {Val[0] - m[0], Val[1] - m[1], Val[2] - m[2]};
+			return {Raw[0] - m[0], Raw[1] - m[1], Raw[2] - m[2]};
 		}
 
 		template<typename O> constexpr Matrix<R, 3, N>& operator+=(const Matrix<R, 3, O>& m)
 		{
-			Val[0] += m[0]; Val[1] += m[1]; Val[2] += m[2]; return *this;
+			Raw[0] += m[0]; Raw[1] += m[1]; Raw[2] += m[2]; return *this;
 		}
 
 		template<typename O> constexpr Matrix<R, 3, N>& operator-=(const Matrix<R, 3, O>& m)
 		{
-			Val[0] -= m[0]; Val[1] -= m[1]; Val[2] -= m[2]; return *this;
+			Raw[0] -= m[0]; Raw[1] -= m[1]; Raw[2] -= m[2]; return *this;
 		}
 
 		template<typename O> constexpr bool operator==(const Matrix<R, 3, O>& m) const
 		{
-			return Val[0] == m[0] && Val[1] == m[1] && Val[2] == m[2];
+			return Raw[0] == m[0] && Raw[1] == m[1] && Raw[2] == m[2];
 		}
 
 		template<typename O> constexpr bool operator!=(const Matrix<R, 3, O>& m) const
 		{
-			return Val[0] != m[0] || Val[1] != m[1] || Val[2] != m[2];
+			return Raw[0] != m[0] || Raw[1] != m[1] || Raw[2] != m[2];
 		}
 
 		template<typename O, VTR_IS_SCALAR(O)> constexpr Matrix<R, 3, N> operator+(O scalar) const
 		{
-			return {Val[0] + scalar, Val[1] + scalar, Val[2] + scalar};
+			return {Raw[0] + scalar, Raw[1] + scalar, Raw[2] + scalar};
 		}
 
 		template<typename O, VTR_IS_SCALAR(O)> constexpr Matrix<R, 3, N> operator-(O scalar) const
 		{
-			return {Val[0] - scalar, Val[1] - scalar, Val[2] - scalar};
+			return {Raw[0] - scalar, Raw[1] - scalar, Raw[2] - scalar};
 		}
 
 		template<typename O, VTR_IS_SCALAR(O)> constexpr Matrix<R, 3, N> operator*(O scalar) const
 		{
-			return {Val[0] * scalar, Val[1] * scalar, Val[2] * scalar};
+			return {Raw[0] * scalar, Raw[1] * scalar, Raw[2] * scalar};
 		}
 
 		template<typename O, VTR_IS_SCALAR(O)> constexpr Matrix<R, 3, N> operator/(O scalar) const
 		{
-			return {Val[0] / scalar, Val[1] / scalar, Val[2] / scalar};
+			return {Raw[0] / scalar, Raw[1] / scalar, Raw[2] / scalar};
 		}
 
 		template<typename O, VTR_IS_SCALAR(O)> constexpr Matrix<R, 3, N>& operator+=(O scalar)
 		{
-			Val[0] += scalar; Val[1] += scalar; Val[2] += scalar; return *this;
+			Raw[0] += scalar; Raw[1] += scalar; Raw[2] += scalar; return *this;
 		}
 
 		template<typename O, VTR_IS_SCALAR(O)> constexpr Matrix<R, 3, N>& operator-=(O scalar)
 		{
-			Val[0] -= scalar; Val[1] -= scalar; Val[2] -= scalar; return *this;
+			Raw[0] -= scalar; Raw[1] -= scalar; Raw[2] -= scalar; return *this;
 		}
 
 		template<typename O, VTR_IS_SCALAR(O)> constexpr Matrix<R, 3, N>& operator*=(O scalar)
 		{
-			Val[0] *= scalar; Val[1] *= scalar; Val[2] *= scalar; return *this;
+			Raw[0] *= scalar; Raw[1] *= scalar; Raw[2] *= scalar; return *this;
 		}
 
 		template<typename O, VTR_IS_SCALAR(O)> constexpr Matrix<R, 3, N>& operator/=(O scalar)
 		{
-			Val[0] /= scalar; Val[1] /= scalar; Val[2] /= scalar; return *this;
+			Raw[0] /= scalar; Raw[1] /= scalar; Raw[2] /= scalar; return *this;
 		}
 
 		constexpr Matrix<R, 3, N> operator+() const
 		{
-			return {+Val[0], +Val[1], +Val[2]};
+			return {+Raw[0], +Raw[1], +Raw[2]};
 		}
 
 		constexpr Matrix<R, 3, N> operator-() const
 		{
-			return {-Val[0], -Val[1], -Val[2]};
+			return {-Raw[0], -Raw[1], -Raw[2]};
 		}
 
 		constexpr Matrix<R, 3, N>& operator++()
 		{
-			++Val[0]; ++Val[1]; ++Val[2]; return *this;
+			++Raw[0]; ++Raw[1]; ++Raw[2]; return *this;
 		}
 
 		constexpr Matrix<R, 3, N>& operator--()
 		{
-			--Val[0]; --Val[1]; --Val[2]; return *this;
+			--Raw[0]; --Raw[1]; --Raw[2]; return *this;
 		}
 
 		constexpr Matrix<R, 3, N> operator++(int)
 		{
-			auto oldValue = *this; ++Val[0]; ++Val[1]; ++Val[2]; return oldValue;
+			auto oldValue = *this; ++Raw[0]; ++Raw[1]; ++Raw[2]; return oldValue;
 		}
 
 		constexpr Matrix<R, 3, N> operator--(int)
 		{
-			auto oldValue = *this; --Val[0]; --Val[1]; --Val[2]; return oldValue;
+			auto oldValue = *this; --Raw[0]; --Raw[1]; --Raw[2]; return oldValue;
 		}
 
 		explicit operator std::string() const
 		{
 			std::stringstream s;
-			s << '[' << static_cast<std::string>(Val[0]) << ", ";
-			s << static_cast<std::string>(Val[1]) << ", ";
-			s << static_cast<std::string>(Val[2]) << ']';
+			s << '[' << static_cast<std::string>(Raw[0]) << ", ";
+			s << static_cast<std::string>(Raw[1]) << ", ";
+			s << static_cast<std::string>(Raw[2]) << ']';
 			return s.str();
 		}
 	};

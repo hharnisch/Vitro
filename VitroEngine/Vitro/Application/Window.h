@@ -1,16 +1,21 @@
 #pragma once
 
 #include "_pch.h"
-#include "Vitro/Events/Event.h"
-#include "Vitro/Graphics/Layer.h"
-#include "Vitro/Graphics/Overlay.h"
+#include "Vitro/Application/Event.h"
+#include "Vitro/Application/Layer.h"
+#include "Vitro/Application/Overlay.h"
+#include "Vitro/Utility/Ref.h"
 #include "Vitro/Utility/Tick.h"
 
-namespace Vitro::Base
+namespace Vitro
 {
-	class Window
+	class Window : public RefCounted
 	{
 	public:
+		static Ref<Window> New(int width, int height, int x, int y, const std::string& title);
+
+		virtual ~Window();
+
 		virtual int GetWidth() const = 0;
 		virtual int GetViewportWidth() const = 0;
 		virtual void SetWidth(int width) = 0;
@@ -52,12 +57,11 @@ namespace Vitro::Base
 		Window& operator=(const Window&) = delete;
 
 	protected:
-		std::shared_ptr<Renderer3D> Renderer = nullptr;
+		Ref<Renderer3D> Renderer = nullptr;
 
 		Window() = default;
 		Window(int width, int height, int x, int y, const std::string& title);
 		Window(Window&& other) noexcept;
-		virtual ~Window();
 		Window& operator=(Window&& other) noexcept;
 
 	private:

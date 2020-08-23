@@ -1,16 +1,16 @@
 #pragma once
 
-#include "Vitro/Events/Event.h"
+#include "Vitro/Application/Event.h"
+#include "Vitro/Graphics/Renderer3D.h"
+#include "Vitro/Utility/Ref.h"
 #include "Vitro/Utility/Tick.h"
 
 namespace Vitro
 {
-	class Renderer3D; // Forward declaration
-
 	class Layer
 	{
 	public:
-		std::shared_ptr<Renderer3D> Renderer;
+		Ref<Renderer3D> Renderer;
 		bool Enabled = true;
 
 		Layer() = default;

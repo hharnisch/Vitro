@@ -8,13 +8,15 @@ namespace Vitro::DirectX
 	class RHI final
 	{
 	public:
-		static inline RHI& Get() { static RHI singleton; return singleton; }
+		static void Initialize();
 
-		Microsoft::WRL::ComPtr<ID3D11Device5> Device;
-		Microsoft::WRL::ComPtr<ID3D11DeviceContext4> Context;
-		Microsoft::WRL::ComPtr<ID3D11Debug> DebugLayer;
+		static inline Microsoft::WRL::ComPtr<ID3D11Device5> Device;
+		static inline Microsoft::WRL::ComPtr<ID3D11DeviceContext4> Context;
 
-	private:
-		RHI();
+	#if VTR_DEBUG
+		static inline Microsoft::WRL::ComPtr<ID3D11Debug> DebugLayer;
+	#endif
+
+		RHI() = delete;
 	};
 }

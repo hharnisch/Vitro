@@ -1,14 +1,13 @@
-﻿#pragma once
+#pragma once
 
-#if VTR_API_DIRECTX
-#include "Vitro/API/DirectX/FragmentShader.h"
-#endif
+#include "Vitro/Graphics/Shader.h"
+#include "Vitro/Utility/Ref.h"
 
 namespace Vitro
 {
-#if VTR_API_DIRECTX
-	typedef DirectX::FragmentShader FragmentShader;
-#else
-#error Unsupported graphics API.
-#endif
+	class FragmentShader : public Shader
+	{
+	public:
+		static Ref<FragmentShader> New(const std::string& filePath);
+	};
 }

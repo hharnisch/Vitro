@@ -5,12 +5,13 @@
 class TriangleLayer : public Vitro::Layer
 {
 public:
-	TriangleLayer() :
-		Vertices(Triangle, ArrayCount(Triangle)),
-		Indices(TriangleIndices, ArrayCount(TriangleIndices)),
-		VertexShader("TriangleVertex.cso"),
-		FragmentShader("TriangleFragment.cso")
-	{}
+	TriangleLayer()
+	{
+		Vertices = Vitro::VertexBuffer::New(Triangle, ArrayCount(Triangle), sizeof(Triangle));
+		Indices = Vitro::IndexBuffer::New(TriangleIndices, ArrayCount(TriangleIndices));
+		VertexShader = Vitro::VertexShader::New("TriangleVertex.cso");
+		FragmentShader = Vitro::FragmentShader::New("TriangleFragment.cso");
+	}
 
 	void OnAttach() override
 	{
@@ -22,9 +23,9 @@ public:
 			{VertexField::Position, 0, VertexFieldType::Float3},
 			{VertexField::Color,	0, VertexFieldType::Float4}
 		};
-		VertexShader.SetVertexLayout(vl);
-		VertexShader.Bind();
-		FragmentShader.Bind();
+		VertexShader->SetVertexLayout(vl);
+		VertexShader->Bind();
+		FragmentShader->Bind();
 	}
 
 	void OnDetach() override
@@ -32,7 +33,7 @@ public:
 
 	void OnTick(Vitro::Tick t) override
 	{
-		Vertices.Bind(Vitro::VertexTopology::TriangleList);
+		Vertices->Bind(Vitro::VertexTopology::TriangleList);
 		Renderer->Submit(Indices);
 	}
 
@@ -45,7 +46,7 @@ public:
 		{
 			for(auto& vertex : Triangle)
 				vertex.Color = {random(), random(), random(), random()};
-			Vertices = VertexBuffer<Vertex>(Triangle, ArrayCount(Triangle));
+			Vertices->Update(Triangle);
 			return true;
 		});
 	}
@@ -66,8 +67,8 @@ private:
 
 	uint32_t TriangleIndices[3] {0, 1, 2};
 
-	Vitro::VertexBuffer<Vertex> Vertices;
-	Vitro::IndexBuffer Indices;
-	Vitro::VertexShader VertexShader;
-	Vitro::FragmentShader FragmentShader;
+	Vitro::Ref<Vitro::VertexBuffer> Vertices;
+	Vitro::Ref<Vitro::IndexBuffer> Indices;
+	Vitro::Ref<Vitro::VertexShader> VertexShader;
+	Vitro::Ref<Vitro::FragmentShader> FragmentShader;
 };

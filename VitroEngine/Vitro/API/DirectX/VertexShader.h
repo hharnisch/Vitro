@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Vitro/API/Base/VertexShader.h"
+#include "Vitro/Graphics/VertexShader.h"
 
 #include <d3d11_4.h>
 #include <wrl.h>
 
 namespace Vitro::DirectX
 {
-	class VertexShader final : public Base::VertexShader
+	class VertexShader final : public Vitro::VertexShader
 	{
 	public:
 		VertexShader(const std::string& filePath);

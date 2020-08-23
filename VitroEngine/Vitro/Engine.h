@@ -1,24 +1,19 @@
 #pragma once
 
-#include "Vitro/Graphics/Window.h"
-
-#if VTR_SYSTEM_WINDOWS
-#include "Vitro/API/Windows/ApplicationBase.h"
-#endif
+#include "Vitro/Application/ApplicationBase.h"
+#include "Vitro/Application/Window.h"
+#include "Vitro/Utility/Ref.h"
 
 namespace Vitro
 {
-#if VTR_SYSTEM_WINDOWS
-	typedef Windows::ApplicationBase ApplicationBase;
-#endif
-
 	class Engine : public ApplicationBase
 	{
 	public:
+		static inline Engine& Get() { return *Singleton; }
+
 		Engine(const std::string& appLogPath, const std::string& engineLogPath);
 		virtual ~Engine();
 
-		static inline Engine& Get() { return *Singleton; }
 		inline bool IsRunning() { return !IsShuttingDown; }
 		inline Tick GetTick() { return EngineTick; }
 
@@ -39,7 +34,7 @@ namespace Vitro
 		bool ResetTickToFirstWindow {};
 		Tick EngineTick;
 		std::thread LoggingThread;
-		std::vector<Window*> OpenWindows;
+		std::vector<Ref<Window>> OpenWindows;
 
 		float MeasureTime();
 		void StartTicking();
