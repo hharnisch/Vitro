@@ -14,7 +14,7 @@ namespace Vitro::DirectX
 		AssertCritical(SUCCEEDED(res), "Could not create fragment shader.");
 	}
 
-	void FragmentShader::Bind()
+	void FragmentShader::Bind() const
 	{
 		RHI::Context->PSSetShader(ShaderPtr.Get(), nullptr, 0);
 	}

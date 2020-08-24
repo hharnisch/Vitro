@@ -77,7 +77,7 @@ namespace Vitro::Windows
 
 	LRESULT ApplicationBase::ForwardMessages(HWND wnd, UINT msg, WPARAM wp, LPARAM lp)
 	{
-		//ImGui_ImplWin32_WndProcHandler(wnd, msg, wp, lp);
+		ImGui_ImplWin32_WndProcHandler(wnd, msg, wp, lp);
 		auto& w = *reinterpret_cast<Window*>(GetWindowLongPtr(wnd, 0));
 		switch(msg)
 		{

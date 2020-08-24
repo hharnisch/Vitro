@@ -19,15 +19,26 @@ namespace Vitro::DirectX
 		ComPtr<IDXGIFactory2> factory;
 		adapter->GetParent(__uuidof(IDXGIFactory2), &factory);
 
-		DXGI_SWAP_CHAIN_DESC1 scd {0};
+		DXGI_SWAP_CHAIN_DESC1 scd;
+		scd.Width				= 0;
+		scd.Height				= 0;
 		scd.Format				= DXGI_FORMAT_R8G8B8A8_UNORM;
+		scd.Stereo				= false;
 		scd.SampleDesc.Count	= 1;
+		scd.SampleDesc.Quality	= 0;
 		scd.BufferUsage			= DXGI_USAGE_RENDER_TARGET_OUTPUT;
 		scd.BufferCount			= 2;
+		scd.Scaling				= DXGI_SCALING_STRETCH;
 		scd.SwapEffect			= DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
+		scd.AlphaMode			= DXGI_ALPHA_MODE_UNSPECIFIED;
+		scd.Flags				= 0;
 
-		DXGI_SWAP_CHAIN_FULLSCREEN_DESC fsd {0};
-		fsd.Windowed = true;
+		DXGI_SWAP_CHAIN_FULLSCREEN_DESC fsd;
+		fsd.RefreshRate.Numerator	= 0;
+		fsd.RefreshRate.Denominator	= 0;
+		fsd.ScanlineOrdering		= DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+		fsd.Scaling					= DXGI_MODE_SCALING_UNSPECIFIED;
+		fsd.Windowed				= true;
 
 		HWND hwnd = reinterpret_cast<HWND>(nativeWindowHandle);
 		auto scRes = factory->CreateSwapChainForHwnd(RHI::Device.Get(), hwnd, &scd, &fsd, nullptr,
@@ -41,15 +52,18 @@ namespace Vitro::DirectX
 		auto rtRes = RHI::Device->CreateRenderTargetView(rtTexture.Get(), nullptr, &BackBuffer);
 		AssertCritical(SUCCEEDED(rtRes), "Could not create back buffer.");
 
-		D3D11_TEXTURE2D_DESC t2dd {0};
+		D3D11_TEXTURE2D_DESC t2dd;
 		t2dd.Width				= width;
 		t2dd.Height				= height;
 		t2dd.MipLevels			= 1;
 		t2dd.ArraySize			= 1;
 		t2dd.Format				= DXGI_FORMAT_D24_UNORM_S8_UINT;
 		t2dd.SampleDesc.Count	= 1;
+		t2dd.SampleDesc.Quality	= 0;
 		t2dd.Usage				= D3D11_USAGE_DEFAULT;
 		t2dd.BindFlags			= D3D11_BIND_DEPTH_STENCIL;
+		t2dd.CPUAccessFlags		= 0;
+		t2dd.MiscFlags			= 0;
 
 		ComPtr<ID3D11Texture2D> dsTexture;
 		auto dsTexRes = RHI::Device->CreateTexture2D(&t2dd, nullptr, &dsTexture);
@@ -62,7 +76,7 @@ namespace Vitro::DirectX
 
 	void Context3D::SetViewport(int width, int height, int x, int y)
 	{
-		D3D11_VIEWPORT viewport {0};
+		D3D11_VIEWPORT viewport;
 		viewport.TopLeftX	= static_cast<FLOAT>(x);
 		viewport.TopLeftY	= static_cast<FLOAT>(y);
 		viewport.Width		= static_cast<FLOAT>(width);

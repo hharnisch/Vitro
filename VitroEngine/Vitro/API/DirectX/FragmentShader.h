@@ -12,7 +12,7 @@ namespace Vitro::DirectX
 	public:
 		FragmentShader(const std::string& filePath);
 
-		void Bind() override;
+		void Bind() const override;
 
 	private:
 		Microsoft::WRL::ComPtr<ID3D11PixelShader> ShaderPtr;

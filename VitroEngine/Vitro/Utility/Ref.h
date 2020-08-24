@@ -6,12 +6,8 @@ namespace Vitro
 {
 	class RefCounted
 	{
-	public:
-		inline void IncrementRefCount() const { ++RefCount; }
-		inline void DecrementRefCount() const { --RefCount; }
-		inline uint32_t GetRefCount() const { return RefCount; }
+		template<typename T> friend class Ref;
 
-	private:
 		mutable uint32_t RefCount = 0;
 	};
 
@@ -21,9 +17,9 @@ namespace Vitro
 					  "Template parameter must have a virtual destructor.");
 
 	public:
-		template<typename... Args> static Ref<T> New(Args&&... args)
+		template<typename... Args> static Ref New(Args&&... args)
 		{
-			return Ref<T>(new T(std::forward<Args>(args)...));
+			return Ref(new T(std::forward<Args>(args)...));
 		}
 
 		Ref() : Pointer(nullptr) {}
@@ -103,12 +99,12 @@ namespace Vitro
 			return *Pointer;
 		}
 
-		bool operator==(const Ref& other) const
+		bool operator==(Ref other) const
 		{
 			return Pointer == other.Pointer;
 		}
 
-		bool operator!=(const Ref& other) const
+		bool operator!=(Ref other) const
 		{
 			return Pointer != other.Pointer;
 		}
@@ -135,15 +131,15 @@ namespace Vitro
 		void IncrementRef() const
 		{
 			if(Pointer)
-				Pointer->IncrementRefCount();
+				Pointer->RefCount++;
 		}
 
 		void DecrementRef() const
 		{
 			if(Pointer)
 			{
-				Pointer->DecrementRefCount();
-				if(Pointer->GetRefCount() == 0)
+				Pointer->RefCount--;
+				if(Pointer->RefCount == 0)
 					delete Pointer;
 			}
 		}

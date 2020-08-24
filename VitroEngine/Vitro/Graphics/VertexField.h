@@ -9,6 +9,7 @@ namespace Vitro
 	public:
 		static constexpr auto Position = "POSITION";
 		static constexpr auto Color = "COLOR";
+		static constexpr auto TexCoord = "TEXCOORD";
 
 		std::string Name;
 		uint32_t Index;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Vitro/Graphics/Context3D.h"
+#include "Vitro/Graphics/IndexBuffer.h"
 
 #include <d3d11_4.h>
 #include <dxgi1_6.h>

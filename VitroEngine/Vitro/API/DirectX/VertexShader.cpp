@@ -15,7 +15,7 @@ namespace Vitro::DirectX
 		AssertCritical(SUCCEEDED(res), "Could not create vertex shader.");
 	}
 
-	void VertexShader::Bind()
+	void VertexShader::Bind() const
 	{
 		RHI::Context->VSSetShader(ShaderPtr.Get(), nullptr, 0);
 	}

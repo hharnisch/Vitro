@@ -4,6 +4,7 @@
 #include "Vitro/API/DirectX/Context3D.h"
 #include "Vitro/API/DirectX/FragmentShader.h"
 #include "Vitro/API/DirectX/IndexBuffer.h"
+#include "Vitro/API/DirectX/Texture2D.h"
 #include "Vitro/API/DirectX/UniformBuffer.h"
 #include "Vitro/API/DirectX/VertexBuffer.h"
 #include "Vitro/API/DirectX/VertexShader.h"
@@ -42,6 +43,15 @@ namespace Vitro
 	{
 	#if VTR_API_DIRECTX
 		return Ref<DirectX::IndexBuffer>::New(indices, count);
+	#else
+	#error Unsupported graphics API.
+	#endif
+	}
+
+	Ref<Texture2D> Texture2D::New(const std::string& filePath)
+	{
+	#if VTR_API_DIRECTX
+		return Ref<DirectX::Texture2D>::New(filePath);
 	#else
 	#error Unsupported graphics API.
 	#endif

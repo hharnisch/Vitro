@@ -12,7 +12,7 @@ namespace Vitro::DirectX
 	public:
 		VertexShader(const std::string& filePath);
 
-		void Bind() override;
+		void Bind() const override;
 		void SetVertexLayout(const VertexLayout& vl) override;
 
 	private:

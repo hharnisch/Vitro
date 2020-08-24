@@ -12,6 +12,7 @@
 #include "Vitro/Graphics/FragmentShader.h"
 #include "Vitro/Graphics/IndexBuffer.h"
 #include "Vitro/Graphics/Renderer3D.h"
+#include "Vitro/Graphics/Texture.h"
 #include "Vitro/Graphics/UniformBuffer.h"
 #include "Vitro/Graphics/VertexBuffer.h"
 #include "Vitro/Graphics/VertexField.h"

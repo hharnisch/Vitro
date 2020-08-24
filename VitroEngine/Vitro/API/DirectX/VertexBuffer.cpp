@@ -8,13 +8,18 @@ namespace Vitro::DirectX
 	VertexBuffer::VertexBuffer(const void* vertices, size_t stride, size_t size) :
 		Stride(static_cast<uint32_t>(stride)), Size(static_cast<uint32_t>(size))
 	{
-		D3D11_BUFFER_DESC bd {0};
-		bd.ByteWidth	= Size;
-		bd.Usage		= D3D11_USAGE_DEFAULT;
-		bd.BindFlags	= D3D11_BIND_VERTEX_BUFFER;
+		D3D11_BUFFER_DESC bd;
+		bd.ByteWidth			= Size;
+		bd.Usage				= D3D11_USAGE_DEFAULT;
+		bd.BindFlags			= D3D11_BIND_VERTEX_BUFFER;
+		bd.CPUAccessFlags		= 0;
+		bd.MiscFlags			= 0;
+		bd.StructureByteStride	= 0;
 
-		D3D11_SUBRESOURCE_DATA srd {0};
-		srd.pSysMem = vertices;
+		D3D11_SUBRESOURCE_DATA srd;
+		srd.pSysMem				= vertices;
+		srd.SysMemPitch			= 0;
+		srd.SysMemSlicePitch	= 0;
 
 		auto res = RHI::Device->CreateBuffer(&bd, &srd, &Buffer);
 		AssertCritical(SUCCEEDED(res), "Could not create vertex buffer.");

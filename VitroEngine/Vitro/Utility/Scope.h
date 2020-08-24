@@ -37,13 +37,6 @@ namespace Vitro
 			return *this;
 		}
 
-		template<typename D> Scope& operator=(Scope<D>&& other)
-		{
-			static_assert(std::is_base_of_v<T, D>, "Type must derive from target type.");
-			std::swap(Pointer, other.Pointer);
-			return *this;
-		}
-
 		T* operator->()
 		{
 			return Pointer;
@@ -62,6 +55,16 @@ namespace Vitro
 		const T& operator*() const
 		{
 			return *Pointer;
+		}
+
+		bool operator==(Scope other) const
+		{
+			return Pointer == other.Pointer;
+		}
+
+		bool operator!=(Scope other) const
+		{
+			return Pointer != other.Pointer;
 		}
 
 		T* Raw()
