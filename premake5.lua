@@ -10,7 +10,9 @@ build_optimization_flags = { "/GT", "/GL", "/Ot", "/Ob3" }
 link_optimization_flags = { "/LTCG" }
 
 group "Dependencies"
+	include "External/assimp"
 	include "External/imgui"
+	include "External/stb"
 group ""
 
 project "VitroEngine"
@@ -25,12 +27,14 @@ project "VitroEngine"
 	libdirs				"External"
 	pchsource			"%{prj.name}/_pch.cpp"
 	pchheader			"_pch.h"
-	links				"imgui"
+	links				{ "assimp", "imgui" }
 
 	files
 	{
 		"%{prj.name}/**.cpp",
-		"%{prj.name}/**.h"		
+		"%{prj.name}/**.h",
+		"%{prj.name}/**.hpp",
+		"%{prj.name}/**.inl"
 	}
 
 	includedirs
@@ -43,6 +47,10 @@ project "VitroEngine"
 		systemversion	"latest"
 		defines			{ "VTR_SYSTEM_WINDOWS", "WIN32_LEAN_AND_MEAN" }
 
+	filter "system:linux"
+		systemversion	"latest"
+		pic				"on"
+		
 	filter "configurations:Debug"
 		runtime			"Debug"
 		symbols			"on"
@@ -109,6 +117,11 @@ project "VitroTests"
 		systemversion	"latest"
 		defines			{ "VTR_SYSTEM_WINDOWS", "WIN32_LEAN_AND_MEAN" }
 
+	filter "system:linux"
+		systemversion	"latest"
+		pic				"on"
+		defines			"VTR_SYSTEM_LINUX"
+		
 	filter "configurations:Debug"
 		runtime			"Debug"
 		symbols			"on"

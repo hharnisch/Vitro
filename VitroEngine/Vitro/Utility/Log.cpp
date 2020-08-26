@@ -3,7 +3,7 @@
 
 #include "Vitro/Engine.h"
 #include "Vitro/Utility/Assert.h"
-#include "Vitro/Utility/FileUtils.h"
+#include "Vitro/Utility/StringUtils.h"
 
 namespace Vitro
 {
@@ -68,7 +68,7 @@ namespace Vitro
 		if(logTarget != &std::cout) // Append log level if not logging to the console.
 		{
 			auto level = ToString(entry.Level);
-			logText << ' ' << ModifyStringToUpper(level);
+			logText << ' ' << ModifyToUpper(level);
 		}
 		logText << "] " << entry.Message << std::endl;
 

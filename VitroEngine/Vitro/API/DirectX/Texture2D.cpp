@@ -2,20 +2,21 @@
 #include "Texture2D.h"
 
 #include "Vitro/API/DirectX/RHI.h"
-#include "Vitro/Utility/FileUtils.h"
+#include "Vitro/Utility/Assert.h"
+#include "Vitro/Utility/Image.h"
 
 namespace Vitro::DirectX
 {
 	Texture2D::Texture2D(const std::string& filePath)
 	{
-		auto data = GetTGAImageData(filePath, Width, Height);
+		Image img(filePath, Width, Height);
 
 		D3D11_TEXTURE2D_DESC t2dd;
 		t2dd.Width				= Width;
 		t2dd.Height				= Height;
 		t2dd.MipLevels			= GetMipCount();
 		t2dd.ArraySize			= 1;
-		t2dd.Format				= DXGI_FORMAT_B8G8R8A8_UNORM;
+		t2dd.Format				= DXGI_FORMAT_R8G8B8A8_UNORM;
 		t2dd.SampleDesc.Count	= 1;
 		t2dd.SampleDesc.Quality	= 0;
 		t2dd.Usage				= D3D11_USAGE_DEFAULT;
@@ -25,7 +26,7 @@ namespace Vitro::DirectX
 		auto texRes = RHI::Device->CreateTexture2D(&t2dd, nullptr, &Texture);
 		AssertDebug(SUCCEEDED(texRes), "Could not create 2D texture.");
 
-		RHI::Context->UpdateSubresource(Texture, 0, nullptr, data.Raw(), Width * 4, 0);
+		RHI::Context->UpdateSubresource(Texture, 0, nullptr, img.Data, Width * 4, 0);
 		auto srvRes = RHI::Device->CreateShaderResourceView(Texture, nullptr, &Resource);
 		AssertDebug(SUCCEEDED(srvRes), "Could not create shader resource view from texture.");
 		RHI::Context->GenerateMips(Resource);

@@ -1,15 +1,15 @@
-﻿#include "_pch.h"
+#include "_pch.h"
 #include "VertexShader.h"
 
 #include "Vitro/API/DirectX/RHI.h"
-#include "Vitro/Utility/FileUtils.h"
+#include "Vitro/Utility/File.h"
 #include "Vitro/Utility/StackArray.h"
 
 namespace Vitro::DirectX
 {
 	VertexShader::VertexShader(const std::string& filePath)
 	{
-		Bytecode = GetBinaryFileData(filePath);
+		Bytecode = File::LoadBinary(filePath);
 		auto res = RHI::Device->CreateVertexShader(Bytecode.Raw(), Bytecode.Count(), nullptr,
 												   &ShaderPtr);
 		AssertCritical(SUCCEEDED(res), "Could not create vertex shader.");

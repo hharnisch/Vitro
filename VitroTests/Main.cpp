@@ -4,7 +4,7 @@
 
 int main(int argc, char** argv)
 {
-	auto app = new CubeTest();
+	auto app = new TextureTest();
 	int exitStatus = app->Run();
 	delete app;
 	return exitStatus;

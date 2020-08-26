@@ -11,6 +11,8 @@ namespace Vitro
 	public:
 		inline HeapArray() = default;
 
+		inline HeapArray(T* ptr, size_t count) : Data(ptr), DataCount(count) {}
+
 		inline HeapArray(size_t count) : DataCount(count)
 		{
 			Data = new T[count];
