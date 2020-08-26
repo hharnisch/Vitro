@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Vitro/Graphics/VertexShader.h"
+#include "Vitro/API/DirectX/Scope.h"
+#include "Vitro/Graphics/Shader.h"
 
 #include <d3d11_4.h>
-#include <wrl.h>
 
 namespace Vitro::DirectX
 {
@@ -16,6 +16,6 @@ namespace Vitro::DirectX
 		void SetVertexLayout(const VertexLayout& vl) override;
 
 	private:
-		Microsoft::WRL::ComPtr<ID3D11VertexShader> ShaderPtr;
+		Scope<ID3D11VertexShader> ShaderPtr;
 	};
 }

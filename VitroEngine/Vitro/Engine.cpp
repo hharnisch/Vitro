@@ -20,8 +20,6 @@ namespace Vitro
 
 	#if VTR_API_DIRECTX
 		DirectX::RHI::Initialize();
-	#else
-	#error Unsupported graphics API.
 	#endif
 
 		UI::Initialize();
@@ -32,7 +30,7 @@ namespace Vitro
 		IsShuttingDown = true;
 		UI::Finalize();
 		LoggingThread.join();
-}
+	}
 
 	int Engine::Run()
 	{
@@ -80,7 +78,7 @@ namespace Vitro
 		}
 	}
 
-	void Engine::EraseWindow(Window& window)
+	void Engine::EraseOpenWindow(Window& window)
 	{
 		auto i = std::find(OpenWindows.begin(), OpenWindows.end(), Ref(&window));
 		OpenWindows.erase(i);
@@ -89,7 +87,7 @@ namespace Vitro
 		ShouldTick = OpenWindows.size();
 	}
 
-	void Engine::EmplaceWindow(Window& window)
+	void Engine::EmplaceOpenWindow(Window& window)
 	{
 		OpenWindows.emplace_back(Ref(&window));
 		ResetTickToFirstWindow = true;

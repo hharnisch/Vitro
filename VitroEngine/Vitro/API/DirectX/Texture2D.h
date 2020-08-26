@@ -1,9 +1,9 @@
 #pragma once
 
+#include "Vitro/API/DirectX/Scope.h"
 #include "Vitro/Graphics/Texture.h"
 
 #include <d3d11_4.h>
-#include <wrl.h>
 
 namespace Vitro::DirectX
 {
@@ -15,8 +15,8 @@ namespace Vitro::DirectX
 		void Bind() const override;
 
 	private:
-		Microsoft::WRL::ComPtr<ID3D11Texture2D> Texture;
-		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> Resource;
-		Microsoft::WRL::ComPtr<ID3D11SamplerState> Sampler;
+		Scope<ID3D11Texture2D> Texture;
+		Scope<ID3D11ShaderResourceView> Resource;
+		Scope<ID3D11SamplerState> Sampler;
 	};
 }

@@ -1,10 +1,10 @@
 #pragma once
 
+#include "Vitro/API/DirectX/Scope.h"
 #include "Vitro/Graphics/IndexBuffer.h"
 #include "Vitro/Utility/HeapArray.h"
 
 #include <d3d11_4.h>
-#include <wrl.h>
 
 namespace Vitro::DirectX
 {
@@ -18,7 +18,7 @@ namespace Vitro::DirectX
 		uint32_t Count() const override;
 
 	private:
-		Microsoft::WRL::ComPtr<ID3D11Buffer> Buffer;
+		Scope<ID3D11Buffer> Buffer;
 		uint32_t IndexCount;
 	};
 }

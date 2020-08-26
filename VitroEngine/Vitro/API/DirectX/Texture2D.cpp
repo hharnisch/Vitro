@@ -13,7 +13,7 @@ namespace Vitro::DirectX
 		D3D11_TEXTURE2D_DESC t2dd;
 		t2dd.Width				= Width;
 		t2dd.Height				= Height;
-		t2dd.MipLevels			= 0;
+		t2dd.MipLevels			= GetMipCount();
 		t2dd.ArraySize			= 1;
 		t2dd.Format				= DXGI_FORMAT_B8G8R8A8_UNORM;
 		t2dd.SampleDesc.Count	= 1;
@@ -25,18 +25,19 @@ namespace Vitro::DirectX
 		auto texRes = RHI::Device->CreateTexture2D(&t2dd, nullptr, &Texture);
 		AssertDebug(SUCCEEDED(texRes), "Could not create 2D texture.");
 
-		RHI::Context->UpdateSubresource(Texture.Get(), 0, nullptr, data.Raw(), Width * 4, 0);
-		auto srvRes = RHI::Device->CreateShaderResourceView(Texture.Get(), nullptr, &Resource);
+		RHI::Context->UpdateSubresource(Texture, 0, nullptr, data.Raw(), Width * 4, 0);
+		auto srvRes = RHI::Device->CreateShaderResourceView(Texture, nullptr, &Resource);
 		AssertDebug(SUCCEEDED(srvRes), "Could not create shader resource view from texture.");
+		RHI::Context->GenerateMips(Resource);
 
 		D3D11_SAMPLER_DESC sd;
-		sd.Filter			= D3D11_FILTER_MIN_MAG_MIP_POINT;
+		sd.Filter			= D3D11_FILTER_MIN_MAG_MIP_LINEAR;
 		sd.AddressU			= D3D11_TEXTURE_ADDRESS_WRAP;
 		sd.AddressV			= D3D11_TEXTURE_ADDRESS_WRAP;
 		sd.AddressW			= D3D11_TEXTURE_ADDRESS_WRAP;
-		sd.MipLODBias		= 0;
-		sd.MaxAnisotropy	= 1;
-		sd.ComparisonFunc	= D3D11_COMPARISON_ALWAYS;
+		sd.MipLODBias		= 1;
+		sd.MaxAnisotropy	= 0;
+		sd.ComparisonFunc	= D3D11_COMPARISON_NEVER;
 		sd.BorderColor[0]	= 0;
 		sd.BorderColor[1]	= 0;
 		sd.BorderColor[2]	= 0;
@@ -50,7 +51,7 @@ namespace Vitro::DirectX
 
 	void Texture2D::Bind() const
 	{
-		RHI::Context->PSSetSamplers(0, 1, Sampler.GetAddressOf());
-		RHI::Context->PSSetShaderResources(0, 1, Resource.GetAddressOf());
+		RHI::Context->PSSetSamplers(0, 1, &Sampler);
+		RHI::Context->PSSetShaderResources(0, 1, &Resource);
 	}
 }

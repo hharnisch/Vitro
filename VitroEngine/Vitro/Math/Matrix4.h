@@ -498,7 +498,7 @@ namespace Vitro
 
 	// Left-hand coordinates, Z normalization between 0 and 1
 	template<typename N, VTR_IS_FLOAT(N)>
-	constexpr Matrix<4, 4, N> Orthographic(N left, N right, N bottom, N top, N farZ, N nearZ)
+	constexpr Matrix<4, 4, N> Orthographic(N left, N right, N bottom, N top, N nearZ, N farZ)
 	{
 		auto ortho = Matrix<4, 4, N>::Identity();
 		ortho[0].X = 2 / (right - left);

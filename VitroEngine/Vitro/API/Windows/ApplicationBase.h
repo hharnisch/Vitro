@@ -22,8 +22,8 @@ namespace Vitro::Windows
 	protected:
 		ApplicationBase();
 
-		virtual void EraseWindow(Window& window) = 0;
-		virtual void EmplaceWindow(Window& window) = 0;
+		virtual void EraseOpenWindow(Window& window) = 0;
+		virtual void EmplaceOpenWindow(Window& window) = 0;
 
 		void PollEvents();
 

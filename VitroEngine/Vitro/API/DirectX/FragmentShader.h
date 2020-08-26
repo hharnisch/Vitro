@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Vitro/Graphics/FragmentShader.h"
+#include "Vitro/API/DirectX/Scope.h"
+#include "Vitro/Graphics/Shader.h"
 
 #include <d3d11_4.h>
-#include <wrl.h>
 
 namespace Vitro::DirectX
 {
@@ -15,6 +15,6 @@ namespace Vitro::DirectX
 		void Bind() const override;
 
 	private:
-		Microsoft::WRL::ComPtr<ID3D11PixelShader> ShaderPtr;
+		Scope<ID3D11PixelShader> ShaderPtr;
 	};
 }

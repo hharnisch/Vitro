@@ -78,7 +78,7 @@ namespace Vitro::Windows
 	LRESULT ApplicationBase::ForwardMessages(HWND wnd, UINT msg, WPARAM wp, LPARAM lp)
 	{
 		ImGui_ImplWin32_WndProcHandler(wnd, msg, wp, lp);
-		auto& w = *reinterpret_cast<Window*>(GetWindowLongPtr(wnd, 0));
+		auto& w = *reinterpret_cast<Window*>(GetWindowLongPtrW(wnd, 0));
 		switch(msg)
 		{
 			case WM_MOVE:		   OnWindowMove(w, lp);					return 0;
@@ -142,7 +142,7 @@ namespace Vitro::Windows
 	{
 		WindowCloseEvent e(window);
 		window.OnEvent(e);
-		EraseWindow(window);
+		EraseOpenWindow(window);
 		window.Close();
 	}
 
@@ -150,7 +150,7 @@ namespace Vitro::Windows
 	{
 		WindowOpenEvent e(window);
 		window.OnEvent(e);
-		EmplaceWindow(window);
+		EmplaceOpenWindow(window);
 	}
 
 	void ApplicationBase::OnRawInput(Window& window, LPARAM lp)

@@ -1,11 +1,11 @@
 #pragma once
 
+#include "Vitro/API/DirectX/Scope.h"
 #include "Vitro/Graphics/Context3D.h"
 #include "Vitro/Graphics/IndexBuffer.h"
 
 #include <d3d11_4.h>
 #include <dxgi1_6.h>
-#include <wrl.h>
 
 namespace Vitro::DirectX
 {
@@ -22,9 +22,9 @@ namespace Vitro::DirectX
 		void SwapBuffers() override;
 
 	private:
-		Microsoft::WRL::ComPtr<IDXGISwapChain1> SwapChain;
-		Microsoft::WRL::ComPtr<ID3D11RenderTargetView> BackBuffer;
-		Microsoft::WRL::ComPtr<ID3D11DepthStencilView> DepthStencilBuffer;
+		Scope<IDXGISwapChain1> SwapChain;
+		Scope<ID3D11RenderTargetView> BackBuffer;
+		Scope<ID3D11DepthStencilView> DepthStencilBuffer;
 		uint32_t SwapInterval = 1;
 	};
 }

@@ -28,12 +28,12 @@ namespace Vitro::DirectX
 	void VertexBuffer::Bind(VertexTopology vt) const
 	{
 		UINT offset = 0;
-		RHI::Context->IASetVertexBuffers(0, 1, Buffer.GetAddressOf(), &Stride, &offset);
+		RHI::Context->IASetVertexBuffers(0, 1, &Buffer, &Stride, &offset);
 		RHI::Context->IASetPrimitiveTopology(static_cast<D3D11_PRIMITIVE_TOPOLOGY>(vt));
 	}
 
 	void VertexBuffer::Update(const void* vertices) const
 	{
-		RHI::Context->UpdateSubresource(Buffer.Get(), 0, nullptr, vertices, 0, 0);
+		RHI::Context->UpdateSubresource(Buffer, 0, nullptr, vertices, 0, 0);
 	}
 }

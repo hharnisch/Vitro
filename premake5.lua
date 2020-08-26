@@ -6,7 +6,7 @@ workspace "Vitro"
 	startproject		"VitroTests"
 
 outputdir = "%{cfg.buildcfg}_%{cfg.architecture}_%{cfg.system}"
-build_optimization_flags = { "/GT", "/GL", "/Ot" }
+build_optimization_flags = { "/GT", "/GL", "/Ot", "/Ob3" }
 link_optimization_flags = { "/LTCG" }
 
 group "Dependencies"

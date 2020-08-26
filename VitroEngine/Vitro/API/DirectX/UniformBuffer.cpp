@@ -24,11 +24,11 @@ namespace Vitro::DirectX
 
 	void UniformBuffer::Bind() const
 	{
-		RHI::Context->VSSetConstantBuffers(0, 1, Buffer.GetAddressOf());
+		RHI::Context->VSSetConstantBuffers(0, 1, &Buffer);
 	}
 
 	void UniformBuffer::Update(const void* uniforms) const
 	{
-		RHI::Context->UpdateSubresource(Buffer.Get(), 0, nullptr, uniforms, 0, 0);
+		RHI::Context->UpdateSubresource(Buffer, 0, nullptr, uniforms, 0, 0);
 	}
 }

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "Vitro/Math/Trigonometry.h"
 #include "Vitro/Math/Vector.h"
@@ -170,7 +170,7 @@ namespace Vitro
 	template<typename N, typename O>
 	constexpr N Dot(const Quaternion<N>& lq, const Quaternion<O>& rq)
 	{
-		Quaternion temp(lq.W * rq.W, lq.X * rq.X, lq.Y * rq.Y, lq.Z * rq.Z);
+		Quaternion<N> temp(lq.W * rq.W, lq.X * rq.X, lq.Y * rq.Y, lq.Z * rq.Z);
 		return temp.W + temp.X + temp.Y + temp.Z;
 	}
 

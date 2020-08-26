@@ -38,7 +38,7 @@ namespace Vitro
 
 		float MeasureTime();
 		void StartTicking();
-		void EraseWindow(Window& window) final override;
-		void EmplaceWindow(Window& window) final override;
+		void EraseOpenWindow(Window& window) final override;
+		void EmplaceOpenWindow(Window& window) final override;
 	};
 }

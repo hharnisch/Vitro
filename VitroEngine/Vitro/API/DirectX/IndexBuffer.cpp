@@ -31,7 +31,7 @@ namespace Vitro::DirectX
 
 	void IndexBuffer::Bind() const
 	{
-		RHI::Context->IASetIndexBuffer(Buffer.Get(), DXGI_FORMAT_R32_UINT, 0);
+		RHI::Context->IASetIndexBuffer(Buffer, DXGI_FORMAT_R32_UINT, 0);
 	}
 
 	uint32_t IndexBuffer::Count() const

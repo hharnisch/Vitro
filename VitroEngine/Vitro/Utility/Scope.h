@@ -57,6 +57,16 @@ namespace Vitro
 			return *Pointer;
 		}
 
+		T** operator&()
+		{
+			return &Pointer;
+		}
+
+		T* const* operator&() const
+		{
+			return &Pointer;
+		}
+
 		bool operator==(Scope other) const
 		{
 			return Pointer == other.Pointer;
@@ -67,12 +77,12 @@ namespace Vitro
 			return Pointer != other.Pointer;
 		}
 
-		T* Raw()
+		operator T* ()
 		{
 			return Pointer;
 		}
 
-		const T* Raw() const
+		operator const T* () const
 		{
 			return Pointer;
 		}

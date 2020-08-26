@@ -32,7 +32,7 @@ namespace Vitro
 		}
 		ImGui::StyleColorsDark();
 	#if VTR_API_DIRECTX
-		ImGui_ImplDX11_Init(DirectX::RHI::Device.Get(), DirectX::RHI::Context.Get());
+		ImGui_ImplDX11_Init(DirectX::RHI::Device, DirectX::RHI::Context);
 	#endif
 	}
 

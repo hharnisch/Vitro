@@ -13,7 +13,7 @@ public:
 		Uniforms = Vitro::UniformBuffer::New(&CamUniforms, sizeof(CamUniforms));
 		VertexShader = Vitro::VertexShader::New("TextureVertex.cso");
 		FragmentShader = Vitro::FragmentShader::New("TextureFragment.cso");
-		Texture = Vitro::Texture2D::New("../../../VitroTests/TextureTest/ground.tga");
+		Texture = Vitro::Texture2D::New("../../../VitroTests/TextureTest/brick.tga");
 	}
 
 	void OnAttach() override
@@ -22,7 +22,7 @@ public:
 		VertexLayout vl
 		{
 			{VertexField::Position, 0, VertexFieldType::Float3},
-			{VertexField::TexCoord,	0, VertexFieldType::Float2}
+			{VertexField::TexCoord, 0, VertexFieldType::Float2}
 		};
 		VertexShader->SetVertexLayout(vl);
 		VertexShader->Bind();
@@ -78,8 +78,6 @@ public:
 
 	void OnEvent(Vitro::Event& e) override
 	{
-		auto random = []() { return std::rand() / static_cast<float>(RAND_MAX); };
-
 		using namespace Vitro;
 		e.Dispatch<MouseMoveEvent>([this](MouseMoveEvent& e)
 		{
@@ -96,24 +94,24 @@ private:
 		Vitro::Float2 TexCoords;
 	};
 
-	Vertex Cube[8]
+	Vertex Cube[24]
 	{
-		{{-1.f, -1.f, -1.f}, {1.f, 0.f}},
-		{{-1.f, +1.f, -1.f}, {1.f, 1.f}},
-		{{+1.f, +1.f, -1.f}, {0.f, 1.f}},
-		{{+1.f, -1.f, -1.f}, {0.f, 0.f}},
-		{{-1.f, -1.f, +1.f}, {1.f, 0.f}},
-		{{-1.f, +1.f, +1.f}, {1.f, 1.f}},
-		{{+1.f, +1.f, +1.f}, {0.f, 1.f}},
-		{{+1.f, -1.f, +1.f}, {0.f, 0.f}}
+		{{-1, -1, -1}, { 0, 1 }}, {{-1,  1, -1}, { 0, 0 }}, {{ 1,  1, -1}, { 1, 0 }},
+		{{ 1, -1, -1}, { 1, 1 }}, {{-1, -1,  1}, { 1, 1 }}, {{ 1, -1,  1}, { 0, 1 }},
+		{{ 1,  1,  1}, { 0, 0 }}, {{-1,  1,  1}, { 1, 0 }}, {{-1,  1, -1}, { 0, 1 }},
+		{{-1,  1,  1}, { 0, 0 }}, {{ 1,  1,  1}, { 1, 0 }}, {{ 1,  1, -1}, { 1, 1 }},
+		{{-1, -1, -1}, { 1, 1 }}, {{ 1, -1, -1}, { 0, 1 }}, {{ 1, -1,  1}, { 0, 0 }},
+		{{-1, -1,  1}, { 1, 0 }}, {{-1, -1,  1}, { 0, 1 }}, {{-1,  1,  1}, { 0, 0 }},
+		{{-1,  1, -1}, { 1, 0 }}, {{-1, -1, -1}, { 1, 1 }}, {{ 1, -1, -1}, { 0, 1 }},
+		{{ 1,  1, -1}, { 0, 0 }}, {{ 1,  1,  1}, { 1, 0 }}, {{ 1, -1,  1}, { 1, 1 }}
 	};
 
-	uint32_t CubeIndices[36] {0, 1, 2, 0, 2, 3,
-							  4, 6, 5, 4, 7, 6,
-							  4, 5, 1, 4, 1, 0,
-							  3, 2, 6, 3, 6, 7,
-							  1, 5, 6, 1, 6, 2,
-							  4, 0, 3, 4, 3, 7};
+	uint32_t CubeIndices[36] {0,   1,  2,  0,  2,  3,
+							  4,   5,  6,  4,  6,  7,
+							  8,   9, 10,  8, 10, 11,
+							  12, 13, 14, 12, 14, 15,
+							  16, 17, 18, 16, 18, 19,
+							  20, 21, 22, 20, 22, 23};
 
 	struct CameraUniforms
 	{

@@ -16,6 +16,6 @@ namespace Vitro::DirectX
 
 	void FragmentShader::Bind() const
 	{
-		RHI::Context->PSSetShader(ShaderPtr.Get(), nullptr, 0);
+		RHI::Context->PSSetShader(ShaderPtr, nullptr, 0);
 	}
 }

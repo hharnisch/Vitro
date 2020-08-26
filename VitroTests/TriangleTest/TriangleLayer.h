@@ -7,7 +7,7 @@ class TriangleLayer : public Vitro::Layer
 public:
 	TriangleLayer()
 	{
-		Vertices = Vitro::VertexBuffer::New(Triangle, ArrayCount(Triangle), sizeof(Triangle));
+		Vertices = Vitro::VertexBuffer::New(Triangle, sizeof(Vertex), sizeof(Triangle));
 		Indices = Vitro::IndexBuffer::New(TriangleIndices, ArrayCount(TriangleIndices));
 		VertexShader = Vitro::VertexShader::New("TriangleVertex.cso");
 		FragmentShader = Vitro::FragmentShader::New("TriangleFragment.cso");
@@ -60,9 +60,9 @@ private:
 
 	Vertex Triangle[3]
 	{
-		{{0.0f, 0.5f, 0.5},	{1.f, 0.f, 0.f, 1.f}},
-		{{0.5f, -.5f, 0.5},	{0.f, 1.f, 0.f, 1.f}},
-		{{-.5f, -.5f, 0.5},	{0.f, 0.f, 1.f, 1.f}}
+		{{0.0f, 0.5f, 0.5},	{1, 0, 0, 1}},
+		{{0.5f, -.5f, 0.5},	{0, 1, 0, 1}},
+		{{-.5f, -.5f, 0.5},	{0, 0, 1, 1}}
 	};
 
 	uint32_t TriangleIndices[3] {0, 1, 2};

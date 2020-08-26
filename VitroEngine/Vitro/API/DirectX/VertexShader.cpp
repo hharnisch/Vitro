@@ -1,4 +1,4 @@
-#include "_pch.h"
+﻿#include "_pch.h"
 #include "VertexShader.h"
 
 #include "Vitro/API/DirectX/RHI.h"
@@ -17,7 +17,7 @@ namespace Vitro::DirectX
 
 	void VertexShader::Bind() const
 	{
-		RHI::Context->VSSetShader(ShaderPtr.Get(), nullptr, 0);
+		RHI::Context->VSSetShader(ShaderPtr, nullptr, 0);
 	}
 
 	void VertexShader::SetVertexLayout(const VertexLayout& vl)
@@ -36,10 +36,10 @@ namespace Vitro::DirectX
 			(*dst).InstanceDataStepRate	= 0;
 		}
 
-		Microsoft::WRL::ComPtr<ID3D11InputLayout> il;
+		Scope<ID3D11InputLayout> il;
 		auto res = RHI::Device->CreateInputLayout(ieds.Raw(), static_cast<UINT>(ieds.Count()),
 												  Bytecode.Raw(), Bytecode.Count(), &il);
 		AssertCritical(SUCCEEDED(res), "Could not create vertex layout.");
-		RHI::Context->IASetInputLayout(il.Get());
+		RHI::Context->IASetInputLayout(il);
 	}
 }

@@ -109,12 +109,12 @@ namespace Vitro
 			return Pointer != other.Pointer;
 		}
 
-		T* Raw()
+		operator T* ()
 		{
 			return Pointer;
 		}
 
-		const T* Raw() const
+		operator const T* () const
 		{
 			return Pointer;
 		}
