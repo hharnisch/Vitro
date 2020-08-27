@@ -10,7 +10,8 @@ namespace Vitro::DirectX
 	class FragmentShader final : public Vitro::FragmentShader
 	{
 	public:
-		FragmentShader(const std::string& filePath);
+		FragmentShader(const File& file);
+		FragmentShader(const std::string& sourceCode, std::string& errors);
 
 		void Bind() const override;
 

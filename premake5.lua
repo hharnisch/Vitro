@@ -1,7 +1,7 @@
 workspace "Vitro"
 	architecture		"x64"
 	platforms			{ "DirectX", "Vulkan" }
-	configurations		{ "Debug", "DebugOptimized", "Release" }
+	configurations		{ "Debug", "Development", "Release" }
 	flags				{ "MultiProcessorCompile" }
 	startproject		"VitroTests"
 
@@ -56,7 +56,7 @@ project "VitroEngine"
 		symbols			"on"
 		defines			{ "VTR_DEBUG", "VTR_ENGINE_LOG_LEVEL=VTR_LOG_LEVEL_DEBUG" }
 		
-	filter "configurations:DebugOptimized"
+	filter "configurations:Development"
 		runtime			"Debug"
 		symbols			"on"
 		optimize		"speed"
@@ -126,7 +126,7 @@ project "VitroTests"
 		runtime			"Debug"
 		symbols			"on"
 		
-	filter "configurations:DebugOptimized"
+	filter "configurations:Development"
 		runtime			"Debug"
 		symbols			"on"
 		optimize		"speed"

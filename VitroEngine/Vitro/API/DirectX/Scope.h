@@ -41,7 +41,8 @@ namespace Vitro::DirectX
 
 		~Scope()
 		{
-			Pointer->Release();
+			if(Pointer)
+				Pointer->Release();
 		}
 
 		Scope& operator=(Scope&& other) noexcept

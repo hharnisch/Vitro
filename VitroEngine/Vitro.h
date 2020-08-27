@@ -20,4 +20,5 @@
 #include "Vitro/Math/Matrix.h"
 #include "Vitro/Math/Quaternion.h"
 #include "Vitro/Math/Vector.h"
+#include "Vitro/Utility/File.h"
 #include "Vitro/Utility/Log.h"

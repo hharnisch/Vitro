@@ -65,7 +65,7 @@ namespace Vitro
 			float currentTime = MeasureTime();
 			EngineTick = (currentTime - previousTime) / 1000000;
 			previousTime = currentTime;
-			for(auto window : OpenWindows)
+			for(auto& window : OpenWindows)
 			{
 				window->OnTick(EngineTick);
 				if(ResetTickToFirstWindow)

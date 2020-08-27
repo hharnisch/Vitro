@@ -32,7 +32,7 @@ project "assimp"
 		runtime			"Debug"
 		symbols			"on"
 		
-	filter "configurations:DebugOptimized"
+	filter "configurations:Development"
 		runtime			"Debug"
 		symbols			"on"
 		optimize		"speed"

@@ -4,11 +4,15 @@
 
 namespace Vitro
 {
+	// Wrapper for C file IO functions.
 	class File final
 	{
 	public:
-		static HeapArray<char> LoadBinary(const std::string& path);
+		File(const std::string& path);
 
-		File() = delete;
+		HeapArray<char> LoadBinary() const;
+
+	private:
+		std::string Path;
 	};
 }

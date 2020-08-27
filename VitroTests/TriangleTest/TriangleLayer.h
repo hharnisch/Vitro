@@ -9,8 +9,8 @@ public:
 	{
 		Vertices = Vitro::VertexBuffer::New(Triangle, sizeof(Vertex), sizeof(Triangle));
 		Indices = Vitro::IndexBuffer::New(TriangleIndices, ArrayCount(TriangleIndices));
-		VertexShader = Vitro::VertexShader::New("TriangleVertex.cso");
-		FragmentShader = Vitro::FragmentShader::New("TriangleFragment.cso");
+		VertexShader = Vitro::VertexShader::New(Vitro::File("TriangleVertex.cso"));
+		FragmentShader = Vitro::FragmentShader::New(Vitro::File("TriangleFragment.cso"));
 	}
 
 	void OnAttach() override

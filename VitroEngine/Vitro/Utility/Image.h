@@ -11,5 +11,8 @@ namespace Vitro
 		Image(Image&& other) noexcept;
 		~Image();
 		Image& operator=(Image&& other) noexcept;
+
+		Image(const Image&) = delete;
+		Image& operator=(const Image&) = delete;
 	};
 }

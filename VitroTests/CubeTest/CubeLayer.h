@@ -11,8 +11,8 @@ public:
 		Vertices = Vitro::VertexBuffer::New(Cube, sizeof(Vertex), sizeof(Cube));
 		Indices = Vitro::IndexBuffer::New(CubeIndices, ArrayCount(CubeIndices));
 		Uniforms = Vitro::UniformBuffer::New(&CamUniforms, sizeof(CamUniforms));
-		VertexShader = Vitro::VertexShader::New("CubeVertex.cso");
-		FragmentShader = Vitro::FragmentShader::New("CubeFragment.cso");
+		VertexShader = Vitro::VertexShader::New(Vitro::File("CubeVertex.cso"));
+		FragmentShader = Vitro::FragmentShader::New(Vitro::File("CubeFragment.cso"));
 	}
 
 	void OnAttach() override

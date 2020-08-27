@@ -11,8 +11,8 @@ public:
 		Vertices = Vitro::VertexBuffer::New(Cube, sizeof(Vertex), sizeof(Cube));
 		Indices = Vitro::IndexBuffer::New(CubeIndices, ArrayCount(CubeIndices));
 		Uniforms = Vitro::UniformBuffer::New(&CamUniforms, sizeof(CamUniforms));
-		VertexShader = Vitro::VertexShader::New("TextureVertex.cso");
-		FragmentShader = Vitro::FragmentShader::New("TextureFragment.cso");
+		VertexShader = Vitro::VertexShader::New(Vitro::File("TextureVertex.cso"));
+		FragmentShader = Vitro::FragmentShader::New(Vitro::File("TextureFragment.cso"));
 		Texture = Vitro::Texture2D::New("../../../VitroTests/TextureTest/brick.tga");
 	}
 

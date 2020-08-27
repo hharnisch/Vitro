@@ -21,10 +21,19 @@ namespace Vitro
 	#endif
 	}
 
-	Ref<FragmentShader> FragmentShader::New(const std::string& filePath)
+	Ref<FragmentShader> FragmentShader::New(const File& file)
 	{
 	#if VTR_API_DIRECTX
-		return Ref<DirectX::FragmentShader>::New(filePath);
+		return Ref<DirectX::FragmentShader>::New(file);
+	#else
+	#error Unsupported graphics API.
+	#endif
+	}
+
+	Ref<FragmentShader> FragmentShader::New(const std::string& sourceCode, std::string& errors)
+	{
+	#if VTR_API_DIRECTX
+		return Ref<DirectX::FragmentShader>::New(sourceCode, errors);
 	#else
 	#error Unsupported graphics API.
 	#endif
@@ -75,10 +84,19 @@ namespace Vitro
 	#endif
 	}
 
-	Ref<VertexShader> VertexShader::New(const std::string& filePath)
+	Ref<VertexShader> VertexShader::New(const File& file)
 	{
 	#if VTR_API_DIRECTX
-		return Ref<DirectX::VertexShader>::New(filePath);
+		return Ref<DirectX::VertexShader>::New(file);
+	#else
+	#error Unsupported graphics API.
+	#endif
+	}
+
+	Ref<VertexShader> VertexShader::New(const std::string& sourceCode, std::string& errors)
+	{
+	#if VTR_API_DIRECTX
+		return Ref<DirectX::VertexShader>::New(sourceCode, errors);
 	#else
 	#error Unsupported graphics API.
 	#endif

@@ -3,11 +3,14 @@
 
 namespace Vitro
 {
-	HeapArray<char> File::LoadBinary(const std::string& path)
+	File::File(const std::string& path) : Path(path) {}
+
+	HeapArray<char> File::LoadBinary() const
 	{
 		FILE* file;
-		fopen_s(&file, path.c_str(), "rb");
-		AssertCritical(file, "File not found: " + filePath);
+		fopen_s(&file, Path.c_str(), "rb");
+		if(!file)
+			return HeapArray<char>();
 
 		fseek(file, 0, SEEK_END);
 		size_t size = ftell(file);

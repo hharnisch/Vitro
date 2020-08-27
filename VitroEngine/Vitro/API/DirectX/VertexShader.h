@@ -10,7 +10,8 @@ namespace Vitro::DirectX
 	class VertexShader final : public Vitro::VertexShader
 	{
 	public:
-		VertexShader(const std::string& filePath);
+		VertexShader(const File& file);
+		VertexShader(const std::string& sourceCode, std::string& errors);
 
 		void Bind() const override;
 		void SetVertexLayout(const VertexLayout& vl) override;
