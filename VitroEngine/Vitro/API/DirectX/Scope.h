@@ -13,20 +13,9 @@ namespace Vitro::DirectX
 			ScopeAddress(S* scope) : Scope(scope) {}
 			ScopeAddress(const S* scope) : ConstScope(scope) {}
 
-			operator void** ()
-			{
-				return reinterpret_cast<void**>(&(*Scope).Pointer);
-			}
-
-			operator T** ()
-			{
-				return &(*Scope).Pointer;
-			}
-
-			operator T* const* () const
-			{
-				return &(*ConstScope).Pointer;
-			}
+			operator void** () { return reinterpret_cast<void**>(&(*Scope).Pointer); }
+			operator T** () { return &(*Scope).Pointer; }
+			operator T* const* () const { return &(*ConstScope).Pointer; }
 
 		private:
 			union
@@ -37,13 +26,9 @@ namespace Vitro::DirectX
 		};
 
 		Scope() : Pointer(nullptr) {}
+		Scope(std::nullptr_t) : Pointer(nullptr) {}
 		Scope(Scope&& other) noexcept : Pointer(std::exchange(other.Pointer, nullptr)) {}
-
-		~Scope()
-		{
-			if(Pointer)
-				Pointer->Release();
-		}
+		~Scope() { if(Pointer) Pointer->Release(); }
 
 		Scope& operator=(Scope&& other) noexcept
 		{
@@ -51,60 +36,21 @@ namespace Vitro::DirectX
 			return *this;
 		}
 
-		T* operator->()
-		{
-			return Pointer;
-		}
+		T* operator->() { return Pointer; }
+		const T* operator->() const { return Pointer; }
 
-		const T* operator->() const
-		{
-			return Pointer;
-		}
+		T& operator*() { return *Pointer; }
+		const T& operator*() const { return *Pointer; }
 
-		T& operator*()
-		{
-			return *Pointer;
-		}
+		ScopeAddress<Scope> operator&() { return this; }
+		const ScopeAddress<Scope> operator&() const { return this; }
 
-		const T& operator*() const
-		{
-			return *Pointer;
-		}
+		bool operator==(Scope other) const { return Pointer == other.Pointer; }
+		bool operator!=(Scope other) const { return Pointer != other.Pointer; }
 
-		ScopeAddress<Scope> operator&()
-		{
-			return this;
-		}
-
-		const ScopeAddress<Scope> operator&() const
-		{
-			return this;
-		}
-
-		bool operator==(Scope other) const
-		{
-			return Pointer == other.Pointer;
-		}
-
-		bool operator!=(Scope other) const
-		{
-			return Pointer != other.Pointer;
-		}
-
-		operator auto()
-		{
-			return Pointer;
-		}
-
-		operator auto() const
-		{
-			return Pointer;
-		}
-
-		operator bool() const
-		{
-			return Pointer != nullptr;
-		}
+		operator auto() { return Pointer; }
+		operator auto() const { return Pointer; }
+		operator bool() const { return Pointer != nullptr; }
 
 		Scope(const Scope&) = delete;
 		Scope& operator=(const Scope&) = delete;

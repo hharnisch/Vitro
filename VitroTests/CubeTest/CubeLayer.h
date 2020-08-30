@@ -50,7 +50,7 @@ public:
 					Renderer->Submit(Indices);
 				}
 
-		constexpr float moveSpeed = 0.5;
+		float moveSpeed = 15 * t;
 
 		if(Input::IsDown(KeyCode::A))
 			Cam.Translate({-moveSpeed, 0, 0});
@@ -71,9 +71,9 @@ public:
 			Cam.SetPosition({-3, 0, -3});
 
 		if(Input::IsDown(KeyCode::F))
-			Cam.Roll(-0.1f);
+			Cam.Roll(-t);
 		if(Input::IsDown(KeyCode::G))
-			Cam.Roll(0.1f);
+			Cam.Roll(t);
 	}
 
 	void OnEvent(Vitro::Event& e) override

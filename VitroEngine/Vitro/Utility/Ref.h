@@ -79,50 +79,21 @@ namespace Vitro
 			return *this;
 		}
 
-		T* operator->()
-		{
-			return Pointer;
-		}
+		T* operator->() { return Pointer; }
+		const T* operator->() const { return Pointer; }
 
-		const T* operator->() const
-		{
-			return Pointer;
-		}
+		T& operator*() { return *Pointer; }
+		const T& operator*() const { return *Pointer; }
 
-		T& operator*()
-		{
-			return *Pointer;
-		}
+		T** operator&() { return &Pointer; }
+		T* const* operator&() const { return &Pointer; }
 
-		const T& operator*() const
-		{
-			return *Pointer;
-		}
+		bool operator==(Ref other) const { return Pointer == other.Pointer; }
+		bool operator!=(Ref other) const { return Pointer != other.Pointer; }
 
-		bool operator==(Ref other) const
-		{
-			return Pointer == other.Pointer;
-		}
-
-		bool operator!=(Ref other) const
-		{
-			return Pointer != other.Pointer;
-		}
-
-		operator T* ()
-		{
-			return Pointer;
-		}
-
-		operator const T* () const
-		{
-			return Pointer;
-		}
-
-		operator bool() const
-		{
-			return Pointer != nullptr;
-		}
+		operator T* () { return Pointer; }
+		operator const T* () const { return Pointer; }
+		operator bool() const { return Pointer != nullptr; }
 
 	private:
 		template<class D> friend class Ref;

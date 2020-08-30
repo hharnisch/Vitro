@@ -50,20 +50,20 @@ namespace Vitro
 		}
 	}
 
-	float Engine::MeasureTime()
+	uint64_t Engine::MeasureTime()
 	{
 		using namespace std::chrono;
 		auto now = steady_clock::now().time_since_epoch();
-		return static_cast<float>(duration_cast<nanoseconds>(now).count());
+		return duration_cast<microseconds>(now).count();
 	}
 
 	void Engine::StartTicking()
 	{
-		float previousTime = MeasureTime();
+		uint64_t previousTime = MeasureTime();
 		while(ShouldTick)
 		{
-			float currentTime = MeasureTime();
-			EngineTick = (currentTime - previousTime) / 1000000;
+			uint64_t currentTime = MeasureTime();
+			EngineTick = (currentTime - previousTime) / 1000000.0f;
 			previousTime = currentTime;
 			for(auto& window : OpenWindows)
 			{

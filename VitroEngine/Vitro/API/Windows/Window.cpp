@@ -16,7 +16,7 @@ namespace Vitro::Windows
 									   WS_OVERLAPPEDWINDOW, x, y, width, height, nullptr, nullptr,
 									   nullptr, nullptr);
 		AssertCritical(NativeHandle, "Could not create window.");
-		SetWindowLongPtr(NativeHandle, 0, reinterpret_cast<LONG_PTR>(this));
+		SetWindowLongPtrW(NativeHandle, 0, reinterpret_cast<LONG_PTR>(this));
 		Renderer = Ref<Renderer3D>::New(NativeHandle, GetViewportWidth(), GetViewportHeight());
 
 		ImGui_ImplWin32_Init(NativeHandle);

@@ -45,7 +45,6 @@ namespace Vitro::DirectX
 		sd.BorderColor[3]	= 0;
 		sd.MinLOD			= 0;
 		sd.MaxLOD			= D3D11_FLOAT32_MAX;
-
 		auto samplerRes = RHI::Device->CreateSamplerState(&sd, &Sampler);
 		AssertDebug(SUCCEEDED(samplerRes), "Could not create sampler state.");
 	}

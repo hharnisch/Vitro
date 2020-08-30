@@ -8,6 +8,7 @@
 #include "Vitro/Application/Overlay.h"
 #include "Vitro/Application/Window.h"
 #include "Vitro/Application/WindowEvent.h"
+#include "Vitro/Editor/Editor.h"
 #include "Vitro/Graphics/Camera.h"
 #include "Vitro/Graphics/IndexBuffer.h"
 #include "Vitro/Graphics/Renderer3D.h"

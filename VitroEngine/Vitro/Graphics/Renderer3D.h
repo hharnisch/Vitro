@@ -12,6 +12,7 @@ namespace Vitro
 		Renderer3D(void* nativeWindowHandle, int width, int height);
 		virtual ~Renderer3D() = default;
 
+		void SetVSync(bool enabled);
 		void BeginScene();
 		void EndScene();
 		void Submit(const Ref<IndexBuffer>& ib);

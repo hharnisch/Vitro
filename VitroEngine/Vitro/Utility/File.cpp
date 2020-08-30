@@ -5,6 +5,16 @@ namespace Vitro
 {
 	File::File(const std::string& path) : Path(path) {}
 
+	std::string File::GetName() const
+	{
+		return std::filesystem::path(Path).filename().string();
+	}
+
+	std::string File::GetStem() const
+	{
+		return std::filesystem::path(Path).stem().string();
+	}
+
 	HeapArray<char> File::LoadBinary() const
 	{
 		FILE* file;

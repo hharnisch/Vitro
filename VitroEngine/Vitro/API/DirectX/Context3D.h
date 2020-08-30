@@ -25,6 +25,6 @@ namespace Vitro::DirectX
 		Scope<IDXGISwapChain1> SwapChain;
 		Scope<ID3D11RenderTargetView> BackBuffer;
 		Scope<ID3D11DepthStencilView> DepthStencilBuffer;
-		uint32_t SwapInterval = 1;
+		uint32_t SwapInterval = 0;
 	};
 }

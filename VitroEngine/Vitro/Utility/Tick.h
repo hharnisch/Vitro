@@ -6,22 +6,22 @@ namespace Vitro
 	{
 	public:
 		inline Tick() = default;
-		inline Tick(float milliseconds) : Time(milliseconds) {}
+		inline Tick(float seconds) : Secs(seconds) {}
 
-		inline float Seconds() const { return Time / 1000; }
-		inline float Milliseconds() const { return Time; }
+		inline float Seconds() const { return Secs; }
+		inline float Milliseconds() const { return Secs * 1000; }
 
-		inline bool operator==(Tick other) const { return Time == other.Time; }
-		inline bool operator!=(Tick other) const { return Time != other.Time; }
-		inline bool operator<(Tick other) const { return Time < other.Time; }
-		inline bool operator>(Tick other) const { return Time > other.Time; }
-		inline bool operator<=(Tick other) const { return Time <= other.Time; }
-		inline bool operator>=(Tick other) const { return Time >= other.Time; }
+		inline bool operator==(Tick other) const { return Secs == other.Secs; }
+		inline bool operator!=(Tick other) const { return Secs != other.Secs; }
+		inline bool operator<(Tick other) const { return Secs < other.Secs; }
+		inline bool operator>(Tick other) const { return Secs > other.Secs; }
+		inline bool operator<=(Tick other) const { return Secs <= other.Secs; }
+		inline bool operator>=(Tick other) const { return Secs >= other.Secs; }
 
-		inline operator float() const { return Time; }
-		inline explicit operator std::string() const { return std::to_string(Time); }
+		inline operator float() const { return Secs; }
+		inline explicit operator std::string() const { return std::to_string(Secs); }
 
 	private:
-		float Time = 0.0f;
+		float Secs = 0.0f;
 	};
 }

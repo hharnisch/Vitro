@@ -2,6 +2,7 @@
 #include "Image.h"
 
 #define STB_IMAGE_IMPLEMENTATION
+#define STBI_ONLY_HDR
 #define STBI_ONLY_PNG
 #define STBI_ONLY_TGA
 #include <stb/stb_image.h>

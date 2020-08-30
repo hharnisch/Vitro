@@ -36,7 +36,7 @@ namespace Vitro
 		std::thread LoggingThread;
 		std::vector<Ref<Window>> OpenWindows;
 
-		float MeasureTime();
+		uint64_t MeasureTime();
 		void StartTicking();
 		void EraseOpenWindow(Window& window) final override;
 		void EmplaceOpenWindow(Window& window) final override;

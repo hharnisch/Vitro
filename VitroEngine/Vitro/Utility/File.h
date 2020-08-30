@@ -10,6 +10,8 @@ namespace Vitro
 	public:
 		File(const std::string& path);
 
+		std::string GetName() const;
+		std::string GetStem() const;
 		HeapArray<char> LoadBinary() const;
 
 	private:

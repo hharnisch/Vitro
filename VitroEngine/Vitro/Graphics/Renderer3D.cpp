@@ -11,6 +11,11 @@ namespace Vitro
 		Context->SetViewport(width, height, 0, 0);
 	}
 
+	void Renderer3D::SetVSync(bool enabled)
+	{
+		Context->SetVSync(enabled);
+	}
+
 	void Renderer3D::BeginScene()
 	{
 		Context->SetClearColor({0.1, 0.1, 0.1, 1});

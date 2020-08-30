@@ -4,7 +4,7 @@
 namespace Vitro
 {
 	Camera::Camera(const Float3& position, const Float3& target, const Float4x4& projection) :
-		Projection(projection), Position(position), Forward(target)
+		Projection(projection), Position(position), Forward(Normalize(target))
 	{
 		UpdateView();
 	}
