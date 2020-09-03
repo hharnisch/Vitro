@@ -93,6 +93,11 @@ namespace Vitro
 				return *Position;
 			}
 
+			inline T* operator->()
+			{
+				return Position;
+			}
+
 			inline bool operator==(Iterator other)
 			{
 				return Position == other.Position;
@@ -136,6 +141,11 @@ namespace Vitro
 			inline const T& operator*() const
 			{
 				return *Position;
+			}
+
+			inline const T* operator->() const
+			{
+				return Position;
 			}
 
 			inline bool operator==(ConstIterator other) const

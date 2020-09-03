@@ -11,10 +11,10 @@ namespace Vitro
 	public:
 		VTR_EVENT_SOURCE(EventSource::Input | EventSource::MouseButton);
 
-		inline explicit operator std::string() const override
+		inline std::string ToString() const override
 		{
 			std::stringstream s;
-			s << GetName() << ": " << ToString(Button);
+			s << GetName() << ": " << Vitro::ToString(Button);
 			return s.str();
 		}
 
@@ -41,7 +41,7 @@ namespace Vitro
 			MouseEvent(MouseCode::None), XDirection(xDir), YDirection(yDir)
 		{}
 
-		inline explicit operator std::string() const override
+		inline std::string ToString() const override
 		{
 			std::stringstream s;
 			s << GetName() << ": " << XDirection << ", " << YDirection;
@@ -104,7 +104,7 @@ namespace Vitro
 			MouseEvent(MouseCode::Wheel), XOffset(xOffset), YOffset(yOffset)
 		{}
 
-		inline explicit operator std::string() const override
+		inline std::string ToString() const override
 		{
 			std::stringstream s;
 			s << GetName() << ": " << XOffset << ", " << YOffset;

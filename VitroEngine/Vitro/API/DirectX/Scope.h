@@ -13,9 +13,9 @@ namespace Vitro::DirectX
 			ScopeAddress(S* scope) : Scope(scope) {}
 			ScopeAddress(const S* scope) : ConstScope(scope) {}
 
-			operator void** () { return reinterpret_cast<void**>(&(*Scope).Pointer); }
-			operator T** () { return &(*Scope).Pointer; }
-			operator T* const* () const { return &(*ConstScope).Pointer; }
+			operator void** () { return reinterpret_cast<void**>(&Scope->Pointer); }
+			operator T** () { return &Scope->Pointer; }
+			operator T* const* () const { return &ConstScope->Pointer; }
 
 		private:
 			union

@@ -135,7 +135,7 @@ namespace Vitro
 			return angles;
 		}
 
-		explicit operator std::string() const
+		std::string ToString() const
 		{
 			std::stringstream s;
 			s << '(' << +W << ", " << +X << ", " << +Y << ", " << +Z << ')';

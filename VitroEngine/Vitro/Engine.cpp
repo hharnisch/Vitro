@@ -1,7 +1,6 @@
 #include "_pch.h"
 #include "Engine.h"
 
-#include "Vitro/Graphics/UI/UI.h"
 #include "Vitro/Utility/Assert.h"
 #include "Vitro/Utility/Log.h"
 
@@ -21,14 +20,11 @@ namespace Vitro
 	#if VTR_API_DIRECTX
 		DirectX::RHI::Initialize();
 	#endif
-
-		UI::Initialize();
 	}
 
 	Engine::~Engine()
 	{
 		IsShuttingDown = true;
-		UI::Finalize();
 		LoggingThread.join();
 	}
 
@@ -50,20 +46,13 @@ namespace Vitro
 		}
 	}
 
-	uint64_t Engine::MeasureTime()
-	{
-		using namespace std::chrono;
-		auto now = steady_clock::now().time_since_epoch();
-		return duration_cast<microseconds>(now).count();
-	}
-
 	void Engine::StartTicking()
 	{
-		uint64_t previousTime = MeasureTime();
+		uint64_t previousTime = Tick::MeasureTime();
 		while(ShouldTick)
 		{
-			uint64_t currentTime = MeasureTime();
-			EngineTick = (currentTime - previousTime) / 1000000.0f;
+			uint64_t currentTime = Tick::MeasureTime();
+			EngineTick = Tick(previousTime, currentTime);
 			previousTime = currentTime;
 			for(auto& window : OpenWindows)
 			{

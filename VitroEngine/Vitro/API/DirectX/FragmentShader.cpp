@@ -5,6 +5,7 @@
 #include "Vitro/Utility/File.h"
 
 #include <d3dcompiler.h>
+#pragma comment(lib, "d3dcompiler")
 
 namespace Vitro::DirectX
 {
@@ -18,20 +19,20 @@ namespace Vitro::DirectX
 
 	FragmentShader::FragmentShader(const std::string& sourceCode, std::string& errors)
 	{
-		UINT compileFlags = 0;
 	#if VTR_DEBUG
-		compileFlags |= D3DCOMPILE_DEBUG;
+		UINT compileFlags = D3DCOMPILE_DEBUG;
 	#else
-		compileFlags |=	D3DCOMPILE_OPTIMIZATION_LEVEL3;
+		UINT compileFlags = D3DCOMPILE_OPTIMIZATION_LEVEL3;
 	#endif
 		Scope<ID3DBlob> bytecode;
 		Scope<ID3DBlob> compileErrors;
 		// WARN: Currently doesn't support macros, includes and entry points not named "main".
 		D3DCompile(sourceCode.c_str(), sourceCode.length(), nullptr, nullptr, nullptr, "main",
 				   "ps_5_0", compileFlags, 0, &bytecode, &compileErrors);
+
 		if(compileErrors)
 		{
-			errors = std::string(compileErrors->GetBufferSize(), 0);
+			errors = std::string(compileErrors->GetBufferSize(), '\0');
 			std::memcpy(&errors[0], compileErrors->GetBufferPointer(), errors.length());
 		}
 		else

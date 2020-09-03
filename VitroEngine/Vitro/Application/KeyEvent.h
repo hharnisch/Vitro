@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "Vitro/Application/Event.h"
 #include "Vitro/Application/KeyCode.h"
@@ -31,10 +31,10 @@ namespace Vitro
 		// Engine-internal constructor. Do NOT use in client application!
 		inline KeyDownEvent(KeyCode key, int repeats) : KeyEvent(key), Repeats(repeats) {}
 
-		inline explicit operator std::string() const override
+		inline std::string ToString() const override
 		{
 			std::stringstream s;
-			s << GetName() << ": " << ToString(Key) << " (Repeats: " << Repeats << ')';
+			s << GetName() << ": " << Vitro::ToString(Key) << " (Repeats: " << Repeats << ')';
 			return s.str();
 		}
 
@@ -56,10 +56,10 @@ namespace Vitro
 		// Engine-internal constructor. Do NOT use in client application!
 		inline KeyUpEvent(KeyCode key) : KeyEvent(key) {}
 
-		inline explicit operator std::string() const override
+		inline std::string ToString() const override
 		{
 			std::stringstream s;
-			s << GetName() << ": " << ToString(Key);
+			s << GetName() << ": " << Vitro::ToString(Key);
 			return s.str();
 		}
 	};
@@ -73,10 +73,10 @@ namespace Vitro
 		// Engine-internal constructor. Do NOT use in client application!
 		inline KeyTextEvent(KeyCode key, const std::string& text) : KeyEvent(key), Text(text) {}
 
-		inline explicit operator std::string() const override
+		inline std::string ToString() const override
 		{
 			std::stringstream s;
-			s << GetName() << ": " << Text << " (Key: " << ToString(Key) << ')';
+			s << GetName() << ": " << Text << " (Key: " << Vitro::ToString(Key) << ')';
 			return s.str();
 		}
 

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "_pch.h"
 #include "Vitro/Math/Vector.h"
@@ -168,12 +168,12 @@ namespace Vitro
 			auto oldValue = *this; --Raw[0]; --Raw[1]; --Raw[2]; return oldValue;
 		}
 
-		explicit operator std::string() const
+		std::string ToString() const
 		{
 			std::stringstream s;
-			s << '[' << static_cast<std::string>(Raw[0]) << ", ";
-			s << static_cast<std::string>(Raw[1]) << ", ";
-			s << static_cast<std::string>(Raw[2]) << ']';
+			s << '[' << Raw[0].ToString() << ", ";
+			s << Raw[1].ToString() << ", ";
+			s << Raw[2].ToString() << ']';
 			return s.str();
 		}
 	};

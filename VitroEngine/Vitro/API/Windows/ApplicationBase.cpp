@@ -9,17 +9,16 @@
 #include "Vitro/Utility/StackArray.h"
 
 #include <windowsx.h>
-#include <imgui/imgui_impl_win32.h>
 
 // Forward declaration for imgui
-IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND wnd, UINT msg, WPARAM wp, LPARAM lp);
+LRESULT ImGui_ImplWin32_WndProcHandler(HWND wnd, UINT msg, WPARAM wp, LPARAM lp);
 
 namespace Vitro::Windows
 {
 	std::wstring ApplicationBase::WidenChars(const std::string& s)
 	{
 		int length = MultiByteToWideChar(CP_UTF8, 0, s.c_str(), -1, nullptr, 0);
-		std::wstring ws(length, 0);
+		std::wstring ws(length, '\0');
 		MultiByteToWideChar(CP_UTF8, 0, s.c_str(), -1, &ws[0], length);
 		return ws;
 	}
@@ -27,7 +26,7 @@ namespace Vitro::Windows
 	std::string ApplicationBase::NarrowChars(const std::wstring& ws)
 	{
 		int length = WideCharToMultiByte(CP_UTF8, 0, ws.c_str(), -1, nullptr, 0, nullptr, nullptr);
-		std::string s(length, 0);
+		std::string s(length, '\0');
 		WideCharToMultiByte(CP_UTF8, 0, ws.c_str(), -1, &s[0], length, nullptr, nullptr);
 		return s;
 	}

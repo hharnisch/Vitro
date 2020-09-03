@@ -79,6 +79,11 @@ namespace Vitro
 				return *Position;
 			}
 
+			inline T* operator->()
+			{
+				return Position;
+			}
+
 			inline bool operator==(Iterator other)
 			{
 				return Position == other.Position;
@@ -109,6 +114,56 @@ namespace Vitro
 		#endif
 		};
 
+		class ConstIterator
+		{
+		public:
+		#if VTR_DEBUG
+			inline ConstIterator(T* pos, T* begin, T* end) : Position(pos), Begin(begin), End(end)
+			{}
+		#else
+			inline ConstIterator(T* position) : Position(position) {}
+		#endif
+
+			inline const T& operator*() const
+			{
+				return *Position;
+			}
+
+			inline const T* operator->() const
+			{
+				return Position;
+			}
+
+			inline bool operator==(ConstIterator other) const
+			{
+				return Position == other.Position;
+			}
+
+			inline bool operator!=(ConstIterator other) const
+			{
+				return Position != other.Position;
+			}
+
+			inline ConstIterator& operator++()
+			{
+				AssertDebug(Position < End, "Cannot increment iterator past end.");
+				Position += 1; return *this;
+			}
+
+			inline ConstIterator& operator--()
+			{
+				AssertDebug(Begin < Position, "Cannot decrement iterator before begin.");
+				Position -= 1; return *this;
+			}
+
+		private:
+			T* Position;
+		#if VTR_DEBUG
+			T* Begin;
+			T* End;
+		#endif
+		};
+
 		inline Iterator begin()
 		{
 		#if VTR_DEBUG
@@ -118,12 +173,30 @@ namespace Vitro
 		#endif
 		}
 
+		inline ConstIterator begin() const
+		{
+		#if VTR_DEBUG
+			return ConstIterator(Data, Data, Data + DataCount);
+		#else
+			return ConstIterator(Data);
+		#endif
+		}
+
 		inline Iterator end()
 		{
 		#if VTR_DEBUG
 			return Iterator(Data + DataCount, Data, Data + DataCount);
 		#else
 			return Iterator(Data + DataCount);
+		#endif
+		}
+
+		inline ConstIterator end() const
+		{
+		#if VTR_DEBUG
+			return ConstIterator(Data + DataCount, Data, Data + DataCount);
+		#else
+			return ConstIterator(Data + DataCount);
 		#endif
 		}
 

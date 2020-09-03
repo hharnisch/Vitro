@@ -6,6 +6,7 @@
 #include "Vitro/Utility/StackArray.h"
 
 #include <d3dcompiler.h>
+#pragma comment(lib, "d3dcompiler")
 
 namespace Vitro::DirectX
 {
@@ -19,20 +20,20 @@ namespace Vitro::DirectX
 
 	VertexShader::VertexShader(const std::string& sourceCode, std::string& errors)
 	{
-		UINT compileFlags = 0;
 	#if VTR_DEBUG
-		compileFlags |= D3DCOMPILE_DEBUG;
+		UINT compileFlags = D3DCOMPILE_DEBUG;
 	#else
-		compileFlags |=	D3DCOMPILE_OPTIMIZATION_LEVEL3;
+		UINT compileFlags = D3DCOMPILE_OPTIMIZATION_LEVEL3;
 	#endif
 		Scope<ID3DBlob> bytecode;
 		Scope<ID3DBlob> compileErrors;
 		// WARN: Currently doesn't support macros, includes and entry points not named "main".
 		D3DCompile(sourceCode.c_str(), sourceCode.length(), nullptr, nullptr, nullptr, "main",
 				   "vs_5_0", compileFlags, 0, &bytecode, &compileErrors);
+
 		if(compileErrors)
 		{
-			errors = std::string(compileErrors->GetBufferSize(), 0);
+			errors = std::string(compileErrors->GetBufferSize(), '\0');
 			std::memcpy(&errors[0], compileErrors->GetBufferPointer(), errors.length());
 		}
 		else
@@ -55,13 +56,13 @@ namespace Vitro::DirectX
 		auto src = vl.begin();
 		for(auto dst = ieds.begin(); dst != ieds.end(); ++src, ++dst)
 		{
-			(*dst).SemanticName			= (*src).Name.c_str();
-			(*dst).SemanticIndex		= (*src).Index;
-			(*dst).Format				= static_cast<DXGI_FORMAT>((*src).Type);
-			(*dst).InputSlot			= 0;
-			(*dst).AlignedByteOffset	= (*src).Offset;
-			(*dst).InputSlotClass		= D3D11_INPUT_PER_VERTEX_DATA;
-			(*dst).InstanceDataStepRate	= 0;
+			dst->SemanticName			= src->Name.c_str();
+			dst->SemanticIndex			= src->Index;
+			dst->Format					= static_cast<DXGI_FORMAT>(src->Type);
+			dst->InputSlot				= 0;
+			dst->AlignedByteOffset		= src->Offset;
+			dst->InputSlotClass			= D3D11_INPUT_PER_VERTEX_DATA;
+			dst->InstanceDataStepRate	= 0;
 		}
 
 		Scope<ID3D11InputLayout> il;

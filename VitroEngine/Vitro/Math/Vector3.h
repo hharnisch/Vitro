@@ -293,7 +293,7 @@ namespace Vitro
 			auto oldValue = *this; --X; --Y; --Z; return oldValue;
 		}
 
-		explicit operator std::string() const
+		std::string ToString() const
 		{
 			std::stringstream s;
 			s << '(' << +X << ',' << +Y << ',' << +Z << ')';

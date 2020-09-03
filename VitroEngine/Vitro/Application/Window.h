@@ -3,7 +3,7 @@
 #include "_pch.h"
 #include "Vitro/Application/Event.h"
 #include "Vitro/Application/Layer.h"
-#include "Vitro/Application/Overlay.h"
+#include "Vitro/Editor/Editor.h"
 #include "Vitro/Utility/Ref.h"
 #include "Vitro/Utility/Tick.h"
 
@@ -51,6 +51,11 @@ namespace Vitro
 		std::enable_if_t<std::is_base_of_v<Overlay, O>, O&> Attach(Args&&... args)
 		{
 			return static_cast<O&>(Attach(*new O(std::forward<Args>(args)...)));
+		}
+
+		template<> Editor& Attach<Editor>()
+		{
+			return static_cast<Editor&>(Attach(*new Editor(GetNativeHandle())));
 		}
 
 		Window(const Window&) = delete;

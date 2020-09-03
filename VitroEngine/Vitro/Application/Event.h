@@ -12,7 +12,7 @@ namespace Vitro
 		virtual EventType GetType() const = 0;
 		virtual std::string GetName() const = 0;
 		virtual EventSource GetSourceFlags() const = 0;
-		virtual explicit operator std::string() const = 0;
+		virtual std::string ToString() const = 0;
 
 		inline bool HasSourceFlag(EventSource flag) const
 		{

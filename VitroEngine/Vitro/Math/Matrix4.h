@@ -192,13 +192,13 @@ namespace Vitro
 			auto oldValue = *this; --Raw[0]; --Raw[1]; --Raw[2]; --Raw[3]; return oldValue;
 		}
 
-		explicit operator std::string() const
+		std::string ToString() const
 		{
 			std::stringstream s;
-			s << '[' << static_cast<std::string>(Raw[0]) << ", ";
-			s << static_cast<std::string>(Raw[1]) << ", ";
-			s << static_cast<std::string>(Raw[2]) << ", ";
-			s << static_cast<std::string>(Raw[3]) << ']';
+			s << '[' << Raw[0].ToString() << ", ";
+			s << Raw[1].ToString() << ", ";
+			s << Raw[2].ToString() << ", ";
+			s << Raw[3].ToString() << ']';
 			return s.str();
 		}
 	};

@@ -11,7 +11,7 @@ namespace Vitro
 	public:
 		VTR_EVENT_SOURCE(EventSource::App);
 
-		inline explicit operator std::string() const override
+		inline std::string ToString() const override
 		{
 			std::stringstream s;
 			s << GetName() << ": " << &WindowRef;
@@ -48,7 +48,7 @@ namespace Vitro
 		// Engine-internal constructor. Do NOT use in client application!
 		inline WindowMoveEvent(Window& window, int x, int y) : WindowEvent(window), X(x), Y(y) {}
 
-		inline explicit operator std::string() const override
+		inline std::string ToString() const override
 		{
 			std::stringstream s;
 			s << GetName() << ": " << &WindowRef << ", " << X << ", " << Y;
@@ -80,7 +80,7 @@ namespace Vitro
 			WindowEvent(window), Width(width), Height(height)
 		{}
 
-		inline explicit operator std::string() const override
+		inline std::string ToString() const override
 		{
 			std::stringstream s;
 			s << GetName() << ": " << &WindowRef << ", " << Width << ", " << Height;

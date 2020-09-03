@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "_pch.h"
 #include "Vitro/Utility/LogLevel.h"
@@ -23,12 +23,17 @@ namespace Vitro
 		static void Enqueue(const Entry& entry);
 
 		template<typename M>
-		std::enable_if_t<std::is_arithmetic_v<M>, std::string> static Concat(const M& msg)
+		std::enable_if_t<std::is_arithmetic_v<M>, std::string> static Concat(M msg)
 		{
 			return std::to_string(msg);
 		}
 
-		static std::string Concat(const bool& msg)
+		static std::string Concat(const char* msg)
+		{
+			return msg;
+		}
+
+		static std::string Concat(bool msg)
 		{
 			return msg ? "true" : "false";
 		}
@@ -43,11 +48,11 @@ namespace Vitro
 		std::enable_if_t<!std::is_arithmetic_v<M> && !std::is_enum_v<M>, std::string>
 			static Concat(const M& msg)
 		{
-			return static_cast<std::string>(msg);
+			return msg.ToString();
 		}
 
 		template<typename M, typename... Args>
-		static std::string Concat(const M& msg, const Args&... args)
+		static std::string Concat(const M& msg, Args&&... args)
 		{
 			return Concat(msg) + " | " + Concat(args...);
 		}

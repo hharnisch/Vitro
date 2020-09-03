@@ -4,9 +4,6 @@
 #include "Vitro/API/Windows/ApplicationBase.h"
 #include "Vitro/Graphics/Renderer3D.h"
 
-#include <imgui/imgui.h>
-#include <imgui/imgui_impl_win32.h>
-
 namespace Vitro::Windows
 {
 	Window::Window(int width, int height, int x, int y, const std::string& title)
@@ -18,8 +15,6 @@ namespace Vitro::Windows
 		AssertCritical(NativeHandle, "Could not create window.");
 		SetWindowLongPtrW(NativeHandle, 0, reinterpret_cast<LONG_PTR>(this));
 		Renderer = Ref<Renderer3D>::New(NativeHandle, GetViewportWidth(), GetViewportHeight());
-
-		ImGui_ImplWin32_Init(NativeHandle);
 	}
 
 	Window::Window(Window&& other) noexcept :
@@ -29,7 +24,6 @@ namespace Vitro::Windows
 	Window::~Window()
 	{
 		DestroyWindow(NativeHandle);
-		ImGui_ImplWin32_Shutdown();
 	}
 
 	Window& Window::operator=(Window&& other) noexcept
@@ -104,7 +98,7 @@ namespace Vitro::Windows
 	std::string Window::GetTitle() const
 	{
 		int length = GetWindowTextLengthW(NativeHandle);
-		std::wstring title(length, 0);
+		std::wstring title(length, '\0');
 		GetWindowTextW(NativeHandle, &title[0], length + 1);
 		return ApplicationBase::NarrowChars(title);
 	}
