@@ -1,7 +1,7 @@
-#pragma once
+﻿#pragma once
 
-#include "_pch.h"
 #include "Vitro/Utility/Assert.h"
+#include "_pch.h"
 
 namespace Vitro
 {
@@ -68,11 +68,13 @@ namespace Vitro
 		class Iterator
 		{
 		public:
-		#if VTR_DEBUG
-			inline Iterator(T* pos, T* begin, T* end) : Position(pos), Begin(begin), End(end) {}
-		#else
-			inline Iterator(T* position) : Position(position) {}
-		#endif
+#if VTR_DEBUG
+			inline Iterator(T* pos, T* begin, T* end) : Position(pos), Begin(begin), End(end)
+			{}
+#else
+			inline Iterator(T* position) : Position(position)
+			{}
+#endif
 
 			inline T& operator*()
 			{
@@ -97,32 +99,35 @@ namespace Vitro
 			inline Iterator& operator++()
 			{
 				AssertDebug(Position < End, "Cannot increment iterator past end.");
-				Position += 1; return *this;
+				Position += 1;
+				return *this;
 			}
 
 			inline Iterator& operator--()
 			{
 				AssertDebug(Begin < Position, "Cannot decrement iterator before begin.");
-				Position -= 1; return *this;
+				Position -= 1;
+				return *this;
 			}
 
 		private:
 			T* Position;
-		#if VTR_DEBUG
+#if VTR_DEBUG
 			T* Begin;
 			T* End;
-		#endif
+#endif
 		};
 
 		class ConstIterator
 		{
 		public:
-		#if VTR_DEBUG
+#if VTR_DEBUG
 			inline ConstIterator(T* pos, T* begin, T* end) : Position(pos), Begin(begin), End(end)
 			{}
-		#else
-			inline ConstIterator(T* position) : Position(position) {}
-		#endif
+#else
+			inline ConstIterator(T* position) : Position(position)
+			{}
+#endif
 
 			inline const T& operator*() const
 			{
@@ -147,65 +152,67 @@ namespace Vitro
 			inline ConstIterator& operator++()
 			{
 				AssertDebug(Position < End, "Cannot increment iterator past end.");
-				Position += 1; return *this;
+				Position += 1;
+				return *this;
 			}
 
 			inline ConstIterator& operator--()
 			{
 				AssertDebug(Begin < Position, "Cannot decrement iterator before begin.");
-				Position -= 1; return *this;
+				Position -= 1;
+				return *this;
 			}
 
 		private:
 			T* Position;
-		#if VTR_DEBUG
+#if VTR_DEBUG
 			T* Begin;
 			T* End;
-		#endif
+#endif
 		};
 
 		inline Iterator begin()
 		{
-		#if VTR_DEBUG
+#if VTR_DEBUG
 			return Iterator(Data, Data, Data + DataCount);
-		#else
+#else
 			return Iterator(Data);
-		#endif
+#endif
 		}
 
 		inline ConstIterator begin() const
 		{
-		#if VTR_DEBUG
+#if VTR_DEBUG
 			return ConstIterator(Data, Data, Data + DataCount);
-		#else
+#else
 			return ConstIterator(Data);
-		#endif
+#endif
 		}
 
 		inline Iterator end()
 		{
-		#if VTR_DEBUG
+#if VTR_DEBUG
 			return Iterator(Data + DataCount, Data, Data + DataCount);
-		#else
+#else
 			return Iterator(Data + DataCount);
-		#endif
+#endif
 		}
 
 		inline ConstIterator end() const
 		{
-		#if VTR_DEBUG
+#if VTR_DEBUG
 			return ConstIterator(Data + DataCount, Data, Data + DataCount);
-		#else
+#else
 			return ConstIterator(Data + DataCount);
-		#endif
+#endif
 		}
 
 		StackArray(StackArray&&) = delete;
 		StackArray& operator=(StackArray&&) = delete;
-		void* operator new(size_t) = delete;
-		void* operator new[](size_t) = delete;
-		void operator delete(void*) = delete;
-		void operator delete[](void*) = delete;
+		void* operator new(size_t)			= delete;
+		void* operator new[](size_t)		= delete;
+		void operator delete(void*)			= delete;
+		void operator delete[](void*)		= delete;
 
 	private:
 		T* __restrict Data;

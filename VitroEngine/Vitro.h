@@ -1,13 +1,13 @@
-#pragma once
+﻿#pragma once
 
-#include "Vitro/Engine.h"
-#include "Vitro/Application/Input.h"
-#include "Vitro/Application/KeyEvent.h"
-#include "Vitro/Application/Layer.h"
-#include "Vitro/Application/MouseEvent.h"
-#include "Vitro/Application/Window.h"
-#include "Vitro/Application/WindowEvent.h"
+#include "Vitro/Client/Input.h"
+#include "Vitro/Client/KeyEvent.h"
+#include "Vitro/Client/Layer.h"
+#include "Vitro/Client/MouseEvent.h"
+#include "Vitro/Client/Window.h"
+#include "Vitro/Client/WindowEvent.h"
 #include "Vitro/Editor/Editor.h"
+#include "Vitro/Engine.h"
 #include "Vitro/Graphics/Camera.h"
 #include "Vitro/Graphics/IndexBuffer.h"
 #include "Vitro/Graphics/Renderer3D.h"

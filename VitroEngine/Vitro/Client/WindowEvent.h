@@ -1,7 +1,7 @@
-#pragma once
+﻿#pragma once
 
-#include "Vitro/Application/Event.h"
-#include "Vitro/Application/Window.h"
+#include "Vitro/Client/Event.h"
+#include "Vitro/Client/Window.h"
 
 namespace Vitro
 {
@@ -26,7 +26,8 @@ namespace Vitro
 	protected:
 		Window& WindowRef;
 
-		inline WindowEvent(Window& window) : WindowRef(window) {}
+		inline WindowEvent(Window& window) : WindowRef(window)
+		{}
 	};
 
 	// Event fired when closing a window.
@@ -36,7 +37,8 @@ namespace Vitro
 		VTR_EVENT_TYPE(WindowClose);
 
 		// Engine-internal constructor. Do NOT use in client application!
-		inline WindowCloseEvent(Window& window) : WindowEvent(window) {}
+		inline WindowCloseEvent(Window& window) : WindowEvent(window)
+		{}
 	};
 
 	// Event fired when resizing a window.
@@ -46,7 +48,8 @@ namespace Vitro
 		VTR_EVENT_TYPE(WindowMove);
 
 		// Engine-internal constructor. Do NOT use in client application!
-		inline WindowMoveEvent(Window& window, int x, int y) : WindowEvent(window), X(x), Y(y) {}
+		inline WindowMoveEvent(Window& window, int x, int y) : WindowEvent(window), X(x), Y(y)
+		{}
 
 		inline std::string ToString() const override
 		{
@@ -76,8 +79,7 @@ namespace Vitro
 		VTR_EVENT_TYPE(WindowSize);
 
 		// Engine-internal constructor. Do NOT use in client application!
-		inline WindowSizeEvent(Window& window, int width, int height) :
-			WindowEvent(window), Width(width), Height(height)
+		inline WindowSizeEvent(Window& window, int width, int height) : WindowEvent(window), Width(width), Height(height)
 		{}
 
 		inline std::string ToString() const override
@@ -108,7 +110,8 @@ namespace Vitro
 		VTR_EVENT_TYPE(WindowFocus);
 
 		// Engine-internal constructor. Do NOT use in client application!
-		inline WindowFocusEvent(Window& window) : WindowEvent(window) {}
+		inline WindowFocusEvent(Window& window) : WindowEvent(window)
+		{}
 	};
 
 	// Event fired when a window loses focus.
@@ -118,7 +121,8 @@ namespace Vitro
 		VTR_EVENT_TYPE(WindowUnfocus);
 
 		// Engine-internal constructor. Do NOT use in client application!
-		inline WindowUnfocusEvent(Window& window) : WindowEvent(window) {}
+		inline WindowUnfocusEvent(Window& window) : WindowEvent(window)
+		{}
 	};
 
 	// Event fired when opening a window.
@@ -128,6 +132,7 @@ namespace Vitro
 		VTR_EVENT_TYPE(WindowOpen);
 
 		// Engine-internal constructor. Do NOT use in client application!
-		inline WindowOpenEvent(Window& window) : WindowEvent(window) {}
+		inline WindowOpenEvent(Window& window) : WindowEvent(window)
+		{}
 	};
 }

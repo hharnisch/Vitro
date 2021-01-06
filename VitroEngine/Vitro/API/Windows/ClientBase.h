@@ -1,15 +1,14 @@
-#pragma once
+﻿#pragma once
 
-#include "Vitro/Application/KeyCode.h"
-#include "Vitro/Application/MouseCode.h"
-#include "Vitro/Application/Window.h"
-#include "Vitro/Application/WindowEvent.h"
+#include "Vitro/Client/KeyCode.h"
+#include "Vitro/Client/MouseCode.h"
+#include "Vitro/Client/Window.h"
 
 #include <windows.h>
 
 namespace Vitro::Windows
 {
-	class ApplicationBase
+	class ClientBase
 	{
 	public:
 		static constexpr auto WindowClassName = L"VITRO";
@@ -20,16 +19,16 @@ namespace Vitro::Windows
 		void SetConsoleColors(uint8_t colorMask);
 
 	protected:
-		ApplicationBase();
+		ClientBase();
 
-		virtual void EraseOpenWindow(Window& window) = 0;
+		virtual void EraseOpenWindow(Window& window)   = 0;
 		virtual void EmplaceOpenWindow(Window& window) = 0;
 
 		void PollEvents();
 
 	private:
 		KeyCode LastKeyCode = KeyCode::None;
-		int KeyRepeats = 0;
+		int KeyRepeats		= 0;
 
 		// Exists only for the Windows API to deliver messages.
 		static LRESULT CALLBACK ReceiveMessages(HWND wnd, UINT msg, WPARAM wp, LPARAM lp);

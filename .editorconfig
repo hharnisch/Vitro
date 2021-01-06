@@ -3,7 +3,7 @@ root = true
 [*]
 charset = utf-8
 end_of_line = lf
-guidelines = 100
+guidelines = 128
 guidelines_style = 1px dotted white
 indent_size = 4
 indent_style = tab

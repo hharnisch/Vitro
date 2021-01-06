@@ -1,6 +1,6 @@
-#pragma once
+﻿#pragma once
 
-#include "Vitro/Application/Window.h"
+#include "Vitro/Client/Window.h"
 
 #include <windows.h>
 

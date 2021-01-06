@@ -1,11 +1,11 @@
-#include "_pch.h"
-#include "Engine.h"
+﻿#include "Engine.h"
 
 #include "Vitro/Utility/Assert.h"
 #include "Vitro/Utility/Log.h"
+#include "_pch.h"
 
 #if VTR_API_DIRECTX
-#include "Vitro/API/DirectX/RHI.h"
+	#include "Vitro/API/DirectX/RHI.h"
 #endif
 
 namespace Vitro
@@ -17,9 +17,9 @@ namespace Vitro
 
 		Log::Initialize(appLogPath, engineLogPath, LoggingThread);
 
-	#if VTR_API_DIRECTX
+#if VTR_API_DIRECTX
 		DirectX::RHI::Initialize();
-	#endif
+#endif
 	}
 
 	Engine::~Engine()
@@ -52,8 +52,8 @@ namespace Vitro
 		while(ShouldTick)
 		{
 			uint64_t currentTime = Tick::MeasureTime();
-			EngineTick = Tick(previousTime, currentTime);
-			previousTime = currentTime;
+			EngineTick			 = Tick(previousTime, currentTime);
+			previousTime		 = currentTime;
 			for(auto& window : OpenWindows)
 			{
 				window->OnTick(EngineTick);
@@ -73,7 +73,7 @@ namespace Vitro
 		OpenWindows.erase(i);
 
 		ResetTickToFirstWindow = true;
-		ShouldTick = OpenWindows.size();
+		ShouldTick			   = OpenWindows.size();
 	}
 
 	void Engine::EmplaceOpenWindow(Window& window)

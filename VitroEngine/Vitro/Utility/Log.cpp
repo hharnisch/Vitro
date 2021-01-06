@@ -1,14 +1,13 @@
-#include "_pch.h"
-#include "Log.h"
+﻿#include "Log.h"
 
 #include "Vitro/Engine.h"
 #include "Vitro/Utility/Assert.h"
 #include "Vitro/Utility/StringUtils.h"
+#include "_pch.h"
 
 namespace Vitro
 {
-	void Log::Initialize(const std::string& appLogPath, const std::string& engineLogPath,
-						 std::thread& loggingThread)
+	void Log::Initialize(const std::string& appLogPath, const std::string& engineLogPath, std::thread& loggingThread)
 	{
 		static bool initialized = false;
 		AssertCritical(!initialized, "Logging has already been initialized by the engine.");
@@ -78,7 +77,7 @@ namespace Vitro
 	std::string Log::GetLogTimestamp()
 	{
 		using namespace std::chrono;
-		auto now = system_clock::now().time_since_epoch(); // Get the current time.
+		auto now  = system_clock::now().time_since_epoch(); // Get the current time.
 		auto secs = duration_cast<seconds>(now).count();
 		tm calendarTime;
 		localtime_s(&calendarTime, &secs);
@@ -86,7 +85,7 @@ namespace Vitro
 		char timestamp[13]; // Timestamp is 13 characters long with the null character.
 		strftime(timestamp, sizeof(timestamp), "%T.", &calendarTime);
 
-		auto msecs = duration_cast<milliseconds>(now).count(); // Append milliseconds to timestamp.
+		auto msecs	  = duration_cast<milliseconds>(now).count(); // Append milliseconds to timestamp.
 		auto msecsstr = std::to_string(msecs % 1000 + 1000);
 		for(int i = sizeof(timestamp) - 4; i < sizeof(timestamp); i++)
 			timestamp[i] = msecsstr[i - sizeof(timestamp) + 5];

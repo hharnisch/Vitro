@@ -1,8 +1,8 @@
-#include "_pch.h"
-#include "FragmentShader.h"
+﻿#include "FragmentShader.h"
 
 #include "Vitro/API/DirectX/RHI.h"
 #include "Vitro/Utility/File.h"
+#include "_pch.h"
 
 #include <d3dcompiler.h>
 #pragma comment(lib, "d3dcompiler")
@@ -12,23 +12,22 @@ namespace Vitro::DirectX
 	FragmentShader::FragmentShader(const File& file)
 	{
 		Bytecode = file.LoadBinary();
-		auto res = RHI::Device->CreatePixelShader(Bytecode.Raw(), Bytecode.Count(), nullptr,
-												  &ShaderPtr);
+		auto res = RHI::Device->CreatePixelShader(Bytecode.Raw(), Bytecode.Count(), nullptr, &ShaderPtr);
 		AssertCritical(SUCCEEDED(res), "Could not create fragment shader.");
 	}
 
 	FragmentShader::FragmentShader(const std::string& sourceCode, std::string& errors)
 	{
-	#if VTR_DEBUG
+#if VTR_DEBUG
 		UINT compileFlags = D3DCOMPILE_DEBUG;
-	#else
+#else
 		UINT compileFlags = D3DCOMPILE_OPTIMIZATION_LEVEL3;
-	#endif
+#endif
 		Scope<ID3DBlob> bytecode;
 		Scope<ID3DBlob> compileErrors;
 		// WARN: Currently doesn't support macros, includes and entry points not named "main".
-		D3DCompile(sourceCode.c_str(), sourceCode.length(), nullptr, nullptr, nullptr, "main",
-				   "ps_5_0", compileFlags, 0, &bytecode, &compileErrors);
+		D3DCompile(sourceCode.c_str(), sourceCode.length(), nullptr, nullptr, nullptr, "main", "ps_5_0", compileFlags, 0,
+				   &bytecode, &compileErrors);
 
 		if(compileErrors)
 		{

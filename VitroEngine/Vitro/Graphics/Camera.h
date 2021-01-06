@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Vitro/Math/Matrix.h"
 #include "Vitro/Math/Vector.h"
@@ -31,8 +31,8 @@ namespace Vitro
 
 		Float4x4 Projection, View;
 		Float3 Position;
-		Float3 Right = DefaultRight;
-		Float3 Up = DefaultUp;
+		Float3 Right   = DefaultRight;
+		Float3 Up	   = DefaultUp;
 		Float3 Forward = DefaultForward;
 
 		void UpdateView();

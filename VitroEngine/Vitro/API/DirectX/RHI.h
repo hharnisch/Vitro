@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Vitro/API/DirectX/Scope.h"
 
@@ -11,9 +11,9 @@ namespace Vitro::DirectX
 	public:
 		static inline Scope<ID3D11Device5> Device;
 		static inline Scope<ID3D11DeviceContext4> Context;
-	#if VTR_DEBUG
+#if VTR_DEBUG
 		static inline Scope<ID3D11Debug> DebugLayer;
-	#endif
+#endif
 
 		static void Initialize();
 	};

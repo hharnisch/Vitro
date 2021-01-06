@@ -1,10 +1,10 @@
-#pragma once
+﻿#pragma once
 
 namespace Vitro
 {
 	enum class EventType : unsigned char
 	{
-		None			= 0,	// Never sent by an event. Only for variable initialization.
+		None = 0, // Never sent by an event. Only for variable initialization.
 		WindowMove,
 		WindowSize,
 		WindowFocus,

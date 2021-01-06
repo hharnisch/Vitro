@@ -13,8 +13,9 @@ namespace Vitro
 
 	template<typename T> class Ref final
 	{
-		static_assert(std::has_virtual_destructor_v<T>,
-					  "Template parameter must have a virtual destructor.");
+		static_assert(std::has_virtual_destructor_v<T>, "Template parameter must have a virtual destructor.");
+
+		template<class D> friend class Ref;
 
 	public:
 		template<typename... Args> static Ref New(Args&&... args)
@@ -22,13 +23,14 @@ namespace Vitro
 			return Ref(new T(std::forward<Args>(args)...));
 		}
 
-		Ref() : Pointer(nullptr) {}
-		Ref(std::nullptr_t) : Pointer(nullptr) {}
+		Ref() : Pointer(nullptr)
+		{}
+		Ref(std::nullptr_t) : Pointer(nullptr)
+		{}
 
 		Ref(T* ptr) : Pointer(ptr)
 		{
-			static_assert(std::is_base_of_v<RefCounted, T>,
-						  "Template parameter must inherit from Vitro::RefCounted.");
+			static_assert(std::is_base_of_v<RefCounted, T>, "Template parameter must inherit from Vitro::RefCounted.");
 			IncrementRef();
 		}
 
@@ -46,8 +48,7 @@ namespace Vitro
 		Ref(Ref&& other) noexcept : Pointer(std::exchange(other.Pointer, nullptr))
 		{}
 
-		template<typename D>
-		Ref(Ref<D>&& other) noexcept : Pointer(std::exchange(other.Pointer, nullptr))
+		template<typename D> Ref(Ref<D>&& other) noexcept : Pointer(std::exchange(other.Pointer, nullptr))
 		{
 			static_assert(std::is_base_of_v<T, D>, "Type must derive from target type.");
 		}
@@ -79,24 +80,56 @@ namespace Vitro
 			return *this;
 		}
 
-		T* operator->() { return Pointer; }
-		const T* operator->() const { return Pointer; }
+		T* operator->()
+		{
+			return Pointer;
+		}
+		const T* operator->() const
+		{
+			return Pointer;
+		}
 
-		T& operator*() { return *Pointer; }
-		const T& operator*() const { return *Pointer; }
+		T& operator*()
+		{
+			return *Pointer;
+		}
+		const T& operator*() const
+		{
+			return *Pointer;
+		}
 
-		T** operator&() { return &Pointer; }
-		T* const* operator&() const { return &Pointer; }
+		T** operator&()
+		{
+			return &Pointer;
+		}
+		T* const* operator&() const
+		{
+			return &Pointer;
+		}
 
-		bool operator==(Ref other) const { return Pointer == other.Pointer; }
-		bool operator!=(Ref other) const { return Pointer != other.Pointer; }
+		bool operator==(Ref other) const
+		{
+			return Pointer == other.Pointer;
+		}
+		bool operator!=(Ref other) const
+		{
+			return Pointer != other.Pointer;
+		}
 
-		operator T* () { return Pointer; }
-		operator const T* () const { return Pointer; }
-		operator bool() const { return Pointer != nullptr; }
+		operator T*()
+		{
+			return Pointer;
+		}
+		operator const T*() const
+		{
+			return Pointer;
+		}
+		operator bool() const
+		{
+			return Pointer != nullptr;
+		}
 
 	private:
-		template<class D> friend class Ref;
 		T* Pointer;
 
 		void IncrementRef() const

@@ -1,7 +1,7 @@
-#pragma once
+﻿#pragma once
 
-#include "Vitro/Application/Event.h"
-#include "Vitro/Application/KeyCode.h"
+#include "Vitro/Client/Event.h"
+#include "Vitro/Client/KeyCode.h"
 
 namespace Vitro
 {
@@ -19,7 +19,8 @@ namespace Vitro
 	protected:
 		KeyCode Key;
 
-		inline KeyEvent(KeyCode key) : Key(key) {}
+		inline KeyEvent(KeyCode key) : Key(key)
+		{}
 	};
 
 	// Event fired when pressing down a keyboard key.
@@ -29,7 +30,8 @@ namespace Vitro
 		VTR_EVENT_TYPE(KeyDown);
 
 		// Engine-internal constructor. Do NOT use in client application!
-		inline KeyDownEvent(KeyCode key, int repeats) : KeyEvent(key), Repeats(repeats) {}
+		inline KeyDownEvent(KeyCode key, int repeats) : KeyEvent(key), Repeats(repeats)
+		{}
 
 		inline std::string ToString() const override
 		{
@@ -54,7 +56,8 @@ namespace Vitro
 		VTR_EVENT_TYPE(KeyUp);
 
 		// Engine-internal constructor. Do NOT use in client application!
-		inline KeyUpEvent(KeyCode key) : KeyEvent(key) {}
+		inline KeyUpEvent(KeyCode key) : KeyEvent(key)
+		{}
 
 		inline std::string ToString() const override
 		{
@@ -71,7 +74,8 @@ namespace Vitro
 		VTR_EVENT_TYPE(KeyText);
 
 		// Engine-internal constructor. Do NOT use in client application!
-		inline KeyTextEvent(KeyCode key, const std::string& text) : KeyEvent(key), Text(text) {}
+		inline KeyTextEvent(KeyCode key, const std::string& text) : KeyEvent(key), Text(text)
+		{}
 
 		inline std::string ToString() const override
 		{

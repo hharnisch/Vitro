@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Vitro/API/DirectX/Scope.h"
 #include "Vitro/Graphics/Context3D.h"
@@ -14,7 +14,7 @@ namespace Vitro::DirectX
 	public:
 		Context3D(void* nativeWindowHandle, uint32_t width, uint32_t height);
 
-		void SetViewport(int width, int height, int x, int y) override;
+		void SetViewport(uint32_t width, uint32_t height, int x, int y) override;
 		void SetClearColor(const Float4& color) override;
 		void SetVSync(bool enabled) override;
 		void TargetBackBuffer() override;

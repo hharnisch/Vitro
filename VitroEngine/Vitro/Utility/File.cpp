@@ -1,9 +1,11 @@
+﻿#include "File.h"
+
 #include "_pch.h"
-#include "File.h"
 
 namespace Vitro
 {
-	File::File(const std::string& path) : Path(path) {}
+	File::File(const std::string& path) : Path(path)
+	{}
 
 	std::string File::GetName() const
 	{

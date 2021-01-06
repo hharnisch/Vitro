@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Vitro/Graphics/VertexField.h"
 #include "Vitro/Utility/HeapArray.h"

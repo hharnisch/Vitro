@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Vitro/Utility/Ref.h"
 
@@ -7,11 +7,17 @@ namespace Vitro
 	class Texture : public RefCounted
 	{
 	public:
-		virtual ~Texture() = default;
+		virtual ~Texture()		  = default;
 		virtual void Bind() const = 0;
 
-		inline uint32_t GetWidth() const { return Width; }
-		inline uint32_t GetHeight() const { return Height; }
+		inline uint32_t GetWidth() const
+		{
+			return Width;
+		}
+		inline uint32_t GetHeight() const
+		{
+			return Height;
+		}
 
 		inline uint32_t GetMipCount() const
 		{
@@ -22,7 +28,7 @@ namespace Vitro
 		}
 
 	protected:
-		uint32_t Width = 0;
+		uint32_t Width	= 0;
 		uint32_t Height = 0;
 	};
 

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Vitro/Graphics/VertexLayout.h"
 #include "Vitro/Utility/File.h"
@@ -10,10 +10,13 @@ namespace Vitro
 	class Shader : public RefCounted
 	{
 	public:
-		virtual ~Shader() = default;
+		virtual ~Shader()		  = default;
 		virtual void Bind() const = 0;
 
-		inline const HeapArray<char>& GetBytecode() const { return Bytecode; }
+		inline const HeapArray<char>& GetBytecode() const
+		{
+			return Bytecode;
+		}
 
 	protected:
 		HeapArray<char> Bytecode;

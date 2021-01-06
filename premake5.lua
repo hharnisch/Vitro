@@ -86,7 +86,7 @@ project "VitroTests"
 	staticruntime		"on"
 	objdir				(".bin_obj/" .. outputdir .. "/%{prj.name}")
 	targetdir			(".bin/"	 .. outputdir .. "/%{prj.name}")
-	debugdir			(".bin/"	 .. outputdir .. "/%{prj.name}")	
+	debugdir			(".bin/"	 .. outputdir .. "/%{prj.name}")
 	links				"VitroEngine"
 
 	files

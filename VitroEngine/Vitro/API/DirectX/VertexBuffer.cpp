@@ -1,7 +1,7 @@
-#include "_pch.h"
-#include "VertexBuffer.h"
+﻿#include "VertexBuffer.h"
 
 #include "Vitro/API/DirectX/RHI.h"
+#include "_pch.h"
 
 namespace Vitro::DirectX
 {
@@ -9,17 +9,17 @@ namespace Vitro::DirectX
 		Stride(static_cast<uint32_t>(stride)), Size(static_cast<uint32_t>(size))
 	{
 		D3D11_BUFFER_DESC bd;
-		bd.ByteWidth			= Size;
-		bd.Usage				= D3D11_USAGE_DEFAULT;
-		bd.BindFlags			= D3D11_BIND_VERTEX_BUFFER;
-		bd.CPUAccessFlags		= 0;
-		bd.MiscFlags			= 0;
-		bd.StructureByteStride	= 0;
+		bd.ByteWidth		   = Size;
+		bd.Usage			   = D3D11_USAGE_DEFAULT;
+		bd.BindFlags		   = D3D11_BIND_VERTEX_BUFFER;
+		bd.CPUAccessFlags	   = 0;
+		bd.MiscFlags		   = 0;
+		bd.StructureByteStride = 0;
 
 		D3D11_SUBRESOURCE_DATA srd;
-		srd.pSysMem				= vertices;
-		srd.SysMemPitch			= 0;
-		srd.SysMemSlicePitch	= 0;
+		srd.pSysMem			 = vertices;
+		srd.SysMemPitch		 = 0;
+		srd.SysMemSlicePitch = 0;
 
 		auto res = RHI::Device->CreateBuffer(&bd, &srd, &Buffer);
 		AssertCritical(SUCCEEDED(res), "Could not create vertex buffer.");

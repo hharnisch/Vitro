@@ -1,10 +1,10 @@
+﻿#include "VertexLayout.h"
+
 #include "_pch.h"
-#include "VertexLayout.h"
 
 namespace Vitro
 {
-	VertexLayout::VertexLayout(const std::initializer_list<VertexField>& fields) :
-		Fields(fields), Stride(0)
+	VertexLayout::VertexLayout(const std::initializer_list<VertexField>& fields) : Fields(fields), Stride(0)
 	{
 		uint32_t offset = 0;
 		for(auto& field : Fields)

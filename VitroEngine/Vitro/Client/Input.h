@@ -1,15 +1,15 @@
-#pragma once
+﻿#pragma once
 
-#include "Vitro/Application/ApplicationBase.h"
-#include "Vitro/Application/KeyCode.h"
-#include "Vitro/Application/MouseCode.h"
+#include "Vitro/Client/ClientBase.h"
+#include "Vitro/Client/KeyCode.h"
+#include "Vitro/Client/MouseCode.h"
 #include "Vitro/Math/Vector.h"
 
 namespace Vitro
 {
 	class Input final
 	{
-		friend ApplicationBase;
+		friend ClientBase;
 
 	public:
 		static inline bool IsDown(KeyCode key)

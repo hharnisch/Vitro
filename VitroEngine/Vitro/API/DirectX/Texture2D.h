@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Vitro/API/DirectX/Scope.h"
 #include "Vitro/Graphics/Texture.h"

@@ -1,19 +1,19 @@
-#include "_pch.h"
-#include "Renderer3D.h"
+﻿#include "Renderer3D.h"
 
-#include "Vitro/Application/Window.h"
+#include "Vitro/Client/Window.h"
+#include "_pch.h"
 
 namespace Vitro
 {
-	Renderer3D::Renderer3D(void* nativeWindowHandle, int width, int height)
+	Renderer3D::Renderer3D(void* nativeWindowHandle, uint32_t width, uint32_t height)
 	{
 		Context = Context3D::New(nativeWindowHandle, width, height);
 		Context->SetViewport(width, height, 0, 0);
 	}
 
-	void Renderer3D::SetVSync(bool enabled)
+	Scope<Context3D>& Renderer3D::GetContext()
 	{
-		Context->SetVSync(enabled);
+		return Context;
 	}
 
 	void Renderer3D::BeginScene()

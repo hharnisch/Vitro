@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <Vitro.h>
 
@@ -8,22 +8,19 @@ public:
 	MeshLayer(int width, int height) :
 		Cam({-3, 0, -3}, {3, 0, 3}, Vitro::Perspective(0.4f * 3.14f, width, height, 1.0f, 1000.f))
 	{
-		Vertices = Vitro::VertexBuffer::New(Cube, sizeof(Vertex), sizeof(Cube));
-		Indices = Vitro::IndexBuffer::New(CubeIndices, ArrayCount(CubeIndices));
-		Uniforms = Vitro::UniformBuffer::New(&CamUniforms, sizeof(CamUniforms));
-		VertexShader = Vitro::VertexShader::New(Vitro::File("TextureVertex.cso"));
+		Vertices	   = Vitro::VertexBuffer::New(Cube, sizeof(Vertex), sizeof(Cube));
+		Indices		   = Vitro::IndexBuffer::New(CubeIndices, ArrayCount(CubeIndices));
+		Uniforms	   = Vitro::UniformBuffer::New(&CamUniforms, sizeof(CamUniforms));
+		VertexShader   = Vitro::VertexShader::New(Vitro::File("TextureVertex.cso"));
 		FragmentShader = Vitro::FragmentShader::New(Vitro::File("TextureFragment.cso"));
-		Texture = Vitro::Texture2D::New("../../../VitroTests/TextureTest/brick.tga");
+		Texture		   = Vitro::Texture2D::New("../../../VitroTests/TextureTest/brick.tga");
 	}
 
 	void OnAttach() override
 	{
 		using namespace Vitro;
-		VertexLayout vl
-		{
-			{VertexField::Position, 0, VertexFieldType::Float3},
-			{VertexField::TexCoord, 0, VertexFieldType::Float2}
-		};
+		VertexLayout vl {{VertexField::Position, 0, VertexFieldType::Float3},
+						 {VertexField::TexCoord, 0, VertexFieldType::Float2}};
 		VertexShader->SetVertexLayout(vl);
 		VertexShader->Bind();
 		FragmentShader->Bind();
@@ -37,7 +34,7 @@ public:
 		using namespace Vitro;
 
 		constexpr int distance = 5;
-		constexpr int count = 3;
+		constexpr int count	   = 3;
 		for(int i = 0; i < count * distance; i += distance)
 			for(int j = 0; j < count * distance; j += distance)
 				for(int k = 0; k < count * distance; k += distance)
@@ -79,8 +76,7 @@ public:
 	void OnEvent(Vitro::Event& e) override
 	{
 		using namespace Vitro;
-		e.Dispatch<MouseMoveEvent>([this](MouseMoveEvent& e)
-		{
+		e.Dispatch<MouseMoveEvent>([this](MouseMoveEvent& e) {
 			Cam.Pitch(Radians(e.GetYDirection()));
 			Cam.Yaw(Radians(e.GetXDirection()));
 			return true;
@@ -94,24 +90,15 @@ private:
 		Vitro::Float2 TexCoords;
 	};
 
-	Vertex Cube[24]
-	{
-		{{-1, -1, -1}, { 0, 1 }}, {{-1,  1, -1}, { 0, 0 }}, {{ 1,  1, -1}, { 1, 0 }},
-		{{ 1, -1, -1}, { 1, 1 }}, {{-1, -1,  1}, { 1, 1 }}, {{ 1, -1,  1}, { 0, 1 }},
-		{{ 1,  1,  1}, { 0, 0 }}, {{-1,  1,  1}, { 1, 0 }}, {{-1,  1, -1}, { 0, 1 }},
-		{{-1,  1,  1}, { 0, 0 }}, {{ 1,  1,  1}, { 1, 0 }}, {{ 1,  1, -1}, { 1, 1 }},
-		{{-1, -1, -1}, { 1, 1 }}, {{ 1, -1, -1}, { 0, 1 }}, {{ 1, -1,  1}, { 0, 0 }},
-		{{-1, -1,  1}, { 1, 0 }}, {{-1, -1,  1}, { 0, 1 }}, {{-1,  1,  1}, { 0, 0 }},
-		{{-1,  1, -1}, { 1, 0 }}, {{-1, -1, -1}, { 1, 1 }}, {{ 1, -1, -1}, { 0, 1 }},
-		{{ 1,  1, -1}, { 0, 0 }}, {{ 1,  1,  1}, { 1, 0 }}, {{ 1, -1,  1}, { 1, 1 }}
-	};
+	Vertex Cube[24] {{{-1, -1, -1}, {0, 1}}, {{-1, 1, -1}, {0, 0}}, {{1, 1, -1}, {1, 0}},  {{1, -1, -1}, {1, 1}},
+					 {{-1, -1, 1}, {1, 1}},	 {{1, -1, 1}, {0, 1}},	{{1, 1, 1}, {0, 0}},   {{-1, 1, 1}, {1, 0}},
+					 {{-1, 1, -1}, {0, 1}},	 {{-1, 1, 1}, {0, 0}},	{{1, 1, 1}, {1, 0}},   {{1, 1, -1}, {1, 1}},
+					 {{-1, -1, -1}, {1, 1}}, {{1, -1, -1}, {0, 1}}, {{1, -1, 1}, {0, 0}},  {{-1, -1, 1}, {1, 0}},
+					 {{-1, -1, 1}, {0, 1}},	 {{-1, 1, 1}, {0, 0}},	{{-1, 1, -1}, {1, 0}}, {{-1, -1, -1}, {1, 1}},
+					 {{1, -1, -1}, {0, 1}},	 {{1, 1, -1}, {0, 0}},	{{1, 1, 1}, {1, 0}},   {{1, -1, 1}, {1, 1}}};
 
-	uint32_t CubeIndices[36] {0,   1,  2,  0,  2,  3,
-							  4,   5,  6,  4,  6,  7,
-							  8,   9, 10,  8, 10, 11,
-							  12, 13, 14, 12, 14, 15,
-							  16, 17, 18, 16, 18, 19,
-							  20, 21, 22, 20, 22, 23};
+	uint32_t CubeIndices[36] {0,  1,  2,  0,  2,  3,  4,  5,  6,  4,  6,  7,  8,  9,  10, 8,  10, 11,
+							  12, 13, 14, 12, 14, 15, 16, 17, 18, 16, 18, 19, 20, 21, 22, 20, 22, 23};
 
 	struct CameraUniforms
 	{

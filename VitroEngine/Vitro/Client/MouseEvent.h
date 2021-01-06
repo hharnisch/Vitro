@@ -1,7 +1,7 @@
-#pragma once
+﻿#pragma once
 
-#include "Vitro/Application/Event.h"
-#include "Vitro/Application/MouseCode.h"
+#include "Vitro/Client/Event.h"
+#include "Vitro/Client/MouseCode.h"
 
 namespace Vitro
 {
@@ -26,7 +26,8 @@ namespace Vitro
 	protected:
 		MouseCode Button;
 
-		inline MouseEvent(MouseCode button) : Button(button) {}
+		inline MouseEvent(MouseCode button) : Button(button)
+		{}
 	};
 
 	// Event fired when moving the mouse.
@@ -37,8 +38,7 @@ namespace Vitro
 		VTR_EVENT_TYPE(MouseMove);
 
 		// Engine-internal constructor. Do NOT use in client application!
-		inline MouseMoveEvent(int xDir, int yDir) :
-			MouseEvent(MouseCode::None), XDirection(xDir), YDirection(yDir)
+		inline MouseMoveEvent(int xDir, int yDir) : MouseEvent(MouseCode::None), XDirection(xDir), YDirection(yDir)
 		{}
 
 		inline std::string ToString() const override
@@ -69,7 +69,8 @@ namespace Vitro
 		VTR_EVENT_TYPE(MouseDown);
 
 		// Engine-internal constructor. Do NOT use in client application!
-		inline MouseDownEvent(MouseCode button) : MouseEvent(button) {}
+		inline MouseDownEvent(MouseCode button) : MouseEvent(button)
+		{}
 	};
 
 	// Event fired when releasing a mouse button.
@@ -79,7 +80,8 @@ namespace Vitro
 		VTR_EVENT_TYPE(MouseUp);
 
 		// Engine-internal constructor. Do NOT use in client application!
-		inline MouseUpEvent(MouseCode button) : MouseEvent(button) {}
+		inline MouseUpEvent(MouseCode button) : MouseEvent(button)
+		{}
 	};
 
 	// Event fired when double-clicking a mouse button.
@@ -89,7 +91,8 @@ namespace Vitro
 		VTR_EVENT_TYPE(DoubleClick);
 
 		// Engine-internal constructor. Do NOT use in client application!
-		inline DoubleClickEvent(MouseCode button) : MouseEvent(button) {}
+		inline DoubleClickEvent(MouseCode button) : MouseEvent(button)
+		{}
 	};
 
 	// Event fired when scrolling the mouse wheel.
@@ -100,8 +103,7 @@ namespace Vitro
 		VTR_EVENT_TYPE(MouseScroll);
 
 		// Engine-internal constructor. Do NOT use in client application!
-		inline MouseScrollEvent(float xOffset, float yOffset) :
-			MouseEvent(MouseCode::Wheel), XOffset(xOffset), YOffset(yOffset)
+		inline MouseScrollEvent(float xOffset, float yOffset) : MouseEvent(MouseCode::Wheel), XOffset(xOffset), YOffset(yOffset)
 		{}
 
 		inline std::string ToString() const override

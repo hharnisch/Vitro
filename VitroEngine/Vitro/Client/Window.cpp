@@ -1,22 +1,22 @@
-#include "_pch.h"
-#include "Window.h"
+﻿#include "Window.h"
 
-#include "Vitro/Application/WindowEvent.h"
+#include "Vitro/Client/WindowEvent.h"
 #include "Vitro/Graphics/Renderer3D.h"
+#include "_pch.h"
 
 #if VTR_SYSTEM_WINDOWS
-#include "Vitro/API/Windows/Window.h"
+	#include "Vitro/API/Windows/Window.h"
 #endif
 
 namespace Vitro
 {
 	Ref<Window> Window::New(int width, int height, int x, int y, const std::string& title)
 	{
-	#if VTR_SYSTEM_WINDOWS
+#if VTR_SYSTEM_WINDOWS
 		return Ref<Windows::Window>::New(width, height, x, y, title);
-	#else
+#else
 	#error Unsupported system.
-	#endif
+#endif
 	}
 
 	void Window::OnTick(Tick t)
@@ -47,7 +47,7 @@ namespace Vitro
 			layer.OnDetach();
 			LayerStack.erase(i);
 			LastLayerIndex--;
-			delete& layer;
+			delete &layer;
 		}
 	}
 
@@ -58,12 +58,12 @@ namespace Vitro
 		{
 			overlay.OnDetach();
 			LayerStack.erase(i);
-			delete& overlay;
+			delete &overlay;
 		}
 	}
 
-	Window::Window(Window&& other) noexcept : Renderer(std::move(other.Renderer)),
-		LayerStack(std::move(other.LayerStack)), LastLayerIndex(other.LastLayerIndex)
+	Window::Window(Window&& other) noexcept :
+		Renderer(std::move(other.Renderer)), LayerStack(std::move(other.LayerStack)), LastLayerIndex(other.LastLayerIndex)
 	{}
 
 	Window::~Window()

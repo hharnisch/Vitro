@@ -1,7 +1,9 @@
-#include "_pch.h"
-#include "KeyCode.h"
+﻿#include "KeyCode.h"
 
-#define VTR_STRING_CONVERSION_CASE(X) case KeyCode::X: return #X
+#include "_pch.h"
+
+#define VTR_STRING_CONVERSION_CASE(X)                                                                                          \
+	case KeyCode::X: return #X
 
 namespace Vitro
 {
@@ -164,21 +166,21 @@ namespace Vitro
 			VTR_STRING_CONVERSION_CASE(OEM23);
 			VTR_STRING_CONVERSION_CASE(OEM24);
 			VTR_STRING_CONVERSION_CASE(OEM25);
-			case KeyCode::Number0:		return "0";
-			case KeyCode::Number1:		return "1";
-			case KeyCode::Number2:		return "2";
-			case KeyCode::Number3:		return "3";
-			case KeyCode::Number4:		return "4";
-			case KeyCode::Number5:		return "5";
-			case KeyCode::Number6:		return "6";
-			case KeyCode::Number7:		return "7";
-			case KeyCode::Number8:		return "8";
-			case KeyCode::Number9:		return "9";
-			case KeyCode::Plus:			return "+";
-			case KeyCode::Comma:		return ",";
-			case KeyCode::Minus:		return "-";
-			case KeyCode::Period:		return ".";
-			case KeyCode::AngleBracket:	return "<";
+			case KeyCode::Number0: return "0";
+			case KeyCode::Number1: return "1";
+			case KeyCode::Number2: return "2";
+			case KeyCode::Number3: return "3";
+			case KeyCode::Number4: return "4";
+			case KeyCode::Number5: return "5";
+			case KeyCode::Number6: return "6";
+			case KeyCode::Number7: return "7";
+			case KeyCode::Number8: return "8";
+			case KeyCode::Number9: return "9";
+			case KeyCode::Plus: return "+";
+			case KeyCode::Comma: return ",";
+			case KeyCode::Minus: return "-";
+			case KeyCode::Period: return ".";
+			case KeyCode::AngleBracket: return "<";
 		}
 		return "Unknown key code: " + std::to_string(static_cast<int>(key));
 	}

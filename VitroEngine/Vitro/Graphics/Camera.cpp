@@ -1,5 +1,6 @@
+﻿#include "Camera.h"
+
 #include "_pch.h"
-#include "Camera.h"
 
 namespace Vitro
 {
@@ -50,14 +51,14 @@ namespace Vitro
 	void Camera::Yaw(float radians)
 	{
 		Forward = Normalize(Forward * std::cos(radians) + Right * std::sin(radians));
-		Right = Cross(Up, Forward);
+		Right	= Cross(Up, Forward);
 		UpdateView();
 	}
 
 	void Camera::Roll(float radians)
 	{
 		Right = Normalize(Right * std::cos(radians) + Up * std::sin(radians));
-		Up = Cross(Forward, Right);
+		Up	  = Cross(Forward, Right);
 		UpdateView();
 	}
 

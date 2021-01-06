@@ -1,15 +1,18 @@
+﻿#include "Editor.h"
+
 #include "_pch.h"
-#include "Editor.h"
 
 #include <imgui/imgui.h>
+#include <imgui/imgui_internal.h>
 
 #if VTR_SYSTEM_WINDOWS
-#include <imgui/imgui_impl_win32.h>
+	#include <imgui/imgui_impl_win32.h>
 #endif
 
 #if VTR_API_DIRECTX
-#include "Vitro/API/DirectX/RHI.h"
-#include <imgui/imgui_impl_dx11.h>
+	#include "Vitro/API/DirectX/RHI.h"
+
+	#include <imgui/imgui_impl_dx11.h>
 #endif
 
 namespace Vitro
@@ -18,29 +21,30 @@ namespace Vitro
 	{
 		IMGUI_CHECKVERSION();
 		auto context = ImGui::CreateContext();
-		auto& io = ImGui::GetIO();
+		auto& io	 = ImGui::GetIO();
 		io.BackendFlags |= ImGuiBackendFlags_PlatformHasViewports;
 		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+		io.ConfigFlags |= ImGuiConfigFlags_DpiEnableScaleFonts;
 		io.IniFilename = nullptr;
 		ImGui::StyleColorsDark();
 
-	#if VTR_SYSTEM_WINDOWS
+#if VTR_SYSTEM_WINDOWS
 		ImGui_ImplWin32_Init(nativeWindowHandle);
-	#endif
-	#if VTR_API_DIRECTX
+#endif
+#if VTR_API_DIRECTX
 		ImGui_ImplDX11_Init(DirectX::RHI::Device, DirectX::RHI::Context);
-	#endif
+#endif
 	}
 
 	Editor::~Editor()
 	{
-	#if VTR_API_DIRECTX
+#if VTR_API_DIRECTX
 		ImGui_ImplDX11_Shutdown();
-	#endif
-	#if VTR_SYSTEM_WINDOWS
+#endif
+#if VTR_SYSTEM_WINDOWS
 		ImGui_ImplWin32_Shutdown();
-	#endif
+#endif
 
 		ImGui::DestroyContext();
 	}
@@ -55,10 +59,8 @@ namespace Vitro
 	{
 		BeginFrame();
 
-		ImGui::ShowDemoWindow();
-		ImGui::Begin("Statistics");
-		ImGui::Text(t.ToString().c_str(), "");
-		ImGui::End();
+		auto dockspaceId = ImGui::GetID("DockSpace");
+		ImGui::DockSpace(dockspaceId);
 
 		EndFrame();
 	}
@@ -68,12 +70,12 @@ namespace Vitro
 
 	void Editor::BeginFrame()
 	{
-	#if VTR_API_DIRECTX
+#if VTR_API_DIRECTX
 		ImGui_ImplDX11_NewFrame();
-	#endif
-	#if VTR_SYSTEM_WINDOWS
+#endif
+#if VTR_SYSTEM_WINDOWS
 		ImGui_ImplWin32_NewFrame();
-	#endif
+#endif
 
 		ImGui::NewFrame();
 	}
@@ -83,12 +85,12 @@ namespace Vitro
 		ImGui::Render();
 		ImGui::EndFrame();
 
-	#if VTR_SYSTEM_WINDOWS
+#if VTR_SYSTEM_WINDOWS
 		ImGui::UpdatePlatformWindows();
 		ImGui::RenderPlatformWindowsDefault();
-	#endif
-	#if VTR_API_DIRECTX
+#endif
+#if VTR_API_DIRECTX
 		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
-	#endif
+#endif
 	}
 }
