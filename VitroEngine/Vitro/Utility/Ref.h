@@ -1,6 +1,4 @@
-#pragma once
-
-#include "_pch.h"
+﻿#pragma once
 
 namespace Vitro
 {

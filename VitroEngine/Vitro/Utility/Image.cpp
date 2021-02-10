@@ -1,6 +1,5 @@
-﻿#include "Image.h"
-
 #include "_pch.h"
+#include "Image.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #define STBI_ONLY_HDR

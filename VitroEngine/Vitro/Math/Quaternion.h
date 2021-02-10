@@ -1,5 +1,6 @@
-﻿#pragma once
+#pragma once
 
+#include "_pch.h"
 #include "Vitro/Math/Trigonometry.h"
 #include "Vitro/Math/Vector.h"
 #include "Vitro/Utility/Assert.h"
@@ -158,22 +159,26 @@ namespace Vitro
 		}
 	};
 
-	template<typename N, typename O, VTR_IS_SCALAR(O)> constexpr Quaternion<N> operator+(O scalar, const Quaternion<N>& q)
+	template<typename N, typename O, VTR_IS_SCALAR(O)>
+	constexpr Quaternion<N> operator+(O scalar, const Quaternion<N>& q)
 	{
 		return {scalar + q.W, scalar + q.X, scalar + q.Y, scalar + q.Z};
 	}
 
-	template<typename N, typename O, VTR_IS_SCALAR(O)> constexpr Quaternion<N> operator-(O scalar, const Quaternion<N>& q)
+	template<typename N, typename O, VTR_IS_SCALAR(O)>
+	constexpr Quaternion<N> operator-(O scalar, const Quaternion<N>& q)
 	{
 		return {scalar - q.W, scalar - q.X, scalar - q.Y, scalar - q.Z};
 	}
 
-	template<typename N, typename O, VTR_IS_SCALAR(O)> constexpr Quaternion<N> operator*(O scalar, const Quaternion<N>& q)
+	template<typename N, typename O, VTR_IS_SCALAR(O)>
+	constexpr Quaternion<N> operator*(O scalar, const Quaternion<N>& q)
 	{
 		return {scalar * q.W, scalar * q.X, scalar * q.Y, scalar * q.Z};
 	}
 
-	template<typename N, typename O, VTR_IS_SCALAR(O)> constexpr Quaternion<N> operator/(O scalar, const Quaternion<N>& q)
+	template<typename N, typename O, VTR_IS_SCALAR(O)>
+	constexpr Quaternion<N> operator/(O scalar, const Quaternion<N>& q)
 	{
 		return {scalar / q.W, scalar / q.X, scalar / q.Y, scalar / q.Z};
 	}
@@ -186,8 +191,10 @@ namespace Vitro
 
 	template<typename N, typename O> constexpr Quaternion<N> Cross(const Quaternion<N>& lq, const Quaternion<O>& rq)
 	{
-		return {lq.W * rq.W - lq.X * rq.X - lq.Y * rq.Y - lq.Z * rq.Z, lq.W * rq.X + lq.X * rq.W + lq.Y * rq.Z - lq.Z * rq.Y,
-				lq.W * rq.Y + lq.Y * rq.W + lq.Z * rq.X - lq.X * rq.Z, lq.W * rq.Z + lq.Z * rq.W + lq.X * rq.Y - lq.Y * rq.X};
+		return {lq.W * rq.W - lq.X * rq.X - lq.Y * rq.Y - lq.Z * rq.Z,
+				lq.W * rq.X + lq.X * rq.W + lq.Y * rq.Z - lq.Z * rq.Y,
+				lq.W * rq.Y + lq.Y * rq.W + lq.Z * rq.X - lq.X * rq.Z,
+				lq.W * rq.Z + lq.Z * rq.W + lq.X * rq.Y - lq.Y * rq.X};
 	}
 
 	template<typename N> constexpr auto Length(const Quaternion<N>& q) -> decltype(std::sqrt(q.W))

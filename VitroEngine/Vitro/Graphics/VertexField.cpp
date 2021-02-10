@@ -1,7 +1,7 @@
-﻿#include "VertexField.h"
+#include "_pch.h"
+#include "VertexField.h"
 
 #include "Vitro/Math/Vector.h"
-#include "_pch.h"
 
 namespace Vitro
 {

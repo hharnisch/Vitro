@@ -1,4 +1,4 @@
-﻿#include "_pch.h"
+#include "_pch.h"
 
 #if VTR_API_DIRECTX
 	#include "Vitro/API/DirectX/Context3D.h"

@@ -1,8 +1,7 @@
-﻿#include "MouseCode.h"
-
 #include "_pch.h"
+#include "MouseCode.h"
 
-#define VTR_STRING_CONVERSION_CASE(X)                                                                                          \
+#define VTR_STRING_CONVERSION_CASE(X)                                                                                  \
 	case MouseCode::X: return #X
 
 namespace Vitro

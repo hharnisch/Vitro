@@ -1,8 +1,8 @@
-﻿#pragma once
+#pragma once
 
+#include "_pch.h"
 #include "Vitro/Client/EventSource.h"
 #include "Vitro/Client/EventType.h"
-#include "_pch.h"
 
 namespace Vitro
 {
@@ -39,20 +39,20 @@ namespace Vitro
 #define Method(m) std::bind(&m, this, std::placeholders::_1)
 
 // Shorthand for implementing virtual methods related to the event type.
-#define VTR_EVENT_TYPE(T)                                                                                                      \
-	static constexpr EventType Type = EventType::T;                                                                            \
-	inline EventType GetType() const override                                                                                  \
-	{                                                                                                                          \
-		return Type;                                                                                                           \
-	}                                                                                                                          \
-	inline std::string GetName() const override                                                                                \
-	{                                                                                                                          \
-		return #T;                                                                                                             \
+#define VTR_EVENT_TYPE(T)                                                                                              \
+	static constexpr EventType Type = EventType::T;                                                                    \
+	inline EventType GetType() const override                                                                          \
+	{                                                                                                                  \
+		return Type;                                                                                                   \
+	}                                                                                                                  \
+	inline std::string GetName() const override                                                                        \
+	{                                                                                                                  \
+		return #T;                                                                                                     \
 	}
 
 // Shorthand for implementing virtual methods related to the event source.
-#define VTR_EVENT_SOURCE(S)                                                                                                    \
-	inline EventSource GetSourceFlags() const override                                                                         \
-	{                                                                                                                          \
-		return S;                                                                                                              \
+#define VTR_EVENT_SOURCE(S)                                                                                            \
+	inline EventSource GetSourceFlags() const override                                                                 \
+	{                                                                                                                  \
+		return S;                                                                                                      \
 	}

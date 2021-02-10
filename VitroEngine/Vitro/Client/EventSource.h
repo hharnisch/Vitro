@@ -1,5 +1,6 @@
-﻿#pragma once
+#pragma once
 
+#include "_pch.h"
 #include "Vitro/Math/Bit.h"
 
 namespace Vitro

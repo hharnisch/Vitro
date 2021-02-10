@@ -1,7 +1,7 @@
-﻿#include "RHI.h"
+#include "_pch.h"
+#include "RHI.h"
 
 #include "Vitro/Utility/Assert.h"
-#include "_pch.h"
 
 namespace Vitro::DirectX
 {
@@ -23,8 +23,8 @@ namespace Vitro::DirectX
 
 		Scope<ID3D11Device> device;
 		Scope<ID3D11DeviceContext> context;
-		auto res = D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, flags, levels, levelCount, D3D11_SDK_VERSION,
-									 &device, nullptr, &context);
+		auto res = D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, flags, levels, levelCount,
+									 D3D11_SDK_VERSION, &device, nullptr, &context);
 		AssertCritical(SUCCEEDED(res), "DirectX device could not be created.");
 		device->QueryInterface(__uuidof(ID3D11Device5), &Device);
 		context->QueryInterface(__uuidof(ID3D11DeviceContext4), &Context);

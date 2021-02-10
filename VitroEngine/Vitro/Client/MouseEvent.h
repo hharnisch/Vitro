@@ -1,5 +1,6 @@
-﻿#pragma once
+#pragma once
 
+#include "_pch.h"
 #include "Vitro/Client/Event.h"
 #include "Vitro/Client/MouseCode.h"
 
@@ -103,7 +104,8 @@ namespace Vitro
 		VTR_EVENT_TYPE(MouseScroll);
 
 		// Engine-internal constructor. Do NOT use in client application!
-		inline MouseScrollEvent(float xOffset, float yOffset) : MouseEvent(MouseCode::Wheel), XOffset(xOffset), YOffset(yOffset)
+		inline MouseScrollEvent(float xOffset, float yOffset) :
+			MouseEvent(MouseCode::Wheel), XOffset(xOffset), YOffset(yOffset)
 		{}
 
 		inline std::string ToString() const override

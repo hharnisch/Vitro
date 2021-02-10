@@ -1,7 +1,6 @@
 ﻿#pragma once
 
 #include "Vitro/Utility/LogLevel.h"
-#include "_pch.h"
 
 namespace Vitro
 {
@@ -16,7 +15,8 @@ namespace Vitro
 		};
 
 		// Initializes logging functionality.
-		static void Initialize(const std::string& appLogPath, const std::string& engineLogPath, std::thread& loggingThread);
+		static void Initialize(const std::string& appLogPath, const std::string& engineLogPath,
+							   std::thread& loggingThread);
 
 		// Don't call this! Use the macros below.
 		static void Enqueue(const Entry& entry);

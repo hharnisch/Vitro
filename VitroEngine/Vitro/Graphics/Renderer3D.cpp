@@ -1,7 +1,7 @@
-﻿#include "Renderer3D.h"
+#include "_pch.h"
+#include "Renderer3D.h"
 
 #include "Vitro/Client/Window.h"
-#include "_pch.h"
 
 namespace Vitro
 {

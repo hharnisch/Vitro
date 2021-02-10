@@ -5,7 +5,6 @@
 #include "Vitro/Editor/Editor.h"
 #include "Vitro/Utility/Ref.h"
 #include "Vitro/Utility/Tick.h"
-#include "_pch.h"
 
 namespace Vitro
 {
@@ -46,7 +45,8 @@ namespace Vitro
 			return static_cast<L&>(Attach(*new L(std::forward<Args>(args)...)));
 		}
 
-		template<typename O, typename... Args> std::enable_if_t<std::is_base_of_v<Overlay, O>, O&> Attach(Args&&... args)
+		template<typename O, typename... Args>
+		std::enable_if_t<std::is_base_of_v<Overlay, O>, O&> Attach(Args&&... args)
 		{
 			return static_cast<O&>(Attach(*new O(std::forward<Args>(args)...)));
 		}

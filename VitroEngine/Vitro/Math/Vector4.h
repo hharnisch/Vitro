@@ -1,7 +1,7 @@
-﻿#pragma once
+#pragma once
 
-#include "Vitro/Utility/Assert.h"
 #include "_pch.h"
+#include "Vitro/Utility/Assert.h"
 
 #define VTR_IS_SCALAR(O) typename = typename std::enable_if_t<std::is_arithmetic_v<O>, O>
 
@@ -453,12 +453,14 @@ namespace Vitro
 		return {scalar ^ v.X, scalar ^ v.Y, scalar ^ v.Z, scalar ^ v.W};
 	}
 
-	template<typename N, typename O, VTR_IS_SCALAR(O)> constexpr Vector<4, N> operator<<(O scalar, const Vector<4, N>& v)
+	template<typename N, typename O, VTR_IS_SCALAR(O)>
+	constexpr Vector<4, N> operator<<(O scalar, const Vector<4, N>& v)
 	{
 		return {scalar << v.X, scalar << v.Y, scalar << v.Z, scalar << v.W};
 	}
 
-	template<typename N, typename O, VTR_IS_SCALAR(O)> constexpr Vector<4, N> operator>>(O scalar, const Vector<4, N>& v)
+	template<typename N, typename O, VTR_IS_SCALAR(O)>
+	constexpr Vector<4, N> operator>>(O scalar, const Vector<4, N>& v)
 	{
 		return {scalar >> v.X, scalar >> v.Y, scalar >> v.Z, scalar >> v.W};
 	}

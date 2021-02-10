@@ -1,6 +1,4 @@
-﻿#pragma once
-
-#include "_pch.h"
+#pragma once
 
 namespace Vitro::DirectX
 {
@@ -12,6 +10,7 @@ namespace Vitro::DirectX
 		public:
 			ScopeAddress(S* scope) : Scope(scope)
 			{}
+
 			ScopeAddress(const S* scope) : ConstScope(scope)
 			{}
 
@@ -19,10 +18,12 @@ namespace Vitro::DirectX
 			{
 				return reinterpret_cast<void**>(&Scope->Pointer);
 			}
+
 			operator T* *()
 			{
 				return &Scope->Pointer;
 			}
+
 			operator T* const *() const
 			{
 				return &ConstScope->Pointer;
@@ -38,10 +39,13 @@ namespace Vitro::DirectX
 
 		Scope() : Pointer(nullptr)
 		{}
+
 		Scope(std::nullptr_t) : Pointer(nullptr)
 		{}
+
 		Scope(Scope&& other) noexcept : Pointer(std::exchange(other.Pointer, nullptr))
 		{}
+
 		~Scope()
 		{
 			if(Pointer)

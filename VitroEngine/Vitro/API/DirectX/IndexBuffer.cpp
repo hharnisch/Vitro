@@ -1,7 +1,7 @@
-﻿#include "IndexBuffer.h"
+#include "_pch.h"
+#include "IndexBuffer.h"
 
 #include "Vitro/API/DirectX/RHI.h"
-#include "_pch.h"
 
 namespace Vitro::DirectX
 {

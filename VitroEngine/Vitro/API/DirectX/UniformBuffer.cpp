@@ -1,6 +1,5 @@
-﻿#include "UniformBuffer.h"
-
 #include "_pch.h"
+#include "UniformBuffer.h"
 
 namespace Vitro::DirectX
 {

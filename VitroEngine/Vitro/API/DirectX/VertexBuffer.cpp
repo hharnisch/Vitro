@@ -1,7 +1,7 @@
-﻿#include "VertexBuffer.h"
+#include "_pch.h"
+#include "VertexBuffer.h"
 
 #include "Vitro/API/DirectX/RHI.h"
-#include "_pch.h"
 
 namespace Vitro::DirectX
 {

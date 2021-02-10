@@ -18,7 +18,8 @@ public:
 		std::srand(static_cast<uint32_t>(time(nullptr)));
 
 		using namespace Vitro;
-		VertexLayout vl {{VertexField::Position, 0, VertexFieldType::Float3}, {VertexField::Color, 0, VertexFieldType::Float4}};
+		VertexLayout vl {{VertexField::Position, 0, VertexFieldType::Float3},
+						 {VertexField::Color, 0, VertexFieldType::Float4}};
 		VertexShader->SetVertexLayout(vl);
 		VertexShader->Bind();
 		FragmentShader->Bind();

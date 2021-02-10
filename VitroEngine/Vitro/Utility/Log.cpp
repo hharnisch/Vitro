@@ -1,9 +1,9 @@
-﻿#include "Log.h"
+#include "_pch.h"
+#include "Log.h"
 
 #include "Vitro/Engine.h"
 #include "Vitro/Utility/Assert.h"
 #include "Vitro/Utility/StringUtils.h"
-#include "_pch.h"
 
 namespace Vitro
 {

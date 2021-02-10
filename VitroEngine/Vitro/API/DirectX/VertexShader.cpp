@@ -1,9 +1,9 @@
+#include "_pch.h"
 #include "VertexShader.h"
 
 #include "Vitro/API/DirectX/RHI.h"
 #include "Vitro/Utility/File.h"
 #include "Vitro/Utility/StackArray.h"
-#include "_pch.h"
 
 #include <d3dcompiler.h>
 #pragma comment(lib, "d3dcompiler")
@@ -27,8 +27,8 @@ namespace Vitro::DirectX
 		Scope<ID3DBlob> bytecode;
 		Scope<ID3DBlob> compileErrors;
 		// WARN: Currently doesn't support macros, includes and entry points not named "main".
-		D3DCompile(sourceCode.c_str(), sourceCode.length(), nullptr, nullptr, nullptr, "main", "vs_5_0", compileFlags, 0,
-				   &bytecode, &compileErrors);
+		D3DCompile(sourceCode.c_str(), sourceCode.length(), nullptr, nullptr, nullptr, "main", "vs_5_0", compileFlags,
+				   0, &bytecode, &compileErrors);
 
 		if(compileErrors)
 		{
@@ -65,8 +65,8 @@ namespace Vitro::DirectX
 		}
 
 		Scope<ID3D11InputLayout> il;
-		auto res = RHI::Device->CreateInputLayout(ieds.Raw(), static_cast<UINT>(ieds.Count()), Bytecode.Raw(), Bytecode.Count(),
-												  &il);
+		auto res = RHI::Device->CreateInputLayout(ieds.Raw(), static_cast<UINT>(ieds.Count()), Bytecode.Raw(),
+												  Bytecode.Count(), &il);
 		AssertCritical(SUCCEEDED(res), "Could not create vertex layout.");
 		RHI::Context->IASetInputLayout(il);
 	}

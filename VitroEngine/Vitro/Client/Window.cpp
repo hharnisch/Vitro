@@ -1,8 +1,8 @@
-﻿#include "Window.h"
+#include "_pch.h"
+#include "Window.h"
 
 #include "Vitro/Client/WindowEvent.h"
 #include "Vitro/Graphics/Renderer3D.h"
-#include "_pch.h"
 
 #if VTR_SYSTEM_WINDOWS
 	#include "Vitro/API/Windows/Window.h"
@@ -63,7 +63,9 @@ namespace Vitro
 	}
 
 	Window::Window(Window&& other) noexcept :
-		Renderer(std::move(other.Renderer)), LayerStack(std::move(other.LayerStack)), LastLayerIndex(other.LastLayerIndex)
+		Renderer(std::move(other.Renderer)),
+		LayerStack(std::move(other.LayerStack)),
+		LastLayerIndex(other.LastLayerIndex)
 	{}
 
 	Window::~Window()

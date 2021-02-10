@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "Vitro/Client/Event.h"
 #include "Vitro/Client/Window.h"
@@ -79,7 +79,8 @@ namespace Vitro
 		VTR_EVENT_TYPE(WindowSize);
 
 		// Engine-internal constructor. Do NOT use in client application!
-		inline WindowSizeEvent(Window& window, int width, int height) : WindowEvent(window), Width(width), Height(height)
+		inline WindowSizeEvent(Window& window, int width, int height) :
+			WindowEvent(window), Width(width), Height(height)
 		{}
 
 		inline std::string ToString() const override

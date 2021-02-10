@@ -1,16 +1,16 @@
-﻿#include "Window.h"
+#include "_pch.h"
+#include "Window.h"
 
 #include "Vitro/API/Windows/ClientBase.h"
 #include "Vitro/Graphics/Renderer3D.h"
-#include "_pch.h"
 
 namespace Vitro::Windows
 {
 	Window::Window(int width, int height, int x, int y, const std::string& title)
 	{
 		auto wstr	 = ClientBase::WidenChars(title);
-		NativeHandle = ::CreateWindow(ClientBase::WindowClassName, wstr.c_str(), WS_OVERLAPPEDWINDOW, x, y, width, height,
-									  nullptr, nullptr, nullptr, nullptr);
+		NativeHandle = ::CreateWindow(ClientBase::WindowClassName, wstr.c_str(), WS_OVERLAPPEDWINDOW, x, y, width,
+									  height, nullptr, nullptr, nullptr, nullptr);
 		AssertCritical(NativeHandle, "Could not create window.");
 		::SetWindowLongPtr(NativeHandle, 0, reinterpret_cast<LONG_PTR>(this));
 

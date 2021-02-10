@@ -1,5 +1,6 @@
-﻿#pragma once
+#pragma once
 
+#include "_pch.h"
 #include "Vitro/Client/Event.h"
 #include "Vitro/Client/KeyCode.h"
 

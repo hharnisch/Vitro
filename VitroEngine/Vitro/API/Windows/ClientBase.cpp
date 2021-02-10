@@ -1,4 +1,5 @@
-﻿#include "ClientBase.h"
+#include "_pch.h"
+#include "ClientBase.h"
 
 #include "Vitro/Client/Input.h"
 #include "Vitro/Client/KeyEvent.h"
@@ -6,7 +7,6 @@
 #include "Vitro/Client/WindowEvent.h"
 #include "Vitro/Engine.h"
 #include "Vitro/Utility/StackArray.h"
-#include "_pch.h"
 
 #include <windowsx.h>
 

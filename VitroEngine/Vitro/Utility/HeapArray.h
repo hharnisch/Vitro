@@ -1,7 +1,6 @@
 ﻿#pragma once
 
 #include "Vitro/Utility/Assert.h"
-#include "_pch.h"
 
 namespace Vitro
 {
@@ -26,7 +25,8 @@ namespace Vitro
 				*dst = *src;
 		}
 
-		inline HeapArray(HeapArray&& other) noexcept : Data(std::exchange(other.Data, nullptr)), DataCount(other.DataCount)
+		inline HeapArray(HeapArray&& other) noexcept :
+			Data(std::exchange(other.Data, nullptr)), DataCount(other.DataCount)
 		{}
 
 		inline ~HeapArray()

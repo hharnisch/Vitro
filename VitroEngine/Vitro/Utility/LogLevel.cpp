@@ -1,8 +1,7 @@
-﻿#include "LogLevel.h"
-
 #include "_pch.h"
+#include "LogLevel.h"
 
-#define VTR_STRING_CONVERSION_CASE(X)                                                                                          \
+#define VTR_STRING_CONVERSION_CASE(X)                                                                                  \
 	case LogLevel::X: return #X
 
 namespace Vitro

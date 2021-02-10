@@ -1,7 +1,7 @@
-﻿#pragma once
+#pragma once
 
-#include "Vitro/Math/Vector.h"
 #include "_pch.h"
+#include "Vitro/Math/Vector.h"
 
 #define VTR_IS_SCALAR(O) typename = typename std::enable_if_t<std::is_arithmetic_v<O>, O>
 
@@ -202,7 +202,8 @@ namespace Vitro
 		}
 	};
 
-	template<typename N, typename O> constexpr Matrix<2, 2, N> operator*(const Matrix<2, 3, N>& lm, const Matrix<3, 2, O>& rm)
+	template<typename N, typename O>
+	constexpr Matrix<2, 2, N> operator*(const Matrix<2, 3, N>& lm, const Matrix<3, 2, O>& rm)
 	{
 		return {lm[0].X * rm[0].X + lm[1].X * rm[0].Y + lm[2].X * rm[0].Z,
 				lm[0].Y * rm[0].X + lm[1].Y * rm[0].Y + lm[2].Y * rm[0].Z,
@@ -210,7 +211,8 @@ namespace Vitro
 				lm[0].Y * rm[1].X + lm[1].Y * rm[1].Y + lm[2].Y * rm[1].Z};
 	}
 
-	template<typename N, typename O> constexpr Matrix<2, 3, N> operator*(const Matrix<2, 3, N>& lm, const Matrix<3, 3, O>& rm)
+	template<typename N, typename O>
+	constexpr Matrix<2, 3, N> operator*(const Matrix<2, 3, N>& lm, const Matrix<3, 3, O>& rm)
 	{
 		return {lm[0].X * rm[0].X + lm[1].X * rm[0].Y + lm[2].X * rm[0].Z,
 				lm[0].Y * rm[0].X + lm[1].Y * rm[0].Y + lm[2].Y * rm[0].Z,
@@ -220,7 +222,8 @@ namespace Vitro
 				lm[0].Y * rm[2].X + lm[1].Y * rm[2].Y + lm[2].Y * rm[2].Z};
 	}
 
-	template<typename N, typename O> constexpr Matrix<2, 4, N> operator*(const Matrix<2, 3, N>& lm, const Matrix<3, 4, O>& rm)
+	template<typename N, typename O>
+	constexpr Matrix<2, 4, N> operator*(const Matrix<2, 3, N>& lm, const Matrix<3, 4, O>& rm)
 	{
 		return {lm[0].X * rm[0].X + lm[1].X * rm[0].Y + lm[2].X * rm[0].Z,
 				lm[0].Y * rm[0].X + lm[1].Y * rm[0].Y + lm[2].Y * rm[0].Z,
@@ -232,7 +235,8 @@ namespace Vitro
 				lm[0].Y * rm[3].X + lm[1].Y * rm[3].Y + lm[2].Y * rm[3].Z};
 	}
 
-	template<typename N, typename O> constexpr Matrix<3, 2, N> operator*(const Matrix<3, 3, N>& lm, const Matrix<3, 2, O>& rm)
+	template<typename N, typename O>
+	constexpr Matrix<3, 2, N> operator*(const Matrix<3, 3, N>& lm, const Matrix<3, 2, O>& rm)
 	{
 		return {lm[0].X * rm[0].X + lm[1].X * rm[0].Y + lm[2].X * rm[0].Z,
 				lm[0].Y * rm[0].X + lm[1].Y * rm[0].Y + lm[2].Y * rm[0].Z,
@@ -242,7 +246,8 @@ namespace Vitro
 				lm[0].Z * rm[1].X + lm[1].Z * rm[1].Y + lm[2].Z * rm[1].Z};
 	}
 
-	template<typename N, typename O> constexpr Matrix<3, 3, N> operator*(const Matrix<3, 3, N>& lm, const Matrix<3, 3, O>& rm)
+	template<typename N, typename O>
+	constexpr Matrix<3, 3, N> operator*(const Matrix<3, 3, N>& lm, const Matrix<3, 3, O>& rm)
 	{
 		return {lm[0].X * rm[0].X + lm[1].X * rm[0].Y + lm[2].X * rm[0].Z,
 				lm[0].Y * rm[0].X + lm[1].Y * rm[0].Y + lm[2].Y * rm[0].Z,
@@ -255,7 +260,8 @@ namespace Vitro
 				lm[0].Z * rm[2].X + lm[1].Z * rm[2].Y + lm[2].Z * rm[2].Z};
 	}
 
-	template<typename N, typename O> constexpr Matrix<3, 4, N> operator*(const Matrix<3, 3, N>& lm, const Matrix<3, 4, O>& rm)
+	template<typename N, typename O>
+	constexpr Matrix<3, 4, N> operator*(const Matrix<3, 3, N>& lm, const Matrix<3, 4, O>& rm)
 	{
 		return {lm[0].X * rm[0].X + lm[1].X * rm[0].Y + lm[2].X * rm[0].Z,
 				lm[0].Y * rm[0].X + lm[1].Y * rm[0].Y + lm[2].Y * rm[0].Z,
@@ -271,7 +277,8 @@ namespace Vitro
 				lm[0].Z * rm[3].X + lm[1].Z * rm[3].Y + lm[2].Z * rm[3].Z};
 	}
 
-	template<typename N, typename O> constexpr Matrix<4, 2, N> operator*(const Matrix<4, 3, N>& lm, const Matrix<3, 2, O>& rm)
+	template<typename N, typename O>
+	constexpr Matrix<4, 2, N> operator*(const Matrix<4, 3, N>& lm, const Matrix<3, 2, O>& rm)
 	{
 		return {lm[0].X * rm[0].X + lm[1].X * rm[0].Y + lm[2].X * rm[0].Z,
 				lm[0].Y * rm[0].X + lm[1].Y * rm[0].Y + lm[2].Y * rm[0].Z,
@@ -283,7 +290,8 @@ namespace Vitro
 				lm[0].W * rm[1].X + lm[1].W * rm[1].Y + lm[2].W * rm[1].Z};
 	}
 
-	template<typename N, typename O> constexpr Matrix<4, 3, N> operator*(const Matrix<4, 3, N>& lm, const Matrix<3, 3, O>& rm)
+	template<typename N, typename O>
+	constexpr Matrix<4, 3, N> operator*(const Matrix<4, 3, N>& lm, const Matrix<3, 3, O>& rm)
 	{
 		return {lm[0].X * rm[0].X + lm[1].X * rm[0].Y + lm[2].X * rm[0].Z,
 				lm[0].Y * rm[0].X + lm[1].Y * rm[0].Y + lm[2].Y * rm[0].Z,
@@ -299,7 +307,8 @@ namespace Vitro
 				lm[0].W * rm[2].X + lm[1].W * rm[2].Y + lm[2].W * rm[2].Z};
 	}
 
-	template<typename N, typename O> constexpr Matrix<4, 4, N> operator*(const Matrix<4, 3, N>& lm, const Matrix<3, 4, O>& rm)
+	template<typename N, typename O>
+	constexpr Matrix<4, 4, N> operator*(const Matrix<4, 3, N>& lm, const Matrix<3, 4, O>& rm)
 	{
 		return {lm[0].X * rm[0].X + lm[1].X * rm[0].Y + lm[2].X * rm[0].Z,
 				lm[0].Y * rm[0].X + lm[1].Y * rm[0].Y + lm[2].Y * rm[0].Z,
@@ -388,10 +397,14 @@ namespace Vitro
 	{
 		F invDeterminant = static_cast<F>(1) / Determinant(m);
 
-		return {+(m[1].Y * m[2].Z - m[2].Y * m[1].Z) * invDeterminant, -(m[0].Y * m[2].Z - m[2].Y * m[0].Z) * invDeterminant,
-				+(m[0].Y * m[1].Z - m[1].Y * m[0].Z) * invDeterminant, -(m[1].X * m[2].Z - m[2].X * m[1].Z) * invDeterminant,
-				+(m[0].X * m[2].Z - m[2].X * m[0].Z) * invDeterminant, -(m[0].X * m[1].Z - m[1].X * m[0].Z) * invDeterminant,
-				+(m[1].X * m[2].Y - m[2].X * m[1].Y) * invDeterminant, -(m[0].X * m[2].Y - m[2].X * m[0].Y) * invDeterminant,
+		return {+(m[1].Y * m[2].Z - m[2].Y * m[1].Z) * invDeterminant,
+				-(m[0].Y * m[2].Z - m[2].Y * m[0].Z) * invDeterminant,
+				+(m[0].Y * m[1].Z - m[1].Y * m[0].Z) * invDeterminant,
+				-(m[1].X * m[2].Z - m[2].X * m[1].Z) * invDeterminant,
+				+(m[0].X * m[2].Z - m[2].X * m[0].Z) * invDeterminant,
+				-(m[0].X * m[1].Z - m[1].X * m[0].Z) * invDeterminant,
+				+(m[1].X * m[2].Y - m[2].X * m[1].Y) * invDeterminant,
+				-(m[0].X * m[2].Y - m[2].X * m[0].Y) * invDeterminant,
 				+(m[0].X * m[1].Y - m[1].X * m[0].Y) * invDeterminant};
 	}
 

@@ -1,8 +1,7 @@
-﻿#include "KeyCode.h"
-
 #include "_pch.h"
+#include "KeyCode.h"
 
-#define VTR_STRING_CONVERSION_CASE(X)                                                                                          \
+#define VTR_STRING_CONVERSION_CASE(X)                                                                                  \
 	case KeyCode::X: return #X
 
 namespace Vitro

@@ -1,6 +1,5 @@
-﻿#include "Camera.h"
-
 #include "_pch.h"
+#include "Camera.h"
 
 namespace Vitro
 {

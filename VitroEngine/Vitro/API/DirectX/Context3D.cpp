@@ -1,8 +1,8 @@
-﻿#include "Context3D.h"
+#include "_pch.h"
+#include "Context3D.h"
 
 #include "Vitro/API/DirectX/RHI.h"
 #include "Vitro/Utility/Assert.h"
-#include "_pch.h"
 
 #include <dxgi1_6.h>
 

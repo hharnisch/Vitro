@@ -1,7 +1,6 @@
 ﻿#pragma once
 
 #include "Vitro/Utility/Assert.h"
-#include "_pch.h"
 
 namespace Vitro
 {

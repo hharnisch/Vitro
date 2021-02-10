@@ -1,7 +1,5 @@
 ﻿#pragma once
 
-#include "_pch.h"
-
 namespace Vitro
 {
 	template<typename T> class Scope final
@@ -18,10 +16,13 @@ namespace Vitro
 
 		Scope() : Pointer(nullptr)
 		{}
+
 		Scope(std::nullptr_t) : Pointer(nullptr)
 		{}
+
 		Scope(T* ptr) : Pointer(ptr)
 		{}
+
 		Scope(Scope&& other) noexcept : Pointer(std::exchange(other.Pointer, nullptr))
 		{}
 

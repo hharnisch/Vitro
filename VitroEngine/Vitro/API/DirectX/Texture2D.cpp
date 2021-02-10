@@ -1,9 +1,9 @@
-﻿#include "Texture2D.h"
+#include "_pch.h"
+#include "Texture2D.h"
 
 #include "Vitro/API/DirectX/RHI.h"
 #include "Vitro/Utility/Assert.h"
 #include "Vitro/Utility/Image.h"
-#include "_pch.h"
 
 namespace Vitro::DirectX
 {

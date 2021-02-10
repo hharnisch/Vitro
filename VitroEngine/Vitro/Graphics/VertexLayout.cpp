@@ -1,6 +1,5 @@
-﻿#include "VertexLayout.h"
-
 #include "_pch.h"
+#include "VertexLayout.h"
 
 namespace Vitro
 {

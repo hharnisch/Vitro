@@ -1,8 +1,8 @@
-﻿#include "Engine.h"
+#include "_pch.h"
+#include "Engine.h"
 
 #include "Vitro/Utility/Assert.h"
 #include "Vitro/Utility/Log.h"
-#include "_pch.h"
 
 #if VTR_API_DIRECTX
 	#include "Vitro/API/DirectX/RHI.h"
