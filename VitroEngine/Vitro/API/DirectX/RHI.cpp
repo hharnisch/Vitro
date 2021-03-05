@@ -26,10 +26,10 @@ namespace Vitro::DirectX
 		auto res = D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, flags, levels, levelCount,
 									 D3D11_SDK_VERSION, &device, nullptr, &context);
 		AssertCritical(SUCCEEDED(res), "DirectX device could not be created.");
-		device->QueryInterface(__uuidof(ID3D11Device5), &Device);
-		context->QueryInterface(__uuidof(ID3D11DeviceContext4), &Context);
+		device->QueryInterface(IID_PPV_ARGS(&Device));
+		context->QueryInterface(IID_PPV_ARGS(&Context));
 #if VTR_DEBUG
-		auto query = Device->QueryInterface(__uuidof(ID3D11Debug), &DebugLayer);
+		auto query = Device->QueryInterface(IID_PPV_ARGS(&DebugLayer));
 		AssertCritical(SUCCEEDED(query), "Could not get debug layer.");
 #endif
 
